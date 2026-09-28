@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Print Journal</title>
+<style>
+:root {
+  --bg: #f4f5f7; --card: #fff; --text: #1d2330; --muted: #5f6878; --line: #e0e4ea;
+  --accent: #0f9d76; --accent-ink: #fff; --good: #178a4f; --good-soft: #e2f4ea;
+  --bad: #c0392b; --bad-soft: #fbe9e7; --thumb: #2a2f38;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #14171d; --card: #1d2129; --text: #e8ebf0; --muted: #9aa3b2; --line: #2f3542;
+    --accent: #2dbd92; --accent-ink: #0c1512; --good: #4cc98a; --good-soft: #17301f;
+    --bad: #ef6f60; --bad-soft: #3a1f1c; --thumb: #0f1115;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #14171d; --card: #1d2129; --text: #e8ebf0; --muted: #9aa3b2; --line: #2f3542;
+  --accent: #2dbd92; --accent-ink: #0c1512; --good: #4cc98a; --good-soft: #17301f;
+  --bad: #ef6f60; --bad-soft: #3a1f1c; --thumb: #0f1115;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, sans-serif; }
+header { background: var(--card); border-bottom: 1px solid var(--line); padding: 14px 16px; }
+header .in { max-width: 1200px; margin: 0 auto; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+h1 { font-size: 18px; margin: 0 auto 0 0; }
+.tabs { display: flex; gap: 4px; background: var(--bg); padding: 3px; border-radius: 8px; }
+.tabs button { border: 0; background: none; color: var(--muted); font: inherit; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+.tabs button[aria-pressed="true"] { background: var(--card); color: var(--text); font-weight: 600; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+input[type=search] { padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--text); font: inherit; min-width: 0; width: 200px; }
+main { max-width: 1200px; margin: 0 auto; padding: 18px 16px 40px; }
+.hint { color: var(--muted); margin: 0 0 16px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; }
+.card.good { border-color: var(--good); }
+.card.bad { border-color: var(--bad); }
+.thumb { background: var(--thumb); aspect-ratio: 4 / 3; display: grid; place-items: center; position: relative; }
+.thumb img { width: 100%; height: 100%; object-fit: contain; }
+.badge { position: absolute; top: 8px; left: 8px; padding: 2px 9px; border-radius: 99px; font-size: 12px; font-weight: 600; }
+.badge.good { background: var(--good-soft); color: var(--good); }
+.badge.bad { background: var(--bad-soft); color: var(--bad); }
+.body { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.title { font-weight: 700; font-size: 15px; word-break: break-word; }
+.meta { color: var(--muted); font-size: 12px; }
+.facts { display: grid; grid-template-columns: max-content 1fr; gap: 2px 10px; font-size: 13px; }
+.facts dt { color: var(--muted); }
+.facts dd { margin: 0; }
+.dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; border: 1px solid var(--line); vertical-align: -1px; margin-right: 5px; }
+.rate { display: flex; gap: 8px; }
+.rate button { flex: 1; padding: 7px; border-radius: 7px; border: 1px solid var(--line); background: none; color: var(--text); font: inherit; cursor: pointer; }
+.rate button.on.good { background: var(--good); border-color: var(--good); color: #fff; }
+.rate button.on.bad { background: var(--bad); border-color: var(--bad); color: #fff; }
+textarea { width: 100%; resize: vertical; min-height: 38px; padding: 7px 9px; border: 1px solid var(--line); border-radius: 7px; background: var(--bg); color: var(--text); font: inherit; }
+details summary { cursor: pointer; color: var(--accent); font-size: 13px; }
+details table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 6px; }
+details td { padding: 3px 0; border-bottom: 1px solid var(--line); }
+details td:first-child { color: var(--muted); padding-right: 8px; }
+.actions { display: flex; gap: 8px; margin-top: auto; padding-top: 4px; }
+.btn { flex: 1; border: 0; border-radius: 7px; padding: 8px 10px; font: inherit; font-weight: 600; background: var(--accent); color: var(--accent-ink); cursor: pointer; }
+.btn.ghost { background: none; color: var(--text); border: 1px solid var(--line); }
+.toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); background: var(--text); color: var(--bg); padding: 10px 16px; border-radius: 8px; max-width: calc(100% - 32px); }
+.empty { text-align: center; color: var(--muted); padding: 50px 10px; }
+.warn { font-size: 12px; color: var(--bad); }
+[hidden] { display: none !important; }
+@media (max-width: 520px) { input[type=search] { width: 100%; } }
+</style>
+</head>
+<body>
+<header><div class="in">
+  <h1>Print Journal</h1>
+  <div class="tabs" role="group" aria-label="Filter">
+    <button data-f="all" aria-pressed="true">All</button>
+    <button data-f="good" aria-pressed="false">Good</button>
+    <button data-f="bad" aria-pressed="false">Bad</button>
+    <button data-f="none" aria-pressed="false">Not rated</button>
+  </div>
+  <input type="search" id="q" placeholder="Search model, filament…" aria-label="Search">
+</div></header>
+
+<main>
+  <p class="hint">Every print you send from Infinium is saved here automatically. After it finishes, mark it Good or Bad and note what you saw. <strong>Print again</strong> opens the exact same print in Infinium. <strong>Save as preset</strong> keeps a good print's settings as your own presets, so a new model prints the same way.</p>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" hidden></div>
+</main>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+let prints = [];
+let filter = "all";
+const $ = (s, el = document) => el.querySelector(s);
+
+function toast(text) {
+  const t = $("#toast");
+  t.textContent = text;
+  t.hidden = false;
+  clearTimeout(toast.timer);
+  toast.timer = setTimeout(() => (t.hidden = true), Math.max(3500, text.length * 60));
+}
+
+async function post(url, data) {
+  const res = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+  const out = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(out.error || "Something went wrong");
+  return out;
+}
+
+function el(tag, props = {}, ...kids) {
+  const e = document.createElement(tag);
+  Object.assign(e, props);
+  for (const k of kids) if (k != null) e.append(k);
+  return e;
+}
+
+function card(p) {
+  const c = el("article", { className: "card " + (p.rating || "") });
+
+  const thumb = el("div", { className: "thumb" });
+  if (p.has_thumb) thumb.append(el("img", { src: "/thumb/" + encodeURIComponent(p.id), alt: p.model, loading: "lazy" }));
+  if (p.rating) thumb.append(el("span", { className: "badge " + p.rating, textContent: p.rating === "good" ? "Good" : "Bad" }));
+  c.append(thumb);
+
+  const b = el("div", { className: "body" });
+  b.append(el("div", { className: "title", textContent: p.model }));
+  b.append(el("div", { className: "meta", textContent: new Date(p.saved_at).toLocaleString() }));
+
+  const facts = el("dl", { className: "facts" });
+  const fact = (k, v) => facts.append(el("dt", { textContent: k }), v instanceof Node ? el("dd", {}, v) : el("dd", { textContent: v }));
+  fact("Quality", p.process || "—");
+  const fil = el("span");
+  if (p.filament_color) fil.append(el("span", { className: "dot", style: "background:" + p.filament_color }));
+  fil.append(p.filament || "—");
+  fact("Filament", fil);
+  fact("Time", p.print_time);
+  fact("Filament used", p.filament_g + " g");
+  fact("Supports", p.support_used ? "yes" : "no");
+  b.append(facts);
+
+  const rate = el("div", { className: "rate" });
+  for (const r of ["good", "bad"]) {
+    const btn = el("button", { className: r + (p.rating === r ? " on" : ""), textContent: r === "good" ? "👍 Good" : "👎 Bad" });
+    btn.addEventListener("click", async () => {
+      try {
+        Object.assign(p, await post("/api/rate", { id: p.id, rating: p.rating === r ? null : r }));
+        render();
+      } catch (e) { toast(e.message); }
+    });
+    rate.append(btn);
+  }
+  b.append(rate);
+
+  const note = el("textarea", { placeholder: "Notes: e.g. smooth walls, stringing on the ears…", value: p.note || "", rows: 2 });
+  note.addEventListener("change", async () => {
+    try { Object.assign(p, await post("/api/rate", { id: p.id, note: note.value })); toast("Note saved"); }
+    catch (e) { toast(e.message); }
+  });
+  b.append(note);
+
+  const det = el("details", {}, el("summary", { textContent: "All key settings" }));
+  const tbl = el("table");
+  for (const [k, v] of Object.entries(p.settings || {})) tbl.append(el("tr", {}, el("td", { textContent: k }), el("td", { textContent: String(v) })));
+  det.append(tbl);
+  b.append(det);
+  if (p.warnings && p.warnings.length) b.append(el("div", { className: "warn", textContent: "Slicer warnings: " + p.warnings.join(", ").replaceAll("_", " ") }));
+
+  const act = el("div", { className: "actions" });
+  const again = el("button", { className: "btn", textContent: "Print again" });
+  again.addEventListener("click", async () => {
+    try { await post("/api/reprint", { id: p.id }); toast("Opening in Infinium. Click Print plate when it has loaded."); }
+    catch (e) { toast(e.message); }
+  });
+  const keep = el("button", { className: "btn ghost", textContent: "Save as preset" });
+  keep.title = "Save these settings as your own presets in Infinium, to print new models the same way";
+  keep.addEventListener("click", async () => {
+    const base = p.model.split(",")[0].replace(/\.(stl|3mf|obj|step|stp)$/i, "");
+    const name = prompt("Name for your new presets (quality + filament):", base + (p.rating === "good" ? " good" : ""));
+    if (!name) return;
+    try {
+      const r = await post("/api/preset", { id: p.id, name });
+      Object.assign(p, { presets: (p.presets || []).concat(r.name) });
+      render();
+      toast(`Saved "${r.name}". Restart Infinium, then pick "${r.name}" as quality and filament.` + (r.notes.length ? " " + r.notes.join(" ") : ""));
+    } catch (e) { toast(e.message); }
+  });
+  act.append(again, keep);
+  b.append(act);
+  if (p.presets && p.presets.length) b.append(el("div", { className: "meta", textContent: "Saved as preset: " + p.presets.join(", ") }));
+
+  c.append(b);
+  return c;
+}
+
+function render() {
+  const q = $("#q").value.trim().toLowerCase();
+  const shown = prints.filter((p) =>
+    (filter === "all" || (filter === "none" ? !p.rating : p.rating === filter)) &&
+    (!q || [p.model, p.process, p.filament, p.note].join(" ").toLowerCase().includes(q)));
+  const grid = $("#grid");
+  grid.textContent = "";
+  shown.forEach((p) => grid.append(card(p)));
+  const empty = $("#empty");
+  empty.hidden = shown.length > 0;
+  empty.textContent = prints.length ? "No prints match this filter." : "No prints saved yet. Send a print from Infinium and it appears here.";
+}
+
+async function load() {
+  try {
+    const res = await fetch("/api/prints");
+    const fresh = await res.json();
+    // Don't redraw while someone is typing a note.
+    if (document.activeElement && document.activeElement.tagName === "TEXTAREA") return;
+    if (JSON.stringify(fresh) !== JSON.stringify(prints)) { prints = fresh; render(); }
+  } catch { /* server restarting */ }
+}
+
+document.querySelectorAll(".tabs button").forEach((b) => b.addEventListener("click", () => {
+  filter = b.dataset.f;
+  document.querySelectorAll(".tabs button").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+  render();
+}));
+$("#q").addEventListener("input", render);
+load();
+setInterval(load, 10000); // new prints show up by themselves
+</script>
+</body>
+</html>

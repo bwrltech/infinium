@@ -1,0 +1,15 @@
+{
+	"type": "filament",
+	"name": "Generic PETG @InfiniumArena 0.2 nozzle",
+	"inherits": "Generic PETG @InfiniumArena base",
+	"renamed_from": "InfiniumArena Generic PETG @0.2 nozzle;InfiniumArena Generic PETG 0.2 nozzle",
+	"from": "system",
+	"setting_id": "ZstQ3h8DGCpRWQJN",
+	"instantiation": "true",
+	"filament_max_volumetric_speed": [
+		"1"
+	],
+	"compatible_printers": [
+		"Infinium Arena X1 Carbon 0.2 nozzle"
+	]
+}

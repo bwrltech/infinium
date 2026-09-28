@@ -1,0 +1,14 @@
+{
+	"type": "filament",
+	"name": "Cubicon PC @base",
+	"inherits": "fdm_filament_pc",
+	"filament_id": "OFEj7sca",
+	"instantiation": "false",
+	"default_filament_colour": "",
+	"filament_type": [
+		"PC"
+	],
+	"filament_vendor": [
+		"Cubicon"
+	]
+}

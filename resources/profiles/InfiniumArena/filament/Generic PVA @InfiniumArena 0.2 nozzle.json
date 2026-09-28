@@ -1,0 +1,15 @@
+{
+	"type": "filament",
+	"name": "Generic PVA @InfiniumArena 0.2 nozzle",
+	"inherits": "Generic PVA @InfiniumArena base",
+	"renamed_from": "InfiniumArena Generic PVA @0.2 nozzle;InfiniumArena Generic PVA 0.2 nozzle",
+	"from": "system",
+	"setting_id": "jX00tEZaqsJvpoBT",
+	"instantiation": "true",
+	"filament_max_volumetric_speed": [
+		"0.5"
+	],
+	"compatible_printers": [
+		"Infinium Arena X1 Carbon 0.2 nozzle"
+	]
+}

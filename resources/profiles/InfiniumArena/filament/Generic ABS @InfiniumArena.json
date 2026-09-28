@@ -1,0 +1,14 @@
+{
+	"type": "filament",
+	"name": "Generic ABS @InfiniumArena",
+	"inherits": "Generic ABS @InfiniumArena base",
+	"renamed_from": "InfiniumArena Generic ABS",
+	"from": "system",
+	"setting_id": "ftTPQmVmsaD0n1GF",
+	"instantiation": "true",
+	"compatible_printers": [
+		"Infinium Arena X1 Carbon 0.4 nozzle",
+		"Infinium Arena X1 Carbon 0.6 nozzle",
+		"Infinium Arena X1 Carbon 0.8 nozzle"
+	]
+}

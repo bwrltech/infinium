@@ -1,0 +1,27 @@
+{
+	"type": "filament",
+	"name": "Generic PA @InfiniumArena",
+	"inherits": "fdm_filament_pa",
+	"renamed_from": "InfiniumArena Generic PA",
+	"from": "system",
+	"setting_id": "KScdeqdB3UR6uvxs",
+	"filament_id": "OFg8ndtj",
+	"instantiation": "true",
+	"required_nozzle_HRC": [
+		"3"
+	],
+	"nozzle_temperature_initial_layer": [
+		"280"
+	],
+	"nozzle_temperature": [
+		"280"
+	],
+	"filament_max_volumetric_speed": [
+		"16"
+	],
+	"compatible_printers": [
+		"Infinium Arena X1 Carbon 0.4 nozzle",
+		"Infinium Arena X1 Carbon 0.6 nozzle",
+		"Infinium Arena X1 Carbon 0.8 nozzle"
+	]
+}

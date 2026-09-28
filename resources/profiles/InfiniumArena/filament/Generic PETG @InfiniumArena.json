@@ -1,0 +1,14 @@
+{
+	"type": "filament",
+	"name": "Generic PETG @InfiniumArena",
+	"inherits": "Generic PETG @InfiniumArena base",
+	"renamed_from": "InfiniumArena Generic PETG",
+	"from": "system",
+	"setting_id": "3puaC0EwFLvEnGH2",
+	"instantiation": "true",
+	"compatible_printers": [
+		"Infinium Arena X1 Carbon 0.4 nozzle",
+		"Infinium Arena X1 Carbon 0.6 nozzle",
+		"Infinium Arena X1 Carbon 0.8 nozzle"
+	]
+}

@@ -1,0 +1,20 @@
+{
+	"type": "filament",
+	"name": "Generic PLA Silk @InfiniumArena",
+	"inherits": "Generic PLA Silk @InfiniumArena base",
+	"renamed_from": "InfiniumArena Generic PLA Silk",
+	"from": "system",
+	"setting_id": "rvJjX9QsHM1O1CGD",
+	"instantiation": "true",
+	"filament_max_volumetric_speed": [
+		"7.5"
+	],
+	"filament_retraction_length": [
+		"0.5"
+	],
+	"compatible_printers": [
+		"Infinium Arena X1 Carbon 0.4 nozzle",
+		"Infinium Arena X1 Carbon 0.6 nozzle",
+		"Infinium Arena X1 Carbon 0.8 nozzle"
+	]
+}

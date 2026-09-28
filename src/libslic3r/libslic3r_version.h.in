@@ -1,0 +1,16 @@
+#ifndef __SLIC3R_VERSION_H
+#define __SLIC3R_VERSION_H
+
+#define SLIC3R_APP_NAME "@SLIC3R_APP_NAME@"
+#define SLIC3R_APP_KEY "@SLIC3R_APP_KEY@"
+// Wide variant, for the Windows registry / file-association code that
+// needs std::wstring. Kept here so it follows SLIC3R_APP_NAME on a rebrand.
+#define SLIC3R_APP_NAME_W L"@SLIC3R_APP_NAME@"
+#define SLIC3R_VERSION "@SLIC3R_VERSION@"
+#define SoftFever_VERSION "@SoftFever_VERSION@"
+#define SLIC3R_BUILD_ID "@SLIC3R_BUILD_ID@"
+//#define SLIC3R_RC_VERSION "@SLIC3R_VERSION@"
+#define BBL_INTERNAL_TESTING @BBL_INTERNAL_TESTING@
+#define INFINIUM_CHECK_GCODE_PLACEHOLDERS @INFINIUM_CHECK_GCODE_PLACEHOLDERS@
+
+#endif /* __SLIC3R_VERSION_H */

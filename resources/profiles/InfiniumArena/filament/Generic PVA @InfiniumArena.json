@@ -1,0 +1,14 @@
+{
+	"type": "filament",
+	"name": "Generic PVA @InfiniumArena",
+	"inherits": "Generic PVA @InfiniumArena base",
+	"renamed_from": "InfiniumArena Generic PVA",
+	"from": "system",
+	"setting_id": "S9TMm0n7t54fKHoM",
+	"instantiation": "true",
+	"compatible_printers": [
+		"Infinium Arena X1 Carbon 0.4 nozzle",
+		"Infinium Arena X1 Carbon 0.6 nozzle",
+		"Infinium Arena X1 Carbon 0.8 nozzle"
+	]
+}

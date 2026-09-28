@@ -1,0 +1,14 @@
+{
+	"type": "filament",
+	"name": "Generic PLA-CF @InfiniumArena",
+	"inherits": "Generic PLA-CF @InfiniumArena base",
+	"renamed_from": "InfiniumArena Generic PLA-CF",
+	"from": "system",
+	"setting_id": "vexlQFuvVzpsYT0Z",
+	"instantiation": "true",
+	"compatible_printers": [
+		"Infinium Arena X1 Carbon 0.4 nozzle",
+		"Infinium Arena X1 Carbon 0.6 nozzle",
+		"Infinium Arena X1 Carbon 0.8 nozzle"
+	]
+}

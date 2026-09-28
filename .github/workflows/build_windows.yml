@@ -1,0 +1,23 @@
+name: Build Windows
+
+# Windows-only build: produces the installer (Infinium_Windows_*.exe) and a portable zip as
+# downloadable artifacts of the run.
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build_windows:
+    name: Build Windows x64
+    uses: ./.github/workflows/build_check_cache.yml
+    with:
+      os: windows-latest
+      arch: x64
+      compiler: clang
+    secrets: inherit

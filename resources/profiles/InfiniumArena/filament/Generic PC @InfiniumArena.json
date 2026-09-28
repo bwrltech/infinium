@@ -1,0 +1,14 @@
+{
+	"type": "filament",
+	"name": "Generic PC @InfiniumArena",
+	"inherits": "Generic PC @InfiniumArena base",
+	"renamed_from": "InfiniumArena Generic PC",
+	"from": "system",
+	"setting_id": "He4O4h8oEFsySDIJ",
+	"instantiation": "true",
+	"compatible_printers": [
+		"Infinium Arena X1 Carbon 0.4 nozzle",
+		"Infinium Arena X1 Carbon 0.6 nozzle",
+		"Infinium Arena X1 Carbon 0.8 nozzle"
+	]
+}
