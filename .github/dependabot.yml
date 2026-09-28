@@ -12,7 +12,9 @@ updates:
         update-types: ["version-update:semver-patch", "version-update:semver-minor"]
   # Docker dependencies
   - package-ecosystem: "docker"
-    directory: "/"
+    directories:
+      - "/scripts"
+      - "/.devcontainer"
     schedule:
       interval: "monthly"
   # no support for c/cpp
