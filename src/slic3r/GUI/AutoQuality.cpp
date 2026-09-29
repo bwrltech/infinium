@@ -477,23 +477,26 @@ void apply_auto_quality(bool silent)
         break;
     }
 
-    // Supports always on auto: the slicer only grows them where something really hangs in the air.
-    // Set up to come off by hand: a gap of whole layers (~0.16-0.24 mm) to the model instead of the
-    // fine profiles' single 0.08 mm layer, a wider side gap and a thin, open top.
-    const double support_gap = layer_height * std::max(1., std::ceil(0.16 / layer_height - 1e-6));
-    delta.set("enable_support", "1");
-    delta.set("support_type", "tree(auto)");
-    delta.set("support_threshold_angle", "30");
-    delta.set("independent_support_layer_height", "1");
-    delta.set("support_top_z_distance", fmt_mm(support_gap, 2));
-    delta.set("support_bottom_z_distance", fmt_mm(support_gap, 2));
-    delta.set("support_object_xy_distance", "0.4");
-    delta.set("support_interface_top_layers", "2");
-    delta.set("support_interface_spacing", "0.5");
-    if (shape.needs_support())
+    // Supports only when the object has parts hanging in the air; otherwise they stay off, so nothing
+    // is added under small overhangs the printer bridges fine. When on: auto tree supports set up to
+    // come off by hand - a gap of whole layers (~0.16-0.24 mm) to the model instead of the fine
+    // profiles' single 0.08 mm layer, a wider side gap and a thin, open top.
+    if (shape.needs_support()) {
+        const double support_gap = layer_height * std::max(1., std::ceil(0.16 / layer_height - 1e-6));
+        delta.set("enable_support", "1");
+        delta.set("support_type", "tree(auto)");
+        delta.set("support_threshold_angle", "30");
+        delta.set("independent_support_layer_height", "1");
+        delta.set("support_top_z_distance", fmt_mm(support_gap, 2));
+        delta.set("support_bottom_z_distance", fmt_mm(support_gap, 2));
+        delta.set("support_object_xy_distance", "0.4");
+        delta.set("support_interface_top_layers", "2");
+        delta.set("support_interface_spacing", "0.5");
         done.push_back(_L("Some parts hang in the air, so supports are added under them. They are set up to break off easily by hand."));
-    else
-        done.push_back(_L("Supports are on auto. Your object looks like it doesn't need any, so few or none will be added."));
+    } else {
+        delta.set("enable_support", "0");
+        done.push_back(_L("Nothing on your object hangs in the air, so supports are off."));
+    }
 
     // First layer and holding the object on the bed.
     const double first_layer_speed = shape.min_xy < 20. ? 20. : 30.;
