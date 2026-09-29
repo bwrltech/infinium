@@ -5,7 +5,7 @@ class wxWindow;
 namespace Slic3r { namespace GUI {
 
 // "Easy Print" for people who don't know the settings: they pick a goal in plain words
-// (Smooth & beautiful / Strong part / Fast print), the models on the plate are analysed
+// (Smooth & beautiful / Smooth & fast / Strong part / Fast print), the models on the plate are analysed
 // (size, overhangs, flat tops, tall or thin) and the matching layer, wall, seam, support, brim and
 // first-layer settings are applied to the process preset and saved as a user preset
 // (named after the goal, the model and its size) so it can be selected again later.

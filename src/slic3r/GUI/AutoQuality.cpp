@@ -30,7 +30,7 @@ namespace Slic3r { namespace GUI {
 
 namespace {
 
-enum class PrintGoal { Smooth, Strong, Fast };
+enum class PrintGoal { Smooth, SmoothFast, Strong, Fast };
 
 std::string fmt_mm(double v, int decimals)
 {
@@ -67,15 +67,20 @@ bool auto_on_resize() { return wxGetApp().app_config->get_bool(AUTO_ON_RESIZE_KE
 PrintGoal saved_goal()
 {
     const std::string goal = wxGetApp().app_config->get(GOAL_KEY);
-    return goal == "strong" ? PrintGoal::Strong : goal == "fast" ? PrintGoal::Fast : PrintGoal::Smooth;
+    return goal == "strong" ? PrintGoal::Strong : goal == "fast" ? PrintGoal::Fast : goal == "smooth_fast" ? PrintGoal::SmoothFast : PrintGoal::Smooth;
 }
 
 void save_goal(PrintGoal goal)
 {
-    wxGetApp().app_config->set(GOAL_KEY, goal == PrintGoal::Strong ? "strong" : goal == PrintGoal::Fast ? "fast" : "smooth");
+    wxGetApp().app_config->set(GOAL_KEY, goal == PrintGoal::Strong     ? "strong" :
+                                         goal == PrintGoal::Fast       ? "fast" :
+                                         goal == PrintGoal::SmoothFast ? "smooth_fast" : "smooth");
 }
 
-const char *goal_name(PrintGoal goal) { return goal == PrintGoal::Strong ? "Strong" : goal == PrintGoal::Fast ? "Fast" : "Smooth"; }
+const char *goal_name(PrintGoal goal)
+{
+    return goal == PrintGoal::Strong ? "Strong" : goal == PrintGoal::Fast ? "Fast" : goal == PrintGoal::SmoothFast ? "Smooth-Fast" : "Smooth";
+}
 
 // What the object looks like, from its meshes as placed on the plate.
 struct ShapeInfo
@@ -172,12 +177,14 @@ private:
     DynamicPrintConfig        m_delta;
 };
 
-// Keys "Smooth" changes; the other goals put them back to the profile's values.
-const char *const SMOOTH_KEYS[] = {"outer_wall_speed", "inner_wall_speed", "outer_wall_acceleration", "inner_wall_acceleration",
-                                   "top_surface_speed", "top_surface_acceleration", "precise_outer_wall", "wall_sequence",
-                                   "seam_slope_type", "seam_slope_conditional", "scarf_angle_threshold", "seam_slope_steps",
-                                   "seam_slope_min_length", "seam_slope_inner_walls", "wipe_before_external_loop", "wipe_on_loops",
-                                   "staggered_inner_seams", "detect_thin_wall"};
+// Keys only some goals change. They are put back to the profile's values first, so a goal never
+// inherits them from an earlier Easy Print result (e.g. Strong's 35% gyroid in a later Smooth print).
+const char *const GOAL_KEYS[] = {"outer_wall_speed", "inner_wall_speed", "outer_wall_acceleration", "inner_wall_acceleration",
+                                 "top_surface_speed", "top_surface_acceleration", "precise_outer_wall", "wall_sequence",
+                                 "seam_slope_type", "seam_slope_conditional", "scarf_angle_threshold", "seam_slope_steps",
+                                 "seam_slope_min_length", "seam_slope_inner_walls", "wipe_before_external_loop", "wipe_on_loops",
+                                 "staggered_inner_seams", "detect_thin_wall", "sparse_infill_density", "sparse_infill_pattern",
+                                 "ironing_flow", "ironing_spacing", "infill_combination", "only_one_wall_top"};
 
 double round_layer(double v) { return std::round(v * 100.) / 100.; }
 
@@ -218,6 +225,9 @@ public:
         auto *cards = new wxBoxSizer(wxHORIZONTAL);
         add_card(cards, PrintGoal::Smooth, _L("Smooth & beautiful"),
                  _L("Almost no lines on the sides. Seam hidden. Smooth top. Best for figures, gifts and show pieces."), _L("Print time: slow"));
+        add_card(cards, PrintGoal::SmoothFast, _L("Smooth & fast"),
+                 _L("Nicer outside than Fast print: hidden seam, cleaner sides and top. Takes about the same time. Not for parts that take force."),
+                 _L("Print time: fast"));
         add_card(cards, PrintGoal::Strong, _L("Strong part"),
                  _L("Thick walls and a strong inside. Best for holders, brackets and parts that take force."), _L("Print time: normal"));
         add_card(cards, PrintGoal::Fast, _L("Fast print"),
@@ -225,7 +235,7 @@ public:
         v_sizer->Add(cards, 0, wxEXPAND | wxLEFT | wxRIGHT | wxTOP, FromDIP(20));
 
         auto *shape_text = new wxStaticText(this, wxID_ANY, describe_shape(shape));
-        shape_text->Wrap(FromDIP(3 * 220 + 2 * 10));
+        shape_text->Wrap(FromDIP(4 * 220 + 3 * 10));
         v_sizer->Add(shape_text, 0, wxLEFT | wxRIGHT | wxTOP, FromDIP(20));
 
         auto *auto_sizer = new wxBoxSizer(wxHORIZONTAL);
@@ -350,12 +360,16 @@ void apply_auto_quality(bool silent)
         lh_ratio = shape.longest <= 100. ? 0.20 : shape.longest <= 180. ? 0.30 : 0.40;
     else if (goal == PrintGoal::Fast)
         lh_ratio = 0.70;
+    else if (goal == PrintGoal::SmoothFast)
+        // Print time follows the number of layers (every layer is another trip around the walls), so
+        // this stays close to Fast: a 3DBenchy on an A1 mini took 46.5 min against Fast's 45 min at
+        // 0.65 (0.26 mm), but 57 min at 0.60. The looks come from the seam, wall and top settings.
+        lh_ratio = 0.65;
     const double layer_height = std::clamp(round_layer(nozzle * lh_ratio), round_layer(min_layer), round_layer(max_layer));
     delta.set("layer_height", fmt_mm(layer_height, 2));
 
-    if (goal != PrintGoal::Smooth)
-        for (const char *key : SMOOTH_KEYS)
-            delta.reset(key);
+    for (const char *key : GOAL_KEYS)
+        delta.reset(key);
 
     switch (goal) {
     case PrintGoal::Smooth: {
@@ -397,6 +411,43 @@ void apply_auto_quality(bool silent)
         done.push_back(_L("The seam (where each layer starts) is hidden in a corner, or blended in on round sides."));
         if (shape.has_flat_top())
             done.push_back(_L("The flat top is ironed, so it comes out smooth."));
+        break;
+    }
+    case PrintGoal::SmoothFast: {
+        // Only what you see is printed carefully: the outer wall, the seam and the top. Inner walls
+        // and infill keep the profile's full speed; the infill is the quick lightning pattern,
+        // printed every second layer. Constant layers on purpose: an adaptive layer profile made
+        // the Benchy slower, not faster, and doesn't work with the organic supports used here.
+        delta.set("top_shell_thickness", "0.8");
+        delta.set("bottom_shell_thickness", "0.6");
+        delta.set("top_shell_layers", std::to_string(std::max(4, int(std::ceil(0.8 / layer_height)))));
+        delta.set("bottom_shell_layers", std::to_string(std::max(3, int(std::ceil(0.6 / layer_height)))));
+        delta.set("wall_loops", "2");
+        delta.set("sparse_infill_density", "10%");
+        delta.set("sparse_infill_pattern", "lightning");
+        delta.set("infill_combination", "1");
+        delta.set("only_one_wall_top", "1");
+        delta.set_floats("outer_wall_speed", 150., true);
+        delta.set_floats("outer_wall_acceleration", 4000., true);
+        delta.set_floats("top_surface_speed", 150., true);
+        delta.set_floats("top_surface_acceleration", 3000., true);
+        delta.set("wall_sequence", "inner wall/outer wall");
+        delta.set("precise_outer_wall", "1");
+        delta.set("detect_thin_wall", shape.min_xy < 20. ? "1" : "0");
+        delta.set("seam_position", "aligned");
+        delta.set("seam_slope_type", "external");
+        delta.set("seam_slope_conditional", "1");
+        delta.set("scarf_angle_threshold", "155");
+        delta.set("seam_slope_steps", "10");
+        delta.set("seam_slope_min_length", "10");
+        delta.set("wipe_before_external_loop", "1");
+        delta.set("ironing_type", "no ironing");
+
+        done.push_back(wxString::Format(_L("Layers of %s mm, a little thinner than Fast print, so it takes about the same time."),
+                                        mm(layer_height, 2)));
+        done.push_back(_L("Only the outside wall and the top are printed carefully, so they come out clean. Everything inside prints at full speed."));
+        done.push_back(_L("The inside is a light, quick pattern (10%). Good for looks, not for parts that take force."));
+        done.push_back(_L("The seam (where each layer starts) is hidden in a corner, or blended in on round sides."));
         break;
     }
     case PrintGoal::Strong:
