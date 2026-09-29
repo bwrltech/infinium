@@ -31,7 +31,7 @@
 #include "DeviceCore/DevFilaSystem.h"
 #include "DeviceCore/DevFilaSwitch.h"
 #include "DeviceCore/DevMappingNozzle.h"
-#include "DeviceCore/DevNozzleRack.h" // Orca: full type for m_rack.lock()->GetNozzleSystem()->GetOwner()
+#include "DeviceCore/DevNozzleRack.h" // Infinium: full type for m_rack.lock()->GetNozzleSystem()->GetOwner()
 
 #include "DeviceTab/wgtDeviceNozzleSelect.h"
 #include "DeviceTab/wgtMsgPanel.h"
@@ -455,7 +455,7 @@ void MaterialItem::doRender(wxDC& dc)
 
     if (m_selected)
     {
-        dc.SetPen(wxPen(wxColour("#0D6E63"), FromDIP(2))); // ORCA selected item border color (Orca accent)
+        dc.SetPen(wxPen(wxColour("#0D6E63"), FromDIP(2))); // INFINIUM selected item border color (Infinium accent)
         dc.SetBrush(*wxTRANSPARENT_BRUSH);
         dc.DrawRoundedRectangle(FromDIP(1), FromDIP(1), size.x - FromDIP(1), size.y - FromDIP(1), 5);
     } else if (m_warning) {
@@ -527,7 +527,7 @@ void MaterialItem::doRender(wxDC& dc)
 
 
     if (!m_mapped_nozzle_str.IsEmpty()) {
-        wxPen dashed_pen(wxColour("#CECECE"), 1, wxPENSTYLE_SHORT_DASH); // Orca: WXCOLOUR_GREY400 macro not in scope here
+        wxPen dashed_pen(wxColour("#CECECE"), 1, wxPENSTYLE_SHORT_DASH); // Infinium: WXCOLOUR_GREY400 macro not in scope here
         dc.SetPen(dashed_pen);
         up += FromDIP(4); // spacing
         dc.DrawLine(FromDIP(1), up, FromDIP(size.x), up);
@@ -538,7 +538,7 @@ void MaterialItem::doRender(wxDC& dc)
 
         const wxString wrapped_nozzle_str = s_wrap_mapped_nozzle_str(m_mapped_nozzle_str);
         dc.SetFont(::Label::Head_12);
-        // Orca: no box-fit get_suitable_font_size overload here; the wrapped slot string is short, so the
+        // Infinium: no box-fit get_suitable_font_size overload here; the wrapped slot string is short, so the
         // fixed Head_12 label font (set above) renders it cleanly.
         const auto& text_size = dc.GetTextExtent(wrapped_nozzle_str);
         int text_x = (size.x + bitmap_l + m_rack_nozzle_bitmap.GetBmpWidth() - text_size.x) / 2;
@@ -749,7 +749,7 @@ void MaterialSyncItem::doRender(wxDC &dc)
     dc.DrawRoundedRectangle(1, 1, size.x - 1, size.y - 1, 5);
 
     if (m_selected) {
-        dc.SetPen(wxColour("#0D6E63")); // ORCA selected item border color (Orca accent)
+        dc.SetPen(wxColour("#0D6E63")); // INFINIUM selected item border color (Infinium accent)
         dc.SetBrush(*wxTRANSPARENT_BRUSH);
         dc.DrawRoundedRectangle(1, 1, size.x - 1, size.y - 1, 5);
     }
@@ -760,7 +760,7 @@ void MaterialSyncItem::doRender(wxDC &dc)
     dc.DrawRoundedRectangle(0, 0, size.x, size.y, 5);
 
     if (m_selected) {
-        dc.SetPen(wxPen(wxColour("#0D6E63"), FromDIP(2))); // ORCA selected item border color (Orca accent)
+        dc.SetPen(wxPen(wxColour("#0D6E63"), FromDIP(2))); // INFINIUM selected item border color (Infinium accent)
         dc.SetBrush(*wxTRANSPARENT_BRUSH);
         dc.DrawRoundedRectangle(FromDIP(1), FromDIP(1), size.x - FromDIP(1), size.y - FromDIP(1), 5);
     }
@@ -921,7 +921,7 @@ AmsMapingPopup::AmsMapingPopup(wxWindow *parent, bool use_in_sync_dialog) :
      wxSizer *content_sizer = new wxBoxSizer(wxHORIZONTAL);
      content_sizer->Add(content_ams_sizer, 1, wxEXPAND | wxLEFT);
 
-     m_flush_warning_panel = new DevIconLabel(m_right_marea_panel, "warning", ""); // Orca: dev_warning icon absent; use the shipped generic warning glyph
+     m_flush_warning_panel = new DevIconLabel(m_right_marea_panel, "warning", ""); // Infinium: dev_warning icon absent; use the shipped generic warning glyph
      m_flush_warning_panel->SetAllBackgroundColor(StateColor::darkModeColorFor("#FFFFE0"));
      m_flush_warning_panel->GetLabelItem()->SetForegroundColour(StateColor::darkModeColorFor("#F09A17"));
      m_flush_warning_panel->Show(false);
@@ -958,7 +958,7 @@ AmsMapingPopup::AmsMapingPopup(wxWindow *parent, bool use_in_sync_dialog) :
      m_sizer_ams_v->Add(m_reset_btn, 0, wxALIGN_RIGHT);
      m_sizer_ams_v->Add(m_sizer_ams, 0, wxEXPAND | wxBOTTOM, FromDIP(30));
      m_sizer_ams_v->AddStretchSpacer();
-     m_sizer_ams_v->Add(m_ams_tips_msg_panel, 0, wxEXPAND | wxBOTTOM, FromDIP(10)); // Orca: wxBOTTOM (REF uses the wxEdge enum by mistake)
+     m_sizer_ams_v->Add(m_ams_tips_msg_panel, 0, wxEXPAND | wxBOTTOM, FromDIP(10)); // Infinium: wxBOTTOM (REF uses the wxEdge enum by mistake)
 
      m_sizer_main_h->Add(m_sizer_ams_v, 0, wxEXPAND | wxRIGHT, FromDIP(10));
      m_sizer_main_h->Add(m_rack_nozzle_select, 0, wxEXPAND | wxTOP | wxLEFT, FromDIP(15));
@@ -1060,7 +1060,7 @@ void AmsMapingPopup::show_reset_button() {
     m_reset_btn->Show();
 }
 
-// Orca: dropped by the reference but still consumed by SelectMachine.
+// Infinium: dropped by the reference but still consumed by SelectMachine.
 std::vector<TrayData> AmsMapingPopup::parse_ams_mapping(const std::map<std::string, DevAms*, NumericStrCompare>& amsList)
 {
     std::vector<TrayData> m_tray_data;
@@ -1278,7 +1278,7 @@ bool AmsMapingPopup::ProcessLeftDown(wxMouseEvent &event)
 void AmsMapingPopup::paintEvent(wxPaintEvent &evt)
 {
     wxPaintDC dc(this);
-    dc.SetPen(wxPen(StateColor::darkModeColorFor(wxColour("#0D6E63")), FromDIP(2))); // Orca: colorful accent border for separation (dark-mode aware)
+    dc.SetPen(wxPen(StateColor::darkModeColorFor(wxColour("#0D6E63")), FromDIP(2))); // Infinium: colorful accent border for separation (dark-mode aware)
     dc.SetBrush(*wxTRANSPARENT_BRUSH);
     dc.DrawRoundedRectangle(0, 0, GetSize().x, GetSize().y, 0);
 }
@@ -1593,7 +1593,7 @@ AmsMapingTipPopup::AmsMapingTipPopup(wxWindow *parent)
     m_title_enable_ams->Wrap(-1);
     sizer_enable_ams->Add(m_title_enable_ams, 0, 0, 0);
 
-    m_tip_enable_ams = new wxStaticText(m_panel_enable_ams, wxID_ANY, _L("Print with filament in the AMS"), wxDefaultPosition, wxDefaultSize, 0); // Orca: kept string (existing translation)
+    m_tip_enable_ams = new wxStaticText(m_panel_enable_ams, wxID_ANY, _L("Print with filament in the AMS"), wxDefaultPosition, wxDefaultSize, 0); // Infinium: kept string (existing translation)
     m_tip_enable_ams->SetMinSize(wxSize(FromDIP(200), FromDIP(50)));
     m_tip_enable_ams->Wrap(FromDIP(200));
     m_tip_enable_ams->SetForegroundColour(*wxBLACK);
@@ -1629,7 +1629,7 @@ AmsMapingTipPopup::AmsMapingTipPopup(wxWindow *parent)
     m_title_disable_ams->Wrap(-1);
     sizer_disable_ams->Add(m_title_disable_ams, 0, 0, 0);
 
-    m_tip_disable_ams = new wxStaticText(m_panel_disable_ams, wxID_ANY, _L("Print with filament on external spool"), wxDefaultPosition, wxDefaultSize, 0); // Orca: kept string (existing translation)
+    m_tip_disable_ams = new wxStaticText(m_panel_disable_ams, wxID_ANY, _L("Print with filament on external spool"), wxDefaultPosition, wxDefaultSize, 0); // Infinium: kept string (existing translation)
     m_tip_disable_ams->SetMinSize(wxSize(FromDIP(200), FromDIP(50)));
     m_tip_disable_ams->Wrap(FromDIP(200));
     m_tip_disable_ams->SetForegroundColour(*wxBLACK);
@@ -1690,7 +1690,7 @@ AmsHumidityTipPopup::AmsHumidityTipPopup(wxWindow* parent)
     humidity_level_list = new AmsHumidityLevelList(this);
     curr_humidity_img = new wxStaticBitmap(this, wxID_ANY, create_scaled_bitmap("hum_level1_light", this, 132), wxDefaultPosition, wxSize(FromDIP(132), FromDIP(132)), 0);
 
-    // Orca: kept the grammatically-corrected desiccant note (existing translation)
+    // Infinium: kept the grammatically-corrected desiccant note (existing translation)
     m_staticText_note = new Label(this, _L("Please change the desiccant when it is too wet. The indicator may not represent accurately in following cases: when the lid is open or the desiccant pack is changed. It takes a few hours to absorb the moisture, and low temperatures also slow down the process."));
     m_staticText_note->SetMinSize(wxSize(FromDIP(680), -1));
     m_staticText_note->SetMaxSize(wxSize(FromDIP(680), -1));
@@ -1816,7 +1816,7 @@ AmsTutorialPopup::AmsTutorialPopup(wxWindow* parent)
     wxBoxSizer* sizer_main;
     sizer_main = new wxBoxSizer(wxVERTICAL);
 
-    text_title = new Label(this, Label::Head_14, _L("Configure which AMS slot should be used for a filament used in the print job.")); // Orca: kept string (existing translation)
+    text_title = new Label(this, Label::Head_14, _L("Configure which AMS slot should be used for a filament used in the print job.")); // Infinium: kept string (existing translation)
     text_title->SetSize(wxSize(FromDIP(350), -1));
     text_title->Wrap(FromDIP(350));
     sizer_main->Add(text_title, 0, wxALIGN_CENTER | wxTOP, 18);
@@ -1927,7 +1927,7 @@ AmsIntroducePopup::AmsIntroducePopup(wxWindow* parent)
     m_staticText_top->Wrap(-1);
     bSizer4->Add(m_staticText_top, 0, wxALL, 5);
 
-    m_staticText_bottom =  new Label(this, _L("Print using filament on external spool.")); // Orca: kept string (existing translation)
+    m_staticText_bottom =  new Label(this, _L("Print using filament on external spool.")); // Infinium: kept string (existing translation)
     m_staticText_bottom->Wrap(-1);
     m_staticText_bottom->SetFont(::Label::Body_13);
     m_staticText_bottom->SetForegroundColour(wxColour("#6B6B6B"));
@@ -1963,13 +1963,13 @@ void AmsIntroducePopup::set_mode(bool enable_ams)
 {
     if (enable_ams) {
         m_staticText_top->SetLabelText(_L("Enable AMS"));
-        m_staticText_bottom->SetLabelText(_L("Print with filament in AMS")); // Orca: kept string (existing translation)
+        m_staticText_bottom->SetLabelText(_L("Print with filament in AMS")); // Infinium: kept string (existing translation)
         m_img_enable_ams->Show();
         m_img_disable_ams->Hide();
     }
     else {
         m_staticText_top->SetLabelText(_L("Do not Enable AMS"));
-        m_staticText_bottom->SetLabelText(_L("Print with filament on external spool")); // Orca: kept string (existing translation)
+        m_staticText_bottom->SetLabelText(_L("Print with filament on external spool")); // Infinium: kept string (existing translation)
         m_staticText_bottom->SetMinSize(wxSize(FromDIP(180), -1));
         m_staticText_bottom->Wrap(FromDIP(180));
         m_img_enable_ams->Hide();
@@ -2112,9 +2112,9 @@ void AmsReplaceMaterialDialog::create()
     label_txt->SetMaxSize(wxSize(FromDIP(380), -1));
     label_txt->Wrap(FromDIP(380));
 
-    identical_filament = new Label(this, _L("Identical filament: same brand, type and color.")); // Orca: kept trailing period (existing translation)
+    identical_filament = new Label(this, _L("Identical filament: same brand, type and color.")); // Infinium: kept trailing period (existing translation)
     identical_filament->SetFont(Label::Body_13);
-    identical_filament->SetForegroundColour(StateColor::darkModeColorFor(wxColour("#0D6E63"))); // Orca: accent teal (not brand green)
+    identical_filament->SetForegroundColour(StateColor::darkModeColorFor(wxColour("#0D6E63"))); // Infinium: accent teal (not brand green)
 
     m_scrollview_groups = new wxScrolledWindow(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL | wxVSCROLL);
     m_scrollview_groups->SetScrollRate(5, 5);
@@ -2143,7 +2143,7 @@ void AmsReplaceMaterialDialog::create()
         std::pair<wxColour, int>(wxColour(38, 46, 48), StateColor::Enabled));
 
 
-    StateColor btn_bg_green(std::pair<wxColour, int>(wxColour(12, 100, 90), StateColor::Pressed), std::pair<wxColour, int>(wxColour(13, 110, 99), StateColor::Normal)); // Orca: accent teal button (not brand green)
+    StateColor btn_bg_green(std::pair<wxColour, int>(wxColour(12, 100, 90), StateColor::Pressed), std::pair<wxColour, int>(wxColour(13, 110, 99), StateColor::Normal)); // Infinium: accent teal button (not brand green)
     m_button_sizer->Add( 0, 0, 1, wxEXPAND, 0 );
 
     m_main_sizer->Add(0,0,0, wxTOP, FromDIP(12));
@@ -2172,7 +2172,7 @@ void AmsReplaceMaterialDialog::update_machine_obj(MachineObject* obj)
         m_obj = obj;
         if (obj->GetExtderSystem()->GetTotalExtderCount() > 1 && !obj->GetFilaSwitch()->IsReady())
         {
-            // Orca: SwitchBoard has no SetLabels(a,b); set its public left/right labels (left=deputy, right=main).
+            // Infinium: SwitchBoard has no SetLabels(a,b); set its public left/right labels (left=deputy, right=main).
             m_nozzle_btn_panel->leftLabel =
                 _L(DevPrinterConfigUtil::get_toolhead_display_name(obj->printer_type, DEPUTY_EXTRUDER_ID, ToolHeadComponent::Extruder, ToolHeadNameCase::TitleCase, true));
             m_nozzle_btn_panel->rightLabel =
@@ -2198,7 +2198,7 @@ AmsRMGroup* AmsReplaceMaterialDialog::create_backup_group(wxString gname, std::m
 void AmsReplaceMaterialDialog::paintEvent(wxPaintEvent& evt)
 {
     wxPaintDC dc(this);
-    dc.SetPen(StateColor::darkModeColorFor(wxColour("#DBDBDB"))); // Orca: popup border color fixed for dark mode
+    dc.SetPen(StateColor::darkModeColorFor(wxColour("#DBDBDB"))); // Infinium: popup border color fixed for dark mode
     dc.SetBrush(*wxTRANSPARENT_BRUSH);
     dc.DrawRoundedRectangle(0, 0, GetSize().x, GetSize().y, 0);
 }
@@ -2237,7 +2237,7 @@ void  AmsReplaceMaterialDialog::update_to_nozzle(int nozzle_id)
                         int ams_id  = std::stoi(ams_info.first);
                         int slot_id = std::stoi(tray.first);
 
-                        // Orca: DevFilaSystem has no GetTrayIdByAmsSlotId wrapper; look the tray id up
+                        // Infinium: DevFilaSystem has no GetTrayIdByAmsSlotId wrapper; look the tray id up
                         // in the (tray_id -> {ams_id, slot_id}) index map directly.
                         int  tray_id       = -1;
                         auto tray_index_map = m_obj->GetFilaSystem()->GetTrayIndexMap();
@@ -2333,7 +2333,7 @@ void  AmsReplaceMaterialDialog::update_to_nozzle(int nozzle_id)
         }
         else if (!m_obj->GetFilaSystem()->IsAutoRefillEnabled())
         {
-            label_txt->SetLabelText(_L("AMS filament backup is not enabled; please enable it in the AMS settings.")); // Orca: kept semicolon (existing translation)
+            label_txt->SetLabelText(_L("AMS filament backup is not enabled; please enable it in the AMS settings.")); // Infinium: kept semicolon (existing translation)
         }
         else
         {

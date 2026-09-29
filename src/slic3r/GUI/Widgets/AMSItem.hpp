@@ -14,7 +14,7 @@
 #include <wx/dynarray.h>
 #include <optional>
 
-#include "slic3r/GUI/DeviceCore/DevFilaSwitch.h" // Orca: DevFilaSwitch::SwitchPos for inlet-aware AMS placement
+#include "slic3r/GUI/DeviceCore/DevFilaSwitch.h" // Infinium: DevFilaSwitch::SwitchPos for inlet-aware AMS placement
 
 #define AMS_CONTROL_BRAND_COLOUR wxColour(13, 110, 99)
 #define AMS_CONTROL_GRAY700 wxColour(107, 107, 107)
@@ -34,8 +34,8 @@
 
 namespace Slic3r { namespace GUI {
 
-// Orca: GUI-layer AMS-type enum used across the whole AMSItem/AMSControl widget family in place of the
-// device-layer DevAmsType. Kept as an Orca divergence so out-of-cluster consumers (calibration wizard,
+// Infinium: GUI-layer AMS-type enum used across the whole AMSItem/AMSControl widget family in place of the
+// device-layer DevAmsType. Kept as an Infinium divergence so out-of-cluster consumers (calibration wizard,
 // StatusPanel, humidity popup) that assign/compare AMSModel keep compiling; see ledger cluster-4.
 enum AMSModel {
     EXT_AMS             = 0,    //ext
@@ -218,19 +218,19 @@ struct AMSinfo
 public:
     std::string             ams_id;
     std::vector<Caninfo>    cans;
-    int                     nozzle_id = 0;         // Orca: pull-mode AMS->extruder binding (DevAms::GetExtruderId), pinned to MAIN for switch-routed AMS
+    int                     nozzle_id = 0;         // Infinium: pull-mode AMS->extruder binding (DevAms::GetExtruderId), pinned to MAIN for switch-routed AMS
     std::string             current_can_id;
     AMSPassRoadSTEP         current_step = AMSPassRoadSTEP::AMS_ROAD_STEP_NONE;
     AMSAction               current_action;
     int                     curreent_filamentstep;
     int                     ams_humidity = 0;
-    int                     humidity_raw = -1;     // Orca: raw humidity percent (replaces REF ams_humidity_percent)
+    int                     humidity_raw = -1;     // Infinium: raw humidity percent (replaces REF ams_humidity_percent)
     int                     left_dray_time = 0;
     float                   current_temperature = INVALID_AMS_TEMPERATURE;
     AMSModel                ams_type = AMSModel::GENERIC_AMS;
     AMSModelOriginType      ext_type = AMSModelOriginType::GENERIC_EXT;
 
-    // Orca: switch inlet (POS_IN_A/POS_IN_B) carried from the AMS-level DevAms::GetSwitcherPos(); empty on
+    // Infinium: switch inlet (POS_IN_A/POS_IN_B) carried from the AMS-level DevAms::GetSwitcherPos(); empty on
     // printers without a Filament Track Switch. Drives inlet-aware panel placement (routes_to_main_extruder).
     std::optional<DevFilaSwitch::SwitchPos> switch_pos;
 
@@ -249,7 +249,7 @@ public:
             current_temperature == other.current_temperature &&
             ams_type == other.ams_type &&
             ext_type == other.ext_type &&
-            switch_pos == other.switch_pos) // Orca: refresh placement when the switch inlet changes
+            switch_pos == other.switch_pos) // Infinium: refresh placement when the switch inlet changes
         {
             return true;
         }
@@ -276,7 +276,7 @@ public:
 
     int  get_humidity_display_idx() const;
 
-    // Orca: true when this AMS belongs in the main-extruder (right) panel. Follows the switch inlet
+    // Infinium: true when this AMS belongs in the main-extruder (right) panel. Follows the switch inlet
     // (POS_IN_B -> main/right, POS_IN_A -> deputy/left) when a Filament Track Switch is installed, else
     // falls back to the pinned nozzle_id so switch-less machines behave exactly as before.
     bool routes_to_main_extruder() const;
@@ -415,7 +415,7 @@ private:
 };
 
 
-// Orca: routing glyph shown on the AMS control when a Filament Track Switch is installed.
+// Infinium: routing glyph shown on the AMS control when a Filament Track Switch is installed.
 class SwitcherImage: public wxWindow
 {
 public:
@@ -798,7 +798,7 @@ public:
     void     PlayRridLoading(wxString canid);
     void     StopRridLoading(wxString canid);
     void     msw_rescale();
-    // Orca: hide/show the road segment below the item; used to drop the external-spool road
+    // Infinium: hide/show the road segment below the item; used to drop the external-spool road
     // when a Filament Track Switch is installed. Returns true if the visibility actually changed.
     bool     ShowRoad(bool show);
     void     show_sn_value(bool show);
@@ -829,7 +829,7 @@ public:
 
     AMSPanelPos get_panel_pos() const { return m_panel_pos; };
     int         get_nozzle_id() const { return m_info.nozzle_id; };
-    // Orca: inlet-aware panel routing (delegates to AMSinfo::routes_to_main_extruder)
+    // Infinium: inlet-aware panel routing (delegates to AMSinfo::routes_to_main_extruder)
     bool        routes_to_main_extruder() const { return m_info.routes_to_main_extruder(); };
 
 private:

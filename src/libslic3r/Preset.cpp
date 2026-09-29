@@ -240,7 +240,7 @@ void extend_default_config_length(DynamicPrintConfig& config, const bool set_nil
     int process_variant_length = default_param_length;
     int machine_variant_length = default_param_length;
 
-    // Orca: use nozzle/extruder count as the default printer variant length
+    // Infinium: use nozzle/extruder count as the default printer variant length
     // because non-BBL multi-extruder printers currently do not support extruder variant.
     if (config.has("nozzle_diameter")) {
         auto* nozzle_diameter = dynamic_cast<const ConfigOptionFloats*>(config.option("nozzle_diameter"));
@@ -787,7 +787,7 @@ std::string Preset::label(bool no_alias) const
 
 bool is_compatible_with_print(const PresetWithVendorProfile &preset, const PresetWithVendorProfile &active_print, const PresetWithVendorProfile &active_printer)
 {
-    // Orca: we allow cross vendor compatibility
+    // Infinium: we allow cross vendor compatibility
 	// if (preset.vendor != nullptr && preset.vendor != active_printer.vendor)
 	// 	// The current profile has a vendor assigned and it is different from the active print's vendor.
 	// 	return false;
@@ -825,12 +825,12 @@ bool is_compatible_with_parent_printer(const PresetWithVendorProfile& preset, co
 
 bool is_compatible_with_printer(const PresetWithVendorProfile &preset, const PresetWithVendorProfile &active_printer, const DynamicPrintConfig *extra_config)
 {
-    // Orca: we allow cross vendor compatibility
+    // Infinium: we allow cross vendor compatibility
 	// if (preset.vendor != nullptr && preset.vendor != active_printer.vendor)
 	// 	// The current profile has a vendor assigned and it is different from the active print's vendor.
 	// 	return false;
 
-    // Orca: check excluded printers
+    // Infinium: check excluded printers
     if (preset.vendor != nullptr && preset.preset.type == Preset::TYPE_FILAMENT) {
         const auto& excluded_printers = preset.preset.m_excluded_from;
         const auto  excluded         = preset.vendor->name == PresetBundle::INFINIUM_FILAMENT_LIBRARY &&
@@ -867,7 +867,7 @@ bool is_compatible_with_printer(const PresetWithVendorProfile &preset, const Pre
     return is_compatible_with_printer(preset, active_printer, &config);
 }
 
-// ORCA: see the header. The CLI resolves --load-settings into bare DynamicPrintConfigs and has no
+// INFINIUM: see the header. The CLI resolves --load-settings into bare DynamicPrintConfigs and has no
 // Preset objects to hand; without this it would have to reimplement the policy or build the shells
 // at every call site.
 bool is_compatible_with_printer(const DynamicPrintConfig &preset_config, Preset::Type preset_type,
@@ -1377,7 +1377,7 @@ static std::vector<std::string> s_Preset_filament_options {/*"filament_colour", 
     "activate_air_filtration","activate_air_filtration_during_print","activate_air_filtration_on_completion","during_print_exhaust_fan_speed","complete_print_exhaust_fan_speed",
     // Retract overrides
     "filament_deretraction_speed",
-    "filament_retract_after_wipe", // Orca
+    "filament_retract_after_wipe", // Infinium
     "filament_retract_before_wipe",
     "filament_retract_lift_above",
     "filament_retract_lift_below",
@@ -1435,7 +1435,7 @@ static std::vector<std::string> s_Preset_machine_limits_options {
     "machine_max_force_Y", "machine_bed_mass_Y", "machine_max_printed_mass",
     //resonance avoidance ported from qidi slicer
     "resonance_avoidance", "min_resonance_avoidance_speed", "max_resonance_avoidance_speed",
-    // Orca: input shaping
+    // Infinium: input shaping
     "input_shaping_emit", "input_shaping_type", "input_shaping_freq_x", "input_shaping_freq_y", "input_shaping_damp_x", "input_shaping_damp_y",
 };
 
@@ -1759,7 +1759,7 @@ void PresetCollection::load_presets(
                     if (key_values.find(BBL_JSON_KEY_INSTANTIATION) != key_values.end())
                         preset.is_visible = key_values[BBL_JSON_KEY_INSTANTIATION] != "false";
 
-                    //Orca: find and use the inherit config as the base
+                    //Infinium: find and use the inherit config as the base
                     Preset* inherit_preset = nullptr;
                     ConfigOption* inherits_config = config.option(BBL_JSON_KEY_INHERITS);
 
@@ -1767,7 +1767,7 @@ void PresetCollection::load_presets(
                     if (inherits_config) {
                         ConfigOptionString * option_str = dynamic_cast<ConfigOptionString *> (inherits_config);
                         std::string inherits_value = option_str->value;
-                        // Orca: try to find if the parent preset has been renamed
+                        // Infinium: try to find if the parent preset has been renamed
                         inherit_preset = this->find_preset2(inherits_value);
                         Preset::normalize_inherits(config, inherit_preset);
                     } else {
@@ -1956,7 +1956,7 @@ int PresetCollection::get_differed_values_to_update(Preset& preset, std::map<std
                 key_values[option] = opt_src->serialize();
         }
 
-        // Orca: force-emit nullable filament override keys whenever they hold a nil ("off")
+        // Infinium: force-emit nullable filament override keys whenever they hold a nil ("off")
         // value, even when the diff dropped them because the parent is nil too. Otherwise the
         // key is absent from the synced profile and the cloud re-materializes it against the
         // option's non-nil default (e.g. filament_retract_before_wipe -> 100%), silently
@@ -2795,7 +2795,7 @@ std::pair<Preset*, bool> PresetCollection::load_external_preset(
         preset.filament_id = filament_id;
     else {
         if (!inherits.empty()) {
-            // Orca: resolve via find_preset2 so a renamed/removed-and-matched parent still
+            // Infinium: resolve via find_preset2 so a renamed/removed-and-matched parent still
             // yields its filament_id (external presets store a full config, so the dangling
             // "inherits" itself is normalized on the next load_presets pass).
             Preset *parent = this->find_preset2(inherits, true);
@@ -3064,7 +3064,7 @@ void PresetCollection::save_current_preset(const std::string &new_name, bool det
     if (!final_inherits.empty()) {
         parent_preset = this->find_preset2(final_inherits, true);
         if (parent_preset) {
-            // Orca: take the saved diff against the resolved parent (renamed / library-matched).
+            // Infinium: take the saved diff against the resolved parent (renamed / library-matched).
             Preset::normalize_inherits(this->get_selected_preset().config, parent_preset);
             if (this->get_selected_preset().base_id.empty()) {
                 this->get_selected_preset().base_id = parent_preset->setting_id;
@@ -3192,7 +3192,7 @@ bool PresetCollection::delete_preset(const std::string& name, bool force)
         return false;
 
     Preset& preset = *it;
-    // ORCA: if the preset can't be overridden then don't allow deletion
+    // INFINIUM: if the preset can't be overridden then don't allow deletion
     // force=true bypasses this for bundle preset cleanup from cloud sync
     if (!force && !preset.can_overwrite())
         return false;
@@ -3398,7 +3398,7 @@ Preset* PresetCollection::find_preset2(const std::string& name, bool auto_match/
     auto preset = find_preset(name, false, true);
     if (preset == nullptr) {
         if (auto_match) {
-            //Orca: one more try, find the most likely preset in InfiniumFilamentLibrary
+            //Infinium: one more try, find the most likely preset in InfiniumFilamentLibrary
             if (name.find("Generic") != std::string::npos) {
                 // The regex pattern matches an optional prefix ending in '_' then "Generic" followed by the material name.
                 static const std::regex re(R"(^(?:.*?\b(?:\w+_)?)(Generic)\b\s+([^@]+?)\s*(?:@.*)?$)");
@@ -3580,7 +3580,7 @@ void add_correct_opts_to_diff(const std::string &opt_key, t_config_option_keys& 
         const bool is_new_index = i > opt_init_max_id;
         int init_id = is_new_index ? 0 : i;
         if (is_new_index) {
-            // Orca: intentional divergence from upstream. Any new vector index (at or
+            // Infinium: intentional divergence from upstream. Any new vector index (at or
             // beyond the reference vector's length) is flagged dirty unconditionally --
             // independent of its value and nil-state -- so preset dirty-detection notices
             // per-extruder/filament entries added by growth (e.g. extruder count). This
@@ -3881,7 +3881,7 @@ void PresetCollection::update_map_alias_to_profile_name()
 
 void PresetCollection::update_library_profile_excluded_from()
 {
-    // Orca: Collect all filament presets that has empty compatible_printers and belongs to the Orca Filament Library.
+    // Infinium: Collect all filament presets that has empty compatible_printers and belongs to the Infinium Filament Library.
     std::map<std::string, std::set<std::string>*> excluded_froms;
     for (Preset& preset : m_presets) {
         if (preset.vendor != nullptr && preset.vendor->name == PresetBundle::INFINIUM_FILAMENT_LIBRARY) {
@@ -3892,7 +3892,7 @@ void PresetCollection::update_library_profile_excluded_from()
         }
     }
 
-    // Check all presets that has the same alias as the filament presets with empty compatible_printers in Orca Filament Library.
+    // Check all presets that has the same alias as the filament presets with empty compatible_printers in Infinium Filament Library.
     // A printer specific profile supersedes the generic one, no matter whether it lives in a vendor bundle or in the
     // library itself.
     for (const Preset& preset : m_presets) {

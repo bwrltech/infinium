@@ -223,7 +223,7 @@ struct PrintInstance
     // 
     // instance id
     size_t               id;
-    // Orca: unique id used by marlin/rrf cancel object feature
+    // Infinium: unique id used by marlin/rrf cancel object feature
     size_t               unique_id;
 
     //BBS: instance_shift is too large because of multi-plate, apply without plate offset.
@@ -441,7 +441,7 @@ public:
     // The slicing parameters are dependent on various configuration values
     // (layer height, first layer height, raft settings, print nozzle diameter etc).
     const SlicingParameters&    slicing_parameters() const { return m_slicing_params; }
-    // Orca: XYZ shrinkage compensation has introduced the const Vec3d &object_shrinkage_compensation parameter to the function below
+    // Infinium: XYZ shrinkage compensation has introduced the const Vec3d &object_shrinkage_compensation parameter to the function below
     static SlicingParameters    slicing_parameters(const DynamicPrintConfig &full_config, const ModelObject &model_object, float object_max_z, const Vec3d &object_shrinkage_compensation, std::vector<int> variant_index = std::vector<int>());
 
     size_t                      num_printing_regions() const throw() { return m_shared_regions->all_regions.size(); }
@@ -992,7 +992,7 @@ public:
             [object_id](const PrintObject *obj) { return obj->id() == object_id; });
         return (it == m_objects.end()) ? nullptr : *it;
     }
-    // Orca: Old callers still expect object-keyed brim paths.
+    // Infinium: Old callers still expect object-keyed brim paths.
     std::map<ObjectID, ExtrusionEntityCollection>&
         get_brimMap() { return m_brimMap; }
 
@@ -1211,7 +1211,7 @@ public:
     int get_filament_config_indx(int filament_id, int layer_id);
     int get_nozzle_config_index(int filament_id, int layer_id);
 
-    // Orca: Implement prusa's filament shrink compensation approach
+    // Infinium: Implement prusa's filament shrink compensation approach
     // Returns if all used filaments have same shrinkage compensations.
      bool has_same_shrinkage_compensations() const;
     // Returns scaling for each axis representing shrinkage compensations in each axis.
@@ -1318,11 +1318,11 @@ private:
     ExtrusionEntityCollection               m_skirt;
     std::vector<SkirtBrimGroup>             m_skirt_brim_groups;
     bool                                    m_has_shared_per_object_skirt { false };
-    // Orca: Object-keyed brim paths kept for existing code.
+    // Infinium: Object-keyed brim paths kept for existing code.
     std::map<ObjectID, ExtrusionEntityCollection>         m_brimMap;
-    // Orca: Actual brim paths keyed by object instance.
+    // Infinium: Actual brim paths keyed by object instance.
     std::map<ObjectInstanceID, ExtrusionEntityCollection> m_brimMapByInstance;
-    // Orca: Translated brim areas keyed by instance, used to find touching brims.
+    // Infinium: Translated brim areas keyed by instance, used to find touching brims.
     std::map<ObjectInstanceID, ExPolygons>                m_objectBrimAreasByInstance;
     // Convex hull of the 1st layer extrusions.
     // It encompasses the object extrusions, support extrusions, skirt, brim, wipe tower.
@@ -1345,7 +1345,7 @@ private:
     FilamentIndexMap m_filament_index_map;
     // Used to cache printer and process parameter information
     PrintIndexMap m_nozzle_index_map;
-    // Orca: filament ids already reported as missing a nozzle-group entry this slice. get_config_index()
+    // Infinium: filament ids already reported as missing a nozzle-group entry this slice. get_config_index()
     // falls back per-filament/per-layer in the g-code hot path, so this dedupes its log to once per
     // filament instead of flooding thousands of identical error lines. Cleared with the caches each slice.
     std::set<int> m_missing_nozzle_group_logged;
@@ -1389,7 +1389,7 @@ private:
 
 public:
     //BBS: this was a print config and now seems to be useless so we move it to here
-    // ORCA: parameter below is now back to being a user option (min_skirt_length)
+    // INFINIUM: parameter below is now back to being a user option (min_skirt_length)
     //static float min_skirt_length;
 };
 

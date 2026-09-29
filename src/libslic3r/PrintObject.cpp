@@ -617,7 +617,7 @@ void PrintObject::prepare_infill()
     // and to add a configurable number of solid layers above the BOTTOM / BOTTOMBRIDGE surfaces
     // to close these surfaces reliably.
     //FIXME Vojtech: Is this a good place to add supporting infills below sloping perimeters?
-    // Orca: Brought this function call before the process_external_surfaces, to allow bridges over holes to expand more than
+    // Infinium: Brought this function call before the process_external_surfaces, to allow bridges over holes to expand more than
     // one perimeter. Example of this is the bridge over the benchy lettering.
     this->discover_horizontal_shells();
     m_print->throw_if_canceled();
@@ -674,7 +674,7 @@ void PrintObject::prepare_infill()
     } // for each region
 #endif /* SLIC3R_DEBUG_SLICE_PROCESSING */
 
-    // Orca: precompute the object's 3D connected bodies for separated infills / per-model
+    // Infinium: precompute the object's 3D connected bodies for separated infills / per-model
     // centering. Two islands belong to the same body when their slices overlap on adjacent
     // layers; islands that only overlap in top-down projection but never touch (e.g. interleaved
     // chain links) stay separate, matching "split to objects". Each layer island then records
@@ -688,7 +688,7 @@ void PrintObject::prepare_infill()
             break;
         }
     }
-    // Orca: Fast path: the feature only changes anything when the object is made of more than one
+    // Infinium: Fast path: the feature only changes anything when the object is made of more than one
     // connected body. Detect that cheaply the same way as "Split to objects" — more than one
     // model part, or a single part whose mesh is splittable (is_splittable() is cached). A single
     // body already shares the object center, i.e. the default, so skip the connectivity pass.
@@ -704,11 +704,11 @@ void PrintObject::prepare_infill()
         layer->lslices_separated_component_bboxes.clear();
     if (needs_separated_components) {
         const size_t        nl = m_layers.size();
-        std::vector<size_t> offset(nl + 1, 0); // Orca: flat index of the first island of each layer
+        std::vector<size_t> offset(nl + 1, 0); // Infinium: flat index of the first island of each layer
         for (size_t i = 0; i < nl; ++ i)
             offset[i + 1] = offset[i] + m_layers[i]->lslices.size();
         const size_t nreg = offset[nl];
-        // Orca: Union-find over every (layer, island).
+        // Infinium: Union-find over every (layer, island).
         std::vector<size_t> parent(nreg);
         for (size_t i = 0; i < nreg; ++ i) parent[i] = i;
         auto find = [&parent](size_t x) {
@@ -716,7 +716,7 @@ void PrintObject::prepare_infill()
             return x;
         };
         auto unite = [&](size_t a, size_t b) { a = find(a); b = find(b); if (a != b) parent[a] = b; };
-        // Orca: Index the smaller of two consecutive layers instead of scanning every
+        // Infinium: Index the smaller of two consecutive layers instead of scanning every
         // pair of islands. The tree prunes distant boxes on fragmented models; exact
         // polygon intersections still decide connectivity for the remaining candidates.
         for (size_t i = 0; i + 1 < nl; ++ i) {
@@ -741,7 +741,7 @@ void PrintObject::prepare_infill()
                     [&query](const IslandTree::Node &node) { return node.bbox.intersects(query); },
                     [&](const IslandTree::Node &node) {
                         const size_t b = node.idx;
-                        // Orca: Tree boxes include an epsilon, so retain the original box
+                        // Infinium: Tree boxes include an epsilon, so retain the original box
                         // filter. Already-connected islands cannot change the partition
                         // and need no further polygon intersection.
                         if (la->lslices_bboxes[a].overlap(lb->lslices_bboxes[b]) &&
@@ -752,12 +752,12 @@ void PrintObject::prepare_infill()
                     });
             }
         }
-        // Orca: Full bounding box of each body, indexed by its union-find root.
+        // Infinium: Full bounding box of each body, indexed by its union-find root.
         std::vector<BoundingBox> body_bbox(nreg);
         for (size_t i = 0; i < nl; ++ i)
             for (size_t a = 0; a < m_layers[i]->lslices.size(); ++ a)
                 body_bbox[find(offset[i] + a)].merge(m_layers[i]->lslices_bboxes[a]);
-        // Orca: Store the body bbox for every island.
+        // Infinium: Store the body bbox for every island.
         for (size_t i = 0; i < nl; ++ i) {
             Layer *layer = m_layers[i];
             layer->lslices_separated_component_bboxes.resize(layer->lslices.size());
@@ -1338,7 +1338,7 @@ bool PrintObject::invalidate_state_by_config_options(
             || opt_key == "support_object_first_layer_gap"
             || opt_key == "support_base_pattern_spacing"
             || opt_key == "support_expansion"
-            || opt_key == "independent_support_layer_height" // Orca
+            || opt_key == "independent_support_layer_height" // Infinium
             || opt_key == "support_threshold_angle"
             || opt_key == "support_threshold_overlap"
             || opt_key == "support_ironing"
@@ -1412,8 +1412,8 @@ bool PrintObject::invalidate_state_by_config_options(
             || opt_key == "extra_solid_infills"
             || opt_key == "ensure_vertical_shell_thickness"
             || opt_key == "bridge_angle"
-            || opt_key == "internal_bridge_angle" // ORCA: Internal bridge angle override
-            || opt_key == "relative_bridge_angle" // ORCA: Relative bridge angle
+            || opt_key == "internal_bridge_angle" // INFINIUM: Internal bridge angle override
+            || opt_key == "relative_bridge_angle" // INFINIUM: Relative bridge angle
             //BBS
             || opt_key == "bridge_line_width"
             || opt_key == "bridge_density"
@@ -1437,7 +1437,7 @@ bool PrintObject::invalidate_state_by_config_options(
             || opt_key == "infill_overhang_angle") {
             steps.emplace_back(posInfill);
         } else if (opt_key == "sparse_infill_pattern"
-                   // Orca: Body centering now also determines bridge anchors during preparation.
+                   // Infinium: Body centering now also determines bridge anchors during preparation.
                    // Invalidating preparation also invalidates infill, including top/bottom surfaces.
                    || opt_key == "center_of_surface_pattern"
                    || opt_key == "separated_infills"
@@ -1466,7 +1466,7 @@ bool PrintObject::invalidate_state_by_config_options(
                 steps.emplace_back(posPerimeters);
             steps.emplace_back(posPrepareInfill);
         } else if (opt_key == "top_surface_density") {
-            // ORCA: 0% means no top solid fill, which switches off both the top surface expansion and the wall
+            // INFINIUM: 0% means no top solid fill, which switches off both the top surface expansion and the wall
             // removal over top surfaces. Only crossing zero matters; posPerimeters cascades to posPrepareInfill.
             const auto *old_density = old_config.option<ConfigOptionPercent>(opt_key);
             const auto *new_density = new_config.option<ConfigOptionPercent>(opt_key);
@@ -1475,7 +1475,7 @@ bool PrintObject::invalidate_state_by_config_options(
                 steps.emplace_back(posPerimeters);
             steps.emplace_back(posInfill);
         } else if (opt_key == "top_surface_expansion") {
-            // ORCA: without the expansion the top fill never reaches the space freed by only_one_wall_top, so the
+            // INFINIUM: without the expansion the top fill never reaches the space freed by only_one_wall_top, so the
             // walls over top surfaces are kept. Only crossing zero matters; posPerimeters cascades to posPrepareInfill.
             const auto *old_expansion = old_config.option<ConfigOptionFloat>(opt_key);
             const auto *new_expansion = new_config.option<ConfigOptionFloat>(opt_key);
@@ -1809,7 +1809,7 @@ void PrintObject::detect_surfaces_type()
                         }
                     }
 
-                    // ORCA: Grow the top surfaces by top_surface_expansion, so the top solid infill also covers the
+                    // INFINIUM: Grow the top surfaces by top_surface_expansion, so the top solid infill also covers the
                     // material left by features rising from the middle of a top surface (filling the holes and
                     // joining the tops, so the features rest on solid infill). Each connected island is grown and
                     // clipped separately: growing one island's top across a gap into another - which may have no top
@@ -1928,15 +1928,15 @@ void PrintObject::detect_surfaces_type()
         }
         
         // ==================================================================================================
-        // === ORCA: Create a SECOND bridge layer above the first bridge layer. =============================
-        // === ORCA: Surface is flagged as a new surface type called stInternalAfterExternalBridge ==================
+        // === INFINIUM: Create a SECOND bridge layer above the first bridge layer. =============================
+        // === INFINIUM: Surface is flagged as a new surface type called stInternalAfterExternalBridge ==================
         // === Algorithm only considers stInternal surfaces for re-classification, leaving stTop unaffected =
         // ==================================================================================================
         // Only iterate to the second-to-last layer, since we look at layer i+1.
         if( (this->config().enable_extra_bridge_layer.value == eblApplyToAll) || (this->config().enable_extra_bridge_layer.value == eblExternalBridgeOnly)){
             const size_t last = (m_layers.empty() ? 0 : m_layers.size() - 1);
 
-            // ORCA: Two-phase split (collect-then-apply) to eliminate a data race in the
+            // INFINIUM: Two-phase split (collect-then-apply) to eliminate a data race in the
             // original single-phase parallel_for, where iteration `i` rewrote
             // m_layers[i+1]->slices.surfaces via std::move while iteration `i+1` (running
             // on an adjacent TBB block on another worker thread) was iterating that same
@@ -1989,7 +1989,7 @@ void PrintObject::detect_surfaces_type()
                     // We could reduce this slightly to account for innacurcies in the clipping operation.
                     // TODO: Monitor GitHub issues to check whether second bridge layers are ommited where they should be generated. If yes, reduce the filtering distance
 
-                    // ORCA: Same-layer-top guard.
+                    // INFINIUM: Same-layer-top guard.
                     //
                     // Collect every stTop polygon present at layer i+1 (this region) and
                     // expand it by the same `offset_distance` used by the bridge filter
@@ -2047,7 +2047,7 @@ void PrintObject::detect_surfaces_type()
                         // ...followed by an expand operation to bring them back to the original size (positive offset)
                         overlap = offset_ex(shrink_ex(overlap, offset_distance), offset_distance);
 
-                        // ORCA: subtract the expanded same-layer stTop mask (see comment above
+                        // INFINIUM: subtract the expanded same-layer stTop mask (see comment above
                         // the mask construction). Drops stInternal islands fully surrounded by
                         // stTop at i+1 without affecting bridges that lie away from the top.
                         if (! same_layer_top_expanded.empty() && ! overlap.empty())
@@ -2074,7 +2074,7 @@ void PrintObject::detect_surfaces_type()
             }
             );
             // ==============================================================================================================
-            // === ORCA: Interim workaround - for now the new stInternalAfterExternalBridge surfaace is re-classified  ==============
+            // === INFINIUM: Interim workaround - for now the new stInternalAfterExternalBridge surfaace is re-classified  ==============
             // === back to a bottom bridge. As a starting point, this improves bridging reliability as it extrudes ==========
             // === two external bridge layers. However, TODO: Implement a new surface type throughout the codebase ==========
             // ==============================================================================================================
@@ -2093,7 +2093,7 @@ void PrintObject::detect_surfaces_type()
             }
         }
         // ==============================================================================================================
-        // === ORCA: End of second external bridge layer changes  =======================================================
+        // === INFINIUM: End of second external bridge layer changes  =======================================================
         // ==============================================================================================================
         
         BOOST_LOG_TRIVIAL(debug) << "Detecting solid surfaces for region " << region_id << " - clipping in parallel - start";
@@ -2684,7 +2684,7 @@ void PrintObject::bridge_over_infill()
     };
 
     std::map<size_t, std::vector<CandidateSurface>> surfaces_by_layer;
-    // Orca:
+    // Infinium:
     // Detect use of lightning infill. Moved earlier in the function to pass to the gather and filter surfaces threads.
     bool has_lightning_infill = false;
     for (size_t i = 0; i < this->num_printing_regions(); i++) {
@@ -2721,7 +2721,7 @@ void PrintObject::bridge_over_infill()
                 }
                 unsupported_area = closing(unsupported_area, float(SCALED_EPSILON));
                 
-                // Orca:
+                // Infinium:
                 // Don't filter small internal unsupported areas if the user has requested so.
                 double expansion_multiplier = 3;
                 if(po->config().dont_filter_internal_bridges.value !=ibfDisabled){
@@ -2740,7 +2740,7 @@ void PrintObject::bridge_over_infill()
                     for (const Surface *s : region_internal_solids) {
                         Polygons unsupported         = intersection(to_polygons(s->expolygon), unsupported_area);
                         
-                        // Orca: If the user has selected to always support internal overhanging regions, no matter how small
+                        // Infinium: If the user has selected to always support internal overhanging regions, no matter how small
                         // skip the filtering
                         if (po->config().dont_filter_internal_bridges.value == ibfNofilter){
                             // expand the unsupported area by 4x spacing to trigger internal bridging
@@ -2797,7 +2797,7 @@ void PrintObject::bridge_over_infill()
             backup_surfaces[lidx] = {};
         }
 
-        // ORCA: Two-phase split (collect-then-apply) to eliminate a data race in
+        // INFINIUM: Two-phase split (collect-then-apply) to eliminate a data race in
         // the original single-phase parallel_for, where iteration `lidx` read
         // m_layers[lidx-1]->regions()->fill_surfaces (its lower_layer) to compute
         // `lightning_fill`, while iteration `lidx-1`, on an adjacent TBB block,
@@ -3040,7 +3040,7 @@ void PrintObject::bridge_over_infill()
         return diff(layers_sparse_infill, not_sparse_infill);
     };
 
-    // Orca: Derive the fallback bridge direction from the supplied anchor geometry.
+    // Infinium: Derive the fallback bridge direction from the supplied anchor geometry.
     // Pattern-specific angle selection belongs at the call site, where the supporting
     // layer and region are known; this helper must not override it with a base config angle.
     auto determine_bridging_angle = [](const Polygons &bridged_area, const Lines &anchors) {
@@ -3115,7 +3115,7 @@ void PrintObject::bridge_over_infill()
         return bridging_angle;
     };
 
-    // Orca: Extend scan sections to the nearest anchors and reconstruct the bridge area.
+    // Infinium: Extend scan sections to the nearest anchors and reconstruct the bridge area.
     // scan_spacing controls boundary sampling independently of the extrusion spacing;
     // anchoring overlap and smoothing thresholds still use the physical bridging flow.
     auto construct_anchored_polygon = [](Polygons bridged_area, Lines anchors, const Flow &bridging_flow, double bridging_angle,
@@ -3149,7 +3149,7 @@ void PrintObject::bridge_over_infill()
             const size_t n_vlines = (bb_x.max.x() - bb_x.min.x() + scan_spacing - 1) / scan_spacing;
             std::vector<Line> vertical_lines(n_vlines);
             for (size_t i = 0; i < n_vlines; i++) {
-                // Orca: Sample the center of each reconstructed strip. Its edges lie
+                // Infinium: Sample the center of each reconstructed strip. Its edges lie
                 // half a scan step away, even when the sampling is finer than extrusion.
                 coord_t x           = bb_x.min.x() + (i + 0.5) * scan_spacing;
                 coord_t y_min       = bb_y.min.y() - bridging_flow.scaled_spacing();
@@ -3174,7 +3174,7 @@ void PrintObject::bridge_over_infill()
                 auto anchors_intersections = anchors_and_walls_tree.intersections_with_line<true>(vertical_lines[i]);
 
                 for (Line &section : polygon_sections[i]) {
-                    // Orca: A repaired boundary may already overlap its anchor by one flow width.
+                    // Infinium: A repaired boundary may already overlap its anchor by one flow width.
                     // Include that overlap in the search so restoring rounded corners does not
                     // extend every already anchored section into the next sparse infill cell.
                     const coord_t overlap = restore_anchors ? bridging_flow.scaled_width() + SCALED_EPSILON : 0;
@@ -3217,7 +3217,7 @@ void PrintObject::bridge_over_infill()
                           });
             }
 
-            // Orca: Reconstruct the polygon from scan sections. At discontinuities and
+            // Infinium: Reconstruct the polygon from scan sections. At discontinuities and
             // strip starts/ends, use half the scan step for the X offsets; using half an
             // extrusion spacing would overlap the finer strips and distort curved anchors.
             struct TracedPoly
@@ -3263,7 +3263,7 @@ void PrintObject::bridge_over_infill()
                     }
 
                     if (!segment_added) {
-                        // Orca: No section continues this strip; close at its right edge.
+                        // Infinium: No section continues this strip; close at its right edge.
                         traced_poly.lows.push_back(traced_poly.lows.back() + Point{scan_spacing / 2, 0});
                         traced_poly.highs.push_back(traced_poly.highs.back() + Point{scan_spacing / 2, 0});
                         Polygon &new_poly = expanded_bridged_area.emplace_back(std::move(traced_poly.lows));
@@ -3389,7 +3389,7 @@ void PrintObject::bridge_over_infill()
                 total_fill_area   = closing(total_fill_area, float(SCALED_EPSILON));
                 expansion_area    = closing(expansion_area, float(SCALED_EPSILON));
                 expansion_area    = intersection(expansion_area, deep_infill_area);
-                // Orca: Preserve the real lower-layer anchors for every candidate in this
+                // Infinium: Preserve the real lower-layer anchors for every candidate in this
                 // layer. Replacing this shared set for one pattern also changes later regions,
                 // and synthetic straight lines can claim support where no infill is printed.
                 const Polylines anchors = intersection_pl(infill_lines[lidx - 1], shrink(expansion_area, spacing));
@@ -3436,11 +3436,11 @@ void PrintObject::bridge_over_infill()
 
                     double bridging_angle = -1.;
                     if (!anchors.empty() && turning_pattern) {
-                        // Orca: Keep adjacent bridges over Hilbert/Octagram aligned despite
+                        // Infinium: Keep adjacent bridges over Hilbert/Octagram aligned despite
                         // their many local turning directions. Use the lower layer's rotation,
                         // since that is the infill supporting the bridge, not the current layer's.
                         for (const LayerRegion *lower_region : layer->lower_layer->regions()) {
-                            // Orca: Apply the configured direction only if the same region has
+                            // Infinium: Apply the configured direction only if the same region has
                             // sparse infill below this bridge. A height modifier may put another
                             // pattern underneath, requiring the geometry-based fallback below.
                             if (&lower_region->region() != &candidate.region->region() ||
@@ -3448,7 +3448,7 @@ void PrintObject::bridge_over_infill()
                                 continue;
                             bridging_angle = calculate_infill_rotation_angle(po, layer->lower_layer->id(), region_config.infill_direction.value,
                                                                             region_config.sparse_infill_rotate_template.value) + 0.5 * PI;
-                            // Orca: Apply model alignment as infill generation does, then normalize
+                            // Infinium: Apply model alignment as infill generation does, then normalize
                             // the undirected bridge angle to [0, PI), including negative rotations.
                             if (region_config.align_infill_direction_to_model) {
                                 const auto &m = po->trafo().matrix();
@@ -3460,12 +3460,12 @@ void PrintObject::bridge_over_infill()
                             break;
                         }
                     }
-                    // Orca: A different region below (e.g. a height modifier) needs the actual anchor
+                    // Infinium: A different region below (e.g. a height modifier) needs the actual anchor
                     // directions. When there are no sparse anchors, use the expansion boundaries.
                     if (bridging_angle < 0.)
                         bridging_angle = determine_bridging_angle(area_to_be_bridge, to_lines(anchors.empty() ? boundary_plines : anchors));
                     
-                    // Orca: Preserve the user's absolute or relative internal bridge angle
+                    // Infinium: Preserve the user's absolute or relative internal bridge angle
                     // override after automatic direction selection.
                     if (candidate.region->region().config().internal_bridge_angle.value > 0) {
                         const double custom_angle_rad   = Geometry::deg2rad(region_config.internal_bridge_angle.value);
@@ -3480,14 +3480,14 @@ void PrintObject::bridge_over_infill()
                         }
                     }
 
-                    // Orca: Changing the bridge direction must not change its physical supports.
+                    // Infinium: Changing the bridge direction must not change its physical supports.
                     // Extend to actual sparse infill or the existing boundary anchors, never to
                     // a synthetic grid that merely has the same nominal angle and spacing.
                     boundary_plines.insert(boundary_plines.end(), anchors.begin(), anchors.end());
                     if (!lightning_area.empty() && !intersection(area_to_be_bridge, lightning_area).empty()) {
                         boundary_plines = intersection_pl(boundary_plines, expand(area_to_be_bridge, scale_(10)));
                     }
-                    // Orca: Use four samples per extrusion spacing for Hilbert/Octagram so the
+                    // Infinium: Use four samples per extrusion spacing for Hilbert/Octagram so the
                     // reconstructed boundary follows rounded anchors instead of cutting corners.
                     // Keep the original step for other patterns and at least one coordinate unit
                     // after integer division. This changes boundary accuracy, not infill density.
@@ -3506,17 +3506,17 @@ void PrintObject::bridge_over_infill()
                             }
                         }
                         if (reconstruct) {
-                            // Orca: Retain the same sampling accuracy when matching a nearby
+                            // Infinium: Retain the same sampling accuracy when matching a nearby
                             // bridge's direction; rebuilding must not lose the curved supports.
                             bridging_area = construct_anchored_polygon(area_to_be_bridge, to_lines(boundary_plines), flow, bridging_angle, scan_spacing);
                         }
                     }
 
-                    // Orca: Keep fine details for better anchoring
+                    // Infinium: Keep fine details for better anchoring
                     // bridging_area         = opening(bridging_area, flow.scaled_spacing());
                     bridging_area          = opening(bridging_area, flow.scaled_spacing() * 0.75);
                     bridging_area          = closing(bridging_area, flow.scaled_spacing());
-                    // Orca: Opening/closing can pull rounded bridge ends away from their real
+                    // Infinium: Opening/closing can pull rounded bridge ends away from their real
                     // supports. Restore those contacts after smoothing, preserving the cleaned
                     // area and the selected angle; do not smooth the restored contacts again.
                     if (turning_pattern && !bridging_area.empty()) {
@@ -3621,10 +3621,10 @@ void PrintObject::bridge_over_infill()
     });
     
     // ======================================================================================================================================
-    // === ORCA: Create a second internal bridge layer above the first bridge layer. ========================================================
+    // === INFINIUM: Create a second internal bridge layer above the first bridge layer. ========================================================
     // ======================================================================================================================================
     if ( this->m_config.enable_extra_bridge_layer == eblApplyToAll || this->m_config.enable_extra_bridge_layer == eblInternalBridgeOnly) {
-        // ORCA: Two-phase to eliminate the same data race as the external-bridge
+        // INFINIUM: Two-phase to eliminate the same data race as the external-bridge
         // pass in detect_surfaces_type().
         //
         // Phase 1: read-only — for each layer, collect its stInternalBridge polygons and
@@ -3761,7 +3761,7 @@ void PrintObject::bridge_over_infill()
         }); // end parallel_for
         
         // =================================================================================================================
-        // === ORCA: Interim workaround - for now the new stSecondInternalBridge surfaces are re-classified  ===============
+        // === INFINIUM: Interim workaround - for now the new stSecondInternalBridge surfaces are re-classified  ===============
         // === back to an internal bridge. As a starting point, this improves bridging reliability as it extrudes ==========
         // === two external bridge layers. However, TODO: Implement a new surface type throughout the codebase =============
         // =================================================================================================================
@@ -3777,7 +3777,7 @@ void PrintObject::bridge_over_infill()
         }
     }
     // ===========================================================================================
-    // === ORCA: End of second bridging pass =====================================================
+    // === INFINIUM: End of second bridging pass =====================================================
     // ===========================================================================================
 
     BOOST_LOG_TRIVIAL(info) << "Bridge over infill - End" << log_memory_info();
@@ -3973,14 +3973,14 @@ void PrintObject::generate_support_preview()
 
 void PrintObject::update_slicing_parameters()
 {
-    // Orca: updated function call for XYZ shrinkage compensation
+    // Infinium: updated function call for XYZ shrinkage compensation
     if (!m_slicing_params.valid) {
           m_slicing_params = SlicingParameters::create_from_config(this->print()->config(), m_config, this->model_object()->max_z(),
                                                                    this->object_extruders(), this->print()->shrinkage_compensation());
       }
 }
 
-// Orca: XYZ shrinkage compensation has introduced the const Vec3d &object_shrinkage_compensation parameter to the function below
+// Infinium: XYZ shrinkage compensation has introduced the const Vec3d &object_shrinkage_compensation parameter to the function below
 SlicingParameters PrintObject::slicing_parameters(const DynamicPrintConfig &full_config, const ModelObject &model_object, float object_max_z, const Vec3d &object_shrinkage_compensation, std::vector<int> variant_index)
 {
 	PrintConfig         print_config;
@@ -4028,7 +4028,7 @@ std::vector<unsigned int> PrintObject::object_extruders() const
     std::vector<unsigned int> extruders;
     extruders.reserve(this->all_regions().size() * 3);
 
-    //Orca: Collect extruders from all regions.
+    //Infinium: Collect extruders from all regions.
     for (const PrintRegion &region : this->all_regions())
         region.collect_object_printing_extruders(*this->print(), extruders);
 
@@ -4286,7 +4286,7 @@ void PrintObject::discover_horizontal_shells()
                         // searching on the next neighbor (thus enforcing the configured number of solid
                         // layers, use different strategies according to configured infill density:
                         
-                        // Orca: Also use the same strategy if the user has selected to further reduce
+                        // Infinium: Also use the same strategy if the user has selected to further reduce
                         // the amount of solid infill on walls.
                         if (region_config.sparse_infill_density.value == 0 || region_config.ensure_vertical_shell_thickness.value == evstCriticalOnly || region_config.ensure_vertical_shell_thickness.value == evstNone) {
                             // If user expects the object to be void (for example a hollow sloping vase),
@@ -4314,7 +4314,7 @@ void PrintObject::discover_horizontal_shells()
                         // and it's not wanted in a hollow print even if it would make sense when
                         // obeying the solid shell count option strictly (DWIM!)
 
-                        // Orca: Also use the same strategy if the user has selected to reduce
+                        // Infinium: Also use the same strategy if the user has selected to reduce
                         // the amount of solid infill on walls. However reduce the margin to 20% overhang
                         // as we want to generate infill on sloped vertical surfaces but still keep a small amount of
                         // filtering. This is an arbitrary value to make this option safe
@@ -4427,7 +4427,7 @@ void PrintObject::combine_infill()
             this->print()->config().nozzle_diameter.get_at(region.config().sparse_infill_filament_id.value - 1),
             this->print()->config().nozzle_diameter.get_at(region.config().internal_solid_filament_id.value - 1));
         
-        //Orca: Limit combination of infill to up to infill_combination_max_layer_height
+        //Infinium: Limit combination of infill to up to infill_combination_max_layer_height
         const double infill_combination_max_layer_height = region.config().infill_combination_max_layer_height.get_abs_value(nozzle_diameter);
         nozzle_diameter = infill_combination_max_layer_height > 0 ? std::min(infill_combination_max_layer_height, nozzle_diameter) : nozzle_diameter;
         

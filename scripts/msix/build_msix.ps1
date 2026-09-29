@@ -31,12 +31,12 @@ if ($versionContent -notmatch 'set\(SoftFever_VERSION "(\d+)\.(\d+)\.(\d+)') {
 $msixVersion = "$($Matches[1]).$($Matches[2]).$($Matches[3]).0"
 Write-Output "MSIX version: $msixVersion"
 
-if (-not (Test-Path (Join-Path $InstallDir 'orca-slicer.exe'))) {
-    throw "orca-slicer.exe not found in '$InstallDir' - build the install tree first"
+if (-not (Test-Path (Join-Path $InstallDir 'infinium-slicer.exe'))) {
+    throw "infinium-slicer.exe not found in '$InstallDir' - build the install tree first"
 }
 
 if ([string]::IsNullOrEmpty($StagingDir)) {
-    $StagingDir = Join-Path ([System.IO.Path]::GetTempPath()) 'orca-msix-staging'
+    $StagingDir = Join-Path ([System.IO.Path]::GetTempPath()) 'infinium-msix-staging'
 }
 if (Test-Path $StagingDir) { Remove-Item $StagingDir -Recurse -Force }
 New-Item -ItemType Directory -Force $StagingDir | Out-Null

@@ -147,7 +147,7 @@ public:
 
 using IntersectionLines = std::vector<IntersectionLine>;
 
-// Orca: A planar face is commonly represented by multiple triangles. A slicing plane then crosses
+// Infinium: A planar face is commonly represented by multiple triangles. A slicing plane then crosses
 // their shared edges and creates intermediate 2D points which are not part of the model contour.
 // Track only edges whose two incident triangles lie in the same geometric plane within the slicing
 // coordinate precision, so those artificial junctions can be omitted without simplifying genuine,
@@ -163,7 +163,7 @@ static CoplanarEdges coplanar_edges(const indexed_triangle_set &mesh, const std:
         bool  valid { false };
     };
 
-    // Orca: Edge IDs are dense but may include boundary edges referenced by just one face.
+    // Infinium: Edge IDs are dense but may include boundary edges referenced by just one face.
     int num_edges = 0;
     for (const Vec3i32 &edge_ids : face_edge_ids)
         num_edges = std::max(num_edges, edge_ids.maxCoeff() + 1);
@@ -176,7 +176,7 @@ static CoplanarEdges coplanar_edges(const indexed_triangle_set &mesh, const std:
     auto transformed_vertex = [&mesh, &trafo](int vertex_idx) {
         return trafo * mesh.vertices[vertex_idx].cast<double>();
     };
-    // Orca: Compute planes lazily. The single-plane slicer masks most faces, so eagerly calculating
+    // Infinium: Compute planes lazily. The single-plane slicer masks most faces, so eagerly calculating
     // every plane would defeat part of that optimization.
     auto face_plane = [&mesh, &face_planes, &face_plane_computed, &transformed_vertex](int face_idx) -> const FacePlane& {
         if (! face_plane_computed[face_idx]) {
@@ -213,7 +213,7 @@ static CoplanarEdges coplanar_edges(const indexed_triangle_set &mesh, const std:
                 const int second_opposite_idx = mesh.indices[face_idx]((edge_idx + 2) % 3);
                 const Vec3d first_opposite = transformed_vertex(first_opposite_idx);
                 const Vec3d second_opposite = transformed_vertex(second_opposite_idx);
-                // Orca: A shared edge guarantees that the planes intersect, but not that they coincide.
+                // Infinium: A shared edge guarantees that the planes intersect, but not that they coincide.
                 // Check both opposite vertices against the neighboring plane using one coord_t as the
                 // distance tolerance. The normal dot product only preserves face orientation; it does
                 // not classify a shallow angle as coplanar (see #15364).
@@ -1226,7 +1226,7 @@ static void chain_lines_by_triangle_connectivity(IntersectionLines &lines, const
                     (first_line->a_id      != -1 && first_line->a_id      == last_line->b_id)) {
                     // The current loop is complete. Add it to the output.
                     assert(first_line->a == last_line->b);
-                    // Orca: The seed point is also a triangle junction. Handle it explicitly because it
+                    // Infinium: The seed point is also a triangle junction. Handle it explicitly because it
                     // is never visited through the next_line branch below when the loop closes.
                     if (first_line->edge_a_id >= 0 && first_line->edge_a_id < int(coplanar_edges.size()) &&
                         coplanar_edges[first_line->edge_a_id])
@@ -1250,7 +1250,7 @@ static void chain_lines_by_triangle_connectivity(IntersectionLines &lines, const
                 next_line->a.x, next_line->a.y, next_line->b.x, next_line->b.y);
             */
             assert(last_line->b == next_line->a);
-            // Orca: Skip only junctions introduced by triangulating one planar face. Unlike a generic
+            // Infinium: Skip only junctions introduced by triangulating one planar face. Unlike a generic
             // collinearity cleanup, this preserves intentional shallow corners used when comparing
             // adjacent layers for bridges and overhang perimeters (see #15364).
             if (next_line->edge_a_id < 0 || next_line->edge_a_id >= int(coplanar_edges.size()) ||
@@ -1983,7 +1983,7 @@ std::vector<Polygons> slice_mesh(
         // However facets_edges assigns a single edge ID to two triangles only, thus when factoring facets_edges out, one will have
         // to make sure that no code relies on it.
         std::vector<Vec3i32> face_edge_ids = its_face_edge_ids(mesh);
-        // Orca: Keep the coplanarity classification aligned with the edge IDs used to chain this slice.
+        // Infinium: Keep the coplanarity classification aligned with the edge IDs used to chain this slice.
         coplanar = coplanar_edges(mesh, face_edge_ids, params.trafo);
         if (zs.size() <= 1) {
             // It likely is not worthwile to copy the vertices. Apply the transformation in place.
@@ -2088,7 +2088,7 @@ Polygons slice_mesh(
 
         // 3) Calculate face neighbors for just the faces in face_mask.
         std::vector<Vec3i32> face_edge_ids = its_face_edge_ids(mesh, face_mask);
-        // Orca: The single-plane path has its own masked edge-ID space, so classify that space separately.
+        // Infinium: The single-plane path has its own masked edge-ID space, so classify that space separately.
         coplanar = coplanar_edges(mesh, face_edge_ids, params.trafo);
 
         // 4) Slice "face_mask" triangles, collect line segments.

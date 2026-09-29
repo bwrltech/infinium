@@ -18,7 +18,7 @@ namespace Slic3r
 float         flat_iron_speed                = 10.f * 60.f;
 static const double wipe_tower_wall_infill_overlap = 0.0;
 static constexpr double WIPE_TOWER_RESOLUTION = 0.1;
-// Orca: SCALING_FACTOR is a runtime variable (large-printer switch), so this cannot be constexpr
+// Infinium: SCALING_FACTOR is a runtime variable (large-printer switch), so this cannot be constexpr
 #define WT_SIMPLIFY_TOLERANCE_SCALED (0.001 / SCALING_FACTOR)
 static constexpr int    arc_fit_size = 20;
 #define SCALED_WIPE_TOWER_RESOLUTION (WIPE_TOWER_RESOLUTION / SCALING_FACTOR)
@@ -647,7 +647,7 @@ public:
         m_enable_arc_fitting(enable_arc_fitting),
         m_filpar(filament_parameters)
         {
-            // ORCA: This class is only used by BBL printers, so set the parameter appropriately.
+            // INFINIUM: This class is only used by BBL printers, so set the parameter appropriately.
             // This fixes an issue where the wipe tower was using BBL tags resulting in statistics for purging in the purge tower not being displayed.
             GCodeProcessor::s_IsBBLPrinter = true;
             // adds tag for analyzer:
@@ -1388,7 +1388,7 @@ private:
         if (accelerations.empty() || !m_multi_nozzle_group_result)
             return std::string();
         int extruder_id = m_multi_nozzle_group_result->get_extruder_id(m_current_tool, m_layer_id);
-        // Orca: get_extruder_id returns -1 when the filament is not covered by the map
+        // Infinium: get_extruder_id returns -1 when the filament is not covered by the map
         // (reachable with a stale manual filament map); skip instead of indexing out of bounds.
         if (extruder_id < 0 || extruder_id >= (int) accelerations.size())
             return std::string();
@@ -1401,7 +1401,7 @@ private:
         if (accelerations.empty() || !m_multi_nozzle_group_result)
             return std::string();
         int extruder_id = m_multi_nozzle_group_result->get_extruder_id(m_current_tool, m_layer_id);
-        // Orca: get_extruder_id returns -1 when the filament is not covered by the map
+        // Infinium: get_extruder_id returns -1 when the filament is not covered by the map
         // (reachable with a stale manual filament map); skip instead of indexing out of bounds.
         if (extruder_id < 0 || extruder_id >= (int) accelerations.size())
             return std::string();
@@ -1890,14 +1890,14 @@ WipeTower::WipeTower(const PrintConfig& config, int plate_idx, Vec3d plate_origi
     m_slice_used_filaments(slice_used_filaments.size()),
     m_is_multi_extruder(config.nozzle_diameter.size() > 1),
     m_use_gap_wall(config.prime_tower_skip_points.value),
-    // Orca: rib-wall options live under wipe_tower_* names and the wall type is an enum
+    // Infinium: rib-wall options live under wipe_tower_* names and the wall type is an enum
     m_use_rib_wall(config.wipe_tower_wall_type.value == WipeTowerWallType::wtwRib),
     m_extra_rib_length((float)config.wipe_tower_extra_rib_length.value),
     m_rib_width((float)config.wipe_tower_rib_width.value),
     m_used_fillet(config.wipe_tower_fillet_wall.value),
     m_extra_spacing((float)config.prime_tower_infill_gap.value/100.f),
     m_tower_framework(config.prime_tower_enable_framework.value),
-    // Orca: prime_tower_max_speed is named wipe_tower_max_purge_speed (same default/min)
+    // Infinium: prime_tower_max_speed is named wipe_tower_max_purge_speed (same default/min)
     m_max_speed((float)config.wipe_tower_max_purge_speed.value*60.f),
     m_accel_to_decel_enable(config.accel_to_decel_enable.value),
     m_accel_to_decel_factor(config.accel_to_decel_factor.value),
@@ -1906,7 +1906,7 @@ WipeTower::WipeTower(const PrintConfig& config, int plate_idx, Vec3d plate_origi
     m_enable_tower_interface_features(config.enable_tower_interface_features.value),
     m_physical_extruder_map(config.physical_extruder_map.values),
     m_enable_arc_fitting(config.enable_arc_fitting.value)
-    // Orca: has_filament_switcher is a device-set dynamic key, not a PrintConfig member;
+    // Infinium: has_filament_switcher is a device-set dynamic key, not a PrintConfig member;
     // it is pushed in from Print via set_has_filament_switcher() instead of read here.
 {
     m_contact_speed                  = 20 * 60.f;
@@ -1915,7 +1915,7 @@ WipeTower::WipeTower(const PrintConfig& config, int plate_idx, Vec3d plate_origi
     m_hotend_heating_rate            = config.hotend_heating_rate.values;
     m_hotend_cooling_rate            = config.hotend_cooling_rate.values;
     m_flat_ironing = (m_flat_ironing && m_use_gap_wall);
-    // Orca: default/initial-layer/travel acceleration are object-scope options here (PrintConfig
+    // Infinium: default/initial-layer/travel acceleration are object-scope options here (PrintConfig
     // members in BBS), so Print pushes the resolved columns in via set_accelerations() instead of
     // the ctor reading them from config.
     m_max_accels = config.machine_max_acceleration_extruding.values.front();
@@ -1974,7 +1974,7 @@ void WipeTower::set_extruder(size_t idx, const PrintConfig& config)
     m_filpar.push_back(FilamentParameters());
 
     m_filpar[idx].material = config.filament_type.get_at(idx);
-    // Orca: wipe_tower_filament (issue #10971) forces a specific filament to print the tower wall by
+    // Infinium: wipe_tower_filament (issue #10971) forces a specific filament to print the tower wall by
     // marking every other filament as "soluble"; 0 keeps the plain per-filament soluble flag.
     m_filpar[idx].is_soluble = config.wipe_tower_filament == 0 ? config.filament_soluble.get_at(idx) : (idx != size_t(config.wipe_tower_filament - 1));
     // BBS
@@ -2064,7 +2064,7 @@ void WipeTower::set_extruder(size_t idx, const PrintConfig& config)
         if (!config.filament_ramming_travel_time_nc.is_nil(idx)) m_filpar[idx].ramming_travel_time.second = float(config.filament_ramming_travel_time_nc.get_at(idx));
     }
     m_perimeter_width = nozzle_diameter * Width_To_Nozzle_Ratio; // all extruders are now assumed to have the same diameter
-    // Orca: custom presets may use nozzle diameters outside the BBS table; fall back to the
+    // Infinium: custom presets may use nozzle diameters outside the BBS table; fall back to the
     // previous 2*perimeter_width rule (identical to the table for 0.4) instead of throwing.
     {
         auto nc_width_it = nozzle_diameter_to_nozzle_change_width.find(nozzle_diameter);
@@ -2153,7 +2153,7 @@ Vec2f WipeTower::get_next_pos(const WipeTower::box_coordinates &cleaning_box, fl
         float        filament_tower_interface_pre_extrusion_dist = is_petg_pre_extrusion
                                                                        ? m_filpar[m_current_tool].filament_petg_pre_extrusion_offset_dist
                                                                        : m_filpar[m_current_tool].filament_tower_interface_pre_extrusion_dist;
-        // Orca: unscaled(BoundingBox) here is a template returning BoundingBoxBase<Vec2d>, not BoundingBoxf
+        // Infinium: unscaled(BoundingBox) here is a template returning BoundingBoxBase<Vec2d>, not BoundingBoxf
         auto         printer_bbx                                 = unscaled(get_extents(m_shared_print_bed));
         printer_bbx.translate((-m_wipe_tower_pos - m_rib_offset).cast<double>()); // first layer never be contact
         if (stop_pos.x() < m_wipe_tower_width / 2.f)
@@ -3526,7 +3526,7 @@ WipeTower::NozzleChangeResult WipeTower::ramming(int old_filament_id, int new_fi
     }
     auto format_nozzle_change_line = [this](bool start, int old_filament_id, int new_filament_id) -> std::string {
         char        buff[64];
-        // Orca: the nozzle-change markers are standalone tag constants, not ETags entries
+        // Infinium: the nozzle-change markers are standalone tag constants, not ETags entries
         // (the Reserved_Tags parallel arrays have a non-BBL variant that must stay aligned).
         std::string tag = start ? GCodeProcessor::Nozzle_Change_Start_Tag : GCodeProcessor::Nozzle_Change_End_Tag;
         int         old_nozzle_id = get_nozzle_id(old_filament_id, m_cur_layer_id);
@@ -4065,7 +4065,7 @@ WipeTower::ToolChangeResult WipeTower::finish_block_solid(const WipeTowerBlock &
         if (is_full_block && layer_type == WipeTowerLayerType::Contact && m_enable_tower_interface_features ) {
             Vec2f        stop_pos                                    = initial_pos;
             float        filament_tower_interface_pre_extrusion_dist = m_filpar[m_current_tool].filament_tower_interface_pre_extrusion_dist;
-            // Orca: unscaled(BoundingBox) here is a template returning BoundingBoxBase<Vec2d>, not BoundingBoxf
+            // Infinium: unscaled(BoundingBox) here is a template returning BoundingBoxBase<Vec2d>, not BoundingBoxf
             auto         printer_bbx                                 = unscaled(get_extents(m_shared_print_bed));
             printer_bbx.translate((- m_wipe_tower_pos - m_rib_offset).cast<double>()); // first layer never be contact
             if (stop_pos.x() < m_wipe_tower_width/2.f)
@@ -4111,7 +4111,7 @@ WipeTower::ToolChangeResult WipeTower::finish_block_solid(const WipeTowerBlock &
 void WipeTower::toolchange_wipe_new(WipeTowerWriter &writer, const box_coordinates &cleaning_box, float wipe_length,bool solid_tool_toolchange)
 {
     writer.set_extrusion_flow(m_extrusion_flow * (is_first_layer() ? m_first_layer_flow_ratio : 1.f))
-          // Orca: CP_TOOLCHANGE_WIPE is a standalone tag constant, not an ETags entry
+          // Infinium: CP_TOOLCHANGE_WIPE is a standalone tag constant, not an ETags entry
           .append(";" + GCodeProcessor::Toolchange_Wipe_Tag + " CT" + std::to_string(solid_tool_toolchange) + " FL" + std::to_string(is_first_layer()) + "\n");
     if (!m_nozzle_change_result.gcode.empty())
         writer.change_analyzer_line_width(m_perimeter_width);
@@ -4388,7 +4388,7 @@ void WipeTower::set_first_layer_flow_ratio(const float flow_ratio)
     m_first_layer_flow_ratio = flow_ratio;
 }
 
-// Orca: default/initial-layer/travel acceleration are object-scope options here (PrintConfig
+// Infinium: default/initial-layer/travel acceleration are object-scope options here (PrintConfig
 // members read directly in the BBS ctor), so Print resolves the columns and pushes them in.
 void WipeTower::set_accelerations(const std::vector<double> &normal, const std::vector<double> &first_layer_normal,
                                   const std::vector<double> &travel, const std::vector<double> &first_layer_travel)

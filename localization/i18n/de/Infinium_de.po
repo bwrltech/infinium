@@ -1261,7 +1261,7 @@ msgid "Operation"
 msgstr "Vorgang"
 
 #. TRN EmbossOperation
-#. ORCA
+#. INFINIUM
 msgid "Join"
 msgstr "Zusammenfügen"
 
@@ -2582,8 +2582,8 @@ msgstr "Torus"
 msgid "Infinium Cube"
 msgstr "Infinium Würfel"
 
-msgid "OrcaSliced Combo"
-msgstr "OrcaSliced Kombination"
+msgid "InfiniumSliced Combo"
+msgstr "InfiniumSliced Kombination"
 
 # AI Translated
 msgid "Infinium Badge"
@@ -6514,8 +6514,8 @@ msgid "Select profile to load:"
 msgstr "Wählen Sie das zu ladende Profil:"
 
 # AI Translated
-msgid "Config files (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
-msgstr "Konfigurationsdateien (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
+msgid "Config files (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
+msgstr "Konfigurationsdateien (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
 
 #, c-format, boost-format
 msgid "There is %d config imported. (Only non-system and compatible configs)"
@@ -19590,11 +19590,11 @@ msgstr "\n\nInfinium hat festgestellt, dass Ihre Benutzerprofile-Synchronisierun
 msgid "Printer Setting"
 msgstr "Druckereinstellung"
 
-msgid "Printer config bundle(.orca_printer)"
-msgstr "Drucker-Konfigurationsbündel (.orca_printer)"
+msgid "Printer config bundle(.infinium_printer)"
+msgstr "Drucker-Konfigurationsbündel (.infinium_printer)"
 
-msgid "Filament bundle(.orca_filament)"
-msgstr "Filament-Bündel (.orca_filament)"
+msgid "Filament bundle(.infinium_filament)"
+msgstr "Filament-Bündel (.infinium_filament)"
 
 msgid "Printer presets(.zip)"
 msgstr "Druckerprofile (.zip)"
@@ -21427,8 +21427,8 @@ msgstr ""
 "Verwerfungen vermeiden\n"
 "Wussten Sie, dass beim Drucken von Materialien, die zu Verwerfungen neigen, wie z.B. ABS, durch eine entsprechende Erhöhung der Heizbetttemperatur die Wahrscheinlichkeit von Verwerfungen verringert werden kann?"
 
-#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart OrcaSlicer."
-#~ msgstr "Native Wayland Liveview erfordert das GStreamer GTK Video Sink. Bitte installieren Sie das gtksink-Plugin für GStreamer und starten Sie OrcaSlicer neu."
+#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart Infinium."
+#~ msgstr "Native Wayland Liveview erfordert das GStreamer GTK Video Sink. Bitte installieren Sie das gtksink-Plugin für GStreamer und starten Sie Infinium neu."
 
 #~ msgid "Failed to initialize the native Wayland GStreamer video sink. Please check your GStreamer GTK plugin installation."
 #~ msgstr "Fehler beim Initialisieren des nativen Wayland GStreamer Video Sinks. Bitte überprüfen Ihre GStreamer GTK-Plugin-Installation."
@@ -21439,14 +21439,14 @@ msgstr ""
 #~ msgid "BambuSource has not correctly been registered for media playing! Press Yes to re-register it. You will be promoted twice"
 #~ msgstr "BambuSource wurde nicht korrekt für das Abspielen von Medien registriert! Drücken Sie Ja, um es erneut zu registrieren. Sie werden zweimal aufgefordert"
 
-#~ msgid "Missing BambuSource component registered for media playing! Please re-install OrcaSlicer or seek community help."
-#~ msgstr "Fehlende BambuSource-Komponente, die für das Abspielen von Medien registriert ist! Bitte installieren Sie OrcaSlicer neu oder suchen Sie Hilfe in der Community."
+#~ msgid "Missing BambuSource component registered for media playing! Please re-install Infinium or seek community help."
+#~ msgstr "Fehlende BambuSource-Komponente, die für das Abspielen von Medien registriert ist! Bitte installieren Sie Infinium neu oder suchen Sie Hilfe in der Community."
 
 #~ msgid "Using a BambuSource from a different install, video play may not work correctly! Press Yes to fix it."
 #~ msgstr "Verwendung eines BambuSource aus einer anderen Installation, das Abspielen von Videos funktioniert möglicherweise nicht korrekt! Drücken Sie Ja, um es zu beheben."
 
-#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Orca Slicer?)"
-#~ msgstr "Ihr System fehlt H.264-Codecs für GStreamer, die zum Abspielen von Videos erforderlich sind. (Versuchen Sie, die Pakete gstreamer1.0-plugins-bad oder gstreamer1.0-libav zu installieren und starten Sie Orca Slicer neu?)"
+#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Infinium?)"
+#~ msgstr "Ihr System fehlt H.264-Codecs für GStreamer, die zum Abspielen von Videos erforderlich sind. (Versuchen Sie, die Pakete gstreamer1.0-plugins-bad oder gstreamer1.0-libav zu installieren und starten Sie Infinium neu?)"
 
 # AI Translated
 #~ msgid "N"
@@ -21557,8 +21557,8 @@ msgstr ""
 #~ msgstr "Die aktuelle Firmware unterstützt maximal 16 Materialien. Sie können entweder die Anzahl der Materialien auf der Vorbereitungsseite auf 16 oder weniger reduzieren oder versuchen, die Firmware zu aktualisieren. Wenn Sie nach dem Update immer noch eingeschränkt sind, warten Sie bitte auf die nachfolgende Firmware-Unterstützung."
 
 # TODO: Review, changed by lang refactor. PR 14254
-#~ msgid "Click OK to update the Network plug-in the next time Orca Slicer launches."
-#~ msgstr "Klicken Sie auf OK, um das Netzwerk-Plugin beim nächsten Start von Orca Slicer zu aktualisieren."
+#~ msgid "Click OK to update the Network plug-in the next time Infinium launches."
+#~ msgstr "Klicken Sie auf OK, um das Netzwerk-Plugin beim nächsten Start von Infinium zu aktualisieren."
 
 # TODO: Review, changed by lang refactor. PR 14254
 #, boost-format
@@ -21913,8 +21913,8 @@ msgstr ""
 #~ msgid "Cloud Error"
 #~ msgstr "Cloud-Fehler"
 
-#~ msgid "This disables all cloud services e.g. Orca Cloud and Bambu Cloud. This stops the transmission of data to Bambu's cloud services too. Users who don't use BBL machines or use LAN mode only can safely turn on this function."
-#~ msgstr "Dies deaktiviert alle Cloud-Dienste, z.B. Orca Cloud und Bambu Cloud. Dies stoppt auch die Übertragung von Daten an die Cloud-Dienste von Bambu. Benutzer, die keine BBL-Maschinen verwenden oder nur den LAN-Modus nutzen, können diese Funktion sicher aktivieren."
+#~ msgid "This disables all cloud services e.g. Infinium Cloud and Bambu Cloud. This stops the transmission of data to Bambu's cloud services too. Users who don't use BBL machines or use LAN mode only can safely turn on this function."
+#~ msgstr "Dies deaktiviert alle Cloud-Dienste, z.B. Infinium Cloud und Bambu Cloud. Dies stoppt auch die Übertragung von Daten an die Cloud-Dienste von Bambu. Benutzer, die keine BBL-Maschinen verwenden oder nur den LAN-Modus nutzen, können diese Funktion sicher aktivieren."
 
 #~ msgid ""
 #~ "The Wipe option is not available when using the Firmware Retraction mode.\n"
@@ -22121,8 +22121,8 @@ msgstr ""
 #~ msgid "Object/Part Setting"
 #~ msgstr "Objekt/Teil Einstellungen"
 
-#~ msgid "OrcaSlicer is based on BambuStudio, PrusaSlicer, and SuperSlicer."
-#~ msgstr "OrcaSlicer basiert auf BambuStudio, PrusaSlicer und SuperSlicer."
+#~ msgid "Infinium is based on BambuStudio, PrusaSlicer, and SuperSlicer."
+#~ msgstr "Infinium basiert auf BambuStudio, PrusaSlicer und SuperSlicer."
 
 #~ msgid "BambuStudio is originally based on PrusaSlicer by PrusaResearch."
 #~ msgstr "BambuStudio basiert ursprünglich auf PrusaSlicer von PrusaResearch."
@@ -22166,14 +22166,14 @@ msgstr ""
 #~ msgid "Flow rate test - Pass 2"
 #~ msgstr "Durchflussratentests - Teil 1"
 
-#~ msgid "Orca YOLO flowrate calibration, 0.01 step"
-#~ msgstr "Orca YOLO Durchflusskalibrierung, 0.01 Schritt"
+#~ msgid "Infinium YOLO flowrate calibration, 0.01 step"
+#~ msgstr "Infinium YOLO Durchflusskalibrierung, 0.01 Schritt"
 
 #~ msgid "YOLO (perfectionist version)"
 #~ msgstr "YOLO (Perfektionisten-Version)"
 
-#~ msgid "Orca YOLO flowrate calibration, 0.005 step"
-#~ msgstr "Orca YOLO Durchflusskalibrierung, 0.005 Schritt"
+#~ msgid "Infinium YOLO flowrate calibration, 0.005 step"
+#~ msgstr "Infinium YOLO Durchflusskalibrierung, 0.005 Schritt"
 
 #~ msgid "Retraction test"
 #~ msgstr "Rückzugslängen Test"
@@ -22211,8 +22211,8 @@ msgstr ""
 #~ msgid "Right nozzle: %smm"
 #~ msgstr "rechte Düse: %smm"
 
-#~ msgid "\"Fix Model\" feature is currently only on Windows. Please repair the model on Orca Slicer(windows) or CAD softwares."
-#~ msgstr "Die Funktion \"Modell reparieren\" ist derzeit nur unter Windows verfügbar. Bitte reparieren Sie das Modell in Orca Slicer (Windows) oder CAD-Software."
+#~ msgid "\"Fix Model\" feature is currently only on Windows. Please repair the model on Infinium(windows) or CAD softwares."
+#~ msgstr "Die Funktion \"Modell reparieren\" ist derzeit nur unter Windows verfügbar. Bitte reparieren Sie das Modell in Infinium (Windows) oder CAD-Software."
 
 #~ msgid "This stops the transmission of data to Bambu's cloud services. Users who don't use BBL machines or use LAN mode only can safely turn on this function."
 #~ msgstr "Dies stoppt die Übertragung von Daten an die Cloud-Dienste von Bambu. Benutzer, die keine BBL-Maschinen verwenden oder nur den LAN-Modus verwenden, können diese Funktion sicher aktivieren."
@@ -22372,11 +22372,11 @@ msgstr ""
 #~ msgid ""
 #~ "Bambu Lab has implemented a signature verification check in their network plugin that restricts third-party software from communicating with your printer.\n"
 #~ "\n"
-#~ "As a result, some printing functions are unavailable in OrcaSlicer."
+#~ "As a result, some printing functions are unavailable in Infinium."
 #~ msgstr ""
 #~ "Bambu Lab hat in ihrem Netzwerk-Plugin eine Signaturüberprüfung eingeführt,die die Kommunikation von Software von Drittanbietern mit Ihrem Drucker einschränkt.\n"
 #~ "\n"
-#~ "Infolgedessen sind einige Druckfunktionen in OrcaSlicer nicht verfügbar."
+#~ "Infolgedessen sind einige Druckfunktionen in Infinium nicht verfügbar."
 
 #~ msgid ""
 #~ "Please input valid values:\n"
@@ -22788,8 +22788,8 @@ msgstr ""
 #~ msgid "Resync"
 #~ msgstr "Resync"
 
-#~ msgid "There are some unknown filaments mapped to generic preset. Please update Orca Slicer or restart Orca Slicer to check if there is an update to system presets."
-#~ msgstr "Es gibt einige unbekannte Filamente, die generischen Voreinstellungen zugeordnet sind. Bitte aktualisieren Sie OrcaSlicer oder starten Sie OrcaSlicer neu, um zu überprüfen, ob es ein Update für Systemvoreinstellungen gibt."
+#~ msgid "There are some unknown filaments mapped to generic preset. Please update Infinium or restart Infinium to check if there is an update to system presets."
+#~ msgstr "Es gibt einige unbekannte Filamente, die generischen Voreinstellungen zugeordnet sind. Bitte aktualisieren Sie Infinium oder starten Sie Infinium neu, um zu überprüfen, ob es ein Update für Systemvoreinstellungen gibt."
 
 #~ msgid ""
 #~ "Are you sure you want to store original SVGs with their local paths into the 3MF file?\n"
@@ -22834,8 +22834,8 @@ msgstr ""
 #~ msgid "System Sync"
 #~ msgstr "System-Synchronisation "
 
-#~ msgid "Associate URLs to OrcaSlicer"
-#~ msgstr "URLs mit OrcaSlicer verknüpfen"
+#~ msgid "Associate URLs to Infinium"
+#~ msgstr "URLs mit Infinium verknüpfen"
 
 #~ msgid "every"
 #~ msgstr "jede/r/s"
@@ -22949,8 +22949,8 @@ msgstr ""
 #~ msgid "Auto-Calc"
 #~ msgstr "Automatisch berechnen"
 
-#~ msgid "Orca would re-calculate your flushing volumes every time the filaments color changed. You could disable the auto-calculate in Orca Slicer > Preferences"
-#~ msgstr "Orca würde jedes Mal die Reinigungsvolumen neu berechnen, wenn sich die Farbe des Filaments ändert. Sie können die automatische Berechnung in Orca Slicer > Einstellungen deaktivieren"
+#~ msgid "Infinium would re-calculate your flushing volumes every time the filaments color changed. You could disable the auto-calculate in Infinium > Preferences"
+#~ msgstr "Infinium würde jedes Mal die Reinigungsvolumen neu berechnen, wenn sich die Farbe des Filaments ändert. Sie können die automatische Berechnung in Infinium > Einstellungen deaktivieren"
 
 #~ msgid "unloaded"
 #~ msgstr "entladen"
@@ -22973,8 +22973,8 @@ msgstr ""
 #~ msgid "Resume Printing (problem solved)"
 #~ msgstr "Druck fortsetzen (Problem gelöst)"
 
-#~ msgid "Step 1. Please confirm Orca Slicer and your printer are in the same LAN."
-#~ msgstr "Schritt 1. Bitte bestätigen Sie, dass Orca Slicer und Ihr Drucker im selben LAN sind."
+#~ msgid "Step 1. Please confirm Infinium and your printer are in the same LAN."
+#~ msgstr "Schritt 1. Bitte bestätigen Sie, dass Infinium und Ihr Drucker im selben LAN sind."
 
 #~ msgid "Step 2. If the IP and Access Code below are different from the actual values on your printer, please correct them."
 #~ msgstr "Schritt 2. Wenn die unten angezeigte IP und der Zugangscode von den tatsächlichen Werten auf Ihrem Drucker abweichen, korrigieren Sie diese."
@@ -23424,8 +23424,8 @@ msgstr ""
 #~ msgid "Scale all"
 #~ msgstr "Alle skalieren"
 
-#~ msgid "Orca Slicer"
-#~ msgstr "Orca Slicer"
+#~ msgid "Infinium"
+#~ msgstr "Infinium"
 
 #~ msgid "Current Cabin humidity"
 #~ msgstr "Aktuelle Kabinenfeuchtigkeit"
@@ -23450,8 +23450,8 @@ msgstr ""
 #~ msgid "LAN Connection Failed (Sending print file)"
 #~ msgstr "LAN-Verbindung fehlgeschlagen (Senden einer Druckdatei)"
 
-#~ msgid "Step 1, please confirm Orca Slicer and your printer are in the same LAN."
-#~ msgstr "Schritt 1: Vergewissern Sie sich, dass Orca Slicer und Ihr Drucker sich im selben LAN befinden."
+#~ msgid "Step 1, please confirm Infinium and your printer are in the same LAN."
+#~ msgstr "Schritt 1: Vergewissern Sie sich, dass Infinium und Ihr Drucker sich im selben LAN befinden."
 
 #~ msgid "Step 2, if the IP and Access Code below are different from the actual values on your printer, please correct them."
 #~ msgstr "Schritt 2: Wenn die IP und der Zugriffscode unten von den tatsächlichen Werten Ihres Druckers abweichen, korrigieren Sie diese bitte."
@@ -23763,20 +23763,20 @@ msgstr ""
 #~ msgid "Not associated to any application"
 #~ msgstr "Nicht mit einer Anwendung verknüpft"
 
-#~ msgid "Associate OrcaSlicer with prusaslicer:// links so that Orca can open models from Printable.com"
-#~ msgstr "Verknüpfen Sie OrcaSlicer mit prusaslicer://-Links, damit Orca Modelle von Printable.com öffnen kann."
+#~ msgid "Associate Infinium with prusaslicer:// links so that Infinium can open models from Printable.com"
+#~ msgstr "Verknüpfen Sie Infinium mit prusaslicer://-Links, damit Infinium Modelle von Printable.com öffnen kann."
 
 #~ msgid "Associate bambustudio://"
 #~ msgstr "Verknüpfen mit bambustudio://"
 
-#~ msgid "Associate OrcaSlicer with bambustudio:// links so that Orca can open models from makerworld.com"
-#~ msgstr "Verknüpfen Sie OrcaSlicer mit bambustudio://-Links, damit Orca Modelle von makerworld.com öffnen kann."
+#~ msgid "Associate Infinium with bambustudio:// links so that Infinium can open models from makerworld.com"
+#~ msgstr "Verknüpfen Sie Infinium mit bambustudio://-Links, damit Infinium Modelle von makerworld.com öffnen kann."
 
 #~ msgid "Associate cura://"
 #~ msgstr "cura:// verknüpfen"
 
-#~ msgid "Associate OrcaSlicer with cura:// links so that Orca can open models from thingiverse.com"
-#~ msgstr "Verknüpfen Sie OrcaSlicer mit cura://-Links, damit Orca Modelle von thingiverse.com öffnen kann."
+#~ msgid "Associate Infinium with cura:// links so that Infinium can open models from thingiverse.com"
+#~ msgstr "Verknüpfen Sie Infinium mit cura://-Links, damit Infinium Modelle von thingiverse.com öffnen kann."
 
 #~ msgid "File size exceeds the 100MB upload limit. Please upload your file through the panel."
 #~ msgstr "Die Dateigröße überschreitet das 100-MB-Upload-Limit. Bitte laden Sie Ihre Datei über das Panel hoch."
@@ -23820,8 +23820,8 @@ msgstr ""
 #~ msgid "Please find the cornor with perfect degree of extrusion"
 #~ msgstr "Bitte finden Sie die Ecke mit perfektem Extrusionsgrad"
 
-#~ msgid "Associate OrcaSlicer with prusaslicer:// links so that Orca can open PrusaSlicer links from Printable.com"
-#~ msgstr "Verknüpfen Sie OrcaSlicer mit prusaslicer://-Links, damit Orca PrusaSlicer-Links von Printable.com öffnen kann."
+#~ msgid "Associate Infinium with prusaslicer:// links so that Infinium can open PrusaSlicer links from Printable.com"
+#~ msgstr "Verknüpfen Sie Infinium mit prusaslicer://-Links, damit Infinium PrusaSlicer-Links von Printable.com öffnen kann."
 
 #~ msgid ""
 #~ "Order of wall/infill. When the tickbox is unchecked the walls are printed first, which works best in most cases.\n"
@@ -23842,8 +23842,8 @@ msgstr ""
 #~ "Die maximale Druckgeschwindigkeit beim Reinigen im Reinigungsturm. Wenn die Geschwindigkeit des dünnen Infill oder die berechnete Geschwindigkeit aus der maximalen Volumengeschwindigkeit des Filaments niedriger ist, wird die niedrigste Geschwindigkeit verwendet.\n"
 #~ "Das Erhöhen dieser Geschwindigkeit kann die Stabilität des Turms beeinträchtigen, da das Reinigen über dünnen Schichten erfolgen kann. Bevor Sie diesen Parameter über den Standardwert von 90 mm/s erhöhen, stellen Sie sicher, dass Ihr Drucker die erhöhten Geschwindigkeiten zuverlässig überbrücken kann."
 
-#~ msgid "Orca Slicer is based on BambuStudio by Bambulab, which is from PrusaSlicer by Prusa Research. PrusaSlicer is from Slic3r by Alessandro Ranellucci and the RepRap community"
-#~ msgstr "Orca Slicer basiert auf BambuStudio von Bambulab, welches von PrusaSlicer von Prusa Research stammt. PrusaSlicer wiederum basiert auf Slic3r von Alessandro Ranellucci und der RepRap-Community."
+#~ msgid "Infinium is based on BambuStudio by Bambulab, which is from PrusaSlicer by Prusa Research. PrusaSlicer is from Slic3r by Alessandro Ranellucci and the RepRap community"
+#~ msgstr "Infinium basiert auf BambuStudio von Bambulab, welches von PrusaSlicer von Prusa Research stammt. PrusaSlicer wiederum basiert auf Slic3r von Alessandro Ranellucci und der RepRap-Community."
 
 #~ msgid "Export &Configs"
 #~ msgstr "Exportieren &Konfigurieren"
@@ -24058,11 +24058,11 @@ msgstr ""
 
 #~ msgid ""
 #~ "The speed setting exceeds the printer's maximum speed (machine_max_speed_x/machine_max_speed_y).\n"
-#~ "Orca will automatically cap the print speed to ensure it doesn't surpass the printer's capabilities.\n"
+#~ "Infinium will automatically cap the print speed to ensure it doesn't surpass the printer's capabilities.\n"
 #~ "You can adjust the maximum speed setting in your printer's configuration to get higher speeds."
 #~ msgstr ""
 #~ "Die Geschwindigkeitseinstellung überschreitet die maximale Geschwindigkeit des Druckers (machine_max_speed_x/machine_max_speed_y).\n"
-#~ "Orca wird automatisch die Druckgeschwindigkeit begrenzen, um sicherzustellen, dass sie nicht die Fähigkeiten des Druckers überschreitet.\n"
+#~ "Infinium wird automatisch die Druckgeschwindigkeit begrenzen, um sicherzustellen, dass sie nicht die Fähigkeiten des Druckers überschreitet.\n"
 #~ "Sie können die maximale Geschwindigkeitseinstellung in der Konfiguration Ihres Druckers anpassen, um höhere Geschwindigkeiten zu erreichen."
 
 #~ msgid "Alternate extra wall only works with ensure vertical shell thickness disabled. "
@@ -24150,8 +24150,8 @@ msgstr ""
 #~ msgid "Recalculate"
 #~ msgstr "Neu berechnen"
 
-#~ msgid "Orca recalculates your flushing volumes every time the filament colors change. You can change this behavior in Preferences."
-#~ msgstr "Orca berechnet Ihre Reinigungsvolumen jedes Mal neu, wenn sich die Filamentfarben ändern. Sie können dieses Verhalten in den Einstellungen ändern."
+#~ msgid "Infinium recalculates your flushing volumes every time the filament colors change. You can change this behavior in Preferences."
+#~ msgstr "Infinium berechnet Ihre Reinigungsvolumen jedes Mal neu, wenn sich die Filamentfarben ändern. Sie können dieses Verhalten in den Einstellungen ändern."
 
 #~ msgid "The printer timed out while receiving a print job. Please check if the network is functioning properly and send the print again."
 #~ msgstr "Der Drucker hat beim Empfangen eines Druckauftrags eine Zeitüberschreitung erhalten. Bitte überprüfen Sie, ob das Netzwerk ordnungsgemäß funktioniert, und senden Sie den Druck erneut."
@@ -24207,10 +24207,10 @@ msgstr ""
 
 #~ msgid ""
 #~ "Subtract a Part\n"
-#~ "Did you know that you can subtract one mesh from another using the Negative part modifier? That way you can, for example, create easily resizable holes directly in Orca Slicer. Read more in the documentation."
+#~ "Did you know that you can subtract one mesh from another using the Negative part modifier? That way you can, for example, create easily resizable holes directly in Infinium. Read more in the documentation."
 #~ msgstr ""
 #~ "Ein Teil subtrahieren\n"
-#~ "Wussten Sie, dass Sie mit dem \"negatives Teil Modifikator\" ein Netz von einem anderen subtrahieren können? Auf diese Weise können Sie z.B. leicht veränderbare Löcher direkt in Orca Slicer erstellen. Lesen Sie mehr dazu in der Dokumentation."
+#~ "Wussten Sie, dass Sie mit dem \"negatives Teil Modifikator\" ein Netz von einem anderen subtrahieren können? Auf diese Weise können Sie z.B. leicht veränderbare Löcher direkt in Infinium erstellen. Lesen Sie mehr dazu in der Dokumentation."
 
 #~ msgid " search results"
 #~ msgstr " Suchergebnisse"
@@ -24235,14 +24235,14 @@ msgstr ""
 #~ msgid "This slicer file version %s is newer than %s's version:"
 #~ msgstr "Diese Slicer-Dateiversion %s ist neuer als die Version von %s:"
 
-#~ msgid "Would you like to update your Orca Slicer software to enable all functionality in this slicer file?\n"
+#~ msgid "Would you like to update your Infinium software to enable all functionality in this slicer file?\n"
 #~ msgstr "Möchten Sie Ihre Software aktualisieren, um alle Funktionen in dieser Slicer-Datei zu aktivieren?\n"
 
 #, c-format, boost-format
 #~ msgid ""
 #~ "This slicer file version %s is newer than %s's version.\n"
 #~ "\n"
-#~ "Would you like to update your Orca Slicer software to enable all functionality in this slicer file?"
+#~ "Would you like to update your Infinium software to enable all functionality in this slicer file?"
 #~ msgstr ""
 #~ "Diese Slicer-Dateiversion %s ist neuer als die Version von %s.\n"
 #~ "\n"
@@ -24362,8 +24362,8 @@ msgstr ""
 #~ msgid "Embedded"
 #~ msgstr "Eingebettet"
 
-#~ msgid "OrcaSlicer configuration file may be corrupted and is not abled to be parsed. Please delete the file and try again."
-#~ msgstr "Die OrcaSlicer-Konfigurationsdatei ist möglicherweise beschädigt und kann nicht geladen werden. Bitte löschen Sie die Datei und versuchen Sie es erneut."
+#~ msgid "Infinium configuration file may be corrupted and is not abled to be parsed. Please delete the file and try again."
+#~ msgstr "Die Infinium-Konfigurationsdatei ist möglicherweise beschädigt und kann nicht geladen werden. Bitte löschen Sie die Datei und versuchen Sie es erneut."
 
 #~ msgid "Online Models"
 #~ msgstr "Online-Modelle"

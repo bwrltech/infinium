@@ -1671,7 +1671,7 @@ void GLCanvas3D::set_config(const DynamicPrintConfig* config)
     m_config = config;
     m_layers_editing.set_config(config);
 
-    // Orca: Filament shrinkage compensation
+    // Infinium: Filament shrinkage compensation
     const Print *print = fff_print();
     if (print != nullptr)
         m_layers_editing.set_shrinkage_compensation(fff_print()->shrinkage_compensation());
@@ -2165,7 +2165,7 @@ void GLCanvas3D::render(bool only_init)
 
 	// Negative coordinate means out of the window, likely because the window was deactivated.
 	// In that case the tooltip should be hidden.
-    if ((m_mouse.position.x() >= 0. && m_mouse.position.y() >= 0.) || has_mouse_capture()) { // ORCA continue to capture mouse pos mid drag
+    if ((m_mouse.position.x() >= 0. && m_mouse.position.y() >= 0.) || has_mouse_capture()) { // INFINIUM continue to capture mouse pos mid drag
         if (tooltip.empty())
             tooltip = m_layers_editing.get_tooltip(*this);
 
@@ -2199,7 +2199,7 @@ void GLCanvas3D::render(bool only_init)
     if (m_canvas_type != ECanvasType::CanvasAssembleView) {
         float right_margin = SLIDER_DEFAULT_RIGHT_MARGIN;
         float bottom_margin = SLIDER_DEFAULT_BOTTOM_MARGIN;
-        if (m_canvas_type == ECanvasType::CanvasPreview && m_gcode_viewer.has_data()) { // ORCA only shift position of notifiations when sliders / gcode_viewer exist
+        if (m_canvas_type == ECanvasType::CanvasPreview && m_gcode_viewer.has_data()) { // INFINIUM only shift position of notifiations when sliders / gcode_viewer exist
             float scale_factor = get_scale();
 #ifdef WIN32
             int dpi = get_dpi_for_window(wxGetApp().GetTopWindow());
@@ -4192,7 +4192,7 @@ void GLCanvas3D::on_mouse(wxMouseEvent& evt)
         m_mouse.position = evt.Leaving() ? Vec2d(-1.0, -1.0) : pos.cast<double>();
         m_tooltip.set_in_imgui(true);
 
-        // ORCA keep tracking mouse position while drag active and cursor not in window bounds
+        // INFINIUM keep tracking mouse position while drag active and cursor not in window bounds
         const bool imgui_dragging_active = (GImGui != nullptr && ImGui::GetIO().MouseDown[0] && GImGui->ActiveId != 0) || m_navigator_dragging;
         if (!has_mouse_capture() && imgui_dragging_active)
             m_canvas->CaptureMouse();
@@ -4297,7 +4297,7 @@ void GLCanvas3D::on_mouse(wxMouseEvent& evt)
             m_main_toolbar.on_mouse(evt2, *this);
         }
 
-        // ORCA keep tracking mouse position while drag active and cursor not in window bounds
+        // INFINIUM keep tracking mouse position while drag active and cursor not in window bounds
         if (!has_mouse_capture() && evt.LeftIsDown() && m_gizmos.is_dragging())
             m_canvas->CaptureMouse();
 
@@ -4361,7 +4361,7 @@ void GLCanvas3D::on_mouse(wxMouseEvent& evt)
                 while (p->GetParent())
                     p = p->GetParent();
                 auto *top_level_wnd = dynamic_cast<wxTopLevelWindow*>(p);
-                //Orca: Set focus so hotkeys like 'tab' work when a notification is shown.
+                //Infinium: Set focus so hotkeys like 'tab' work when a notification is shown.
                 //But don't steal focus from text input controls.
                 wxWindow* focused            = wxWindow::FindFocus();
                 bool      focus_in_text_ctrl = dynamic_cast<wxTextCtrl*>(focused) != nullptr;
@@ -4407,7 +4407,7 @@ void GLCanvas3D::on_mouse(wxMouseEvent& evt)
             m_layers_editing.state = LayersEditing::Editing;
             _perform_layer_editing_action(&evt);
 
-            if (!has_mouse_capture()) // ORCA keep tracking mouse position while drag active and cursor not in window bounds
+            if (!has_mouse_capture()) // INFINIUM keep tracking mouse position while drag active and cursor not in window bounds
                 m_canvas->CaptureMouse();
         }
 
@@ -4423,7 +4423,7 @@ void GLCanvas3D::on_mouse(wxMouseEvent& evt)
                     && m_gizmos.get_current_type() != GLGizmosManager::FuzzySkin) {
                     m_rectangle_selection.start_dragging(m_mouse.position, evt.ShiftDown() ? GLSelectionRectangle::Select : GLSelectionRectangle::Deselect);
 
-                    if (!has_mouse_capture())  // ORCA keep tracking mouse position while drag active and cursor not in window bounds
+                    if (!has_mouse_capture())  // INFINIUM keep tracking mouse position while drag active and cursor not in window bounds
                         m_canvas->CaptureMouse();
 
                     m_dirty = true;
@@ -4495,7 +4495,7 @@ void GLCanvas3D::on_mouse(wxMouseEvent& evt)
                             m_sequential_print_clearance_first_displacement = true;
                             m_moving = true;
 
-                            if (!has_mouse_capture()) // ORCA keep tracking mouse position while drag active and cursor not in window bounds
+                            if (!has_mouse_capture()) // INFINIUM keep tracking mouse position while drag active and cursor not in window bounds
                                 m_canvas->CaptureMouse();
                         }
                     }
@@ -4506,7 +4506,7 @@ void GLCanvas3D::on_mouse(wxMouseEvent& evt)
     else if (evt.Dragging() && evt.LeftIsDown() && m_mouse.drag.move_volume_idx != -1 && m_layers_editing.state == LayersEditing::Unknown) {
         if (m_canvas_type != ECanvasType::CanvasAssembleView) {
 
-            if (!has_mouse_capture()) // ORCA keep tracking mouse position while drag active and cursor not in window bounds
+            if (!has_mouse_capture()) // INFINIUM keep tracking mouse position while drag active and cursor not in window bounds
                 m_canvas->CaptureMouse();
 
             if (!m_mouse.drag.move_requires_threshold) {
@@ -4561,7 +4561,7 @@ void GLCanvas3D::on_mouse(wxMouseEvent& evt)
         //BBS not in assemble view
         if (m_canvas_type != ECanvasType::CanvasAssembleView) {
 
-            if (!has_mouse_capture()) // ORCA keep tracking mouse position while drag active and cursor not in window bounds
+            if (!has_mouse_capture()) // INFINIUM keep tracking mouse position while drag active and cursor not in window bounds
                 m_canvas->CaptureMouse();
 
             m_rectangle_selection.dragging(pos.cast<double>());
@@ -4573,7 +4573,7 @@ void GLCanvas3D::on_mouse(wxMouseEvent& evt)
 
         if (m_layers_editing.state != LayersEditing::Unknown && layer_editing_object_idx != -1) {
             if (m_layers_editing.state == LayersEditing::Editing) {
-                if (!has_mouse_capture()) // ORCA keep tracking mouse position while drag active and cursor not in window bounds
+                if (!has_mouse_capture()) // INFINIUM keep tracking mouse position while drag active and cursor not in window bounds
                     m_canvas->CaptureMouse();
 
                 _perform_layer_editing_action(&evt);
@@ -4583,10 +4583,10 @@ void GLCanvas3D::on_mouse(wxMouseEvent& evt)
         // do not process the dragging if the left mouse was set down in another canvas
         else if (is_camera_rotate(evt, button_mappings)) {
 
-            if (!has_mouse_capture()) // ORCA keep tracking mouse position while drag active and cursor not in window bounds
+            if (!has_mouse_capture()) // INFINIUM keep tracking mouse position while drag active and cursor not in window bounds
                 m_canvas->CaptureMouse();
 
-            // Orca: Sphere rotation for painting view
+            // Infinium: Sphere rotation for painting view
             // if dragging over blank area with left button or other button mapped to rotate, then rotate
             bool middle_or_right_button_used_as_rotate = (evt.MiddleIsDown() && button_mappings[MouseButton::Middle] == MouseAction::Rotation) ||
                                                          (evt.RightIsDown() && button_mappings[MouseButton::Right] == MouseAction::Rotation);         
@@ -4666,7 +4666,7 @@ void GLCanvas3D::on_mouse(wxMouseEvent& evt)
         }
         else if (is_camera_pan(evt, button_mappings)) {
 
-            if (!has_mouse_capture()) // ORCA keep tracking mouse position while drag active and cursor not in window bounds
+            if (!has_mouse_capture()) // INFINIUM keep tracking mouse position while drag active and cursor not in window bounds
                 m_canvas->CaptureMouse();
 
             // if dragging with right button or if button functions swapped and dragging with left button over blank area then pan
@@ -4677,7 +4677,7 @@ void GLCanvas3D::on_mouse(wxMouseEvent& evt)
                 Vec3d orig = _mouse_to_3d(m_mouse.drag.start_position_2D, &z);
                 Camera& camera = wxGetApp().plater()->get_camera();
                 if (this->m_canvas_type != ECanvasType::CanvasAssembleView) {
-                    // Orca: Use a constrained camera when navigating the 3D scene with a regular mouse, if the free camera is not selected
+                    // Infinium: Use a constrained camera when navigating the 3D scene with a regular mouse, if the free camera is not selected
                     if (!wxGetApp().app_config->get_bool("use_free_camera"))
                         // Forces camera right vector to be parallel to XY plane in case it has been misaligned using the 3D mouse free rotation.
                         // It is cheaper to call this function right away instead of testing wxGetApp().plater()->get_mouse3d_controller().connected(),
@@ -4779,7 +4779,7 @@ void GLCanvas3D::on_mouse(wxMouseEvent& evt)
                 render();
             }
 
-            //ORCA allow right click on empty space while an object selected
+            //INFINIUM allow right click on empty space while an object selected
             if (m_hover_plate_idxs.empty() && m_hover_volume_idxs.empty() && (m_canvas_type == CanvasView3D) && !m_mouse.dragging) {
                 deselect_all();
                 render();
@@ -6086,9 +6086,9 @@ void GLCanvas3D::_render_3d_navigator()
     style.Colors[ImGuizmo::COLOR::DIRECTION_Z] = ImGuiWrapper::to_ImVec4(ColorRGBA::X());
     style.Colors[ImGuizmo::COLOR::TEXT] = m_is_dark ? ImVec4(224 / 255.f, 224 / 255.f, 224 / 255.f, 1.f) : ImVec4(.2f, .2f, .2f, 1.0f);
     style.Colors[ImGuizmo::COLOR::FACE]        = m_is_dark ? ImVec4(0.23f, 0.23f, 0.23f, 1.f) : ImVec4(0.77f, 0.77f, 0.77f, 1);
-    strcpy(style.AxisLabels[ImGuizmo::Axis::Axis_X], "Y"); // ORCA use uppercase to match text on tranform widgets
-    strcpy(style.AxisLabels[ImGuizmo::Axis::Axis_Y], "Z"); // ORCA use uppercase to match text on tranform widgets
-    strcpy(style.AxisLabels[ImGuizmo::Axis::Axis_Z], "X"); // ORCA use uppercase to match text on tranform widgets
+    strcpy(style.AxisLabels[ImGuizmo::Axis::Axis_X], "Y"); // INFINIUM use uppercase to match text on tranform widgets
+    strcpy(style.AxisLabels[ImGuizmo::Axis::Axis_Y], "Z"); // INFINIUM use uppercase to match text on tranform widgets
+    strcpy(style.AxisLabels[ImGuizmo::Axis::Axis_Z], "X"); // INFINIUM use uppercase to match text on tranform widgets
     strcpy(style.FaceLabels[ImGuizmo::FACES::FACE_FRONT], _u8L_CONTEXT("Front", "Camera View").c_str());
     strcpy(style.FaceLabels[ImGuizmo::FACES::FACE_BACK], _u8L_CONTEXT("Back", "Camera View").c_str());
     strcpy(style.FaceLabels[ImGuizmo::FACES::FACE_TOP], _u8L_CONTEXT("Top", "Camera View").c_str());
@@ -6920,7 +6920,7 @@ bool GLCanvas3D::_init_main_toolbar()
     item.icon_filename = m_is_dark ? "toolbar_variable_layer_height_dark.svg" : "toolbar_variable_layer_height.svg";
     item.tooltip = _utf8(L("Variable layer height"));
     item.sprite_id++;
-    item.left.toggable = true; // ORCA Closes popup if other toolbar icon clicked and it allows closing popup when clicked its button
+    item.left.toggable = true; // INFINIUM Closes popup if other toolbar icon clicked and it allows closing popup when clicked its button
     item.left.action_callback = [this]() { if (m_canvas != nullptr) wxPostEvent(m_canvas, SimpleEvent(EVT_GLTOOLBAR_LAYERSEDITING)); };
     item.visibility_callback = [this]()->bool {
         bool res = current_printer_technology() == ptFFF;
@@ -6942,7 +6942,7 @@ bool GLCanvas3D::_init_select_plate_toolbar()
 {
     std::string path = resources_dir() + "/images/";
     IMToolbarItem* item = new IMToolbarItem();
-    // ORCA add dark mode support and load images with 2x resolution to prevent blurry image on hi-dpi screens
+    // INFINIUM add dark mode support and load images with 2x resolution to prevent blurry image on hi-dpi screens
     std::string    ext  = m_is_dark ? "_dark.svg" : ".svg";
     bool result      = item->image_stats.load_from_svg_file(   path + "im_all_plates_stats"   + ext, false, false, false, 200);
     result = result && item->image_idle.load_from_svg_file(    path + "im_all_plates_idle"    + ext, false, false, false, 200);
@@ -7245,7 +7245,7 @@ void GLCanvas3D::_picking_pass()
     m_hover_volume_idxs.clear();
     m_hover_plate_idxs.clear();
 
-    // Orca: ignore clipping plane if not applying
+    // Infinium: ignore clipping plane if not applying
     GLGizmoBase *current_gizmo  = m_gizmos.get_current();
     const ClippingPlane clipping_plane = ((!current_gizmo || current_gizmo->apply_clipping_plane()) ? m_gizmos.get_clipping_plane() :
                                                                                                       ClippingPlane::ClipsNothing())
@@ -8864,7 +8864,7 @@ void GLCanvas3D::_render_imgui_select_plate_toolbar()
     IMToolbarItem* all_plates_stats_item = m_sel_plate_toolbar.m_all_plates_stats_item;
 
     PartPlateList& plate_list = wxGetApp().plater()->get_partplate_list();
-    size_t         sliced_plates_cnt = 0; // ORCA make it accesable for other conditions
+    size_t         sliced_plates_cnt = 0; // INFINIUM make it accesable for other conditions
 
     for (int i = 0; i < plate_list.get_plate_count(); i++) {
         if (i < m_sel_plate_toolbar.m_items.size()) {
@@ -8966,11 +8966,11 @@ void GLCanvas3D::_render_imgui_select_plate_toolbar()
     if (wxGetApp().show_3d_navigator()) {
         window_height_max -= (128 * f_scale + 5);
     }
-    else { // ORCA spacing for canvas menu
+    else { // INFINIUM spacing for canvas menu
         window_height_max -= (96 * f_scale + 5);
     }
 
-    // ORCA simplify and correct window size and margin calculations and get values from style
+    // INFINIUM simplify and correct window size and margin calculations and get values from style
     ImGuiWrapper& imgui = *wxGetApp().imgui();
 
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8.0f, 8.0f) * f_scale);
@@ -8984,7 +8984,7 @@ void GLCanvas3D::_render_imgui_select_plate_toolbar()
     float window_width       = button_width + (margin_size + button_margin + ImGui::GetStyle().WindowPadding.x) * 2 + (show_scroll ? scrollbar_size : 0);
 
     ImVec4 window_bg     = m_is_dark ? ImVec4(.13f, .13f, .15f, .5f) : ImVec4(1.f, 1.f, 1.f, .7f);
-    ImVec4 button_active = ImGuiWrapper::COL_ORCA; // ORCA: Use orca color for selected sliced plate border
+    ImVec4 button_active = ImGuiWrapper::COL_ORCA; // INFINIUM: Use infinium color for selected sliced plate border
     ImVec4 button_hover  = ImVec4(0.67f, 0.67f, 0.67, m_is_dark ? .6f : 1.0f);
     ImVec4 infinium_active   = m_is_dark ? ImGuiWrapper::COL_INFINIUM_DARK       : ImGuiWrapper::COL_ORCA;
     ImVec4 infinium_hover    = m_is_dark ? ImGuiWrapper::COL_INFINIUM_HOVER_DARK : ImGuiWrapper::COL_INFINIUM_HOVER;
@@ -8994,9 +8994,9 @@ void GLCanvas3D::_render_imgui_select_plate_toolbar()
     float  button_radius = 1.0f * f_scale;
     //ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.f, 0.f, 0.f, 1.0f));
     //use white text as the background switch to black
-    ImGui::PushStyleColor(ImGuiCol_Text, m_is_dark ? ImVec4(.9f, .9f, .9f, 1) : ImVec4(.3f, .3f, .3f, 1)); // ORCA Plate number text > Add support for dark mode
+    ImGui::PushStyleColor(ImGuiCol_Text, m_is_dark ? ImVec4(.9f, .9f, .9f, 1) : ImVec4(.3f, .3f, .3f, 1)); // INFINIUM Plate number text > Add support for dark mode
     ImGui::PushStyleColor(ImGuiCol_WindowBg, window_bg);
-    ImGui::PushStyleColor(ImGuiCol_ScrollbarBg, ImVec4(0.f, 0.f, 0.f, 0.f)); // ORCA using background color with opacity creates a second color. This prevents secondary color
+    ImGui::PushStyleColor(ImGuiCol_ScrollbarBg, ImVec4(0.f, 0.f, 0.f, 0.f)); // INFINIUM using background color with opacity creates a second color. This prevents secondary color
     ImGui::PushStyleColor(ImGuiCol_ScrollbarGrabActive, scroll_col);
     ImGui::PushStyleColor(ImGuiCol_ScrollbarGrabHovered, scroll_col);
     ImGui::PushStyleColor(ImGuiCol_ScrollbarGrab, scroll_col);
@@ -9008,7 +9008,7 @@ void GLCanvas3D::_render_imgui_select_plate_toolbar()
     ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, show_scroll ? (4.0f * f_scale) : (button_radius + margin_size + frame_padding + ImGui::GetStyle().WindowPadding.x));
     ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, button_radius + margin_size);
 
-    imgui.set_next_window_pos(canvas_w * 0 + 5.0f * f_scale, canvas_h * 0 + y_offset, ImGuiCond_Always, 0, 0); // ORCA Add slight gap on left edge so toolbar looks like floating and it creates separation with sidebar
+    imgui.set_next_window_pos(canvas_w * 0 + 5.0f * f_scale, canvas_h * 0 + y_offset, ImGuiCond_Always, 0, 0); // INFINIUM Add slight gap on left edge so toolbar looks like floating and it creates separation with sidebar
     imgui.set_next_window_size(window_width, window_height, ImGuiCond_Always);
 
     if (show_scroll)
@@ -9078,7 +9078,7 @@ void GLCanvas3D::_render_imgui_select_plate_toolbar()
 
         ImVec2 start_pos = ImVec2(button_start_pos.x + frame_padding + margin.x, button_start_pos.y + frame_padding + margin.y);
 
-        // ORCA add more useful information about slicing process and use progress bar on stats button
+        // INFINIUM add more useful information about slicing process and use progress bar on stats button
         std::string text_top;
         std::string text_bottom;
         ImVec2 bar_size         = ImVec2(size.x - margin.x * 2, 5.0f * f_scale);
@@ -9166,7 +9166,7 @@ void GLCanvas3D::_render_imgui_select_plate_toolbar()
             ImGui::PushStyleColor(ImGuiCol_Border, is_plate_hovered ? button_hover : ImVec4(.0f, .0f, .0f, .0f));
 
         if(ImGui::Button("##invisible_button", button_size)){
-            // ORCA switch back to prepare tab when clicked failed plates
+            // INFINIUM switch back to prepare tab when clicked failed plates
             if (!is_empty && item->slice_state == IMToolbarItem::SliceState::SLICE_FAILED){
                 if (m_canvas != nullptr && !wxGetApp().is_closing()) {
                     m_canvas->CallAfter([this, i]() {
@@ -9196,7 +9196,7 @@ void GLCanvas3D::_render_imgui_select_plate_toolbar()
                 if (item->slice_state != IMToolbarItem::SliceState::SLICED)
                     wxGetApp().plater()->update(true, true);
                 wxCommandEvent* evt = new wxCommandEvent(EVT_GLTOOLBAR_SELECT_SLICED_PLATE);
-                // ORCA dont reset viewing angle if item was active and non sliced to allow making comparisons on parameter changes
+                // INFINIUM dont reset viewing angle if item was active and non sliced to allow making comparisons on parameter changes
                 if(!was_active || (was_active && item->slice_state == IMToolbarItem::SliceState::SLICED)) 
                     evt->SetExtraLong(1); // 1 = skip zooming plate
                 evt->SetInt(i);
@@ -9209,7 +9209,7 @@ void GLCanvas3D::_render_imgui_select_plate_toolbar()
         ImVec2 start_pos = ImVec2(button_start_pos.x + frame_padding + margin.x, button_start_pos.y + frame_padding + margin.y);
         ImVec2 size      = ImVec2(button_width, button_height);
         ImVec2 end_pos   = ImVec2(start_pos.x + size.x, start_pos.y + size.y);
-        // ORCA show additional information depends on state
+        // INFINIUM show additional information depends on state
         auto draw_info_btn = [end_pos, f_scale, margin](std::string str, ImVec4 bg_color, ImVec4 fg_color){
             GImGui->FontSize = 15.0f * f_scale;
             ImVec2 txt_slice_sz  = ImGui::CalcTextSize(str.c_str());
@@ -9227,20 +9227,20 @@ void GLCanvas3D::_render_imgui_select_plate_toolbar()
             ImGui::GetWindowDrawList()->AddRectFilled(start_pos, end_pos, plate_dim, button_radius);
         } else if (can_slice && item->slice_state == IMToolbarItem::SliceState::UNSLICED) {
             ImGui::GetWindowDrawList()->AddRectFilled(start_pos, end_pos, plate_dim, button_radius);
-            // ORCA add slice button to guide user
+            // INFINIUM add slice button to guide user
             bool is_processing = m_process && m_process->running() ;
             draw_info_btn(_u8L("Slice"),
                 is_processing ? window_bg : (is_plate_hovered ? infinium_hover : infinium_active),
                 m_is_dark ? ImVec4(.9f, .9f, .9f, 1) : (is_processing ? ImVec4(.3f, .3f, .3f, 1) : ImVec4(1, 1, 1, 1))
             );
         } else if (item->slice_state == IMToolbarItem::SliceState::SLICING) {
-            // ORCA use bottom to top for shade animation that matches with printing / slicing orientation
+            // INFINIUM use bottom to top for shade animation that matches with printing / slicing orientation
             ImVec2 rect_size = ImVec2(button_width, button_height * item->percent / 100.0f);
             ImVec2 rect_start_pos = ImVec2(start_pos.x, start_pos.y);
             ImVec2 rect_end_pos = ImVec2(start_pos.x + button_width, start_pos.y + button_height - rect_size.y);
             ImGui::GetWindowDrawList()->AddRectFilled(start_pos, end_pos, plate_bg, button_radius);
             ImGui::GetWindowDrawList()->AddRectFilled(rect_start_pos, rect_end_pos, plate_dim, button_radius);
-            // ORCA show percentage as text
+            // INFINIUM show percentage as text
             draw_info_btn(std::to_string(int(item->percent)) + "%", 
                 window_bg,
                 m_is_dark ? ImVec4(.9f, .9f, .9f, 1) : ImVec4(.3f, .3f, .3f, 1)
@@ -9263,10 +9263,10 @@ void GLCanvas3D::_render_imgui_select_plate_toolbar()
         }
 
         // draw text
-        GImGui->FontSize = 18.0f * f_scale; // ORCA fix font scaling
-        ImVec2 text_start_pos = ImVec2(start_pos.x + 4.0f * f_scale, start_pos.y + 2.0f * f_scale); // ORCA move close to corner to prevent overlapping with preview
+        GImGui->FontSize = 18.0f * f_scale; // INFINIUM fix font scaling
+        ImVec2 text_start_pos = ImVec2(start_pos.x + 4.0f * f_scale, start_pos.y + 2.0f * f_scale); // INFINIUM move close to corner to prevent overlapping with preview
         ImGui::RenderText(text_start_pos, std::to_string(i + 1).c_str());
-        ImGui::SetWindowFontScale(1.2f); // ORCA fix font scaling
+        ImGui::SetWindowFontScale(1.2f); // INFINIUM fix font scaling
 
         ImGui::PopID();
     }
@@ -9274,7 +9274,7 @@ void GLCanvas3D::_render_imgui_select_plate_toolbar()
     ImGui::PopStyleColor(8);
     ImGui::PopStyleVar(7);
 
-    //ORCA ImGui::IsWindowHovered() returns false when left_down events on buttons that causes scrollbar disappears for a short time
+    //INFINIUM ImGui::IsWindowHovered() returns false when left_down events on buttons that causes scrollbar disappears for a short time
     auto win_pos = ImGui::GetWindowPos();
     bool is_win_hovered = ImGui::IsMouseHoveringRect(win_pos, win_pos + ImVec2(window_width + (show_scroll ? scrollbar_size : 0), window_height), !show_scroll);
 
@@ -9311,7 +9311,7 @@ void GLCanvas3D::_render_return_toolbar() const
 
     float font_size = ImGui::GetFontSize();
     ImVec2 real_size = ImVec2(font_size * 4, font_size * 1.7);
-    ImVec2 button_icon_size = ImVec2(font_size * .55, font_size * 1.1); // ORCA
+    ImVec2 button_icon_size = ImVec2(font_size * .55, font_size * 1.1); // INFINIUM
 
     ImGuiWrapper& imgui = *wxGetApp().imgui();
     Size cnv_size = get_canvas_size();
@@ -9332,7 +9332,7 @@ void GLCanvas3D::_render_return_toolbar() const
     ImVec4 bg_color_hover = bg_color +  (m_is_dark ? ImVec4(.03f, .03f, .03f, 0) : ImVec4(-.02f, -.02f, -.02f, 0));
 
     ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 18.0f);
-    ImGui::PushStyleColor(ImGuiCol_Button,        bg_color); // ORCA Toolbar color
+    ImGui::PushStyleColor(ImGuiCol_Button,        bg_color); // INFINIUM Toolbar color
     ImGui::PushStyleColor(ImGuiCol_ButtonHovered, bg_color_hover);
     ImGui::PushStyleColor(ImGuiCol_ButtonActive,  bg_color);
     ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
@@ -9655,7 +9655,7 @@ void GLCanvas3D::_render_paint_toolbar() const
             }
         }
     }
-    // ORCA: the loop above only labels a slot whose preset was found in the preset collection,
+    // INFINIUM: the loop above only labels a slot whose preset was found in the preset collection,
     // while the render loop below iterates extruder_num. Pad the label arrays so a slot without a
     // matching preset cannot index past them; a garbage std::string crashes ImGui::CalcTextSize.
     while (int(filament_text_first_line.size()) < extruder_num) {
@@ -9672,7 +9672,7 @@ void GLCanvas3D::_render_paint_toolbar() const
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(spacing, spacing));
     ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0);
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(spacing, 0));
-    ImGui::PushStyleColor(ImGuiCol_WindowBg, m_is_dark ? ImGuiWrapper::COL_TOOLBAR_BG_DARK : ImGuiWrapper::COL_TOOLBAR_BG); // ORCA Toolbar color
+    ImGui::PushStyleColor(ImGuiCol_WindowBg, m_is_dark ? ImGuiWrapper::COL_TOOLBAR_BG_DARK : ImGuiWrapper::COL_TOOLBAR_BG); // INFINIUM Toolbar color
 
     imgui.set_next_window_pos(0.5f * canvas_w, 0, ImGuiCond_Always, 0.5f, 0.0f);
     float constraint_window_width = canvas_w - 2 * return_button_margin;
@@ -9798,7 +9798,7 @@ float GLCanvas3D::_render_assembly_tooltip_button(ImGuiWrapper* imgui_wrapper) c
     int dpi = get_dpi_for_window(wxGetApp().GetTopWindow());
     scale *= (float) dpi / (float) DPI_DEFAULT;
 #endif                                                   // WIN32
-    ImVec2 button_size = ImVec2(25 * scale, 25 * scale); // ORCA: Use exact resolution will prevent blur on icon
+    ImVec2 button_size = ImVec2(25 * scale, 25 * scale); // INFINIUM: Use exact resolution will prevent blur on icon
 
     float same_line_width = button_size.x * 1.8; // with an space size
     ImGui::SameLine(same_line_width);
@@ -9967,7 +9967,7 @@ void GLCanvas3D::_render_assemble_info() const
     ImGui::PopFont();
     float margin = 10.0f * get_scale();
     imgui->set_next_window_pos(canvas_w - margin, canvas_h - margin, ImGuiCond_Always, 1.0f, 1.0f);
-    ImGuiWrapper::push_common_window_style(get_scale()); // ORCA use window style for popups with title
+    ImGuiWrapper::push_common_window_style(get_scale()); // INFINIUM use window style for popups with title
     imgui->begin(_L("Assembly Info"), ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
     font->Scale = origScale;
     ImGui::PushFont(font);

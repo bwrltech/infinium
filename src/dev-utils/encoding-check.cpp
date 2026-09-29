@@ -68,7 +68,7 @@ unsigned char *utf8_check(unsigned char *s)
     return NULL;
 }
 
-// ORCA
+// INFINIUM
 bool check_file(const char* target, const char* filename)
 {
     std::ifstream file(filename, std::ios::binary | std::ios::ate);

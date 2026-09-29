@@ -65,10 +65,10 @@ struct CoolingLine
         TYPE_FORCE_RESUME_FAN   = 1 << 14,
         TYPE_SUPPORT_INTERFACE_FAN_START     = 1 << 15,
         TYPE_SUPPORT_INTERFACE_FAN_END       = 1 << 16,
-        // ORCA: Add support for separate internal bridge fan speed control
+        // INFINIUM: Add support for separate internal bridge fan speed control
         TYPE_INTERNAL_BRIDGE_FAN_START = 1 << 17,
         TYPE_INTERNAL_BRIDGE_FAN_END   = 1 << 18,
-        // ORCA: Add support for ironing fan speed control
+        // INFINIUM: Add support for ironing fan speed control
         TYPE_IRONING_FAN_START         = 1 << 19,
         TYPE_IRONING_FAN_END           = 1 << 20,
     };
@@ -346,7 +346,7 @@ std::vector<PerExtruderAdjustments> CoolingBuffer::parse_layer_gcode(const std::
         adj.cooling_slow_down_enabled = m_config.slow_down_for_layer_cooling.get_at(extruder_id);
         adj.slow_down_layer_time = float(m_config.slow_down_layer_time.get_at(extruder_id));
         adj.slow_down_min_speed           = float(m_config.slow_down_min_speed.get_at(extruder_id));
-        // ORCA: To enable dont slow down external perimeters feature per filament (extruder)
+        // INFINIUM: To enable dont slow down external perimeters feature per filament (extruder)
         adj.dont_slow_down_outer_wall   = m_config.dont_slow_down_outer_wall.get_at(extruder_id);
         map_extruder_to_per_extruder_adjustment[extruder_id] = i;
     }
@@ -359,7 +359,7 @@ std::vector<PerExtruderAdjustments> CoolingBuffer::parse_layer_gcode(const std::
     // for a sequence of extrusion moves.
     size_t            active_speed_modifier = size_t(-1);
 
-    // Orca: Whether we had our first extrusion in this layer.
+    // Infinium: Whether we had our first extrusion in this layer.
     // Time of any other movements before the first extrusion will be excluded from the layer time.
     bool layer_had_extrusion = false;
 
@@ -422,16 +422,16 @@ std::vector<PerExtruderAdjustments> CoolingBuffer::parse_layer_gcode(const std::
             if (wipe)
                 line.type |= CoolingLine::TYPE_WIPE;
 
-            // Orca: only slow down movements since the first extrusion
+            // Infinium: only slow down movements since the first extrusion
             if (boost::contains(sline, ";_EXTRUDE_SET_SPEED"))
                 layer_had_extrusion = true;
             
-            // ORCA: Dont slowdown external perimeters for layer time feature
+            // INFINIUM: Dont slowdown external perimeters for layer time feature
             // use the adjustment pointer to ensure the value for the current extruder (filament) is used.
             bool adjust_external = true;
             if(adjustment->dont_slow_down_outer_wall && external_perimeter) adjust_external = false;
             
-            // ORCA: Dont slowdown external perimeters for layer time works by not marking the external perimeter as adjustable, 
+            // INFINIUM: Dont slowdown external perimeters for layer time works by not marking the external perimeter as adjustable, 
             // hence the slowdown algorithm ignores it.
             if (boost::contains(sline, ";_EXTRUDE_SET_SPEED") && ! wipe && adjust_external) {
                 line.type |= CoolingLine::TYPE_ADJUSTABLE;
@@ -519,17 +519,17 @@ std::vector<PerExtruderAdjustments> CoolingBuffer::parse_layer_gcode(const std::
             line.type = CoolingLine::TYPE_OVERHANG_FAN_START;
         } else if (boost::starts_with(sline, ";_OVERHANG_FAN_END")) {
             line.type = CoolingLine::TYPE_OVERHANG_FAN_END;
-        } else if (boost::starts_with(sline, ";_INTERNAL_BRIDGE_FAN_START")) { // ORCA: Add support for separate internal bridge fan speed control
+        } else if (boost::starts_with(sline, ";_INTERNAL_BRIDGE_FAN_START")) { // INFINIUM: Add support for separate internal bridge fan speed control
             line.type = CoolingLine::TYPE_INTERNAL_BRIDGE_FAN_START;
-        } else if (boost::starts_with(sline, ";_INTERNAL_BRIDGE_FAN_END")) { // ORCA: Add support for separate internal bridge fan speed control
+        } else if (boost::starts_with(sline, ";_INTERNAL_BRIDGE_FAN_END")) { // INFINIUM: Add support for separate internal bridge fan speed control
             line.type = CoolingLine::TYPE_INTERNAL_BRIDGE_FAN_END;
         } else if (boost::starts_with(sline, ";_SUPP_INTERFACE_FAN_START")) {
             line.type = CoolingLine::TYPE_SUPPORT_INTERFACE_FAN_START;
         } else if (boost::starts_with(sline, ";_SUPP_INTERFACE_FAN_END")) {
             line.type = CoolingLine::TYPE_SUPPORT_INTERFACE_FAN_END;
-        } else if (boost::starts_with(sline, ";_IRONING_FAN_START")) { // ORCA: Add support for ironing fan speed control
+        } else if (boost::starts_with(sline, ";_IRONING_FAN_START")) { // INFINIUM: Add support for ironing fan speed control
             line.type = CoolingLine::TYPE_IRONING_FAN_START;
-        } else if (boost::starts_with(sline, ";_IRONING_FAN_END")) { // ORCA: Add support for ironing fan speed control
+        } else if (boost::starts_with(sline, ";_IRONING_FAN_END")) { // INFINIUM: Add support for ironing fan speed control
             line.type = CoolingLine::TYPE_IRONING_FAN_END;
         } else if (boost::starts_with(sline, "G4 ")) {
             // Parse the wait time.
@@ -544,7 +544,7 @@ std::vector<PerExtruderAdjustments> CoolingBuffer::parse_layer_gcode(const std::
             line.type = CoolingLine::TYPE_FORCE_RESUME_FAN;
         }
 
-        // Orca: For any movements before this layer's first ever extrusion, we exclude them from the layer time calculation.
+        // Infinium: For any movements before this layer's first ever extrusion, we exclude them from the layer time calculation.
         if (!layer_had_extrusion) {
             assert((line.type & CoolingLine::TYPE_ADJUSTABLE) == 0);
             line.time = line.time_max = 0;
@@ -719,17 +719,17 @@ std::string CoolingBuffer::apply_layer_cooldown(
     // Second generate the adjusted G-code.
     std::string new_gcode;
     new_gcode.reserve(gcode.size() * 2);
-    // ORCA: per-printer minimum non-zero fan PWM. Applied at every part-cooling fan emission below so any
+    // INFINIUM: per-printer minimum non-zero fan PWM. Applied at every part-cooling fan emission below so any
     // non-zero command is raised to at least this percent (0 disables the clamp).
     const unsigned int part_cooling_fan_min_pwm = static_cast<unsigned int>(std::max(0, m_config.part_cooling_fan_min_pwm.value));
     bool overhang_fan_control= false;
     int  overhang_fan_speed   = 0;
-    bool internal_bridge_fan_control= false; // ORCA: Add support for separate internal bridge fan speed control
-    int  internal_bridge_fan_speed   = 0; // ORCA: Add support for separate internal bridge fan speed control
+    bool internal_bridge_fan_control= false; // INFINIUM: Add support for separate internal bridge fan speed control
+    int  internal_bridge_fan_speed   = 0; // INFINIUM: Add support for separate internal bridge fan speed control
     bool supp_interface_fan_control= false;
     int  supp_interface_fan_speed = 0;
-    bool ironing_fan_control= false; // ORCA: Add support for ironing fan speed control
-    int  ironing_fan_speed   = 0; // ORCA: Add support for ironing fan speed control
+    bool ironing_fan_control= false; // INFINIUM: Add support for ironing fan speed control
+    int  ironing_fan_speed   = 0; // INFINIUM: Add support for ironing fan speed control
     auto change_extruder_set_fan = [ this, layer_id, layer_time, &new_gcode, part_cooling_fan_min_pwm,
         &overhang_fan_control, &overhang_fan_speed,
         &internal_bridge_fan_control, &internal_bridge_fan_speed,
@@ -744,7 +744,7 @@ std::string CoolingBuffer::apply_layer_cooldown(
         int close_fan_the_first_x_layers = EXTRUDER_CONFIG(close_fan_the_first_x_layers);
         // Is the fan speed ramp enabled?
         int full_fan_speed_layer = EXTRUDER_CONFIG(full_fan_speed_layer);
-        // ORCA: explicit per-filament first-layer override (-1 = disabled, 0-100 = forced PWM percent on layer 0).
+        // INFINIUM: explicit per-filament first-layer override (-1 = disabled, 0-100 = forced PWM percent on layer 0).
         // The override is only honoured when the "No cooling for the first" gate is 0; otherwise the gate would
         // force layers 1..N-1 to zero while the override sets layer 0 to a non-zero value, which is confusing
         // and non-monotonic. The UI greys out and resets the value in that case, but we also guard here so
@@ -753,13 +753,13 @@ std::string CoolingBuffer::apply_layer_cooldown(
         const bool has_initial_layer_override = initial_layer_fan_speed >= 0 && close_fan_the_first_x_layers <= 0;
         supp_interface_fan_speed = EXTRUDER_CONFIG(support_material_interface_fan_speed);
 
-        // ORCA: previously a silent override forced `close_fan_the_first_x_layers` from 0 up to 1 whenever a ramp
+        // INFINIUM: previously a silent override forced `close_fan_the_first_x_layers` from 0 up to 1 whenever a ramp
         // was configured (`full_fan_speed_layer > 0`), so the first printed layer always had the fan disabled.
         // That hid the user's literal "no cooling for the first 0 layers" setting and produced a non-zero starting
         // factor on the ramp denominator. The override has been removed: with N=0 and M>0 the ramp now genuinely
         // starts on layer 0 at a factor of 1/M and reaches 100% at layer M-1, matching the intent of the option.
         //
-        // ORCA: First-layer hard override (`initial_layer_fan_speed`). When the user has set this option to a
+        // INFINIUM: First-layer hard override (`initial_layer_fan_speed`). When the user has set this option to a
         // value >= 0, layer 0 emits exactly that percentage so the entire first layer
         // is at one stable fan speed. The override wins over the `close_fan_the_first_x_layers` gate when
         // layer_id == 0. From layer 1 onwards the regular logic resumes. 
@@ -794,7 +794,7 @@ std::string CoolingBuffer::apply_layer_cooldown(
             overhang_fan_speed   = EXTRUDER_CONFIG(overhang_fan_speed);
             if (int(layer_id) >= close_fan_the_first_x_layers && int(layer_id) + 1 < full_fan_speed_layer) {
                 if (has_initial_layer_override && close_fan_the_first_x_layers == 0 && full_fan_speed_layer > 1) {
-                    // ORCA: Option-B anchored ramp. When the first-layer override is configured and there's
+                    // INFINIUM: Option-B anchored ramp. When the first-layer override is configured and there's
                     // no "no cooling" gate, the ramp interpolates linearly from `initial_layer_fan_speed` on
                     // layer 0 up to the computed target on layer `full_fan_speed_layer - 1` instead of
                     // scaling the target by `factor` from zero. Layer 0 itself is handled by the override
@@ -818,16 +818,16 @@ std::string CoolingBuffer::apply_layer_cooldown(
 
             overhang_fan_control = overhang_fan_speed > fan_speed_new;
             
-            // ORCA: Add support for separate internal bridge fan speed control
+            // INFINIUM: Add support for separate internal bridge fan speed control
             internal_bridge_fan_speed   = EXTRUDER_CONFIG(internal_bridge_fan_speed);
             internal_bridge_fan_control = internal_bridge_fan_speed >=0;
             
-            if( internal_bridge_fan_speed < 0 ) { // ORCA: Backwards compatibility setting for Orca internal bridge fan speed setting - if set at -1 (which is the default) use the overhang fan speed settings.
+            if( internal_bridge_fan_speed < 0 ) { // INFINIUM: Backwards compatibility setting for Infinium internal bridge fan speed setting - if set at -1 (which is the default) use the overhang fan speed settings.
                 internal_bridge_fan_speed = overhang_fan_speed;
                 internal_bridge_fan_control = overhang_fan_control;
             }
 
-            // ORCA: Add support for ironing fan speed control
+            // INFINIUM: Add support for ironing fan speed control
             ironing_fan_speed   = EXTRUDER_CONFIG(ironing_fan_speed);
             ironing_fan_control = ironing_fan_speed >= 0;
 #undef EXTRUDER_CONFIG
@@ -839,10 +839,10 @@ std::string CoolingBuffer::apply_layer_cooldown(
             additional_fan_speed_new = 0;
             supp_interface_fan_control = false; 
             supp_interface_fan_speed   = 0;
-            internal_bridge_fan_control = false; // ORCA: Add support for separate internal bridge fan speed control
-            internal_bridge_fan_speed = 0; // ORCA: Add support for separate internal bridge fan speed control
-            ironing_fan_control = false; // ORCA: Add support for ironing fan speed control
-            ironing_fan_speed = 0; // ORCA: Add support for ironing fan speed control
+            internal_bridge_fan_control = false; // INFINIUM: Add support for separate internal bridge fan speed control
+            internal_bridge_fan_speed = 0; // INFINIUM: Add support for separate internal bridge fan speed control
+            ironing_fan_control = false; // INFINIUM: Add support for ironing fan speed control
+            ironing_fan_speed = 0; // INFINIUM: Add support for ironing fan speed control
         }
         // A tool change may keep the same configured base fan speed while the physical fan is
         // still running at the previous filament's overhang speed. Restore the base speed before
@@ -865,12 +865,12 @@ std::string CoolingBuffer::apply_layer_cooldown(
     int                 current_feedrate  = 0;
     change_extruder_set_fan(true);
 
-    // Orca: Reduce set fan commands by deferring the GCodeWriter::set_fan calls. Inspired by SuperSlicer
+    // Infinium: Reduce set fan commands by deferring the GCodeWriter::set_fan calls. Inspired by SuperSlicer
     // define fan_speed_change_requests and initialize it with all possible types fan speed change requests
     std::unordered_map<int, bool> fan_speed_change_requests = {{CoolingLine::TYPE_OVERHANG_FAN_START, false},
-                                                               {CoolingLine::TYPE_INTERNAL_BRIDGE_FAN_START, false}, // ORCA: Add support for separate internal bridge fan speed control
+                                                               {CoolingLine::TYPE_INTERNAL_BRIDGE_FAN_START, false}, // INFINIUM: Add support for separate internal bridge fan speed control
                                                                {CoolingLine::TYPE_SUPPORT_INTERFACE_FAN_START, false},
-                                                               {CoolingLine::TYPE_IRONING_FAN_START, false}, // ORCA: Add support for ironing fan speed control
+                                                               {CoolingLine::TYPE_IRONING_FAN_START, false}, // INFINIUM: Add support for ironing fan speed control
                                                                {CoolingLine::TYPE_FORCE_RESUME_FAN, false}};
     bool need_set_fan = false;
 
@@ -899,12 +899,12 @@ std::string CoolingBuffer::apply_layer_cooldown(
                 fan_speed_change_requests[CoolingLine::TYPE_OVERHANG_FAN_START] = false;
             }
             need_set_fan = true;
-        } else if (line->type & CoolingLine::TYPE_INTERNAL_BRIDGE_FAN_START) { // ORCA: Add support for separate internal bridge fan speed control
+        } else if (line->type & CoolingLine::TYPE_INTERNAL_BRIDGE_FAN_START) { // INFINIUM: Add support for separate internal bridge fan speed control
             if (internal_bridge_fan_control && !fan_speed_change_requests[CoolingLine::TYPE_INTERNAL_BRIDGE_FAN_START]) {
                 need_set_fan = true;
                 fan_speed_change_requests[CoolingLine::TYPE_INTERNAL_BRIDGE_FAN_START] = true;
            }
-        } else if (line->type & CoolingLine::TYPE_INTERNAL_BRIDGE_FAN_END) { // ORCA: Add support for separate internal bridge fan speed control
+        } else if (line->type & CoolingLine::TYPE_INTERNAL_BRIDGE_FAN_END) { // INFINIUM: Add support for separate internal bridge fan speed control
             if (internal_bridge_fan_control && fan_speed_change_requests[CoolingLine::TYPE_INTERNAL_BRIDGE_FAN_START]) {
                 fan_speed_change_requests[CoolingLine::TYPE_INTERNAL_BRIDGE_FAN_START] = false;
             }
@@ -1032,7 +1032,7 @@ std::string CoolingBuffer::apply_layer_cooldown(
             };
             if (fan_speed_change_requests[CoolingLine::TYPE_OVERHANG_FAN_START]){
                 set_fan(overhang_fan_speed);
-            } else if (fan_speed_change_requests[CoolingLine::TYPE_INTERNAL_BRIDGE_FAN_START]){ // ORCA: Add support for separate internal bridge fan speed control
+            } else if (fan_speed_change_requests[CoolingLine::TYPE_INTERNAL_BRIDGE_FAN_START]){ // INFINIUM: Add support for separate internal bridge fan speed control
                 set_fan(internal_bridge_fan_speed);
             }
             else if (fan_speed_change_requests[CoolingLine::TYPE_SUPPORT_INTERFACE_FAN_START]){

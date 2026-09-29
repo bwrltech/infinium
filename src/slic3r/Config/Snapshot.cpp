@@ -432,7 +432,7 @@ const Snapshot&	SnapshotDB::take_snapshot(const AppConfig &app_config, Snapshot:
                 cfg.models_variants_installed.erase(it ++);
             else
                 ++ it;
-        // Orca: the version the vendor is installed at, read from its profile or —
+        // Infinium: the version the vendor is installed at, read from its profile or —
         // where the cache is the whole installation — from the cache's own stamp.
         cfg.version.config_version = installed_vendor_version(cfg.name);
         snapshot.vendor_configs.emplace_back(std::move(cfg));

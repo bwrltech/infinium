@@ -39,7 +39,7 @@ void FillConcentric::_fill_surface_single(
         append(loops, to_polygons(last));
     }
 
-    // Orca: round the corners of the loops. Unlike the other patterns these are never clipped to the
+    // Infinium: round the corners of the loops. Unlike the other patterns these are never clipped to the
     // fill region - they are its offsets - so a corner may only be rounded where the curve replacing it
     // stays inside. Rounding cuts toward the inside of the turn, which around a hole, at a concave
     // feature or across a thin region is outside the fill and would put the extrusion over a wall.
@@ -63,7 +63,7 @@ void FillConcentric::_fill_surface_single(
     // adhesion problems of the first central tiny loops
     loops = union_pt_chained_outside_in(loops);
 
-    // Orca: an outward fill order prints the innermost loops first instead.
+    // Infinium: an outward fill order prints the innermost loops first instead.
     if (params.fill_order == SurfaceFillOrder::Outward)
         std::reverse(loops.begin(), loops.end());
     
@@ -133,7 +133,7 @@ void FillConcentric::_fill_surface_single(const FillParams& params,
                 all_extrusions.emplace_back(&wall);
         }
 
-        // Orca: a forced fill order prints the loops in strictly monotonic depth order so
+        // Infinium: a forced fill order prints the loops in strictly monotonic depth order so
         // that surfaces broken up by holes or slots cannot hop outward and back inward.
         const bool forced_fill_order = params.fill_order != SurfaceFillOrder::Default;
         if (forced_fill_order) {

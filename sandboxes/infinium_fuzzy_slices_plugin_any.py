@@ -10,7 +10,7 @@
 # ///
 """Fuzzy Slices -- the fuzzy-skin effect applied at slice time.
 
-Orca's built-in fuzzy skin perturbs the outer-wall EXTRUSION PATHS during
+Infinium's built-in fuzzy skin perturbs the outer-wall EXTRUSION PATHS during
 perimeter generation, so only the printed wall is fuzzy. This sample instead
 perturbs the sliced outline itself at Step.posSlice, using the same
 resample-and-jitter algorithm as libslic3r's fuzzy_polyline (uniform noise):

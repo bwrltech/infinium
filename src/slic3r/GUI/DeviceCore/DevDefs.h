@@ -148,7 +148,7 @@ enum class DevFirmwareUpgradeState : int
     UpgradingFinished = 3
 };
 
-// Orca: DeviceManager/UpgradePanel keep the Orca spelling of this enum; the alias to the
+// Infinium: DeviceManager/UpgradePanel keep the Infinium spelling of this enum; the alias to the
 // reference name is a permanent compatibility surface.
 using DevFirmwareUpgradingState = DevFirmwareUpgradeState;
 

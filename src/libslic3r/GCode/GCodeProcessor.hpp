@@ -229,11 +229,11 @@ class Print;
             float travel_dist{ 0.0f }; // mm
             float fan_speed{ 0.0f }; // percentage
             float temperature{ 0.0f }; // Celsius degrees
-// ORCA: Add Pressure Advance visualization support
+// INFINIUM: Add Pressure Advance visualization support
             float pressure_advance{ 0.0f };
-            // ORCA: Add Acceleration visualization support
+            // INFINIUM: Add Acceleration visualization support
             float acceleration{ 0.0f }; // mm/s^2
-            // ORCA: Add Jerk visualization support
+            // INFINIUM: Add Jerk visualization support
             float jerk{ 0.0f }; // mm/s
             std::array<float, static_cast<size_t>(PrintEstimatedStatistics::ETimeMode::Count)> time{ 0.0f, 0.0f }; // s
             float layer_duration{ 0.0f }; // s
@@ -351,7 +351,7 @@ class Print;
             gcode_check_result = other.gcode_check_result;
             limit_filament_maps = other.limit_filament_maps;
             filament_printable_reuslt = other.filament_printable_reuslt;
-            // Orca: copy the shared grouping result so a copied result keeps it (shared_ptr =>
+            // Infinium: copy the shared grouping result so a copied result keeps it (shared_ptr =>
             // memory-safe), rather than leaving a stale pointer on the target. No g-code effect either way.
             nozzle_group_result = other.nozzle_group_result;
             // Keep the per-extruder hotend types on a copied result (injector input).
@@ -474,13 +474,13 @@ class Print;
         static const std::string VFlush_End_Tag;
         static const std::string External_Purge_Tag;
     public:
-        // Orca: SKIPPABLE region tags, stored as static strings (the FLUSH idiom above) rather than
+        // Infinium: SKIPPABLE region tags, stored as static strings (the FLUSH idiom above) rather than
         // a CustomETags/CustomTags array. Public so the emission sites (WipeTower / change_filament
         // path) can reference them single-sourced.
         static const std::string Skippable_Start_Tag;
         static const std::string Skippable_End_Tag;
         static const std::string Skippable_Type_Tag;
-        // Orca: usage-block builder markers (MACHINE_START_GCODE_END / MACHINE_END_GCODE_START /
+        // Infinium: usage-block builder markers (MACHINE_START_GCODE_END / MACHINE_END_GCODE_START /
         // NOZZLE_CHANGE_START / NOZZLE_CHANGE_END / CP_TOOLCHANGE_WIPE), stored as static strings (the
         // FLUSH/SKIPPABLE idiom above) rather than extending the Reserved_Tags arrays — these are
         // multi-nozzle markers only ever emitted by BBL-printer paths. Public so the emission sites can
@@ -641,7 +641,7 @@ class Print;
                 //For line move, there are same. For arc move, there are different.
                 Vec3f enter_direction;
                 Vec3f exit_direction;
-                // Orca: move direction over all four axes, unit length. Used by
+                // Infinium: move direction over all four axes, unit length. Used by
                 // calc_vmax_junction_deviation(); see there for why E is normalized in.
                 Vec4f jd_unit_vec;
 
@@ -710,12 +710,12 @@ class Print;
             //BBS: prepare stage time before print model, including start gcode time and mostly same with start gcode time
             float prepare_time;
 
-            // Orca: extra time (e.g. a filament-change delay) that can't be attributed to a
+            // Infinium: extra time (e.g. a filament-change delay) that can't be attributed to a
             // matching block on this pass is buffered here and retried on a later pass, so it
             // is never folded into an unrelated move. On the final pass no later pass remains,
             // so any still-unmatched remainder is added to the machine total (never to a move
             // vertex) instead of being dropped, keeping get_time() consistent with the
-            // filament-change statistics. Orca-only EOF hardening; BambuStudio drops it.
+            // filament-change statistics. Infinium-only EOF hardening; BambuStudio drops it.
             using AdditionalBufferBlock = std::pair<EMoveType, float>;
             using AdditionalBuffer      = std::vector<AdditionalBufferBlock>;
             AdditionalBuffer m_additional_time_buffer;
@@ -774,8 +774,8 @@ class Print;
 
         struct TimeProcessor
         {
-            // Orca: the insert-line taxonomy + the ordered map of lines the pre-heat/pre-cool injector
-            // splices into the finished g-code, keyed by output-line id. Orca keeps its single-pass
+            // Infinium: the insert-line taxonomy + the ordered map of lines the pre-heat/pre-cool injector
+            // splices into the finished g-code, keyed by output-line id. Infinium keeps its single-pass
             // run_post_process (M73 / filament stats / ActualSpeedMove / Backtrace /
             // machine_tool_change_time) intact and applies this map in a separate, gated ADDITIVE
             // second file-rewrite pass (run_second_pass_injection); with an empty map that pass is a
@@ -813,7 +813,7 @@ class Print;
             // Additional load / unload times for a filament exchange sequence.
             float filament_load_times;
             float filament_unload_times;
-            //Orca:  time for tool change
+            //Infinium:  time for tool change
             float machine_tool_change_time;
 
             std::array<TimeMachine, static_cast<size_t>(PrintEstimatedStatistics::ETimeMode::Count)> machines;
@@ -1088,7 +1088,7 @@ class Print;
         std::vector<int> m_physical_extruder_map;
         // Multi-nozzle context state. Per-extruder max (sub-)nozzle count; >1 marks a multi-nozzle
         // extruder. Input for the pre-heat/filament-change-time injection model; not yet consumed by
-        // Orca's time estimator, so it is inert for existing printers.
+        // Infinium's time estimator, so it is inert for existing printers.
         std::vector<int> m_extruder_max_nozzle_count{1};
         // Pre-heat / pre-cool injector estimator inputs. Populated from the config in apply_config
         // (both overloads) and cleared in reset(), so the PreCoolingInjector has its inputs in place.
@@ -1147,7 +1147,7 @@ class Print;
         float m_travel_dist; // mm
         float m_fan_speed; // percentage
         float m_z_offset; // mm
-// ORCA: Add Pressure Advance visualization support
+// INFINIUM: Add Pressure Advance visualization support
         float m_pressure_advance;
         ExtrusionRole m_extrusion_role;
         std::vector<int> m_filament_maps;
@@ -1267,7 +1267,7 @@ class Print;
         //BBS: set offset for gcode writer
         void set_xy_offset(double x, double y) { m_x_offset = x; m_y_offset = y; }
 
-        // Orca: if true, only change new layer if ETags::Layer_Change occurs
+        // Infinium: if true, only change new layer if ETags::Layer_Change occurs
         // otherwise when we got a lift of z during extrusion, a new layer will be added
         void detect_layer_based_on_tag(bool enabled) { m_detect_layer_based_on_tag = enabled; }
 
@@ -1367,7 +1367,7 @@ class Print;
         // Disable fan
         void process_M107(const GCodeReader::GCodeLine& line);
 
-// ORCA: Add Pressure Advance visualization support
+// INFINIUM: Add Pressure Advance visualization support
         // Set pressure advance
         void process_M900(const GCodeReader::GCodeLine& line);
         void process_M572(const GCodeReader::GCodeLine &line);
@@ -1495,12 +1495,12 @@ class Print;
         float get_axis_max_acceleration(PrintEstimatedStatistics::ETimeMode mode, Axis axis, int machine_idx) const;
         float get_axis_max_jerk_with_jd(PrintEstimatedStatistics::ETimeMode mode, Axis axis, float acceleration) const;
         float get_axis_max_jerk_with_jd(PrintEstimatedStatistics::ETimeMode mode, Axis axis) const;
-        // Orca: junction deviation for a block at the given acceleration, 0 for a classic jerk machine.
+        // Infinium: junction deviation for a block at the given acceleration, 0 for a classic jerk machine.
         float get_junction_deviation(PrintEstimatedStatistics::ETimeMode mode, float acceleration) const;
-        // Orca: acceleration along the junction direction, clamped by the per axis limits.
+        // Infinium: acceleration along the junction direction, clamped by the per axis limits.
         float calc_junction_acceleration(const TimeBlock& block, const Vec4f& junction_unit_vec,
                                          PrintEstimatedStatistics::ETimeMode mode) const;
-        // Orca: entry speed from the junction deviation model, which limits a corner by its angle alone
+        // Infinium: entry speed from the junction deviation model, which limits a corner by its angle alone
         // and is therefore isotropic, unlike per axis jerk. Negative means classic jerk applies instead.
         float calc_vmax_junction_deviation(const TimeBlock& block, const TimeMachine::State& prev,
                                            const TimeMachine::State& curr, bool has_prev_move,

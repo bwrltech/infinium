@@ -116,7 +116,7 @@ class SecondaryCheckDialog : public DPIFrame
 private:
     wxWindow* event_parent { nullptr };
 public:
-    enum VisibleButtons { // ORCA VisibleButtons instead ButtonStyle 
+    enum VisibleButtons { // INFINIUM VisibleButtons instead ButtonStyle 
         ONLY_CONFIRM        = 0,
         CONFIRM_AND_CANCEL  = 1,
         CONFIRM_AND_DONE    = 2,
@@ -129,7 +129,7 @@ public:
         wxWindow* parent,
         wxWindowID      id = wxID_ANY,
         const wxString& title = wxEmptyString,
-        enum VisibleButtons btn_style = CONFIRM_AND_CANCEL, // ORCA VisibleButtons instead ButtonStyle 
+        enum VisibleButtons btn_style = CONFIRM_AND_CANCEL, // INFINIUM VisibleButtons instead ButtonStyle 
         const wxPoint& pos = wxDefaultPosition,
         const wxSize& size = wxDefaultSize,
         long            style = wxCLOSE_BOX | wxCAPTION,
@@ -139,7 +139,7 @@ public:
     void on_show();
     void on_hide();
     void update_btn_label(wxString ok_btn_text, wxString cancel_btn_text);
-    void update_title_style(wxString title, SecondaryCheckDialog::VisibleButtons style, wxWindow* parent = nullptr); // ORCA VisibleButtons instead ButtonStyle 
+    void update_title_style(wxString title, SecondaryCheckDialog::VisibleButtons style, wxWindow* parent = nullptr); // INFINIUM VisibleButtons instead ButtonStyle 
     void post_event(wxCommandEvent&& event);
     void rescale();
     ~SecondaryCheckDialog();
@@ -158,7 +158,7 @@ public:
     Button* m_button_fn { nullptr };
     Button* m_button_resume { nullptr };
     wxCheckBox* m_show_again_checkbox;
-    VisibleButtons m_button_style; // ORCA VisibleButtons instead ButtonStyle 
+    VisibleButtons m_button_style; // INFINIUM VisibleButtons instead ButtonStyle 
     bool not_show_again = false;
     std::string show_again_config_text = "";
 };
@@ -244,7 +244,7 @@ public:
 class ConfirmBeforeSendDialog : public DPIDialog
 {
 public:
-    enum VisibleButtons { // ORCA VisibleButtons instead ButtonStyle 
+    enum VisibleButtons { // INFINIUM VisibleButtons instead ButtonStyle 
         ONLY_CONFIRM = 0,
         CONFIRM_AND_CANCEL = 1,
         MAX_STYLE_NUM = 2
@@ -253,7 +253,7 @@ public:
         wxWindow* parent,
         wxWindowID      id = wxID_ANY,
         const wxString& title = wxEmptyString,
-        enum VisibleButtons btn_style = CONFIRM_AND_CANCEL, // ORCA VisibleButtons instead ButtonStyle 
+        enum VisibleButtons btn_style = CONFIRM_AND_CANCEL, // INFINIUM VisibleButtons instead ButtonStyle 
         const wxPoint& pos = wxDefaultPosition,
         const wxSize& size = wxDefaultSize,
         long            style = wxCLOSE_BOX | wxCAPTION,
@@ -328,7 +328,7 @@ public:
     wxStaticBitmap* m_img_step1{ nullptr };
     wxStaticBitmap* m_img_step2{ nullptr };
     wxStaticBitmap* m_img_step3{ nullptr };
-    HyperLink* m_trouble_shoot{ nullptr }; // ORCA
+    HyperLink* m_trouble_shoot{ nullptr }; // INFINIUM
     wxTimer* closeTimer{ nullptr };
     int     closeCount{3};
     bool   m_show_access_code{ false };

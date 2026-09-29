@@ -230,7 +230,7 @@ void ConfigManipulation::check_chamber_temperature(DynamicPrintConfig* config)
 
 void ConfigManipulation::check_chamber_minimal_temperature(DynamicPrintConfig* config)
 {
-    // Orca: the minimal chamber temperature is a "start printing" threshold that is passed to the
+    // Infinium: the minimal chamber temperature is a "start printing" threshold that is passed to the
     // print start macro. It must not exceed the target chamber temperature, otherwise the macro
     // could wait forever for a temperature the heater is never asked to reach.
     if (config->has("chamber_minimal_temperature") && config->has("chamber_temperature")) {
@@ -716,7 +716,7 @@ void ConfigManipulation::toggle_print_fff_options(DynamicPrintConfig *config, in
 
     const GCodeFlavor gcflavor = preset_bundle->printers.get_edited_preset().config.option<ConfigOptionEnum<GCodeFlavor>>("gcode_flavor")->value;
 
-    // Orca: use booleans to avoid repeated comparisons with enum values
+    // Infinium: use booleans to avoid repeated comparisons with enum values
     const bool gcf_is_marlin_firmware = gcflavor == GCodeFlavor::gcfMarlinFirmware;
     const bool gcf_is_klipper = gcflavor == GCodeFlavor::gcfKlipper;
 
@@ -747,7 +747,7 @@ void ConfigManipulation::toggle_print_fff_options(DynamicPrintConfig *config, in
 
     InfillPattern pattern = config->opt_enum<InfillPattern>("sparse_infill_pattern");
 
-    // Orca: the concentric patterns follow the surface outline instead of crossing it, so there is
+    // Infinium: the concentric patterns follow the surface outline instead of crossing it, so there is
     // nothing for an infill anchor to attach to. Hide the anchor settings for them.
     bool have_infill_anchor = have_infill && pattern != ipConcentric && pattern != ipSpiralInset;
     toggle_line("infill_anchor", have_infill_anchor);
@@ -820,7 +820,7 @@ void ConfigManipulation::toggle_print_fff_options(DynamicPrintConfig *config, in
     toggle_line("top_surface_expansion_direction", has_top_shell);
     toggle_field("top_surface_expansion_direction", has_top_surface_expansion);
 
-    // Orca: Archimedean Chords and Octagram Spiral are the centered surface patterns that the
+    // Infinium: Archimedean Chords and Octagram Spiral are the centered surface patterns that the
     // pattern-centering feature acts on.
     auto is_centered_pattern = [](InfillPattern p) {
         return p == InfillPattern::ipArchimedeanChords || p == InfillPattern::ipOctagramSpiral;
@@ -829,10 +829,10 @@ void ConfigManipulation::toggle_print_fff_options(DynamicPrintConfig *config, in
     bool is_bottom_centered = is_centered_pattern(config->option<ConfigOptionEnum<InfillPattern>>("bottom_surface_pattern")->value);
     bool has_centered_surface = (has_top_shell && is_top_centered) || (has_bottom_shell && is_bottom_centered);
 
-    // Orca: center of surface pattern
+    // Infinium: center of surface pattern
     toggle_line("center_of_surface_pattern", has_centered_surface);
 
-    // Orca: separate infills
+    // Infinium: separate infills
     bool is_internal_infill_separable = is_separable_infill_pattern(config->option<ConfigOptionEnum<InfillPattern>>("sparse_infill_pattern")->value) ||
                                         config->opt_string("sparse_infill_rotate_template") != "" ||
                                         config->opt_string("solid_infill_rotate_template") != "";
@@ -890,7 +890,7 @@ void ConfigManipulation::toggle_print_fff_options(DynamicPrintConfig *config, in
 
     bool have_skirt = config->opt_int("skirt_loops") > 0;
     toggle_field("skirt_height", have_skirt && config->opt_enum<DraftShield>("draft_shield") != dsEnabled);
-    toggle_line("single_loop_draft_shield", have_skirt); // ORCA: Display one wall if skirt enabled
+    toggle_line("single_loop_draft_shield", have_skirt); // INFINIUM: Display one wall if skirt enabled
     for (auto el : {"skirt_type", "min_skirt_length", "skirt_distance", "skirt_start_angle", "skirt_speed", "draft_shield"})
         toggle_field(el, have_skirt);
 
@@ -946,14 +946,14 @@ void ConfigManipulation::toggle_print_fff_options(DynamicPrintConfig *config, in
     bool support_is_normal_tree = support_is_tree && !support_is_organic;
 
     // hide settings that are not used by tree supports
-    toggle_line("support_threshold_overlap", !support_is_tree); // ORCA: tree supports do not use Threshold Overlap
+    toggle_line("support_threshold_overlap", !support_is_tree); // INFINIUM: tree supports do not use Threshold Overlap
     // settings specific to normal trees
     for (auto el : {"tree_support_branch_angle", "tree_support_branch_distance", "tree_support_branch_diameter", "tree_support_auto_brim", "tree_support_brim_width"})
         toggle_line(el, support_is_normal_tree);
     // settings specific to organic trees
     for (auto el : {"tree_support_branch_angle_organic", "tree_support_branch_distance_organic", "tree_support_branch_diameter_organic", "tree_support_angle_slow", "tree_support_tip_diameter", "tree_support_top_rate", "tree_support_branch_diameter_angle"})
         toggle_line(el, support_is_organic);
-    // ORCA: Independent support layer height is not compatible with organic tree supports,
+    // INFINIUM: Independent support layer height is not compatible with organic tree supports,
     // as they rely on the support layers being the same as the object layers to determine where to place branches.
     toggle_line("independent_support_layer_height", have_support_material && !support_is_organic);
 
@@ -972,7 +972,7 @@ void ConfigManipulation::toggle_print_fff_options(DynamicPrintConfig *config, in
     bool has_support_ironing = can_ironing_support && config->opt_bool("support_ironing");
     for (auto el : {"support_ironing_pattern", "support_ironing_flow", "support_ironing_spacing" })
         toggle_line(el, has_support_ironing);
-    // Orca: Force solid support interface when using support ironing
+    // Infinium: Force solid support interface when using support ironing
     toggle_field("support_interface_spacing", have_support_material && have_support_interface && !has_support_ironing);
 
 //    see issue #10915
@@ -981,7 +981,7 @@ void ConfigManipulation::toggle_print_fff_options(DynamicPrintConfig *config, in
 //    toggle_line("support_speed", have_support_material || have_skirt_height);
 //    toggle_line("support_interface_speed", have_support_material && have_support_interface);
 
-    // Orca:
+    // Infinium:
     for (auto el : {"small_support_perimeter_speed", "small_support_perimeter_threshold"})
         toggle_field(el, config->opt_bool("enable_support"));
 
@@ -993,9 +993,9 @@ void ConfigManipulation::toggle_print_fff_options(DynamicPrintConfig *config, in
 
     toggle_line("raft_contact_distance", have_raft && !have_support_soluble);
 
-    // Orca: First-layer density is available for supports broadly.
+    // Infinium: First-layer density is available for supports broadly.
     toggle_field("raft_first_layer_density", have_support_material);
-    // Orca: For regular tree (Slim/Strong) without raft, hide first-layer expansion.
+    // Infinium: For regular tree (Slim/Strong) without raft, hide first-layer expansion.
     // Keep it enabled for non-tree supports, organic tree, hybrid tree, and any raft case.
     toggle_field("raft_first_layer_expansion",
                  have_support_material && ((!support_is_normal_tree || support_style == smsTreeHybrid) || have_raft));
@@ -1100,7 +1100,7 @@ void ConfigManipulation::toggle_print_fff_options(DynamicPrintConfig *config, in
         toggle_line(el, have_arachne);
     toggle_field("detect_thin_wall", !have_arachne);
 
-    // Orca
+    // Infinium
     auto is_role_based_wipe_speed = config->opt_bool("role_based_wipe_speed");
     toggle_field("wipe_speed",!is_role_based_wipe_speed);
 
@@ -1116,7 +1116,7 @@ void ConfigManipulation::toggle_print_fff_options(DynamicPrintConfig *config, in
     toggle_line("make_overhang_printable_angle", have_make_overhang_printable);
     toggle_line("make_overhang_printable_hole_size", have_make_overhang_printable);
 
-    // Orca: the one-wall options act on top/bottom surfaces, which exist only with a shell. An unfilled surface
+    // Infinium: the one-wall options act on top/bottom surfaces, which exist only with a shell. An unfilled surface
     // (0% surface density) is still a surface, so these are gated on the layer counts alone.
     toggle_line("only_one_wall_first_layer", has_bottom_shell);
     toggle_line("only_one_wall_top", has_top_shell_layers);
@@ -1177,7 +1177,7 @@ void ConfigManipulation::toggle_print_fff_options(DynamicPrintConfig *config, in
     // Adaptative Cubic and support cubic infill patterns do not support infill rotation.
     bool FillAdaptive = (pattern == InfillPattern::ipAdaptiveCubic || pattern == InfillPattern::ipSupportCubic);
 
-    //Orca: disable infill_direction/solid_infill_direction if sparse_infill_rotate_template/solid_infill_rotate_template is not empty value and adaptive cubic/support cubic infill pattern is not selected
+    //Infinium: disable infill_direction/solid_infill_direction if sparse_infill_rotate_template/solid_infill_rotate_template is not empty value and adaptive cubic/support cubic infill pattern is not selected
     toggle_field("sparse_infill_rotate_template", !FillAdaptive);
     toggle_field("infill_direction", config->opt_string("sparse_infill_rotate_template") == "" && !FillAdaptive);
     toggle_field("solid_infill_direction", config->opt_string("solid_infill_rotate_template") == "");

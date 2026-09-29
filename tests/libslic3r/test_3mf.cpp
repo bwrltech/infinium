@@ -868,10 +868,10 @@ SCENARIO("Minimal published 3MF omits project config, preset dumps and slicer ta
 
 // A minimal published 3MF must not leak the slicer tags of the source project. The exporter seeds
 // metadata_item_map from the input file's metadata_items, so re-publishing a project opened from a
-// regular Orca/BBS 3MF (the typical remix flow) must strip the Application / Infinium tags it
+// regular Infinium/BBS 3MF (the typical remix flow) must strip the Application / Infinium tags it
 // came with, otherwise old receivers route onto the baked-in "old version" popup.
 SCENARIO("MinimalPublished strips slicer tags carried by the source project", "[3mf]") {
-    GIVEN("a model loaded from a regular Orca/BBS 3MF whose metadata carries the slicer tags") {
+    GIVEN("a model loaded from a regular Infinium/BBS 3MF whose metadata carries the slicer tags") {
         Model model;
         std::string src_file = std::string(TEST_DATA_DIR) + "/test_3mf/Prusa.stl";
         REQUIRE(load_stl(src_file.c_str(), &model));

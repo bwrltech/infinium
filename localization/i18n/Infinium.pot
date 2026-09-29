@@ -1216,7 +1216,7 @@ msgid "Operation"
 msgstr ""
 
 #. TRN EmbossOperation
-#. ORCA
+#. INFINIUM
 msgid "Join"
 msgstr ""
 
@@ -2474,7 +2474,7 @@ msgstr ""
 msgid "Infinium Cube"
 msgstr ""
 
-msgid "OrcaSliced Combo"
+msgid "InfiniumSliced Combo"
 msgstr ""
 
 msgid "Infinium Badge"
@@ -6233,7 +6233,7 @@ msgstr ""
 msgid "Select profile to load:"
 msgstr ""
 
-msgid "Config files (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
+msgid "Config files (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
 msgstr ""
 
 #, possible-c-format, possible-boost-format
@@ -18228,10 +18228,10 @@ msgstr ""
 msgid "Printer Setting"
 msgstr ""
 
-msgid "Printer config bundle(.orca_printer)"
+msgid "Printer config bundle(.infinium_printer)"
 msgstr ""
 
-msgid "Filament bundle(.orca_filament)"
+msgid "Filament bundle(.infinium_filament)"
 msgstr ""
 
 msgid "Printer presets(.zip)"

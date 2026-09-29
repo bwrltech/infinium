@@ -24,7 +24,7 @@ using PrinterAgentFactory =
 // Information about a registered printer agent
 struct PrinterAgentInfo
 {
-    std::string         id;           // Registry/config key, e.g. "orca" or a plugin AgentInfo::id
+    std::string         id;           // Registry/config key, e.g. "infinium" or a plugin AgentInfo::id
     std::string         display_name; // e.g., "Infinium Native", "Bambu Lab"
     std::string         plugin_identifier;     // Empty for built-ins, otherwise <plugin_key>;<uuid>;<capability_name>
     PrinterAgentFactory factory;      // Function to create the agent
@@ -59,7 +59,7 @@ struct PrinterAgentInfo
  *   auto agent = create_agent_from_config(log_dir, app_config);
  *
  *   // When printer is selected - create printer agent from registry
- *   auto printer = NetworkAgentFactory::create_printer_agent_by_id("orca", cloud, log_dir);
+ *   auto printer = NetworkAgentFactory::create_printer_agent_by_id("infinium", cloud, log_dir);
  */
 class NetworkAgentFactory
 {
@@ -78,7 +78,7 @@ public:
     /**
      * Register a printer agent type
      *
-     * @param id Unique identifier for the agent (e.g., "orca", "bbl")
+     * @param id Unique identifier for the agent (e.g., "infinium", "bbl")
      * @param display_name Human-readable name for UI
      * @param factory Factory function to create the agent
      * @return true if registration succeeded, false if already registered
@@ -135,7 +135,7 @@ public:
      * Create a cloud service agent based on provider type.
      * Handles authentication, project sync, and other cloud services.
      *
-     * @param provider Which implementation to use (Orca or BBL)
+     * @param provider Which implementation to use (Infinium or BBL)
      * @param log_dir Directory for log files
      * @return Shared pointer to ICloudServiceAgent implementation
      */

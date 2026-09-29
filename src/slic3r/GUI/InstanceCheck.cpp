@@ -90,7 +90,7 @@ namespace instance_check_internal
 	static HWND infinium_slicer_hwnd;
 	static BOOL CALLBACK EnumWindowsProc(_In_ HWND   hwnd, _In_ LPARAM lParam)
 	{
-		// ORCA: Find the already-running instance by its window properties
+		// INFINIUM: Find the already-running instance by its window properties
 		TCHAR className[256]; // class names are limited to 255 characters, see https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-wndclassa
 		if (GetClassName(hwnd, className, 256) == 0)
 			return true;

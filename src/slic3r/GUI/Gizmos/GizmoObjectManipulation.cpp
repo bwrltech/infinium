@@ -657,11 +657,11 @@ bool GizmoObjectManipulation::reset_button(ImGuiWrapper *imgui_wrapper, bool ena
         int dpi = get_dpi_for_window(wxGetApp().GetTopWindow());
         scale *= (float) dpi / (float) DPI_DEFAULT;
     #endif // WIN32
-    ImVec2 button_size = ImVec2(16 * scale, 16 * scale); // ORCA: Use exact resolution will prevent blur on icon
+    ImVec2 button_size = ImVec2(16 * scale, 16 * scale); // INFINIUM: Use exact resolution will prevent blur on icon
 
     ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.0f);
 
-    pressed = ImGui::ImageButton3(normal_id, hover_id, button_size, {0,0}, {1,1}, -1, {0,0,0,0}, {1,1,1, enabled ? 1.f : 0.f});  // ORCA make icon invisible to prevent changes on layout
+    pressed = ImGui::ImageButton3(normal_id, hover_id, button_size, {0,0}, {1,1}, -1, {0,0,0,0}, {1,1,1, enabled ? 1.f : 0.f});  // INFINIUM make icon invisible to prevent changes on layout
 
     ImGui::PopStyleVar(1);
 
@@ -681,11 +681,11 @@ bool GizmoObjectManipulation::reset_zero_button(ImGuiWrapper *imgui_wrapper,  bo
         int dpi = get_dpi_for_window(wxGetApp().GetTopWindow());
         scale *= (float) dpi / (float) DPI_DEFAULT;
     #endif // WIN32
-    ImVec2 button_size = ImVec2(16 * scale, 16 * scale); // ORCA: Use exact resolution will prevent blur on icon
+    ImVec2 button_size = ImVec2(16 * scale, 16 * scale); // INFINIUM: Use exact resolution will prevent blur on icon
 
     ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.0f);
 
-    pressed = ImGui::ImageButton3(normal_id, hover_id, button_size, {0,0}, {1,1}, -1, {0,0,0,0}, {1,1,1, enabled ? 1.f : 0.f});  // ORCA make icon invisible to prevent changes on layout
+    pressed = ImGui::ImageButton3(normal_id, hover_id, button_size, {0,0}, {1,1}, -1, {0,0,0,0}, {1,1,1, enabled ? 1.f : 0.f});  // INFINIUM make icon invisible to prevent changes on layout
 
     ImGui::PopStyleVar(1);
 
@@ -774,7 +774,7 @@ void GizmoObjectManipulation::do_render_move_window(ImGuiWrapper *imgui_wrapper,
     };
 
     float space_size    = imgui_wrapper->get_style_scaling() * 8;
-    //ORCA
+    //INFINIUM
     float coord_combo_width = std::max({
         imgui_wrapper->calc_text_size(_L("World")).x,
         imgui_wrapper->calc_text_size(_L("Object")).x,
@@ -804,7 +804,7 @@ void GizmoObjectManipulation::do_render_move_window(ImGuiWrapper *imgui_wrapper,
     unsigned int current_active_id = ImGui::GetActiveID();
 
     Selection &              selection = m_glcanvas.get_selection();
-    std::vector<std::string> modes     = {_u8L("World"), _u8L("Object")};//_u8L("Part") // ORCA use shorter terms to make UI more compact
+    std::vector<std::string> modes     = {_u8L("World"), _u8L("Object")};//_u8L("Part") // INFINIUM use shorter terms to make UI more compact
     if (selection.is_multiple_full_object() || selection.is_wipe_tower()) {
         modes.pop_back();
     }
@@ -825,7 +825,7 @@ void GizmoObjectManipulation::do_render_move_window(ImGuiWrapper *imgui_wrapper,
     }
     ImGuiWrapper::pop_combo_style();
 
-    // ORCA use TextColored to match axes color
+    // INFINIUM use TextColored to match axes color
     float offset_to_center = (unit_size - ImGui::CalcTextSize("O").x) / 2;
     ImGui::SameLine(caption_max + index * space_size + offset_to_center);
     ImGui::TextColored(ImGuiWrapper::to_ImVec4(ColorRGBA::X()),"X");
@@ -838,7 +838,7 @@ void GizmoObjectManipulation::do_render_move_window(ImGuiWrapper *imgui_wrapper,
     index_unit = 1;
     ImGui::AlignTextToFramePadding();
     if (selection.is_single_full_instance() && is_instance_coordinates()) {
-        imgui_wrapper->text(_L("Relative")); // ORCA
+        imgui_wrapper->text(_L("Relative")); // INFINIUM
     }
     else {
         imgui_wrapper->text(_L("Position"));
@@ -943,7 +943,7 @@ void GizmoObjectManipulation::do_render_rotate_window(ImGuiWrapper *imgui_wrappe
     };
 
     float space_size    = imgui_wrapper->get_style_scaling() * 8;
-    // ORCA
+    // INFINIUM
     float caption_max = std::max({
         imgui_wrapper->calc_text_size(_L("Relative")).x,
         imgui_wrapper->calc_text_size(_L("Absolute")).x,
@@ -951,7 +951,7 @@ void GizmoObjectManipulation::do_render_rotate_window(ImGuiWrapper *imgui_wrappe
         //imgui_wrapper->calc_text_size(_L("Object")).x,
         //imgui_wrapper->calc_text_size(_L("Part")).x
     }) + 3.f * space_size;
-    float end_text_size = ImGui::CalcTextSize("°").x; // ORCA rotate gizmo not uses mm or inch
+    float end_text_size = ImGui::CalcTextSize("°").x; // INFINIUM rotate gizmo not uses mm or inch
 
     // position
     Vec3d original_position;
@@ -970,12 +970,12 @@ void GizmoObjectManipulation::do_render_rotate_window(ImGuiWrapper *imgui_wrappe
     ImGui::AlignTextToFramePadding();
     unsigned int current_active_id = ImGui::GetActiveID();
     ImGui::PushItemWidth(caption_max);
-    imgui_wrapper->text(_L("World")); // ORCA
+    imgui_wrapper->text(_L("World")); // INFINIUM
     if (ImGui::IsItemHovered()) {
         auto tooltip_str = _L("Coordinate system used for transform actions.");
         imgui_wrapper->tooltip(tooltip_str, imgui_wrapper->calc_text_size(tooltip_str).x + 3 * space_size);
     }
-    // ORCA use TextColored to match axes color
+    // INFINIUM use TextColored to match axes color
     float offset_to_center = (unit_size - ImGui::CalcTextSize("O").x) / 2;
     ImGui::SameLine(caption_max + index * space_size + offset_to_center);
     ImGui::TextColored(ImGuiWrapper::to_ImVec4(ColorRGBA::X()),"X");
@@ -990,7 +990,7 @@ void GizmoObjectManipulation::do_render_rotate_window(ImGuiWrapper *imgui_wrappe
     // ImGui::PushItemWidth(unit_size * 2);
     bool is_relative_input = false;
     ImGui::AlignTextToFramePadding();
-    imgui_wrapper->text(_L("Relative")); // ORCA
+    imgui_wrapper->text(_L("Relative")); // INFINIUM
     ImGui::SameLine(caption_max + index * space_size);
     ImGui::PushItemWidth(unit_size);
     if (ImGui::BBLInputDouble(label_values[1][0], &rotation[0], 0.0f, 0.0f, "%.2f")) {
@@ -1020,7 +1020,7 @@ void GizmoObjectManipulation::do_render_rotate_window(ImGuiWrapper *imgui_wrappe
     }
 
     ImGui::SameLine(caption_max + index_unit * unit_size + (++index) * space_size + end_text_size);
-    if (reset_button(imgui_wrapper, m_show_clear_rotation)) // ORCA reserve icon space to prevent changes on layout
+    if (reset_button(imgui_wrapper, m_show_clear_rotation)) // INFINIUM reserve icon space to prevent changes on layout
         reset_rotation_value(true);
     if (m_show_clear_rotation && ImGui::IsItemHovered()) {
         float tooltip_size = imgui_wrapper->calc_text_size(_L("Reset current rotation to the value when open the rotation tool.")).x + 3 * space_size;
@@ -1072,7 +1072,7 @@ void GizmoObjectManipulation::do_render_rotate_window(ImGuiWrapper *imgui_wrappe
     }
 
     ImGui::SameLine(caption_max + index_unit * unit_size + (++index) * space_size + end_text_size);
-    if (reset_zero_button(imgui_wrapper, m_show_reset_0_rotation)) // ORCA reserve icon space to prevent changes on layout
+    if (reset_zero_button(imgui_wrapper, m_show_reset_0_rotation)) // INFINIUM reserve icon space to prevent changes on layout
         reset_rotation_value(false);
     if (m_show_reset_0_rotation && ImGui::IsItemHovered()) {
         float tooltip_size = imgui_wrapper->calc_text_size(_L("Reset current rotation to real zeros.")).x + 3 * space_size;
@@ -1154,7 +1154,7 @@ void GizmoObjectManipulation::do_render_scale_input_window(ImGuiWrapper* imgui_w
     };
 
     float space_size = imgui_wrapper->get_style_scaling() * 8;
-    // ORCA
+    // INFINIUM
     float coord_combo_width = std::max({
         imgui_wrapper->calc_text_size(_L("World")).x,
         imgui_wrapper->calc_text_size(_L("Object")).x,
@@ -1181,7 +1181,7 @@ void GizmoObjectManipulation::do_render_scale_input_window(ImGuiWrapper* imgui_w
     int index_unit = 1;
 
     Selection &              selection = m_glcanvas.get_selection();
-    std::vector<std::string> modes     = {_u8L("World"), _u8L("Object"), _u8L("Part")}; // ORCA use shorter terms to make UI more compact
+    std::vector<std::string> modes     = {_u8L("World"), _u8L("Object"), _u8L("Part")}; // INFINIUM use shorter terms to make UI more compact
     if (selection.is_single_full_object()) { modes.pop_back(); }
     if (selection.is_multiple_full_object()) {
         modes.pop_back();
@@ -1204,7 +1204,7 @@ void GizmoObjectManipulation::do_render_scale_input_window(ImGuiWrapper* imgui_w
     }
     ImGuiWrapper::pop_combo_style();
 
-    // ORCA use TextColored to match axes color
+    // INFINIUM use TextColored to match axes color
     float offset_to_center = (unit_size - ImGui::CalcTextSize("O").x) / 2;
     ImGui::SameLine(caption_max + space_size + offset_to_center);
     ImGui::TextColored(ImGuiWrapper::to_ImVec4(ColorRGBA::X()),"X");

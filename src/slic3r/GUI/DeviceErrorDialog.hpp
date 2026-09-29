@@ -112,7 +112,7 @@ private:
     // snapshot callback from a previous error cannot paint over the current one.
     int m_request_seq{ 0 };
     wxString m_local_img_url;
-    // Orca: liveness token for the async cloud snapshot callback (the request has no cancel handle)
+    // Infinium: liveness token for the async cloud snapshot callback (the request has no cancel handle)
     std::shared_ptr<std::atomic_bool> m_alive{ std::make_shared<std::atomic_bool>(true) };
     wxStaticBitmap* m_error_picture;
     Label* m_error_msg_label{ nullptr };

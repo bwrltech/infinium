@@ -104,7 +104,7 @@ void GCodeWriter::apply_print_config(const PrintConfig &print_config)
     m_resolution = print_config.resolution.value;
 #undef LIMITS
 #undef LIMITS_UINT
-    // Orca: capture the printable area(s) so a spiral lift can be skipped when its
+    // Infinium: capture the printable area(s) so a spiral lift can be skipped when its
     // circle would leave the boundary and collide with the print limits. Full polygons
     // are stored (not a bounding box) so the check stays correct for non-rectangular
     // beds, and per-extruder areas are kept so printers with different boundaries per
@@ -189,7 +189,7 @@ void GCodeWriter::set_extruders(std::vector<unsigned int> extruder_ids)
 {
     std::sort(extruder_ids.begin(), extruder_ids.end());
     m_filament_extruders.clear();
-    //ORCA: Reset current extruder ID and clear pointers to prevent dangling pointers when extruders are recreated.
+    //INFINIUM: Reset current extruder ID and clear pointers to prevent dangling pointers when extruders are recreated.
     m_curr_extruder_id = -1;
     m_cached_extruder_idx = 0;
     std::fill(m_curr_filament_extruder.begin(), m_curr_filament_extruder.end(), nullptr);
@@ -200,7 +200,7 @@ void GCodeWriter::set_extruders(std::vector<unsigned int> extruder_ids)
     /*  we enable support for multiple extruder if any extruder greater than 0 is used
         (even if prints only uses that one) since we need to output Tx commands
         first extruder has index 0 */
-    //ORCA: Fix undefined behavior by checking if the vector is empty before taking max_element.
+    //INFINIUM: Fix undefined behavior by checking if the vector is empty before taking max_element.
     this->multiple_extruders = !extruder_ids.empty() && (*std::max_element(extruder_ids.begin(), extruder_ids.end())) > 0;
 }
 
@@ -322,7 +322,7 @@ std::string GCodeWriter::set_chamber_temperature(int temperature, bool wait)
 
     if (wait)
     {
-        // Orca: should we let the M191 command to turn on the auxiliary fan?
+        // Infinium: should we let the M191 command to turn on the auxiliary fan?
         if (config.auxiliary_fan)
             gcode << "M106 P2 S255 \n";
         gcode << "M191 S" << std::to_string(temperature) << " ;"
@@ -521,7 +521,7 @@ std::string GCodeWriter::set_pressure_advance(double pa) const
     return gcode.str();
 }
 
-// Orca: input shaping support
+// Infinium: input shaping support
 std::string GCodeWriter::set_input_shaping(char axis, float damp, float freq, std::string type) const
 {
     bool disable = type == "Disable";
@@ -676,7 +676,7 @@ std::string GCodeWriter::update_progress(unsigned int num, unsigned int tot, boo
 
 std::string GCodeWriter::toolchange_prefix() const
 {
-    // Orca: the manual-filament-change tag must stay ahead of the flavor selection so
+    // Infinium: the manual-filament-change tag must stay ahead of the flavor selection so
     // MMU manual-change handling keeps working.
     if (config.manual_filament_change)
         return ";" + GCodeProcessor::reserved_tag(GCodeProcessor::ETags::Manual_Tool_Change) + "T";
@@ -696,9 +696,9 @@ std::string GCodeWriter::toolchange(unsigned int filament_id, int nozzle_id)
     // return the toolchange command
     // if we are running a single-extruder setup, just set the extruder and return nothing
     std::ostringstream gcode;
-    // Orca: also emit for non-BBL single-extruder multi-filament setups (MMU-style).
+    // Infinium: also emit for non-BBL single-extruder multi-filament setups (MMU-style).
     if (this->multiple_extruders || (this->config.filament_diameter.values.size() > 1 && !is_bbl_printers())) {
-        // Orca: manual filament change keeps its tag line even on BBL machines, so the
+        // Infinium: manual filament change keeps its tag line even on BBL machines, so the
         // M1020 form must not shadow it. nozzle_id is signed: the null-safe nozzle
         // lookup legitimately yields -1 ("no specific nozzle"), matching the literal
         // H-1 the stock change templates emit; an unsigned would wrap.
@@ -817,7 +817,7 @@ std::string GCodeWriter::eager_lift(const LiftType type) {
         // static spiral alignment when no move in x,y plane.
         // spiral centra is a radius distance to the right (y=0)
         Vec2d ij_offset = { radius, 0 };
-        // Orca: keep the spiral inside the active extruder's printable area, otherwise
+        // Infinium: keep the spiral inside the active extruder's printable area, otherwise
         // fall back to a normal lift to avoid colliding with the print boundary. m_pos
         // includes the plate offset, so remove it to match the printable area coordinates.
         const Vec2d spiral_center = { m_pos.x() - m_x_offset + ij_offset.x(), m_pos.y() - m_y_offset + ij_offset.y() };
@@ -879,7 +879,7 @@ std::string GCodeWriter::travel_to_xyz(const Vec3d &point, const std::string &co
                 double radius = delta(2) / (2 * PI * atan(this->filament()->travel_slope()));
                 Vec2d ij_offset = radius * delta_no_z.normalized();
                 ij_offset = { -ij_offset(1), ij_offset(0) };
-                // Orca: only perform the spiral lift if its full circle stays inside the
+                // Infinium: only perform the spiral lift if its full circle stays inside the
                 // printable area of the active extruder, otherwise fall back to a normal
                 // lift to avoid colliding with the print boundary. `source` is already in
                 // bed coordinates (plate offset removed), matching the printable area.
@@ -1018,7 +1018,7 @@ std::string GCodeWriter::_spiral_travel_to_z(double z, const Vec2d &ij_offset, c
                                  : this->config.travel_speed.get_at(m_cached_extruder_idx);
     }
 
-    if (!this->config.enable_arc_fitting) { // Orca: if arc fitting is disabled, approximate the arc with small linear segments
+    if (!this->config.enable_arc_fitting) { // Infinium: if arc fitting is disabled, approximate the arc with small linear segments
         const double z_start = m_pos(2); // starting Z height
 
         const double px = m_pos(0) - m_x_offset;        // take plate offset into consideration
@@ -1061,7 +1061,7 @@ std::string GCodeWriter::_spiral_travel_to_z(double z, const Vec2d &ij_offset, c
         }
 
         emit_point(Vec3d(px, py, z));                   // final point to ensure exactness
-    } else { // Orca: if arc fitting is enabled emit a G2/G3 command for the spiral lift
+    } else { // Infinium: if arc fitting is enabled emit a G2/G3 command for the spiral lift
         output = std::string("G17") + (full_gcode_comment ? " ; XY plane for arc\n" : "\n");
 
         GCodeG2G3Formatter w(true);
@@ -1262,7 +1262,7 @@ std::string GCodeWriter::unlift()
 std::string GCodeWriter::set_fan(const GCodeFlavor gcode_flavor, unsigned int speed, unsigned int part_cooling_fan_min_pwm)
 {
     std::ostringstream gcode;
-    // ORCA: clamp non-zero fan commands up to the configured PWM floor so fans that can't spool at low duty
+    // INFINIUM: clamp non-zero fan commands up to the configured PWM floor so fans that can't spool at low duty
     // cycles still start reliably. Zero (fan off) is preserved exactly so disable-fan commands are never altered.
     if (speed > 0 && part_cooling_fan_min_pwm > 0 && speed < part_cooling_fan_min_pwm)
         speed = part_cooling_fan_min_pwm;
@@ -1300,7 +1300,7 @@ std::string GCodeWriter::set_fan(const GCodeFlavor gcode_flavor, unsigned int sp
 std::string GCodeWriter::set_fan(unsigned int speed) const
 {
     //BBS
-    // ORCA: pick up the per-printer PWM floor from the active config.
+    // INFINIUM: pick up the per-printer PWM floor from the active config.
     return GCodeWriter::set_fan(this->config.gcode_flavor, speed,
                                 static_cast<unsigned int>(std::max(0, this->config.part_cooling_fan_min_pwm.value)));
 }
@@ -1351,7 +1351,7 @@ void GCodeWriter::add_object_end_labels(std::string& gcode)
         gcode += m_gcode_label_objects_end;
         m_gcode_label_objects_end = "";
 
-        // Orca: reset E so that e value remain correct after skipping the object
+        // Infinium: reset E so that e value remain correct after skipping the object
         // ref to: https://github.com/Infinium/Infinium/pull/205/commits/7f1fe0bd544077626080aa1a9a0576aa735da1a4#r1083470162
         if (!this->config.use_relative_e_distances)
             gcode += reset_e(true);
@@ -1369,7 +1369,7 @@ std::string GCodeWriter::set_extruder(unsigned int filament_id)
     auto filament_ext_it = Slic3r::lower_bound_by_predicate(m_filament_extruders.begin(), m_filament_extruders.end(), [filament_id](const Extruder &e) { return e.id() < filament_id; });
     unsigned int extruder_id = filament_ext_it->extruder_id();
     assert(filament_ext_it != m_filament_extruders.end() && filament_ext_it->id() == filament_id);
-    // Orca: writer-only context (calibration paths) has no nozzle grouping; the
+    // Infinium: writer-only context (calibration paths) has no nozzle grouping; the
     // filament's own extruder id is the correct degenerate nozzle value.
     return this->need_toolchange(filament_id) ? this->toolchange(filament_id, (int) extruder_id) : "";
 }

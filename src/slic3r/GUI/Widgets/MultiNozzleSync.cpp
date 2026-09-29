@@ -33,7 +33,7 @@ static const int LeftExtruderIdx = 0;
 static const int RightExtruderIdx = 1;
 
 // ---- extruder_nozzle_stats config helpers ---------------------------------------------------------------------
-// Orca: nozzle stats have no live runtime object; they are stored in the printer preset's `extruder_nozzle_stats`
+// Infinium: nozzle stats have no live runtime object; they are stored in the printer preset's `extruder_nozzle_stats`
 // config key (ConfigOptionStrings, one encoded map per extruder) via get_extruder_nozzle_stats /
 // save_extruder_nozzle_stats_to_string. These helpers read and write that config.
 

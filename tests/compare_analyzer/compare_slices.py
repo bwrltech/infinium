@@ -565,7 +565,7 @@ def interpret_temp_action(desc, active_extruder):
     return "Control Command"
 
 def format_side_by_side_temp_track(f1_track, f2_track, f1_name, f2_name):
-    # 1. Find toolchanges for File 1 (Orca)
+    # 1. Find toolchanges for File 1 (Infinium)
     tc1 = []
     for idx, item in enumerate(f1_track):
         desc = item[4]
@@ -589,7 +589,7 @@ def format_side_by_side_temp_track(f1_track, f2_track, f1_name, f2_name):
                 
     if not tc1 and not tc2:
         res = ["##### Start Warmup Comparison (first 30 events):\n"]
-        res.append("| Orca: Line | Orca: Command | T0/T1 | BBL: Line | BBL: Command | T0/T1 |\n")
+        res.append("| Infinium: Line | Infinium: Command | T0/T1 | BBL: Line | BBL: Command | T0/T1 |\n")
         res.append("| :---: | :--- | :---: | :---: | :--- | :---: |\n")
         limit = min(30, max(len(f1_track), len(f2_track)))
         for i in range(limit):
@@ -607,7 +607,7 @@ def format_side_by_side_temp_track(f1_track, f2_track, f1_name, f2_name):
             res.append(f"| {o_line} | {o_desc} | {o_temps} | {b_line} | {b_desc} | {b_temps} |\n")
         return "".join(res)
 
-    # 3. Create ranges around toolchanges for Orca
+    # 3. Create ranges around toolchanges for Infinium
     ranges1 = []
     for idx, line, t_num in tc1:
         start_idx = max(0, idx - 10)
@@ -651,7 +651,7 @@ def format_side_by_side_temp_track(f1_track, f2_track, f1_name, f2_name):
     
     # Render Start Warmup
     res.append("#### Start Warmup Before Printing:\n")
-    res.append("| Orca: Line | Orca: Event (Phase) | Orca T0/T1 | BBL: Line | BBL: Event (Phase) | BBL T0/T1 |\n")
+    res.append("| Infinium: Line | Infinium: Event (Phase) | Infinium T0/T1 | BBL: Line | BBL: Event (Phase) | BBL T0/T1 |\n")
     res.append("| :---: | :--- | :---: | :---: | :--- | :---: |\n")
     
     first_start1 = m_ranges1[0][0] if m_ranges1 else len(f1_track)
@@ -689,8 +689,8 @@ def format_side_by_side_temp_track(f1_track, f2_track, f1_name, f2_name):
         label2 = r2[2] if r2 else "No transition"
         
         res.append(f"#### Transition #{t_idx + 1}:\n")
-        res.append(f"**Orca:** {label1} | **BBL:** {label2}\n\n")
-        res.append("| Orca: Line | Orca: Event (Phase) | Orca T0/T1 | BBL: Line | BBL: Event (Phase) | BBL T0/T1 |\n")
+        res.append(f"**Infinium:** {label1} | **BBL:** {label2}\n\n")
+        res.append("| Infinium: Line | Infinium: Event (Phase) | Infinium T0/T1 | BBL: Line | BBL: Event (Phase) | BBL T0/T1 |\n")
         res.append("| :---: | :--- | :---: | :---: | :--- | :---: |\n")
         
         events1 = f1_track[r1[0]:r1[1]+1] if r1 else []

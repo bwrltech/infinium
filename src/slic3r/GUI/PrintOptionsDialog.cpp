@@ -527,7 +527,7 @@ void PrintOptionsDialog::update_options(MachineObject* obj_)
         line7->Hide();
     }
 
-    // Orca: firmware print-option toggles, each shown only when its fun2 capability bit is
+    // Infinium: firmware print-option toggles, each shown only when its fun2 capability bit is
     //       reported. A printer reporting none of these bits renders the dialog as before.
     auto* print_opts = obj_->GetPrintOptions();
     auto  show_row = [](bool support, std::initializer_list<wxWindow*> widgets, wxSizerItem* bottom_space) {
@@ -709,7 +709,7 @@ void PrintOptionsDialog::update_purify_air_at_print_end(MachineObject *obj_)
     text_purify_air_context->SetForegroundColour(STATIC_TEXT_CAPTION_COL);
     text_purify_air->SetForegroundColour(StateColor::darkModeColorFor(wxColour("#262E30")));
 
-    // Orca: this codebase's AirDuctData has no IsExaustFanExit() helper, so the exhaust/chamber
+    // Infinium: this codebase's AirDuctData has no IsExaustFanExit() helper, so the exhaust/chamber
     //       fan is detected inline by scanning the air-duct parts for the chamber-fan id.
     bool has_exhaust_fan = false;
     for (const auto& part : obj_->GetFan()->GetAirDuctData().parts) {
@@ -735,7 +735,7 @@ void PrintOptionsDialog::update_purify_air_at_print_end(MachineObject *obj_)
     text_purify_air_context->Show();
     text_purify_air_context->Wrap(FromDIP(400));
 
-    // Orca: disabled while a print is running (matches the reference); the reference's
+    // Infinium: disabled while a print is running (matches the reference); the reference's
     //       "unavailable during the task" toast is not ported.
     if (obj_->is_in_printing()) {
         m_cb_purify_air_at_print_end->Disable();
@@ -1102,7 +1102,7 @@ wxBoxSizer* PrintOptionsDialog::create_settings_group(wxWindow* parent)
     line_sizer->Add(FromDIP(5), 0, 0, 0);
     line_sizer->Add(m_cb_save_remote_print_file_to_storage, 0, wxALL | wxALIGN_CENTER_VERTICAL, FromDIP(5));
     line_sizer->Add(text_save_remote_print_file_to_storage, 1, wxALL | wxALIGN_CENTER_VERTICAL, FromDIP(5));
-    text_save_remote_print_file_to_storage_explain = new Label(parent, _L("Save the printing files sent from the slicer and other apps on External Storage")); // Orca: neutral wording (vendor app names removed)
+    text_save_remote_print_file_to_storage_explain = new Label(parent, _L("Save the printing files sent from the slicer and other apps on External Storage")); // Infinium: neutral wording (vendor app names removed)
     text_save_remote_print_file_to_storage_explain->SetForegroundColour(STATIC_TEXT_EXPLAIN_COL);
     text_save_remote_print_file_to_storage_explain->SetFont(Label::Body_12);
     text_save_remote_print_file_to_storage_explain->Wrap(FromDIP(400));
@@ -1519,7 +1519,7 @@ PrinterPartsDialog::PrinterPartsDialog(wxWindow* parent)
     change_nozzle_tips->SetFont(Label::Body_13);
     change_nozzle_tips->SetForegroundColour(STATIC_TEXT_CAPTION_COL);
 
-    m_wiki_link = new HyperLink(single_panel, _L("Wiki Guide")); // ORCA
+    m_wiki_link = new HyperLink(single_panel, _L("Wiki Guide")); // INFINIUM
     m_wiki_link->SetFont(Label::Body_13);
     m_wiki_link->Bind(wxEVT_LEFT_DOWN, &PrinterPartsDialog::OnWikiClicked, this);
 
@@ -1630,7 +1630,7 @@ PrinterPartsDialog::PrinterPartsDialog(wxWindow* parent)
     multiple_change_nozzle_tips->SetFont(Label::Body_13);
     multiple_change_nozzle_tips->SetForegroundColour(STATIC_TEXT_CAPTION_COL);
 
-    multiple_wiki_link = new HyperLink(multiple_panel, _L("Wiki Guide")); // ORCA
+    multiple_wiki_link = new HyperLink(multiple_panel, _L("Wiki Guide")); // INFINIUM
     multiple_wiki_link->SetFont(Label::Body_13);
     multiple_wiki_link->Bind(wxEVT_LEFT_DOWN, &PrinterPartsDialog::OnWikiClicked, this);
 

@@ -462,7 +462,7 @@ wxBitmap create_scaled_bitmap(  const std::string& bmp_name_in,
     }
 
 #ifdef __WXMSW__
-    // ORCA MSW needs to set scale factor for bitmaps loaded from cache because they arent auto scaled by wxBitmapBundle like bitmaps
+    // INFINIUM MSW needs to set scale factor for bitmaps loaded from cache because they arent auto scaled by wxBitmapBundle like bitmaps
     bmp->SetScaleFactor(win ? win->GetDPIScaleFactor() : (wxWindow::FromDIP(100, nullptr) / 100.0));
 #endif
     return *bmp;
@@ -486,7 +486,7 @@ wxBitmap create_scaled_bitmap2(const std::string& bmp_name_in, Slic3r::GUI::Bitm
         throw Slic3r::RuntimeError("Could not load bitmap: " + bmp_name);
     }
 #ifdef __WXMSW__
-    // ORCA MSW needs to set scale factor for bitmaps loaded from cache because they arent auto scaled by wxBitmapBundle like bitmaps
+    // INFINIUM MSW needs to set scale factor for bitmaps loaded from cache because they arent auto scaled by wxBitmapBundle like bitmaps
     bmp->SetScaleFactor(win ? win->GetDPIScaleFactor() : (wxWindow::FromDIP(100, nullptr) / 100.0));
 #endif
     return *bmp;
@@ -530,7 +530,7 @@ wxBitmap* get_default_extruder_color_icon(bool thin_icon/* = false*/)
     }
 
     #ifdef __WXMSW__
-    // ORCA MSW needs to set scale factor for bitmaps loaded from cache because they arent auto scaled by wxBitmapBundle like bitmaps
+    // INFINIUM MSW needs to set scale factor for bitmaps loaded from cache because they arent auto scaled by wxBitmapBundle like bitmaps
     double scale = win ? win->GetDPIScaleFactor() : (wxWindow::FromDIP(100, nullptr) / 100.0);
     bitmap->SetScaleFactor(scale);
     #endif
@@ -694,7 +694,7 @@ wxBitmap *get_extruder_color_icon(std::vector<std::string> colors, bool is_gradi
 #else
             wxClientDC cdc(win);
             wxMemoryDC dc(&cdc);
-            // ORCA MSW needs to set scale factor for bitmaps loaded from cache because they arent auto scaled by wxBitmapBundle like bitmaps
+            // INFINIUM MSW needs to set scale factor for bitmaps loaded from cache because they arent auto scaled by wxBitmapBundle like bitmaps
             double scale = win ? win->GetDPIScaleFactor() : (wxWindow::FromDIP(100, nullptr) / 100.0);
             base_bitmap.SetScaleFactor(scale);
             dc.SelectObject(base_bitmap);
@@ -734,7 +734,7 @@ wxBitmap *get_extruder_color_icon(std::vector<std::string> colors, bool is_gradi
         bitmap = bmp_cache.insert(bitmap_key, base_bitmap);
     }
     #ifdef __WXMSW__
-        // ORCA MSW needs to set scale factor for bitmaps loaded from cache because they arent auto scaled by wxBitmapBundle like bitmaps
+        // INFINIUM MSW needs to set scale factor for bitmaps loaded from cache because they arent auto scaled by wxBitmapBundle like bitmaps
         double scale = win ? win->GetDPIScaleFactor() : (wxWindow::FromDIP(100, nullptr) / 100.0);
         bitmap->SetScaleFactor(scale);
     #endif
@@ -796,7 +796,7 @@ wxBitmap *get_extruder_color_icon(std::string color, std::string label, int icon
         dc.SelectObject(wxNullBitmap);
     }
     #ifdef __WXMSW__
-        // ORCA MSW needs to set scale factor for bitmaps loaded from cache because they arent auto scaled by wxBitmapBundle like bitmaps
+        // INFINIUM MSW needs to set scale factor for bitmaps loaded from cache because they arent auto scaled by wxBitmapBundle like bitmaps
         double scale = win ? win->GetDPIScaleFactor() : (wxWindow::FromDIP(100, nullptr) / 100.0);
         bitmap->SetScaleFactor(scale);
     #endif

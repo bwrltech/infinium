@@ -1283,7 +1283,7 @@ msgid "Operation"
 msgstr "Operasyon"
 
 #. TRN EmbossOperation
-#. ORCA
+#. INFINIUM
 msgid "Join"
 msgstr "Ekle"
 
@@ -2632,7 +2632,7 @@ msgstr "Simit"
 msgid "Infinium Cube"
 msgstr "Infinium Küpü"
 
-msgid "OrcaSliced Combo"
+msgid "InfiniumSliced Combo"
 msgstr "Infinium Dilimleme Paketi"
 
 # AI Translated
@@ -6615,8 +6615,8 @@ msgid "Select profile to load:"
 msgstr "Yüklenecek profili seç:"
 
 # AI Translated
-msgid "Config files (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
-msgstr "Yapılandırma dosyaları (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
+msgid "Config files (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
+msgstr "Yapılandırma dosyaları (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
 
 #, c-format, boost-format
 msgid "There is %d config imported. (Only non-system and compatible configs)"
@@ -19992,11 +19992,11 @@ msgstr ""
 msgid "Printer Setting"
 msgstr "Yazıcı Ayarı"
 
-msgid "Printer config bundle(.orca_printer)"
-msgstr "Yazıcı yapılandırma paketi(.orca_printer)"
+msgid "Printer config bundle(.infinium_printer)"
+msgstr "Yazıcı yapılandırma paketi(.infinium_printer)"
 
-msgid "Filament bundle(.orca_filament)"
-msgstr "Filament demeti(.orca_filament)"
+msgid "Filament bundle(.infinium_filament)"
+msgstr "Filament demeti(.infinium_filament)"
 
 msgid "Printer presets(.zip)"
 msgstr "Yazıcı ön ayarları (.zip)"
@@ -21958,8 +21958,8 @@ msgstr ""
 "ABS gibi bükülmeye yatkın malzemelere baskı yaparken, ısıtma yatağı sıcaklığının uygun şekilde arttırılmasının bükülme olasılığını azaltabileceğini biliyor muydunuz?"
 
 # AI Translated
-#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart OrcaSlicer."
-#~ msgstr "Yerel Wayland canlı görüntüsü, GStreamer GTK video alıcısını gerektirir. Lütfen GStreamer için gtksink eklentisini yükleyin ve ardından OrcaSlicer'ı yeniden başlatın."
+#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart Infinium."
+#~ msgstr "Yerel Wayland canlı görüntüsü, GStreamer GTK video alıcısını gerektirir. Lütfen GStreamer için gtksink eklentisini yükleyin ve ardından Infinium'ı yeniden başlatın."
 
 # AI Translated
 #~ msgid "Failed to initialize the native Wayland GStreamer video sink. Please check your GStreamer GTK plugin installation."
@@ -21971,14 +21971,14 @@ msgstr ""
 #~ msgid "BambuSource has not correctly been registered for media playing! Press Yes to re-register it. You will be promoted twice"
 #~ msgstr "BambuSource medya oynatımı için doğru şekilde kaydedilmemiş! Yeniden kaydetmek için Evet’e basın"
 
-#~ msgid "Missing BambuSource component registered for media playing! Please re-install OrcaSlicer or seek community help."
-#~ msgstr "Medya oynatma için kayıtlı BambuSource bileşeni eksik! Lütfen OrcaSlicer'ı yeniden yükleyin veya topluluk yardımı isteyin."
+#~ msgid "Missing BambuSource component registered for media playing! Please re-install Infinium or seek community help."
+#~ msgstr "Medya oynatma için kayıtlı BambuSource bileşeni eksik! Lütfen Infinium'ı yeniden yükleyin veya topluluk yardımı isteyin."
 
 #~ msgid "Using a BambuSource from a different install, video play may not work correctly! Press Yes to fix it."
 #~ msgstr "Farklı bir kurulumdan bir BambuSource kullanıyorsunuz, video oynatma doğru çalışmayabilir! Düzeltmek için Evet’e basın."
 
-#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Orca Slicer?)"
-#~ msgstr "Sisteminizde video oynatmak için gerekli olan GStreamer H.264 codec bileşenleri eksik. (gstreamer1.0-plugins-bad veya gstreamer1.0-libav paketlerini kurmayı deneyin, ardından Orca Slicer’ı yeniden başlatın)"
+#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Infinium?)"
+#~ msgstr "Sisteminizde video oynatmak için gerekli olan GStreamer H.264 codec bileşenleri eksik. (gstreamer1.0-plugins-bad veya gstreamer1.0-libav paketlerini kurmayı deneyin, ardından Infinium’ı yeniden başlatın)"
 
 # AI Translated
 #~ msgid "N"
@@ -22077,8 +22077,8 @@ msgstr ""
 #~ msgstr "Mevcut donanım yazılımı maksimum 16 materyali desteklemektedir. Hazırlık Sayfasında malzeme sayısını 16 veya daha azına düşürebilir veya ürün yazılımını güncellemeyi deneyebilirsiniz. Güncellemeden sonra hala kısıtlıysanız lütfen sonraki ürün yazılımı desteğini bekleyin."
 
 # TODO: Review, changed by lang refactor. PR 14254
-#~ msgid "Click OK to update the Network plug-in the next time Orca Slicer launches."
-#~ msgstr "Orca Slicer bir sonraki sefer başlatıldığında Ağ eklentisini güncellemek için Tamam'a tıklayın."
+#~ msgid "Click OK to update the Network plug-in the next time Infinium launches."
+#~ msgstr "Infinium bir sonraki sefer başlatıldığında Ağ eklentisini güncellemek için Tamam'a tıklayın."
 
 # TODO: Review, changed by lang refactor. PR 14254
 #, boost-format
@@ -22461,8 +22461,8 @@ msgstr ""
 #~ msgid "Object/Part Setting"
 #~ msgstr "Nesne/Parça Ayarı"
 
-#~ msgid "OrcaSlicer is based on BambuStudio, PrusaSlicer, and SuperSlicer."
-#~ msgstr "OrcaSlicer, BambuStudio, PrusaSlicer ve SuperSlicer'ı temel alır."
+#~ msgid "Infinium is based on BambuStudio, PrusaSlicer, and SuperSlicer."
+#~ msgstr "Infinium, BambuStudio, PrusaSlicer ve SuperSlicer'ı temel alır."
 
 #~ msgid "BambuStudio is originally based on PrusaSlicer by PrusaResearch."
 #~ msgstr "BambuStudio orijinal olarak PrusaResearch'ün PrusaSlicer'ını temel almaktadır."
@@ -22491,14 +22491,14 @@ msgstr ""
 #~ msgid "Flow ratio test - Pass 2"
 #~ msgstr "Akış oranı testi - Geçiş 2"
 
-#~ msgid "Orca YOLO flowratio calibration, 0.01 step"
-#~ msgstr "Orca YOLO akış oranı kalibrasyonu, 0,01 adım"
+#~ msgid "Infinium YOLO flowratio calibration, 0.01 step"
+#~ msgstr "Infinium YOLO akış oranı kalibrasyonu, 0,01 adım"
 
 #~ msgid "YOLO (perfectionist version)"
 #~ msgstr "YOLO (Mükemmeliyetçi)"
 
-#~ msgid "Orca YOLO flowratio calibration, 0.005 step"
-#~ msgstr "Orca YOLO akış oranı kalibrasyonu, 0,005 adım"
+#~ msgid "Infinium YOLO flowratio calibration, 0.005 step"
+#~ msgstr "Infinium YOLO akış oranı kalibrasyonu, 0,005 adım"
 
 #~ msgid "Retraction test"
 #~ msgstr "Geri çekme testi"
@@ -22531,8 +22531,8 @@ msgstr ""
 #~ msgid "Right nozzle: %smm"
 #~ msgstr "Sağ nozul: %smm"
 
-#~ msgid "\"Fix Model\" feature is currently only on Windows. Please repair the model on Orca Slicer(windows) or CAD softwares."
-#~ msgstr "\"Modeli Onar\" özelliği şu anda yalnızca Windows'ta bulunmaktadır. Lütfen modeli Orca Slicer (windows) veya CAD yazılımlarında onarın."
+#~ msgid "\"Fix Model\" feature is currently only on Windows. Please repair the model on Infinium(windows) or CAD softwares."
+#~ msgstr "\"Modeli Onar\" özelliği şu anda yalnızca Windows'ta bulunmaktadır. Lütfen modeli Infinium (windows) veya CAD yazılımlarında onarın."
 
 #~ msgid "This stops the transmission of data to Bambu's cloud services. Users who don't use BBL machines or use LAN mode only can safely turn on this function."
 #~ msgstr "Bu, Bambu’nun bulut hizmetlerine veri aktarımını durdurur. BBL makinelerini kullanmayan veya yalnızca LAN modunu kullanan kullanıcılar bu işlevi güvenle açabilir."

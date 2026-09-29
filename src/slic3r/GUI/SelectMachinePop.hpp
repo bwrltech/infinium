@@ -180,7 +180,7 @@ private:
     PinCodePanel*                     m_panel_ping_code{nullptr};
     PinCodePanel*                     m_panel_direct_connection{nullptr};
     wxWindow*                         m_placeholder_panel{nullptr};
-    HyperLink*                        m_hyperlink{nullptr}; // ORCA
+    HyperLink*                        m_hyperlink{nullptr}; // INFINIUM
     wxBoxSizer *                      m_sizer_my_devices{nullptr};
     wxBoxSizer *                      m_sizer_other_devices{nullptr};
 #if defined(__WINDOWS__)

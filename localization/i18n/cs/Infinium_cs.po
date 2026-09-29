@@ -1294,7 +1294,7 @@ msgid "Operation"
 msgstr "Operace"
 
 #. TRN EmbossOperation
-#. ORCA
+#. INFINIUM
 msgid "Join"
 msgstr "Připojit"
 
@@ -2637,8 +2637,8 @@ msgid "Infinium Cube"
 msgstr "Infinium Cube"
 
 # AI Translated
-msgid "OrcaSliced Combo"
-msgstr "OrcaSliced Combo"
+msgid "InfiniumSliced Combo"
+msgstr "InfiniumSliced Combo"
 
 # AI Translated
 msgid "Infinium Badge"
@@ -6630,8 +6630,8 @@ msgid "Select profile to load:"
 msgstr "Vyberte profil k načtení:"
 
 # AI Translated
-msgid "Config files (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
-msgstr "Konfigurační soubory (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
+msgid "Config files (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
+msgstr "Konfigurační soubory (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
 
 #, c-format, boost-format
 msgid "There is %d config imported. (Only non-system and compatible configs)"
@@ -19970,11 +19970,11 @@ msgstr "\n\nInfinium zjistila, že není povolena synchronizace uživatelských 
 msgid "Printer Setting"
 msgstr "Nastavení tiskárny"
 
-msgid "Printer config bundle(.orca_printer)"
-msgstr "Balíček nastavení tiskárny (.orca_printer)"
+msgid "Printer config bundle(.infinium_printer)"
+msgstr "Balíček nastavení tiskárny (.infinium_printer)"
 
-msgid "Filament bundle(.orca_filament)"
-msgstr "Balíček filamentů (.orca_filament)"
+msgid "Filament bundle(.infinium_filament)"
+msgstr "Balíček filamentů (.infinium_filament)"
 
 msgid "Printer presets(.zip)"
 msgstr "Předvolby tiskárny (.zip)"
@@ -22003,8 +22003,8 @@ msgstr ""
 "Víte, že při tisku materiálů náchylných ke kroucení, jako je ABS, může vhodné zvýšení teploty vyhřívané desky snížit pravděpodobnost kroucení?"
 
 # AI Translated
-#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart OrcaSlicer."
-#~ msgstr "Nativní živý náhled ve Waylandu vyžaduje video sink GStreamer GTK. Nainstalujte prosím plugin gtksink pro GStreamer a poté restartujte OrcaSlicer."
+#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart Infinium."
+#~ msgstr "Nativní živý náhled ve Waylandu vyžaduje video sink GStreamer GTK. Nainstalujte prosím plugin gtksink pro GStreamer a poté restartujte Infinium."
 
 # AI Translated
 #~ msgid "Failed to initialize the native Wayland GStreamer video sink. Please check your GStreamer GTK plugin installation."
@@ -22019,16 +22019,16 @@ msgstr ""
 #~ msgstr "BambuSource nebyl správně zaregistrován pro přehrávání médií! Stisknutím Ano jej znovu zaregistrujete. Budete vyzváni dvakrát"
 
 # AI Translated
-#~ msgid "Missing BambuSource component registered for media playing! Please re-install OrcaSlicer or seek community help."
-#~ msgstr "Chybí komponenta BambuSource registrovaná pro přehrávání médií! Přeinstalujte prosím OrcaSlicer nebo požádejte o pomoc komunitu."
+#~ msgid "Missing BambuSource component registered for media playing! Please re-install Infinium or seek community help."
+#~ msgstr "Chybí komponenta BambuSource registrovaná pro přehrávání médií! Přeinstalujte prosím Infinium nebo požádejte o pomoc komunitu."
 
 # AI Translated
 #~ msgid "Using a BambuSource from a different install, video play may not work correctly! Press Yes to fix it."
 #~ msgstr "Používá se BambuSource z jiné instalace, přehrávání videa nemusí fungovat správně! Stisknutím Ano to opravíte."
 
 # AI Translated
-#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Orca Slicer?)"
-#~ msgstr "Ve vašem systému chybí kodeky H.264 pro GStreamer, které jsou nutné k přehrávání videa. (Zkuste nainstalovat balíčky gstreamer1.0-plugins-bad nebo gstreamer1.0-libav a poté restartovat Orca Slicer?)"
+#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Infinium?)"
+#~ msgstr "Ve vašem systému chybí kodeky H.264 pro GStreamer, které jsou nutné k přehrávání videa. (Zkuste nainstalovat balíčky gstreamer1.0-plugins-bad nebo gstreamer1.0-libav a poté restartovat Infinium?)"
 
 # AI Translated
 #~ msgid "N"
@@ -22115,8 +22115,8 @@ msgstr ""
 #~ msgstr "Aktuální firmware podporuje maximálně 16 materiálů. Na stránce Příprava můžete snížit počet materiálů na 16 nebo méně, případně zkusit aktualizovat firmware. Pokud omezení přetrvá i po aktualizaci, vyčkejte na podporu v některé z dalších verzí firmwaru."
 
 # TODO: Review, changed by lang refactor. PR 14254
-#~ msgid "Click OK to update the Network plug-in the next time Orca Slicer launches."
-#~ msgstr "Klikněte na OK pro aktualizaci síťového plug-inu při příštím spuštění Orca Sliceru."
+#~ msgid "Click OK to update the Network plug-in the next time Infinium launches."
+#~ msgstr "Klikněte na OK pro aktualizaci síťového plug-inu při příštím spuštění Infinium Sliceru."
 
 # TODO: Review, changed by lang refactor. PR 14254
 #, boost-format

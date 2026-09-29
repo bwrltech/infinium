@@ -337,14 +337,14 @@ wxBitmap* BitmapCache::load_svg(const std::string &bitmap_name, unsigned target_
         replaces["\"#00FF00\""] = "\"#FF0000\"";
         replaces["\"#0D6E63\""] = "\"#094c44\"";
         replaces["\"#F1F1F1\""] = "\"#36363B\"";
-        replaces["#DBDBDB"] = "#4A4A51"; // ORCA border color
-        replaces["#F0F0F1"] = "#333337"; // ORCA disabled background color
-        replaces["#262E30"] = "#EFEFF0"; // ORCA
+        replaces["#DBDBDB"] = "#4A4A51"; // INFINIUM border color
+        replaces["#F0F0F1"] = "#333337"; // INFINIUM disabled background color
+        replaces["#262E30"] = "#EFEFF0"; // INFINIUM
     } else {
-        replaces["#949494"] = "#7C8282"; // ORCA replace icon line color for light theme
+        replaces["#949494"] = "#7C8282"; // INFINIUM replace icon line color for light theme
     }
 
-    if (strstr(bitmap_name.c_str(), "toggle_on") != NULL && dark_mode) // ORCA only replace color of toggle button
+    if (strstr(bitmap_name.c_str(), "toggle_on") != NULL && dark_mode) // INFINIUM only replace color of toggle button
         replaces["#0D6E63"] = "#094c44";
 
     if (!new_color.empty())

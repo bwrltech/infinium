@@ -43,7 +43,7 @@ static std::string get_humidity_level_img_path(int humidity_percent)
     }
 
     if (wxGetApp().dark_mode()) {
-        return "hum_level" + std::to_string(hum_level) + "_no_num_dark"; // Orca: use the dark-mode humidity glyph in dark mode
+        return "hum_level" + std::to_string(hum_level) + "_no_num_dark"; // Infinium: use the dark-mode humidity glyph in dark mode
     } else {
         return "hum_level" + std::to_string(hum_level) + "_no_num_light";
     }
@@ -87,7 +87,7 @@ FilamentItemPanel::FilamentItemPanel(wxWindow* parent, const wxString& text, con
     : wxPanel(parent, id)
     , m_icon_name(icon_name)
 {
-    SetBackgroundColour(wxColour("#F0F0F1")); // Orca: light-gray panel scheme (#F0F0F1 replaces REF #F7F7F7)
+    SetBackgroundColour(wxColour("#F0F0F1")); // Infinium: light-gray panel scheme (#F0F0F1 replaces REF #F7F7F7)
     SetMinSize(wxSize(FromDIP(64), FromDIP(106))); // Width: 64, Height: 106
     SetSize(wxSize(FromDIP(64), FromDIP(106)));    // Fixed size
 
@@ -978,7 +978,7 @@ void AMSDryCtrWin::create()
     // set title icon
     SetBackgroundColour(StateColor::darkModeColorFor(*wxWHITE));
     this->SetDoubleBuffered(true);
-    std::string icon_path = (boost::format("%1%/images/InfiniumTitle.ico") % resources_dir()).str(); // Orca: app title icon
+    std::string icon_path = (boost::format("%1%/images/InfiniumTitle.ico") % resources_dir()).str(); // Infinium: app title icon
     SetIcon(wxIcon(encode_path(icon_path.c_str()), wxBITMAP_TYPE_ICO));
 
     SetSize(wxSize(FromDIP(700), FromDIP(500)));

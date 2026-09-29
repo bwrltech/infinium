@@ -939,7 +939,7 @@ std::vector<NozzleInfo> load_nozzle_infos_with_compatibility(
             NozzleInfo info;
             info.diameter = format_diameter_to_str(filament.nozzle_diameter);
             info.group_id = group_id;
-            // Orca: bounds-check filament_map[filament.id] so a malformed 3mf (filament id
+            // Infinium: bounds-check filament_map[filament.id] so a malformed 3mf (filament id
             // beyond the map) degrades to extruder 0 instead of dereferencing out of range.
             info.extruder_id = (filament.id >= 0 && filament.id < static_cast<int>(filament_map.size()))
                                    ? filament_map[filament.id] - 1

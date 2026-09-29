@@ -1,5 +1,5 @@
 name: 💥 Crash Report
-description: Orca Slicer closes on its own, freezes or stops responding
+description: Infinium closes on its own, freezes or stops responding
 labels: ["crash"]
 body:
   - type: markdown
@@ -7,7 +7,7 @@ body:
       value: |
         **Thank you for taking the time to report a crash.**
 
-        Use this form when Orca Slicer closes on its own, freezes, or stops responding.
+        Use this form when Infinium closes on its own, freezes, or stops responding.
         If the application stays open and only produces a wrong result, please use the [Bug report](https://github.com/Infinium/Infinium/issues/new?assignees=&labels=&projects=&template=bug_report.yml) form instead.
         A printer whose toolhead collides with the print is also a bug report rather than a crash, since the application itself did not stop.
 
@@ -32,7 +32,7 @@ body:
     id: version
     attributes:
       label: Infinium Version
-      description: Which version of Orca Slicer are you running? You can see the full version in `Help` -> `About Orca Slicer`.
+      description: Which version of Infinium are you running? You can see the full version in `Help` -> `About Infinium`.
       placeholder: e.g. 2.5.0
     validations:
       required: true
@@ -76,7 +76,7 @@ body:
     id: crash_moment
     attributes:
       label: When does the crash happen?
-      description: Pick the point where Orca Slicer stops working.
+      description: Pick the point where Infinium stops working.
       options:
         - Not sure
         - On startup, before the main window appears
@@ -109,7 +109,7 @@ body:
     attributes:
       label: Does it still crash with a fresh configuration?
       description: >
-        Close Orca Slicer and rename your configuration folder (`%APPDATA%\Infinium` on Windows,
+        Close Infinium and rename your configuration folder (`%APPDATA%\Infinium` on Windows,
         `$HOME/Library/Application Support/Infinium` on macOS, `$HOME/.config/Infinium` on Linux),
         then start it again. Renaming keeps your settings, so you can put the folder back afterwards.
       options:
@@ -127,7 +127,7 @@ body:
         1. Go to '...'
         2. Click on '...'
         3. Scroll down to '...'
-        4. Orca Slicer closes
+        4. Infinium closes
     validations:
       required: true
   - type: textarea
@@ -157,7 +157,7 @@ body:
           * Linux: `$HOME/.config/Infinium/log`
           * Flatpak: `$HOME/.var/app/com.infinium.Infinium/config/Infinium/log`
           * On Windows the crash itself is written to a separate `crash_*.log` in there, and that is the file we need most. If the zip comes out over 25 MB GitHub will refuse it, so attach the newest log and any `crash_*.log` on their own instead.
-        * The **operating system crash report**, on macOS and Linux, where Orca Slicer cannot write its own crash log. It is often the only record of where it died:
+        * The **operating system crash report**, on macOS and Linux, where Infinium cannot write its own crash log. It is often the only record of where it died:
           * macOS: Console.app -> Crash Reports, or `$HOME/Library/Logs/DiagnosticReports/`. The file starts with `Infinium` and ends in `.ips`. Zip it before attaching, GitHub does not accept `.ips` files.
           * Linux: run `orca-slicer` from a terminal (Flatpak: `flatpak run com.infinium.Infinium`) and paste everything it prints when it dies. On systemd systems `coredumpctl info orca-slicer` gives a backtrace.
       placeholder: |

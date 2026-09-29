@@ -286,7 +286,7 @@ private:
     wxStaticText*   m_staticText_progress_percent;
     wxStaticText*   m_staticText_progress_percent_icon;
     wxStaticText*   m_staticText_progress_left;
-    // Orca: show print end time
+    // Infinium: show print end time
     wxStaticText * m_staticText_progress_end;
     wxStaticText*   m_staticText_layers;
     wxStaticText *  m_has_rated_prompt;
@@ -555,7 +555,7 @@ protected:
     wxStaticBitmap *m_filament_load_img;
 
     Button *m_button_retry {nullptr};
-    Button *m_fila_change_abort {nullptr}; // Orca: filament-change Stop button
+    Button *m_fila_change_abort {nullptr}; // Infinium: filament-change Stop button
     StaticBox* m_filament_load_box;
 
     // Virtual event handlers, override them in your derived class

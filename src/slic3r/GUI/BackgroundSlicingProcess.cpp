@@ -257,7 +257,7 @@ void BackgroundSlicingProcess::process_fff()
         m_temp_output_path = this->get_current_plate()->get_tmp_gcode_path();
         m_fff_print->export_gcode(m_temp_output_path, m_gcode_result,
                                   [this](const ThumbnailsParams& params) { return this->render_thumbnails(params); });
-        // Orca: BBL printers post-process the g-code in place here and never re-parse it into a fresh
+        // Infinium: BBL printers post-process the g-code in place here and never re-parse it into a fresh
         // GCodeProcessorResult, so m_gcode_result->nozzle_group_result (consumed by the H2C print-dispatch
         // nozzle mapping) survives post-processing. No preservation guard is needed on this path.
         if (m_fff_print->is_BBL_printer()) {
@@ -716,7 +716,7 @@ Print::ApplyStatus BackgroundSlicingProcess::apply(const Model& model, const Dyn
     new_config.apply(*m_current_plate->config());
     Print::ApplyStatus invalidated = m_print->apply(model, new_config);
 
-    // Orca: prevent resetting under gcode viewer mode
+    // Infinium: prevent resetting under gcode viewer mode
     if (invalidated != PrintBase::APPLY_STATUS_UNCHANGED) {
         const auto plater = GUI::wxGetApp().mainframe->m_plater;
         if (plater && plater->only_gcode_mode()) {
@@ -954,7 +954,7 @@ void BackgroundSlicingProcess::prepare_upload()
                 throw Slic3r::RuntimeError(_utf8(L("Copying of the temporary G-code to the output G-code failed.")));
             m_upload_job.upload_data.upload_path = m_fff_print->print_statistics().finalize_output_path(
                 m_upload_job.upload_data.upload_path.string());
-            // Orca: skip post-processing scripts for BBL printers as we have run them already in finalize_gcode()
+            // Infinium: skip post-processing scripts for BBL printers as we have run them already in finalize_gcode()
             // todo: do we need to copy the file?
 
             // Make a copy of the source path, as run_post_process_scripts() is allowed to change it when making a copy of the source file

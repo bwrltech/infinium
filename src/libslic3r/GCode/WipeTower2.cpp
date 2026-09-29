@@ -1,4 +1,4 @@
-// Orca: WipeTower2 for all non bbl printers, support all MMU device and toolchanger.
+// Infinium: WipeTower2 for all non bbl printers, support all MMU device and toolchanger.
 #include "WipeTower2.hpp"
 
 #include <cassert>
@@ -331,7 +331,7 @@ public:
         m_gcode_flavor(flavor), m_filpar(filament_parameters)
         //m_enable_arc_fitting(enable_arc_fitting)
     {
-            // ORCA: This class is only used by non BBL printers, so set the parameter appropriately.
+            // INFINIUM: This class is only used by non BBL printers, so set the parameter appropriately.
             // This fixes an issue where the wipe tower was using BBL tags resulting in statistics for purging in the purge tower not being displayed.
             GCodeProcessor::s_IsBBLPrinter = false;
             // adds tag for analyzer:
@@ -995,7 +995,7 @@ WipeTower::ToolChangeResult WipeTower2::construct_tcr(WipeTowerWriter2& writer,
     result.wipe_path    = std::move(writer.wipe_path());
     result.is_finish_first = is_finish;
     result.is_contact = is_contact;
-    // ORCA: Always initialize the tool_change_start_pos with a valid position
+    // INFINIUM: Always initialize the tool_change_start_pos with a valid position
     // to avoid undefined variable travel on X in Gcode.cpp function std::string WipeTowerIntegration::post_process_wipe_tower_moves
     result.tool_change_start_pos = result.start_pos;  // always valid fallback
 
@@ -1107,7 +1107,7 @@ void WipeTower2::set_extruder(size_t idx, const PrintConfig& config)
     //while (m_filpar.size() < idx+1)   // makes sure the required element is in the vector
     m_filpar.push_back(FilamentParameters());
 
-    // Orca: one row per filament, indexed by the raw filament id. Under a per-layer nozzle
+    // Infinium: one row per filament, indexed by the raw filament id. Under a per-layer nozzle
     // grouping the per-variant arrays may hold several columns per filament; the tower has no
     // layer dimension here, so it keeps the filament's first column (tower x per-layer
     // grouping is a documented follow-up).
@@ -1449,7 +1449,7 @@ void WipeTower2::toolchange_Unload(
 
     const bool do_ramming = tool_ramming_enabled(m_current_tool);
     const bool cold_ramming = m_is_mk4mmu3;
-    // Orca: see set_toolchange() — quantized ram band + wipe restart at the boundary.
+    // Infinium: see set_toolchange() — quantized ram band + wipe restart at the boundary.
     const bool boundary_wipe_start = boundary_wipe_start_enabled(m_current_tool);
     float planned_ramming_depth = 0.f;
     if (boundary_wipe_start && m_layer_info != m_plan.end())
@@ -1532,7 +1532,7 @@ void WipeTower2::toolchange_Unload(
 		}
 	}
 
-    // Orca: quantize the ram band up to the whole reserved rows (BBL quantizes the
+    // Infinium: quantize the ram band up to the whole reserved rows (BBL quantizes the
     // old-tool purge the same way) so no unprinted void is left between the band and
     // the wipe restarting at the boundary below it.
     if (planned_ramming_depth > 0.f) {
@@ -1661,7 +1661,7 @@ void WipeTower2::toolchange_Unload(
     // the perimeter_width will later be subtracted, it is there to not load while moving over just extruded material
     Vec2f pos = Vec2f(end_of_ramming.x(), end_of_ramming.y() + (y_step/m_extra_spacing_ramming-m_perimeter_width) / 2.f + m_perimeter_width);
     if (planned_ramming_depth > 0.f) {
-        // Orca: restart the wipe at the left-edge boundary on a fresh row below the
+        // Infinium: restart the wipe at the left-edge boundary on a fresh row below the
         // quantized ram band so the entry scrub always runs at the wall gap (BBL keeps
         // CP_TOOLCHANGE_WIPE starting at a box corner the same way). Same lattice
         // formula as the no-ram branch below, offset by the ram band.
@@ -1673,7 +1673,7 @@ void WipeTower2::toolchange_Unload(
     else if (do_ramming)
         writer.travel(pos, 2400.f);
     else {
-        // Orca: with no ram printed there is no ramming geometry to align with. Start the
+        // Infinium: with no ram printed there is no ramming geometry to align with. Start the
         // first wipe row so the purge row lattice continues across the block boundary
         // (previous box's last row top edge sits at its box top): with the planned depth
         // of rows * dy, the last row's top edge then lands exactly on this box's top and
@@ -1926,7 +1926,7 @@ void WipeTower2::toolchange_Wipe(
 
 		traversed_x -= writer.x();
         x_to_wipe -= std::abs(traversed_x);
-        // Orca: with no ram printed the box was planned as whole wipe rows; fill it
+        // Infinium: with no ram printed the box was planned as whole wipe rows; fill it
         // completely (quantizing the purge up to the planned rows) so the next block
         // can start right above it without a blank band in between.
         if (!fill_box && x_to_wipe < WT_EPSILON) {
@@ -2204,7 +2204,7 @@ float WipeTower2::estimate_semm_flush_volume(const ConfigBase& config, size_t fi
         maximum += *std::max_element(v.begin(), v.end());
     maximum = maximum * filaments_cnt / wipe_volumes.size();
 
-    // Orca: it's overshooting a bit, so let's reduce it a bit
+    // Infinium: it's overshooting a bit, so let's reduce it a bit
     maximum *= 0.6;
     return maximum;
 }
@@ -2243,10 +2243,10 @@ WipeTower2::WipeTowerInfo::ToolChange WipeTower2::set_toolchange(size_t old_tool
 	float length_to_extrude = volume_to_length((m_semm ? 0.25f : m_filpar[old_tool].multitool_ramming_time) * std::accumulate(m_filpar[old_tool].ramming_speed.begin(), m_filpar[old_tool].ramming_speed.end(), 0.f),
 										m_perimeter_width * m_filpar[old_tool].ramming_line_width_multiplicator,
 										layer_height);
-    // Orca: Reserve ramming depth only when toolchange_Unload() will actually ram,
+    // Infinium: Reserve ramming depth only when toolchange_Unload() will actually ram,
     // otherwise the unprinted reservation leaves blank bands between the purge boxes.
     const bool do_ramming = tool_ramming_enabled(old_tool);
-    // Orca: with the gap wall on a multi-tool printer the ram band is quantized up to
+    // Infinium: with the gap wall on a multi-tool printer the ram band is quantized up to
     // the whole reserved rows and the wipe restarts at the left-edge boundary on a
     // fresh row below it (BBL parity: the old-tool purge is whole rows and the wipe
     // always starts at the box corner, where the entry scrub runs).
@@ -2260,13 +2260,13 @@ WipeTower2::WipeTowerInfo::ToolChange WipeTower2::set_toolchange(size_t old_tool
 
     float first_wipe_volume = length_to_volume(first_wipe_line, m_perimeter_width * m_extra_flow, layer_height);
 
-    // ORCA: Keep wipe-depth planning consistent with toolchange_Wipe().
-    // ORCA: On the first layer, toolchange_Wipe() advances purge rows using
-    // ORCA: m_extra_flow * m_perimeter_width, while later layers use
-    // ORCA: m_extra_spacing_wipe * m_perimeter_width.
-    // ORCA: float dy = (is_first_layer() ? m_extra_flow : m_extra_spacing_wipe) * m_perimeter_width;
-    // ORCA: Use the same spacing here so reserved depth matches consumed depth
-    // ORCA: and first-layer purge segments do not leave visible gaps.
+    // INFINIUM: Keep wipe-depth planning consistent with toolchange_Wipe().
+    // INFINIUM: On the first layer, toolchange_Wipe() advances purge rows using
+    // INFINIUM: m_extra_flow * m_perimeter_width, while later layers use
+    // INFINIUM: m_extra_spacing_wipe * m_perimeter_width.
+    // INFINIUM: float dy = (is_first_layer() ? m_extra_flow : m_extra_spacing_wipe) * m_perimeter_width;
+    // INFINIUM: Use the same spacing here so reserved depth matches consumed depth
+    // INFINIUM: and first-layer purge segments do not leave visible gaps.
     const float planning_spacing = first_layer_plan ? m_extra_flow : m_extra_spacing_wipe;
 
     float wiping_depth = get_wipe_depth(wipe_volume - first_wipe_volume, layer_height, m_perimeter_width, m_extra_flow, planning_spacing, width);
@@ -2321,13 +2321,13 @@ void WipeTower2::save_on_last_wipe()
             float volume_left_to_wipe = std::max(m_filpar[toolchange.new_tool].filament_minimal_purge_on_wipe_tower, toolchange.wipe_volume_total - volume_to_save);
             float volume_we_need_depth_for = std::max(0.f, volume_left_to_wipe - length_to_volume(toolchange.first_wipe_line, m_perimeter_width*m_extra_flow, m_layer_info->height));
 
-            // ORCA: Keep wipe-depth planning consistent with toolchange_Wipe().
-            // ORCA: On the first layer, toolchange_Wipe() advances purge rows using
-            // ORCA: m_extra_flow * m_perimeter_width, while later layers use
-            // ORCA: m_extra_spacing_wipe * m_perimeter_width.
-            // ORCA: float dy = (is_first_layer() ? m_extra_flow : m_extra_spacing_wipe) * m_perimeter_width;
-            // ORCA: Use the same spacing here so reserved depth matches consumed depth
-            // ORCA: and first-layer purge segments do not leave visible gaps.
+            // INFINIUM: Keep wipe-depth planning consistent with toolchange_Wipe().
+            // INFINIUM: On the first layer, toolchange_Wipe() advances purge rows using
+            // INFINIUM: m_extra_flow * m_perimeter_width, while later layers use
+            // INFINIUM: m_extra_spacing_wipe * m_perimeter_width.
+            // INFINIUM: float dy = (is_first_layer() ? m_extra_flow : m_extra_spacing_wipe) * m_perimeter_width;
+            // INFINIUM: Use the same spacing here so reserved depth matches consumed depth
+            // INFINIUM: and first-layer purge segments do not leave visible gaps.
             const bool first_layer_plan = size_t(m_layer_info - m_plan.begin()) == m_first_layer_idx;
             const float planning_spacing = first_layer_plan ? m_extra_flow : m_extra_spacing_wipe;
 
@@ -2385,7 +2385,7 @@ int WipeTower2::first_toolchange_to_nonsoluble_nonsupport(
     if (is_wall_filament(tool_changes.front().old_tool))
         return -1;
     // Only support/soluble filaments on this layer: keep the first toolchange so the
-    // finish-layer saving and the minimal-purge clamp still apply to it (Orca depth
+    // finish-layer saving and the minimal-purge clamp still apply to it (Infinium depth
     // and wipe volume accounting, see save_on_last_wipe()).
     return 0;
 }

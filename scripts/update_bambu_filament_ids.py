@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-Generate resources/printers/bambu_filament_ids.json: the map from Orca's
+Generate resources/printers/bambu_filament_ids.json: the map from Infinium's
 content-addressed filament_id ("OF" + 6 base62 chars, see infinium_profile_tool.py)
 to Bambu Lab's own AMS/RFID catalog id ("GF..." etc.) for the subset of filament
 products Bambu ships.
 
 The map is generated from BambuStudio's OWN shipped BBL bundle, never from
-Orca's: Orca's BBL bundle is a fork of Bambu's, tuned and extended
+Infinium's: Infinium's BBL bundle is a fork of Bambu's, tuned and extended
 independently, so it is not the source of truth for Bambu's catalog ids.
 src/slic3r/Utils/BBLPrinterAgent.cpp loads it at runtime and translates an id
 only where it crosses to or from a Bambu printer, so the correspondence never
@@ -15,8 +15,8 @@ has to be hand-maintained. See docs/HLSD/filament_id.md.
 One row per BambuStudio filament PRODUCT: one named spool product = one
 "@base"-declared filament_id, shared by every per-printer/per-nozzle
 instantiation of it (BambuStudio follows the same one-product-one-id shape
-Orca's own filament_id policy does). A row's key is the OF id that product's
-(filament_vendor, filament_type, filament) triple mints — the id Orca carries
+Infinium's own filament_id policy does). A row's key is the OF id that product's
+(filament_vendor, filament_type, filament) triple mints — the id Infinium carries
 for it wherever it ships it, since the id is a function of the triple alone.
 
 Map format:
@@ -39,7 +39,7 @@ Run from anywhere:  python3 scripts/update_bambu_filament_ids.py
   --output PATH      write here instead of resources/printers/bambu_filament_ids.json
 
 After writing, an informational drift report is printed: BambuStudio filaments
-Orca ships nothing with the same identity for, and a count of Orca's own BBL
+Infinium ships nothing with the same identity for, and a count of Infinium's own BBL
 filaments that matched no BambuStudio row. Neither blocks the write; both are
 for a human to read.
 """
@@ -107,15 +107,15 @@ def derive_rows(bs_filaments):
 # ---------------------------------------------------------------------------
 
 def drift_report(rows, infinium_analysis):
-    """Two triple-identity comparisons between the map just derived and Orca's
+    """Two triple-identity comparisons between the map just derived and Infinium's
     own BBL bundle (never id-based: the two bundles assign filament_id
     independently, so only the (vendor, type, name) identity is comparable).
 
     Returns print-ready lines: one per BambuStudio row triple with no
-    same-triple filament in Orca's BBL bundle (upstream ships it, we ship
+    same-triple filament in Infinium's BBL bundle (upstream ships it, we ship
     nothing with that identity there — sometimes a genuinely missing product,
-    sometimes a renamed one), then a count of Orca's own BBL filaments that
-    matched no BambuStudio row (Orca-only products, e.g. a name-drifted
+    sometimes a renamed one), then a count of Infinium's own BBL filaments that
+    matched no BambuStudio row (Infinium-only products, e.g. a name-drifted
     duplicate of one already counted in the first list).
     """
     row_triples = {(r["vendor"], r["type"], r["name"]) for r in rows.values()}
@@ -135,7 +135,7 @@ def drift_report(rows, infinium_analysis):
                      "we ship nothing with that identity")
     infinium_only = [name for name, triple in infinium_filaments.items()
                  if triple not in row_triples]
-    lines.append(f"Orca BBL filaments with no row: {len(infinium_only)} Orca-only product(s)")
+    lines.append(f"Infinium BBL filaments with no row: {len(infinium_only)} Infinium-only product(s)")
     return lines
 
 

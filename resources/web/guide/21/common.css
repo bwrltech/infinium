@@ -1,6 +1,6 @@
 #Content {
 	overflow-y:auto;
-	padding: 0 10px 0 20px; /* ORCA Specify & Reduce horizontal paddings to fit 4 items per row */
+	padding: 0 10px 0 20px; /* INFINIUM Specify & Reduce horizontal paddings to fit 4 items per row */
 	height: 100%;
 }
 
@@ -34,7 +34,7 @@
 	justify-content: space-around;
 	align-items: center;
 	text-align: center;
-	margin-right: 5px; /* ORCA align buttons with end of horizontal separator/line */
+	margin-right: 5px; /* INFINIUM align buttons with end of horizontal separator/line */
 	margin-left: auto;
 }
 
@@ -60,7 +60,7 @@
 }
 
 .PrinterArea {
-	padding: 7px 0px; /* ORCA Reduce horizontal paddings to fit 4 items per row */
+	padding: 7px 0px; /* INFINIUM Reduce horizontal paddings to fit 4 items per row */
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
 	gap: 7px;
@@ -85,8 +85,8 @@
 }
 
 .PImg {
-	width:120px;      /* ORCA use covers as 120x120px but use source file as 240x240 for better quality on hidpi */
-	height:120px;	  /* ORCA fit image to fill frame */
+	width:120px;      /* INFINIUM use covers as 120x120px but use source file as 240x240 for better quality on hidpi */
+	height:120px;	  /* INFINIUM fit image to fill frame */
 }
 
 .PrinterInfo,
@@ -168,7 +168,7 @@ img.ModelThumbnail {
 
 .PName {
 	font-weight: 600;
-	line-height: 20px; /* ORCA */
+	line-height: 20px; /* INFINIUM */
 	text-align: center;
 	width: 100%;
 	color: var(--fg-color-text);
@@ -284,7 +284,7 @@ img.ModelThumbnail {
 
 .searchTerm,
 .search-placeholder {
-	line-height: 24px; /* ORCA center text vertically */
+	line-height: 24px; /* INFINIUM center text vertically */
 	font-size: 14px;
 }
 

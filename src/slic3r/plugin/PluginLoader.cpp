@@ -276,7 +276,7 @@ bool load(const PluginDescriptor&                          descriptor,
     // lets ~Plugin release it.
     plugin.module = module;
 
-    // finalize_plugin_capture runs the module's @orca.plugin package class register_capabilities()
+    // finalize_plugin_capture runs the module's @infinium.plugin package class register_capabilities()
     // (while the active plugin key is set), then instantiates each registered capability and caches
     // its get_name(). Returns one entry per capability.
     std::string bridge_error;

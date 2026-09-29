@@ -756,9 +756,9 @@ $cases = @(
     @{ Name = 'a detected release does not'; Args = @('-s')
        NotContains = @('--vs') }
     @{ Name = 'the binary is named in the build tree it was built in'; Args = @('-s', '-l', '-x')
-       Contains = @('build-clang\src\Release\orca-slicer.exe') }
+       Contains = @('build-clang\src\Release\infinium-slicer.exe') }
     @{ Name = 'installing names the installed copy instead'; Args = @('-s', '-l', '-x', '-i')
-       Contains = @('build-clang\Infinium\orca-slicer.exe') }
+       Contains = @('build-clang\Infinium\infinium-slicer.exe') }
     # -i changes where the binary lands, so a rebuild that dropped it would
     # leave the path above pointing at a stale copy.
     @{ Name = 'the rebuild suggestion keeps -i'; Args = @('-s', '-l', '-x', '-i')
@@ -772,10 +772,10 @@ $cases = @(
     # the binary on disk is whatever the last full build left there.
     @{ Name = 'a single-target build does not claim the whole binary'; Args = @('-s', '-l', '-x', '--slicer-target', 'glad')
        Contains = @('Target        glad', 'Relink the binary     build_win.bat -s -l -x --no-configure')
-       NotContains = @('Run it', 'orca-slicer.exe', 'Rebuild after edits') }
+       NotContains = @('Run it', 'infinium-slicer.exe', 'Rebuild after edits') }
     # The executable has a target of its own, and naming that one does relink.
     @{ Name = 'naming the executable target still claims the binary'; Args = @('-s', '-l', '-x', '--slicer-target', 'Infinium')
-       Contains = @('Run it', 'orca-slicer.exe', 'Rebuild after edits')
+       Contains = @('Run it', 'infinium-slicer.exe', 'Rebuild after edits')
        NotContains = @('Target        Infinium', 'Relink the binary') }
     @{ Name = '--run-tests offers the ctest line'; Args = @('-s', '-l', '-x', '--run-tests')
        Contains = @('Re-run the tests      ctest --test-dir build-clang/tests -C Release') }

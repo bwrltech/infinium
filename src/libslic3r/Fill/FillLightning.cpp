@@ -18,7 +18,7 @@ void Filler::_fill_surface_single(
     const Layer &layer      = generator->getTreesForLayer(this->layer_id);
     Polylines    fill_lines = layer.convertToLines(to_polygons(expolygon), scaled<coord_t>(0.5 * this->spacing - this->overlap));
 
-    // Orca: round the turns of the branches. Hairpins are left sharp, as they cannot be rounded, and
+    // Infinium: round the turns of the branches. Hairpins are left sharp, as they cannot be rounded, and
     // the reach is capped: cutting a corner moves the branch, and a branch is as long as the object
     // rather than as long as one cell of a pattern, so half of a leg would merge it with its neighbour
     // instead of rounding the turn between them. Half the distance between two branches keeps them

@@ -77,7 +77,7 @@ protected:
     virtual void add_user_scripts() {}
 
     // Pushes the current app theme into the already-loaded document without a reload
-    // (updates the injected :root variables and the data-orca-theme attribute).
+    // (updates the injected :root variables and the data-infinium-theme attribute).
     void apply_theme_live();
 
 private:

@@ -82,7 +82,7 @@ const std::vector<std::string> filament_extruder_override_keys = {
     "filament_wipe",
     // percents
     "filament_retract_before_wipe",
-    // Orca
+    // Infinium
     "filament_retract_after_wipe",
     // BBS
     "filament_long_retractions_when_cut",
@@ -107,7 +107,7 @@ size_t get_extruder_index(const GCodeConfig& config, unsigned int filament_id)
 }
 
 
-// Orca: input shaping values types by flavor
+// Infinium: input shaping values types by flavor
 std::vector<std::string> get_shaper_type_values_for_flavor(GCodeFlavor flavor)
 {
     switch (flavor) {
@@ -195,7 +195,7 @@ static t_config_enum_values s_keys_map_BedTempFormula {
 };
 CONFIG_OPTION_ENUM_DEFINE_STATIC_MAPS(BedTempFormula)
 
-// Orca
+// Infinium
 static t_config_enum_values s_keys_map_PowerLossRecoveryMode {
     { "printer_configuration", int(PowerLossRecoveryMode::PrinterConfiguration) },
     { "enable",                 int(PowerLossRecoveryMode::Enable) },
@@ -310,14 +310,14 @@ static t_config_enum_values s_keys_map_WallSequence {
 };
 CONFIG_OPTION_ENUM_DEFINE_STATIC_MAPS(WallSequence)
 
-//Orca
+//Infinium
 static t_config_enum_values s_keys_map_WallDirection{
     { "ccw",  int(WallDirection::CounterClockwise) },
     { "cw",   int(WallDirection::Clockwise)},
 };
 CONFIG_OPTION_ENUM_DEFINE_STATIC_MAPS(WallDirection)
 
-//Orca
+//Infinium
 static t_config_enum_values s_keys_map_SurfaceFillOrder{
     { "default",  int(SurfaceFillOrder::Default) },
     { "outward",  int(SurfaceFillOrder::Outward) },
@@ -395,7 +395,7 @@ static t_config_enum_values s_keys_map_SeamPosition {
 };
 CONFIG_OPTION_ENUM_DEFINE_STATIC_MAPS(SeamPosition)
 
-// Orca
+// Infinium
 static t_config_enum_values s_keys_map_SeamScarfType{
     { "none",           int(SeamScarfType::None) },
     { "external",       int(SeamScarfType::External) },
@@ -403,7 +403,7 @@ static t_config_enum_values s_keys_map_SeamScarfType{
 };
 CONFIG_OPTION_ENUM_DEFINE_STATIC_MAPS(SeamScarfType)
 
-// Orca
+// Infinium
 static t_config_enum_values s_keys_map_EnsureVerticalShellThickness{
     { "none",           int(EnsureVerticalShellThickness::evstNone) },
     { "ensure_critical_only",         int(EnsureVerticalShellThickness::evstCriticalOnly) },
@@ -412,7 +412,7 @@ static t_config_enum_values s_keys_map_EnsureVerticalShellThickness{
 };
 CONFIG_OPTION_ENUM_DEFINE_STATIC_MAPS(EnsureVerticalShellThickness)
 
-// Orca
+// Infinium
 static t_config_enum_values s_keys_map_InternalBridgeFilter {
     { "disabled",        ibfDisabled },
     { "limited",        ibfLimited },
@@ -428,7 +428,7 @@ static t_config_enum_values s_keys_map_EnableExtraBridgeLayer {
 };
 CONFIG_OPTION_ENUM_DEFINE_STATIC_MAPS(EnableExtraBridgeLayer)
 
-// Orca
+// Infinium
 static t_config_enum_values s_keys_map_GapFillTarget {
     { "everywhere",        gftEverywhere },
     { "topbottom",        gftTopBottom },
@@ -461,7 +461,7 @@ static const t_config_enum_values s_keys_map_BrimType = {
     {"inner_only",      btInnerOnly},
     {"outer_and_inner", btOuterAndInner},
     {"auto_brim", btAutoBrim},  // BBS
-    {"brim_ears", btEar},     // Orca
+    {"brim_ears", btEar},     // Infinium
     {"painted", btPainted},  // BBS
 };
 CONFIG_OPTION_ENUM_DEFINE_STATIC_MAPS(BrimType)
@@ -1242,7 +1242,7 @@ void PrintConfigDef::init_fff_params()
     def->tooltip = L("Plate types supported by the printer");
     def->mode = comSimple;
     def->enum_keys_map = &s_keys_map_BedType;
-    // Orca: make sure the order of the values is the same as the BedType enum 
+    // Infinium: make sure the order of the values is the same as the BedType enum 
     def->enum_values.emplace_back("Cool Plate");
     def->enum_values.emplace_back("Engineering Plate");
     def->enum_values.emplace_back("High Temp Plate");
@@ -1257,7 +1257,7 @@ void PrintConfigDef::init_fff_params()
     def->enum_labels.emplace_back(L("Cool Plate (SuperTack)"));
     def->set_default_value(new ConfigOptionEnum<BedType>(btPC));
 
-    // Orca: allow profile maker to set default bed type in machine profile
+    // Infinium: allow profile maker to set default bed type in machine profile
     // This option won't be shown in the UI
     def = this->add("default_bed_type", coString);
     def->label = L("Default bed type");
@@ -1316,7 +1316,7 @@ void PrintConfigDef::init_fff_params()
     def = this->add("bottom_shell_layers", coInt);
     def->label = L("Bottom shell layers");
     def->category = L("Strength");
-    def->sidetext = L("layers"); // ORCA add side text
+    def->sidetext = L("layers"); // INFINIUM add side text
     def->tooltip =  L("This is the number of solid layers of bottom shell, including the bottom "
                       "surface layer. When the thickness calculated by this value is thinner "
                       "than bottom shell thickness, the bottom shell layers will be increased.");
@@ -1422,7 +1422,7 @@ void PrintConfigDef::init_fff_params()
     def->mode = comAdvanced;
     def->set_default_value(new ConfigOptionFloat(0.));
     
-    // ORCA: Internal bridge angle override
+    // INFINIUM: Internal bridge angle override
     def = this->add("internal_bridge_angle", coFloat);
     def->label = L("Internal bridge infill direction");
     def->category = L("Strength");
@@ -1439,7 +1439,7 @@ void PrintConfigDef::init_fff_params()
     def->mode = comAdvanced;
     def->set_default_value(new ConfigOptionFloat(0.));
 
-    // ORCA: Relative bridge angle
+    // INFINIUM: Relative bridge angle
     def = this->add("relative_bridge_angle", coBool);
     def->label = L("Relative bridge angle");
     def->category = L("Strength");
@@ -2684,7 +2684,7 @@ void PrintConfigDef::init_fff_params()
     def->mode = comAdvanced;
     def->set_default_value(new ConfigOptionFloats { 0.02 });
     
-    // Orca: Adaptive pressure advance option and calibration values
+    // Infinium: Adaptive pressure advance option and calibration values
     def = this->add("adaptive_pressure_advance", coBools);
     def->label = L("Enable adaptive pressure advance (beta)");
     // xgettext:no-c-format, no-boost-format
@@ -2700,7 +2700,7 @@ void PrintConfigDef::init_fff_params()
     def->mode = comAdvanced;
     def->set_default_value(new ConfigOptionBools{ false });
 
-    // Orca: Adaptive pressure advance option and calibration values
+    // Infinium: Adaptive pressure advance option and calibration values
     def = this->add("adaptive_pressure_advance_model", coStrings);
     def->label = L("Adaptive pressure advance measurements (beta)");
     // xgettext:no-c-format, no-boost-format
@@ -3769,7 +3769,7 @@ void PrintConfigDef::init_fff_params()
     def->tooltip = L("The first few layers are printed slower than normal. "
                      "The speed is gradually increased in a linear fashion over the specified number of layers.");
     def->category = L("Speed");
-    def->sidetext = L("layers"); // ORCA add side text
+    def->sidetext = L("layers"); // INFINIUM add side text
     def->min = 0;
     def->mode = comAdvanced;
     def->set_default_value(new ConfigOptionInt(0));
@@ -3789,13 +3789,13 @@ void PrintConfigDef::init_fff_params()
                   "to maximum at layer \"full_fan_speed_layer\". "
                   "\"full_fan_speed_layer\" will be ignored if lower than \"close_fan_the_first_x_layers\", in which case "
                   "the fan will be running at maximum allowed speed at layer \"close_fan_the_first_x_layers\" + 1.");
-    def->sidetext = L("layer"); // ORCA add side text
+    def->sidetext = L("layer"); // INFINIUM add side text
     def->min = 0;
     def->max = 1000;
     def->mode = comAdvanced;
     def->set_default_value(new ConfigOptionInts { 0 });
 
-    // ORCA: explicit override for the part cooling fan speed on the first printed layer.
+    // INFINIUM: explicit override for the part cooling fan speed on the first printed layer.
     def = this->add("initial_layer_fan_speed", coInts);
     def->label = L("First layer fan speed");
     def->tooltip = L("Sets an exact fan speed for the first layer, overriding all other cooling settings. "
@@ -3825,7 +3825,7 @@ void PrintConfigDef::init_fff_params()
     def->mode = comAdvanced;
     def->set_default_value(new ConfigOptionInts{ -1 });
     
-    // ORCA: Add support for separate internal bridge fan speed control
+    // INFINIUM: Add support for separate internal bridge fan speed control
     def = this->add("internal_bridge_fan_speed", coInts);
     def->label = L("Internal bridges fan speed");
     def->tooltip = L("The part cooling fan speed used for all internal bridges. Set to -1 to use the overhang fan speed settings instead.\n\n"
@@ -4107,7 +4107,7 @@ void PrintConfigDef::init_fff_params()
     def->mode = comAdvanced;
     def->set_default_value(new ConfigOptionBool(false));
 
-    // Orca
+    // Infinium
     def = this->add("enable_power_loss_recovery", coEnum);
     def->label = L("Power Loss Recovery");
     def->tooltip = L("Choose how to control power loss recovery. When set to Printer configuration, the slicer will not emit power loss recovery G-code and will leave the printer's configuration unchanged. Applicable to Bambu Lab or Marlin 2 firmware based printers.");
@@ -4230,7 +4230,7 @@ void PrintConfigDef::init_fff_params()
     def->mode = comAdvanced;
     def->set_default_value(new ConfigOptionFloat(0));
 
-    // ORCA: minimum non-zero part cooling fan speed.
+    // INFINIUM: minimum non-zero part cooling fan speed.
     def = this->add("part_cooling_fan_min_pwm", coInt);
     def->label = L("Minimum non-zero part cooling fan speed");
     def->tooltip = L("Some part-cooling fans cannot start spinning when commanded below a certain PWM duty cycle. "
@@ -4261,7 +4261,7 @@ void PrintConfigDef::init_fff_params()
     def->mode    = comAdvanced;
     def->set_default_value(new ConfigOptionFloat(0));
 
-    // Orca: may remove this option later
+    // Infinium: may remove this option later
     def =this->add("support_chamber_temp_control",coBool);
     def->label=L("Support controlling chamber temperature");
     def->tooltip=L("This option is enabled if machine support controlling chamber temperature\nG-code command: M141 S(0-255)");
@@ -4381,7 +4381,7 @@ void PrintConfigDef::init_fff_params()
     def->mode     = comAdvanced;
     def->set_default_value(new ConfigOptionFloat(0.4));
 
-    //Orca
+    //Infinium
     def           = this->add("sparse_infill_rotate_template", coString);
     def->label    = L("Sparse infill rotation template");
     def->category = L("Strength");
@@ -4395,7 +4395,7 @@ void PrintConfigDef::init_fff_params()
     def->mode     = comAdvanced;
     def->set_default_value(new ConfigOptionString(""));
 
-    //Orca
+    //Infinium
     def           = this->add("solid_infill_rotate_template", coString);
     def->label    = L("Solid infill rotation template");
     def->category = L("Strength");
@@ -4481,7 +4481,7 @@ void PrintConfigDef::init_fff_params()
     def->mode     = comAdvanced;
     def->set_default_value(new ConfigOptionBool(false));
 
-    // Orca: max layer height for combined infill
+    // Infinium: max layer height for combined infill
     def = this->add("infill_combination_max_layer_height", coFloatOrPercent);
     def->label = L("Infill combination - Max layer height");
     def->category = L("Strength");
@@ -4775,7 +4775,7 @@ void PrintConfigDef::init_fff_params()
     def->mode     = comAdvanced;
     def->set_default_value(new ConfigOptionInt(2));
 
-    // ORCA: special flag for flow rate calibration
+    // INFINIUM: special flag for flow rate calibration
     def           = this->add("calib_flowrate_topinfill_special_order", coBool);
     def->mode     = comDevelop;
     def->set_default_value(new ConfigOptionBool(false));
@@ -5191,7 +5191,7 @@ void PrintConfigDef::init_fff_params()
     def->mode     = comAdvanced;
     def->set_default_value(new ConfigOptionFloat(120));
 
-    // Orca: Input Shaping support
+    // Infinium: Input Shaping support
     def          = this->add("input_shaping_emit", coBool);
     def->label   = L("Emit input shaping");
     def->tooltip = L("Override firmware input shaping settings.\nIf disabled, firmware settings are used.");
@@ -5735,7 +5735,7 @@ void PrintConfigDef::init_fff_params()
     def->mode = comAdvanced;
     def->set_default_value(new ConfigOptionPercents { 100 });
 
-    // Orca:
+    // Infinium:
     def = this->add("retract_after_wipe", coPercents);
     def->label = L("Retract amount after wipe");
     // xgettext:no-c-format, no-boost-format
@@ -6292,7 +6292,7 @@ void PrintConfigDef::init_fff_params()
     def->ratio_over = "outer_wall_line_width";
     def->min = 0;
     def->max = 100;
-    def->max_literal = 2; // Orca: G-code generation also clamps literal values to the actual outer-wall width.
+    def->max_literal = 2; // Infinium: G-code generation also clamps literal values to the actual outer-wall width.
     def->mode = comExpert;
     def->set_default_value(new ConfigOptionFloatOrPercent(50, true));
 
@@ -7410,7 +7410,7 @@ void PrintConfigDef::init_fff_params()
     def = this->add("top_shell_layers", coInt);
     def->label = L("Top shell layers");
     def->category = L("Strength");
-    def->sidetext = L("layers"); // ORCA add side text
+    def->sidetext = L("layers"); // INFINIUM add side text
     def->tooltip = L("This is the number of solid layers of top shell, including the top surface layer. When the thickness calculated by this value is thinner than the top shell thickness, the top shell layers will be increased");
     def->full_label = L("Top solid layers");
     def->min = 0;
@@ -7547,7 +7547,7 @@ void PrintConfigDef::init_fff_params()
     def->tooltip = L("The flush multiplier used in fast purge mode.");
     def->set_default_value(new ConfigOptionFloats{1.2});
 
-    // Orca: used by the generic (Type2) wipe tower; also the fallback for filament_prime_volume on Type1.
+    // Infinium: used by the generic (Type2) wipe tower; also the fallback for filament_prime_volume on Type1.
     def = this->add("prime_volume", coFloat);
     def->label = L("Prime volume");
     def->tooltip = L("This is the volume of material to prime the extruder with on the tower.");
@@ -8067,7 +8067,7 @@ void PrintConfigDef::init_fff_params()
     // Printer-owned toggle selecting the time-aware grouping objective (flush + change/print
     // time) over the flush-only objective. Default false == today's flush-only grouping, so
     // absent/default is inert. Consumed by the grouping solver (SpeedInfo).
-    // Orca: pinned to comDevelop (rather than the default comSimple) to match the sibling multi-nozzle
+    // Infinium: pinned to comDevelop (rather than the default comSimple) to match the sibling multi-nozzle
     // dev keys and keep it out of user selectors.
     def = this->add("group_algo_with_time", coBool);
     def->mode = comDevelop;
@@ -9003,7 +9003,7 @@ void PrintConfigDef::handle_legacy(t_config_option_key &opt_key, std::string &va
     } else if (opt_key == "bridge_fan_speed") {
         opt_key = "overhang_fan_speed";
     } else if (opt_key == "infill_extruder" || opt_key == "sparse_infill_filament") {
-        // ORCA: legacy feature-filament selector. Pre-2.4.0-dev these keys were 1-based and the
+        // INFINIUM: legacy feature-filament selector. Pre-2.4.0-dev these keys were 1-based and the
         // default value "1" meant "the first/active filament". The current scheme uses a dedicated
         // key where 0 = "Default" (inherit the object/part filament) and 1..N = explicit filament.
         // Renaming to the new *_id key here means every config (process presets, 3mf project
@@ -9186,7 +9186,7 @@ void PrintConfigDef::handle_legacy(t_config_option_key &opt_key, std::string &va
             }
         }
     }
-    // Orca: Rename wipe tower ribs related options
+    // Infinium: Rename wipe tower ribs related options
     else if (opt_key == "prime_tower_rib_wall") {
         if (value == "1") {
             opt_key = "wipe_tower_wall_type";
@@ -9375,7 +9375,7 @@ std::set<std::string> filament_options_with_variant = {
     //BBS
     "filament_wipe_distance",
     "filament_retract_before_wipe",
-    // Orca
+    // Infinium
     "filament_retract_after_wipe",
     //BBS
     "filament_long_retractions_when_cut",
@@ -9428,7 +9428,7 @@ std::set<std::string> printer_options_with_variant_1 = {
     "wipe",
     "wipe_distance",
     "retract_before_wipe",
-    // Orca:
+    // Infinium:
     "retract_after_wipe",
     "retract_length_toolchange",
     "retract_restart_extra",
@@ -9803,7 +9803,7 @@ size_t DynamicPrintConfig::get_parameter_size(const std::string& param_name, siz
     return extruder_nums;
 }
 
-// Orca: Special handling for extruder variants
+// Infinium: Special handling for extruder variants
 // BBL printers have extruder variants pre-defined in system profiles, however for customized multi-extruder profile,
 // we need to set up these parameters automatically, otherwise per-extruder options won't work properly.
 static void extend_extruder_variant(DynamicPrintConfig& config, const unsigned int num_extruders)
@@ -10726,7 +10726,7 @@ int DynamicPrintConfig::get_extruder_nozzle_volume_count(int extruder_count, std
     return count;
 }
 
-// Orca: BBL system profiles ship full-width print_extruder_id/print_extruder_variant columns, but
+// Infinium: BBL system profiles ship full-width print_extruder_id/print_extruder_variant columns, but
 // custom multi-extruder printers only ever get the machine-scope columns synthesized for them (see
 // extend_extruder_variant); the process scope keeps the length-1 defaults, both in presets and in
 // 3mf project configs. Expanding with that degenerate map makes every per-extruder lookup fail, and
@@ -10807,7 +10807,7 @@ std::vector<int> DynamicPrintConfig::update_values_to_printer_extruders(DynamicP
     else {
         if (id_name == "print_extruder_id")
             ensure_process_variant_columns(*this, printer_config);
-        // Orca: emit the slots first, then size variant_count from what was actually
+        // Infinium: emit the slots first, then size variant_count from what was actually
         // emitted. extruder_nozzle_volume_count only equals the emitted total when every
         // extruder carries per-type stats; an extruder with an empty stats entry combined
         // with a Hybrid extruder would otherwise overrun a table pre-sized from that count.
@@ -10816,7 +10816,7 @@ std::vector<int> DynamicPrintConfig::update_values_to_printer_extruders(DynamicP
             ExtruderType extruder_type = (ExtruderType)(opt_extruder_type->get_at(e_index));
             NozzleVolumeType nozzle_volume_type = (NozzleVolumeType)(opt_nozzle_volume_type->get_at(e_index));
 
-            // Orca: latch the decision before the inner loop reassigns nozzle_volume_type;
+            // Infinium: latch the decision before the inner loop reassigns nozzle_volume_type;
             // re-testing the reassigned value would make every slot after the first reuse
             // the first slot's volume type.
             const bool per_type_slots = extruder_nozzle_volume_count > extruder_count || nozzle_volume_type == nvtHybrid;
@@ -10828,7 +10828,7 @@ std::vector<int> DynamicPrintConfig::update_values_to_printer_extruders(DynamicP
                 //variant index
                 int slot_index = get_index_for_extruder(e_index+1, id_name, extruder_type, nozzle_volume_type, variant_name);
                 if (slot_index < 0) {
-                    // Orca: This is expected during transient UI states (e.g. popup windows),
+                    // Infinium: This is expected during transient UI states (e.g. popup windows),
                     // fall back to 0 silently.
                     slot_index = 0;
                 }
@@ -11009,7 +11009,7 @@ void DynamicPrintConfig::update_values_to_printer_extruders_for_multiple_filamen
 
         auto opt_filament_volume_maps = dynamic_cast<const ConfigOptionInts*>(printer_config.option("filament_volume_map"));
         std::vector<int> filament_volume_maps;
-        // Orca: honour the per-filament volume map only when a producer sized it to the
+        // Infinium: honour the per-filament volume map only when a producer sized it to the
         // filament count. The full-config producers (PresetBundle injection, engine
         // write-back) always size it; mis-sized maps (stale project values, CLI runs until
         // the per-filament synthesis lands there) must not distort slot resolution nor be
@@ -11081,7 +11081,7 @@ void DynamicPrintConfig::update_values_to_printer_extruders_for_multiple_filamen
                     break;
             }
         }
-        // Orca: also require a non-empty id list; get_at on an empty vector is undefined.
+        // Infinium: also require a non-empty id list; get_at on an empty vector is undefined.
         if (has_id_key && opt_ids && !opt_ids->values.empty()) {
             // remap the id list itself last: the lookups above still need the original ids
             std::vector<int> new_values;
@@ -11118,7 +11118,7 @@ void DynamicPrintConfig::update_filament_config_values_for_multiple_extruders(Dy
 
     auto opt_filament_volume_maps = dynamic_cast<const ConfigOptionInts*>(printer_config.option("filament_volume_map"));
     std::vector<int> filament_volume_maps;
-    // Orca: same sizing guard as the single-slot rebuild above — honour the per-filament volume
+    // Infinium: same sizing guard as the single-slot rebuild above — honour the per-filament volume
     // map only when a producer sized it to the filament count.
     if (opt_filament_volume_maps && opt_filament_volume_maps->values.size() == filament_count)
         filament_volume_maps = opt_filament_volume_maps->values;
@@ -11150,7 +11150,7 @@ void DynamicPrintConfig::update_filament_config_values_for_multiple_extruders(Dy
         }
         slot_param_indices.push_back(param_index);
         if (slot_machine_indices) {
-            // Orca: key each output slot to the machine slot of its own variant (the same
+            // Infinium: key each output slot to the machine slot of its own variant (the same
             // derivation the per-filament slot map uses), so the retract-override nil fallback
             // stays aligned when a filament occupies more than one slot.
             int machine_index = printer_config.get_index_for_extruder(extruder_id_1based, "print_extruder_id", extruder_type, nozzle_volume_type, "print_extruder_variant");
@@ -11200,7 +11200,7 @@ void DynamicPrintConfig::update_filament_config_values_for_multiple_extruders(Dy
                 break;
         }
     }
-    // Orca: also require a non-empty id list; get_at on an empty vector is undefined.
+    // Infinium: also require a non-empty id list; get_at on an empty vector is undefined.
     if (has_id_key && opt_ids && !opt_ids->values.empty()) {
         // remap the id list itself last: the slot resolution above still needs the original ids
         std::vector<int> new_values;
@@ -12411,7 +12411,7 @@ OtherSlicingStatesConfigDef::OtherSlicingStatesConfigDef()
     def->label   = L("Number of extruders");
     def->tooltip = L("Total number of extruders, regardless of whether they are used in the current print.");
 
-    // Options from PS not used in Orca
+    // Options from PS not used in Infinium
     //    def = this->add("initial_filament_type", coString);
     //    def->label = L("Initial filament type");
     //    def->tooltip = L("String containing filament type of the first used extruder.");

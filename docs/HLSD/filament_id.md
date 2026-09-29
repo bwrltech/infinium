@@ -17,7 +17,7 @@ same for that product in every bundle, in every PR, on every machine. For exampl
 PolyLite PLA presets (`PolyLite PLA @base`, `PolyLite PLA@Q2-Series`, …) resolve
 `filament_vendor` `Polymaker`, `filament_type` `PLA`, and filament name `PolyLite PLA`; hashing
 `filament_product/Polymaker/PLA/PolyLite PLA` yields `OF5CgdDq`, and that is the id the
-InfiniumFilamentLibrary, OrcaArena, Qidi, and Snapmaker bundles all arrive at independently
+InfiniumFilamentLibrary, InfiniumArena, Qidi, and Snapmaker bundles all arrive at independently
 (derivation details in the Minting section).
 
 **How it is used:** at runtime the id is the join key between hardware and profiles.
@@ -101,7 +101,7 @@ Two more consumer-side facts worth knowing:
   calibration) offer the filaments a connected printer can use by the same compatibility rule
   the plater uses (an empty `compatible_printers` means *every* printer). Alias shadowing
   still applies: a vendor's same-name profile supersedes the library generic. That is what
-  puts Orca Filament Library materials in those lists — deduplicated to one entry per
+  puts Infinium Filament Library materials in those lists — deduplicated to one entry per
   `filament_id` in the AMS and calibration-history dialogs, while extrusion calibration
   deliberately lists every matching preset by full name.
 - The id is load-bearing at startup: an instantiated system filament (one marked
@@ -145,7 +145,7 @@ key needed). Tuning a generic material → **join the InfiniumFilamentLibrary fi
    id. A branded filament that borrows a generic's settings (`Flashforge ABS Basic @FF C5`
    inherits `Generic ABS @System`) declares its own id, because its triple is its own.
 2. **The filament name is the base name**: the preset name with everything from the first
-   (optionally space-preceded) `@` stripped. `MyBrand PLA @Orca 3D Fuse1` and `MyBrand PLA@HS`
+   (optionally space-preceded) `@` stripped. `MyBrand PLA @Infinium 3D Fuse1` and `MyBrand PLA@HS`
    are both the filament `MyBrand PLA`.
 3. **Within one filament, variants' `compatible_printers` are pairwise disjoint** — per printer,
    at most one compatible instantiated preset per id, or AMS matching turns ambiguous. The
@@ -191,7 +191,7 @@ Content-addressing on that triple is what makes the whole system converge. The k
 bundle name, so the same product mints the same id in every bundle — moving a filament into
 InfiniumFilamentLibrary never changes its id, and two vendors independently shipping the same
 product arrive at the same id without coordinating. `Polymaker/PLA/PolyLite PLA` mints
-`OF5CgdDq`, and that one id is declared by the InfiniumFilamentLibrary, OrcaArena, Qidi, and
+`OF5CgdDq`, and that one id is declared by the InfiniumFilamentLibrary, InfiniumArena, Qidi, and
 Snapmaker bundles alike; the OFL generic `Generic/PLA/Generic PLA` mints `OFDSrzZ8`, claimed
 by 35 bundles — most by independent declarations converging on the same mint, the rest
 purely through inheritance from the OFL preset.
@@ -328,7 +328,7 @@ prints. Two lines, both informational, neither blocking the write:
 
 ```text
 upstream ships 'Bambu PETG Matte' (Bambu Lab/PETG), we ship nothing with that identity
-Orca BBL filaments with no row: 135 Orca-only product(s)
+Infinium BBL filaments with no row: 135 Infinium-only product(s)
 ```
 
 The first names each upstream product our BBL bundle has no same-identity filament for —
@@ -369,7 +369,7 @@ file degrades to identity with a log line rather than failing.
 | Everything the agent sends | `BBLPrinterAgent::send_message` and `send_message_to_printer`, plus `PrintParams::ams_mapping_info` in `dispatch_start` — the funnel all five `start_*` calls share |
 | Everything the agent receives | `set_on_message_fn` and `set_on_local_message_fn` wrap their callback, so `MachineObject::parse_json` and everything downstream see our ids only |
 | 3mf export | `Plater::export_3mf` writes Bambu's ids into `slice_info.config`, gated on `preset_bundle.is_bbl_vendor()` — the printer reads that file and knows only its own catalog, and no other vendor's export is affected. The CLI has its own writer in `Infinium.cpp`; it does the same, gated on the `printer_model` prefix that already decides `Print::is_BBL_printer()` for that run |
-| Project ingest | `Plater::priv::load_files` reverse-maps the project's `filament_ids` before the bundle ingests them, so a project saved by an older Orca or by BambuStudio still resolves the same presets |
+| Project ingest | `Plater::priv::load_files` reverse-maps the project's `filament_ids` before the bundle ingests them, so a project saved by an older Infinium or by BambuStudio still resolves the same presets |
 | Prints from the printer's SD card | `SelectMachineDialog::update_print_required_data` reverse-maps each plate's slice-info ids as it adopts the plates, so the AMS mapping dialog pairs them with trays |
 | Bambu-specific comparisons | `CalibUtils.cpp`, `DeviceManager.cpp`, `DeviceCore/DevFilaSystem.cpp`, `DeviceCore/DevFilaBlackList.cpp`, `SelectMachine.cpp`, `AMSDryControl.cpp`, `AMSMaterialsSetting.cpp`, `PresetComboBoxes.cpp`, `ColorDecomposeSupport.cpp` |
 

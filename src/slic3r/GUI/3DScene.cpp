@@ -684,7 +684,7 @@ void GLVolume::simple_render(GLShaderProgram* shader, ModelObjectPtrs& model_obj
             if (shader) {
                 if (idx == 0) {
                     int extruder_id = model_volume->extruder_id();
-                    // ORCA: extruder_id may be 0 (unset) or point past the colour list after a
+                    // INFINIUM: extruder_id may be 0 (unset) or point past the colour list after a
                     // filament is deleted/remapped, so clamp the index instead of reading out of
                     // bounds.
                     if (!extruder_colors.empty()) {
@@ -943,7 +943,7 @@ int GLVolumeCollection::load_wipe_tower_preview(
             colors.push_back(extruder_colors[0]);
     }
 
-    // Orca: make it transparent
+    // Infinium: make it transparent
     for(auto& color : colors)
         color.a(0.66f);
     const size_t slab_count = colors.size(); // per-filament body slabs; the brim part comes after
@@ -1066,7 +1066,7 @@ GLVolumeWithIdAndZList volumes_to_render(const GLVolumePtrs& volumes, GLVolumeCo
     return list;
 }
 
-// ORCA: Compute slope.normal_z for 3D overhang highlight directly from support settings.
+// INFINIUM: Compute slope.normal_z for 3D overhang highlight directly from support settings.
 // If support_threshold_angle is 0, use tree fallback angle (30 deg) for tree supports,
 // and derive an equivalent angle from threshold overlap for normal supports.
 float GLVolumeCollection::get_selection_support_normal_z() const

@@ -16,7 +16,7 @@ class ExtrusionEntityCollection;
 class LayerRegion;
 class PrintObject;
 
-// Orca: Share the layer rotation calculation between infill generation and internal
+// Infinium: Share the layer rotation calculation between infill generation and internal
 // bridge angle selection so both interpret rotation templates in the same way.
 double calculate_infill_rotation_angle(const PrintObject *object, size_t layer_id,
                                       const double &fixed_infill_angle, const std::string &template_string);

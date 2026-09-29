@@ -45,7 +45,7 @@ pybind11::module_ import_infinium_module()
     ensure_python_initialized();
 
     // Force PythonPluginBridge.cpp into the test binary so the embedded
-    // PYBIND11_EMBEDDED_MODULE(orca, ...) registration is available.
+    // PYBIND11_EMBEDDED_MODULE(infinium, ...) registration is available.
     (void) Slic3r::PythonPluginBridge::instance();
     return pybind11::module_::import("orca");
 }

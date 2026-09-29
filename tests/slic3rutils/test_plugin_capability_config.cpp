@@ -120,7 +120,7 @@ TEST_CASE("Capability config API is exposed on every Python capability", "[Plugi
     CHECK(py::hasattr(base, "get_config_ui"));
     CHECK(py::hasattr(base, "get_default_config"));
 
-    // Config is reached only through the capability, never as a free orca.config.* function, so a
+    // Config is reached only through the capability, never as a free infinium.config.* function, so a
     // capability cannot name — and cannot touch — a config that is not its own.
     CHECK_FALSE(py::hasattr(orca, "config"));
 }

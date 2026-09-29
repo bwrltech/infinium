@@ -319,11 +319,11 @@
   },
   "OF2hfMcG": {
    "filaments": [
-    "OrcaArena/Arena PLA-CF"
+    "InfiniumArena/Arena PLA-CF"
    ],
    "name": "Arena PLA-CF",
    "filament_type": "PLA-CF",
-   "filament_vendor": "Orca Arena"
+   "filament_vendor": "Infinium Arena"
   },
   "OF2pj5l5": {
    "filaments": [
@@ -634,7 +634,7 @@
   "OF5CgdDq": {
    "filaments": [
     "BBL/PolyLite PLA",
-    "OrcaArena/PolyLite PLA",
+    "InfiniumArena/PolyLite PLA",
     "InfiniumFilamentLibrary/PolyLite PLA",
     "Qidi/PolyLite PLA",
     "Snapmaker/PolyLite PLA"
@@ -1155,11 +1155,11 @@
   },
   "OFA026vt": {
    "filaments": [
-    "OrcaArena/Arena PA-CF"
+    "InfiniumArena/Arena PA-CF"
    ],
    "name": "Arena PA-CF",
    "filament_type": "PA-CF",
-   "filament_vendor": "Orca Arena"
+   "filament_vendor": "Infinium Arena"
   },
   "OFAC7Wyu": {
    "filaments": [
@@ -1552,7 +1552,7 @@
     "InfiMech/Generic PLA",
     "LONGER/Generic PLA",
     "Lulzbot/Generic PLA",
-    "OrcaArena/Generic PLA",
+    "InfiniumArena/Generic PLA",
     "InfiniumFilamentLibrary/Generic PLA",
     "Peopoly/Generic PLA",
     "Phrozen/Generic PLA",
@@ -1621,7 +1621,7 @@
     "Custom/Generic PVA",
     "FLSun/Generic PVA",
     "Flashforge/Generic PVA",
-    "OrcaArena/Generic PVA",
+    "InfiniumArena/Generic PVA",
     "InfiniumFilamentLibrary/Generic PVA",
     "Prusa/Generic PVA",
     "Qidi/Generic PVA",
@@ -2176,11 +2176,11 @@
   },
   "OFI6WZpn": {
    "filaments": [
-    "OrcaArena/Arena Support W"
+    "InfiniumArena/Arena Support W"
    ],
    "name": "Arena Support W",
    "filament_type": "PLA",
-   "filament_vendor": "Orca Arena"
+   "filament_vendor": "Infinium Arena"
   },
   "OFIBXa0k": {
    "filaments": [
@@ -2224,11 +2224,11 @@
   },
   "OFIPjqHt": {
    "filaments": [
-    "OrcaArena/Arena Support G"
+    "InfiniumArena/Arena Support G"
    ],
    "name": "Arena Support G",
    "filament_type": "PA",
-   "filament_vendor": "Orca Arena"
+   "filament_vendor": "Infinium Arena"
   },
   "OFIRUqWi": {
    "filaments": [
@@ -2314,11 +2314,11 @@
   },
   "OFJ3HRsR": {
    "filaments": [
-    "OrcaArena/Arena ABS"
+    "InfiniumArena/Arena ABS"
    ],
    "name": "Arena ABS",
    "filament_type": "ABS",
-   "filament_vendor": "Orca Arena"
+   "filament_vendor": "Infinium Arena"
   },
   "OFJHBEGD": {
    "filaments": [],
@@ -2638,7 +2638,7 @@
     "Elegoo/Generic ASA",
     "FLSun/Generic ASA",
     "Flashforge/Generic ASA",
-    "OrcaArena/Generic ASA",
+    "InfiniumArena/Generic ASA",
     "InfiniumFilamentLibrary/Generic ASA",
     "Prusa/Generic ASA",
     "Qidi/Generic ASA",
@@ -2689,7 +2689,7 @@
     "FLSun/Generic PC",
     "FlyingBear/Generic PC",
     "InfiMech/Generic PC",
-    "OrcaArena/Generic PC",
+    "InfiniumArena/Generic PC",
     "InfiniumFilamentLibrary/Generic PC",
     "Prusa/Generic PC",
     "Qidi/Generic PC",
@@ -2912,11 +2912,11 @@
   },
   "OFNBlAPT": {
    "filaments": [
-    "OrcaArena/Arena PETG Basic"
+    "InfiniumArena/Arena PETG Basic"
    ],
    "name": "Arena PETG Basic",
    "filament_type": "PETG",
-   "filament_vendor": "Orca Arena"
+   "filament_vendor": "Infinium Arena"
   },
   "OFNGTH3w": {
    "filaments": [
@@ -3037,11 +3037,11 @@
   },
   "OFOAdMCB": {
    "filaments": [
-    "OrcaArena/Arena PLA Metal"
+    "InfiniumArena/Arena PLA Metal"
    ],
    "name": "Arena PLA Metal",
    "filament_type": "PLA",
-   "filament_vendor": "Orca Arena"
+   "filament_vendor": "Infinium Arena"
   },
   "OFOHOf2F": {
    "filaments": [
@@ -3288,11 +3288,11 @@
   },
   "OFQGvU2G": {
    "filaments": [
-    "OrcaArena/Arena TPU 95A"
+    "InfiniumArena/Arena TPU 95A"
    ],
    "name": "Arena TPU 95A",
    "filament_type": "TPU",
-   "filament_vendor": "Orca Arena"
+   "filament_vendor": "Infinium Arena"
   },
   "OFQHiNJs": {
    "filaments": [
@@ -3314,7 +3314,7 @@
     "FLSun/Generic PA-CF",
     "FlyingBear/Generic PA-CF",
     "InfiMech/Generic PA-CF",
-    "OrcaArena/Generic PA-CF",
+    "InfiniumArena/Generic PA-CF",
     "InfiniumFilamentLibrary/Generic PA-CF",
     "Prusa/Generic PA-CF",
     "Qidi/Generic PA-CF",
@@ -3543,11 +3543,11 @@
   },
   "OFSbGfsz": {
    "filaments": [
-    "OrcaArena/Arena PLA Basic"
+    "InfiniumArena/Arena PLA Basic"
    ],
    "name": "Arena PLA Basic",
    "filament_type": "PLA",
-   "filament_vendor": "Orca Arena"
+   "filament_vendor": "Infinium Arena"
   },
   "OFSfm8iP": {
    "filaments": [
@@ -3888,7 +3888,7 @@
   "OFW29a9R": {
    "filaments": [
     "BBL/PolyTerra PLA",
-    "OrcaArena/PolyTerra PLA",
+    "InfiniumArena/PolyTerra PLA",
     "InfiniumFilamentLibrary/PolyTerra PLA",
     "Snapmaker/PolyTerra PLA"
    ],
@@ -4004,7 +4004,7 @@
     "Custom/Generic PLA-CF",
     "FLSun/Generic PLA-CF",
     "Flashforge/Generic PLA-CF",
-    "OrcaArena/Generic PLA-CF",
+    "InfiniumArena/Generic PLA-CF",
     "InfiniumFilamentLibrary/Generic PLA-CF",
     "Prusa/Generic PLA-CF",
     "Qidi/Generic PLA-CF",
@@ -4228,7 +4228,7 @@
     "FlyingBear/Generic ABS",
     "InfiMech/Generic ABS",
     "Lulzbot/Generic ABS",
-    "OrcaArena/Generic ABS",
+    "InfiniumArena/Generic ABS",
     "InfiniumFilamentLibrary/Generic ABS",
     "Peopoly/Generic ABS",
     "Prusa/Generic ABS",
@@ -4301,7 +4301,7 @@
     "InfiMech/Generic PETG",
     "LONGER/Generic PETG",
     "Lulzbot/Generic PETG",
-    "OrcaArena/Generic PETG",
+    "InfiniumArena/Generic PETG",
     "InfiniumFilamentLibrary/Generic PETG",
     "Peopoly/Generic PETG",
     "Prusa/Generic PETG",
@@ -4627,11 +4627,11 @@
   },
   "OFc87pL3": {
    "filaments": [
-    "OrcaArena/Arena PET-CF"
+    "InfiniumArena/Arena PET-CF"
    ],
    "name": "Arena PET-CF",
    "filament_type": "PET-CF",
-   "filament_vendor": "Orca Arena"
+   "filament_vendor": "Infinium Arena"
   },
   "OFcBJQcC": {
    "filaments": [
@@ -4943,7 +4943,7 @@
     "Creality/Generic PLA Silk",
     "FLSun/Generic PLA Silk",
     "Flashforge/Generic PLA Silk",
-    "OrcaArena/Generic PLA Silk",
+    "InfiniumArena/Generic PLA Silk",
     "InfiniumFilamentLibrary/Generic PLA Silk",
     "Prusa/Generic PLA Silk",
     "Qidi/Generic PLA Silk",
@@ -5170,7 +5170,7 @@
     "Custom/Generic PA",
     "Elegoo/Generic PA",
     "FLSun/Generic PA",
-    "OrcaArena/Generic PA",
+    "InfiniumArena/Generic PA",
     "InfiniumFilamentLibrary/Generic PA",
     "Prusa/Generic PA",
     "Qidi/Generic PA",
@@ -5233,7 +5233,7 @@
     "Flashforge/Generic TPU",
     "FlyingBear/Generic TPU",
     "InfiMech/Generic TPU",
-    "OrcaArena/Generic TPU",
+    "InfiniumArena/Generic TPU",
     "InfiniumFilamentLibrary/Generic TPU",
     "Prusa/Generic TPU",
     "Qidi/Generic TPU",
@@ -5298,11 +5298,11 @@
   },
   "OFgptDSf": {
    "filaments": [
-    "OrcaArena/Arena PLA Matte"
+    "InfiniumArena/Arena PLA Matte"
    ],
    "name": "Arena PLA Matte",
    "filament_type": "PLA",
-   "filament_vendor": "Orca Arena"
+   "filament_vendor": "Infinium Arena"
   },
   "OFgyPlwU": {
    "filaments": [
@@ -5695,11 +5695,11 @@
   },
   "OFjXrKFO": {
    "filaments": [
-    "OrcaArena/Arena PLA Impact"
+    "InfiniumArena/Arena PLA Impact"
    ],
    "name": "Arena PLA Impact",
    "filament_type": "PLA",
-   "filament_vendor": "Orca Arena"
+   "filament_vendor": "Infinium Arena"
   },
   "OFjb0wos": {
    "filaments": [
@@ -6120,11 +6120,11 @@
   },
   "OFmfizbq": {
    "filaments": [
-    "OrcaArena/Arena PLA Silk"
+    "InfiniumArena/Arena PLA Silk"
    ],
    "name": "Arena PLA Silk",
    "filament_type": "PLA",
-   "filament_vendor": "Orca Arena"
+   "filament_vendor": "Infinium Arena"
   },
   "OFmjN2bc": {
    "filaments": [
@@ -6395,7 +6395,7 @@
     "Creality/Generic PETG-CF",
     "Elegoo/Generic PETG-CF",
     "Flashforge/Generic PETG-CF",
-    "OrcaArena/Generic PETG-CF",
+    "InfiniumArena/Generic PETG-CF",
     "InfiniumFilamentLibrary/Generic PETG-CF",
     "Qidi/Generic PETG-CF",
     "Tiertime/Generic PETG-CF"
@@ -6730,11 +6730,11 @@
   },
   "OFrr67nG": {
    "filaments": [
-    "OrcaArena/Arena PC"
+    "InfiniumArena/Arena PC"
    ],
    "name": "Arena PC",
    "filament_type": "PC",
-   "filament_vendor": "Orca Arena"
+   "filament_vendor": "Infinium Arena"
   },
   "OFryjl35": {
    "filaments": [
@@ -6895,19 +6895,19 @@
   },
   "OFtKeKa9": {
    "filaments": [
-    "OrcaArena/Arena PLA Tough"
+    "InfiniumArena/Arena PLA Tough"
    ],
    "name": "Arena PLA Tough",
    "filament_type": "PLA",
-   "filament_vendor": "Orca Arena"
+   "filament_vendor": "Infinium Arena"
   },
   "OFtOPlK6": {
    "filaments": [
-    "OrcaArena/Arena PAHT-CF"
+    "InfiniumArena/Arena PAHT-CF"
    ],
    "name": "Arena PAHT-CF",
    "filament_type": "PA-CF",
-   "filament_vendor": "Orca Arena"
+   "filament_vendor": "Infinium Arena"
   },
   "OFtOoWIj": {
    "filaments": [],
@@ -7042,11 +7042,11 @@
   },
   "OFuO0cAP": {
    "filaments": [
-    "OrcaArena/Arena PETG-CF"
+    "InfiniumArena/Arena PETG-CF"
    ],
    "name": "Arena PETG-CF",
    "filament_type": "PETG-CF",
-   "filament_vendor": "Orca Arena"
+   "filament_vendor": "Infinium Arena"
   },
   "OFuUuIhR": {
    "filaments": [
@@ -7076,11 +7076,11 @@
   },
   "OFuehn62": {
    "filaments": [
-    "OrcaArena/Arena PLA Marble"
+    "InfiniumArena/Arena PLA Marble"
    ],
    "name": "Arena PLA Marble",
    "filament_type": "PLA",
-   "filament_vendor": "Orca Arena"
+   "filament_vendor": "Infinium Arena"
   },
   "OFufTAK9": {
    "filaments": [
@@ -7540,11 +7540,11 @@
   },
   "OFyHgT60": {
    "filaments": [
-    "OrcaArena/Arena PLA Sparkle"
+    "InfiniumArena/Arena PLA Sparkle"
    ],
    "name": "Arena PLA Sparkle",
    "filament_type": "PLA",
-   "filament_vendor": "Orca Arena"
+   "filament_vendor": "Infinium Arena"
   },
   "OFyJjkek": {
    "filaments": [

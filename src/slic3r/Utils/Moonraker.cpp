@@ -48,7 +48,7 @@ std::string Moonraker::make_url(const std::string &path) const
 
 void Moonraker::set_auth(Http &http) const
 {
-    //ORCA: Moonraker accepts unauthenticated requests by default; X-Api-Key is the only auth header
+    //INFINIUM: Moonraker accepts unauthenticated requests by default; X-Api-Key is the only auth header
     //      defined by the Moonraker spec. HTTP Basic / Digest do NOT belong here even if the user
     //      filled the user/password fields — those are PrusaLink/OctoPrint conventions.
     if (!m_apikey.empty())
@@ -59,7 +59,7 @@ void Moonraker::set_auth(Http &http) const
 
 bool Moonraker::test(wxString &msg) const
 {
-    //ORCA: Moonraker's /server/info returns
+    //INFINIUM: Moonraker's /server/info returns
     //          { "result": { "klippy_state": "ready|startup|shutdown|error|disconnected", ... } }
     //      We treat the connection as healthy as long as the envelope is valid and `klippy_state`
     //      is present — matching the OctoPrint/PrusaLink convention of "can I reach this host?".
@@ -89,7 +89,7 @@ bool Moonraker::test(wxString &msg) const
 
             const auto klippy_state = ptree.get_optional<std::string>("result.klippy_state");
             if (!klippy_state) {
-                //ORCA: response wasn't shaped like a Moonraker /server/info reply — likely an OctoPrint
+                //INFINIUM: response wasn't shaped like a Moonraker /server/info reply — likely an OctoPrint
                 //      or PrusaLink host the user mis-selected as Moonraker, or a totally different
                 //      service. Treat as a connection failure with a clear hint.
                 res = false;
@@ -112,7 +112,7 @@ bool Moonraker::test(wxString &msg) const
 
 bool Moonraker::get_storage(wxArrayString &storage_path, wxArrayString &storage_name) const
 {
-    //ORCA: GET /server/files/roots enumerates Moonraker's storage roots (default "gcodes" plus any
+    //INFINIUM: GET /server/files/roots enumerates Moonraker's storage roots (default "gcodes" plus any
     //      configured extras like "config", "logs", "timelapse"). Only roots with permissions
     //      including "rw" or "rwd" can receive uploads; we filter to those so the UI dropdown only
     //      offers usable destinations. The base class returns false (no per-host storage); returning
@@ -128,7 +128,7 @@ bool Moonraker::get_storage(wxArrayString &storage_path, wxArrayString &storage_
     auto http = Http::get(std::move(url));
     set_auth(http);
     http.on_error([&](std::string body, std::string error, unsigned status) {
-        //ORCA: /server/files/roots is optional in the Moonraker spec and absent on older versions
+        //INFINIUM: /server/files/roots is optional in the Moonraker spec and absent on older versions
         //      and slimmer shims (e.g. Prusa-Firmware-Buddy 0.8.x prusalink-shim returns 501). A
         //      missing endpoint here is benign — upload() silently falls back to the hardcoded
         //      "gcodes" root — so don't pollute the log at warning level for it. Other HTTP
@@ -173,7 +173,7 @@ bool Moonraker::get_storage(wxArrayString &storage_path, wxArrayString &storage_
 
 bool Moonraker::start_print(wxString &error_msg, const std::string &filename) const
 {
-    //ORCA: POST /printer/print/start with JSON body { "filename": "<name>.gcode" }.
+    //INFINIUM: POST /printer/print/start with JSON body { "filename": "<name>.gcode" }.
     //      `filename` is what /server/files/upload returned as result.item.path (the storage-relative
     //      path inside `root`, no leading slash, with extension). Build the body via property_tree
     //      so that special characters in the filename (server-side collision-suffix could produce
@@ -212,7 +212,7 @@ bool Moonraker::start_print(wxString &error_msg, const std::string &filename) co
 
 bool Moonraker::upload(PrintHostUpload upload_data, ProgressFn progress_fn, ErrorFn error_fn, InfoFn info_fn) const
 {
-    //ORCA: POST /server/files/upload as multipart/form-data with:
+    //INFINIUM: POST /server/files/upload as multipart/form-data with:
     //          file = <gcode file>
     //          root = <storage root>     (Moonraker default: "gcodes")
     //      Successful response shape:
@@ -228,7 +228,7 @@ bool Moonraker::upload(PrintHostUpload upload_data, ProgressFn progress_fn, Erro
     const char *name = get_name();
     const auto upload_filename = upload_data.upload_path.filename();
     const auto upload_parent_path = upload_data.upload_path.parent_path();
-    //ORCA: upload_data.storage is plumbed from the (future) per-printer storage dropdown. When unset,
+    //INFINIUM: upload_data.storage is plumbed from the (future) per-printer storage dropdown. When unset,
     //      fall back to the Moonraker-standard "gcodes" root. Reading it through here means a UI
     //      addition later (storage picker) needs no change to this method.
     const std::string root = upload_data.storage.empty() ? std::string("gcodes") : upload_data.storage;
@@ -237,7 +237,7 @@ bool Moonraker::upload(PrintHostUpload upload_data, ProgressFn progress_fn, Erro
     bool result = true;
     std::string uploaded_path;
 
-    //ORCA: gcode inside a .gcode.3mf is index-coded (Metadata/plate_<N>.gcode), so the upload names the
+    //INFINIUM: gcode inside a .gcode.3mf is index-coded (Metadata/plate_<N>.gcode), so the upload names the
     //      plate via a 1-based `plateindex` (set only in the .3mf path, see Plater::send_gcode_legacy);
     //      servers that don't use it ignore the unknown form field.
     const std::string plateindex = upload_data.extended("plateindex");
@@ -264,14 +264,14 @@ bool Moonraker::upload(PrintHostUpload upload_data, ProgressFn progress_fn, Erro
                 pt::ptree ptree;
                 pt::read_json(ss, ptree);
 
-                //ORCA: Moonraker confirms the storage-relative path in result.item.path. We pass exactly
+                //INFINIUM: Moonraker confirms the storage-relative path in result.item.path. We pass exactly
                 //      that string to /printer/print/start so any server-side renaming (collision suffix,
                 //      etc.) is respected.
                 const auto stored_path = ptree.get_optional<std::string>("result.item.path");
                 if (stored_path) {
                     uploaded_path = *stored_path;
                 } else {
-                    //ORCA: fallback if the server response omits result.item.path (older Moonraker, or
+                    //INFINIUM: fallback if the server response omits result.item.path (older Moonraker, or
                     //      a buddy-fork that returns a slimmer envelope). Use the original filename.
                     uploaded_path = upload_filename.string();
                     BOOST_LOG_TRIVIAL(warning) << boost::format(

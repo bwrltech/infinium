@@ -22,7 +22,7 @@
 #include "DeviceCore/DevDefs.h"
 #include "DeviceCore/DevConfigUtil.h"
 #include "DeviceCore/DevFirmware.h"
-#include "DeviceCore/DevCalib.h" // Orca: adopt DeviceCore split (defines DevCalib, CalibStatus, ManualPaCaliMethod)
+#include "DeviceCore/DevCalib.h" // Infinium: adopt DeviceCore split (defines DevCalib, CalibStatus, ManualPaCaliMethod)
 #include "DeviceErrorDialog.hpp"
 
 #include <wx/object.h>
@@ -64,7 +64,7 @@ class DeviceErrorDialog; // Previous definitions
 }
 
 class NetworkAgent;
-// Orca: ManualPaCaliMethod now provided by DeviceCore/DevCalib.h (enum class)
+// Infinium: ManualPaCaliMethod now provided by DeviceCore/DevCalib.h (enum class)
 
 #define UpgradeNoError          0
 #define UpgradeDownloadFailed   -1
@@ -75,9 +75,9 @@ class NetworkAgent;
 // Previous definitions
 class DevAms;
 class DevAmsTray;
-class DevAxis;      // Orca: adopt DeviceCore split
+class DevAxis;      // Infinium: adopt DeviceCore split
 class DevBed;
-class DevChamber;   // Orca: adopt DeviceCore split
+class DevChamber;   // Infinium: adopt DeviceCore split
 class DevConfig;
 class DevCtrl;
 class DevExtensionTool;
@@ -91,9 +91,9 @@ class DevLamp;
 class DevNozzleSystem;
 class DevNozzleMappingCtrl;
 class DeviceManager;
-class DevStatus;    // Orca: adopt DeviceCore split
+class DevStatus;    // Infinium: adopt DeviceCore split
 class DevStorage;
-class DevUpgrade;   // Orca: adopt DeviceCore split
+class DevUpgrade;   // Infinium: adopt DeviceCore split
 struct DevPrintTaskRatingInfo;
 
 // Returns true when filament_id (e.g. "GFA11", "GFU00") is on the stringing-prone list for the
@@ -128,8 +128,8 @@ private:
     DevBed *          m_bed;
     DevStorage*       m_storage;
 
-    /* Orca: adopt DeviceCore split — axis/calib/chamber/status/upgrade modules alongside
-       MachineObject's inline handling of these concerns, which stays authoritative here (Orca keeps
+    /* Infinium: adopt DeviceCore split — axis/calib/chamber/status/upgrade modules alongside
+       MachineObject's inline handling of these concerns, which stays authoritative here (Infinium keeps
        the inline model permanently; the split modules coexist with it via accessors). */
     std::shared_ptr<DevAxis>    m_axis;
     std::shared_ptr<DevChamber> m_chamber;
@@ -159,9 +159,9 @@ public:
     ~MachineObject();
 
     void set_agent(NetworkAgent* agent) { m_agent = agent; }
-    NetworkAgent* get_agent() const { return m_agent; } // Orca: needed by DeviceCore modules (DevAxisCtrl)
+    NetworkAgent* get_agent() const { return m_agent; } // Infinium: needed by DeviceCore modules (DevAxisCtrl)
 
-    // Orca: these DeviceCore module accessors are unwired on the read side — axis/chamber/status
+    // Infinium: these DeviceCore module accessors are unwired on the read side — axis/chamber/status
     // are fed every MQTT push but no GUI consumer reads them yet, and for calib/upgrade the inline
     // parse in DeviceManager.cpp remains authoritative. Do not wire DevUpgrade naively: its
     // ParseUpgradeDisplayState would duplicate the inline block's dis_state==3 ->

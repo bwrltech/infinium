@@ -31,7 +31,7 @@ BaseTransparentDPIFrame::BaseTransparentDPIFrame(
     SetTransparent(m_init_transparent);
     SetBackgroundColour(wxColour(23, 25, 22, 128));
 
-    // ORCA add border
+    // INFINIUM add border
     Bind(wxEVT_PAINT, [this](wxPaintEvent& evt) {
         wxPaintDC dc(this);
         dc.SetPen(wxPen(StateColor::darkModeColorFor(wxColour("#0D6E63")), FromDIP(2)));

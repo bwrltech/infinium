@@ -402,7 +402,7 @@ public:
         }
     }
 
-    // Orca: keep the splash alive until it is explicitly destroyed.
+    // Infinium: keep the splash alive until it is explicitly destroyed.
     // wxSplashScreen installs an application-wide event filter that calls
     // Close() (which Destroy()s the window) on ANY key press or mouse-button
     // down. Since startup keeps the splash up across the whole load_presets()
@@ -1004,8 +1004,8 @@ void GUI_App::post_init()
         });
     }
 
-    // Orca: notify users upgrading from a pre-2.4.0 version that profile syncing
-    // moved from Bambu Cloud to Orca Cloud.
+    // Infinium: notify users upgrading from a pre-2.4.0 version that profile syncing
+    // moved from Bambu Cloud to Infinium Cloud.
     if (is_editor() && m_last_config_version && m_last_config_version->valid()
         && *m_last_config_version < Semver(2, 4, 0)) {
         CallAfter([] {
@@ -2218,7 +2218,7 @@ void GUI_App::init_networking_callbacks()
                                 event.SetInt(0);
                                 event.SetString(obj->get_dev_id());
                             } else if (state == ConnectStatus::ConnectStatusFailed) {
-                                // Orca: only update status if same device id
+                                // Infinium: only update status if same device id
                                 if (m_device_manager->selected_machine != dev_id) return;
 
                                 m_device_manager->set_selected_machine("");
@@ -2328,7 +2328,7 @@ void GUI_App::init_networking_callbacks()
 
                 if (MachineObject* obj = m_device_manager->get_my_machine(dev_id)) {
                     obj->parse_json("lan", msg);
-                    // Orca: skip it if it doesn't support subscription based filament sync
+                    // Infinium: skip it if it doesn't support subscription based filament sync
                     if (this->m_device_manager->get_selected_machine() == obj &&
                         m_agent->get_filament_sync_mode() == FilamentSyncMode::subscription) {
                         GUI::wxGetApp().sidebar().load_ams_list(obj);
@@ -2528,7 +2528,7 @@ void GUI_App::init_app_config()
 	// Mac : "~/Library/Application Support/Slic3r"
 
     if (data_dir().empty()) {
-        // Orca: check if data_dir folder exists in application folder use it if it exists
+        // Infinium: check if data_dir folder exists in application folder use it if it exists
         // Note:wxStandardPaths::Get().GetExecutablePath() return following paths
         // Unix: /usr/local/bin/exename
         // Windows: "C:\Programs\AppFolder\exename.exe"
@@ -2603,7 +2603,7 @@ void GUI_App::init_app_config()
 	if (m_app_conf_exists) {
         std::string error = app_config->load();
         if (!error.empty()) {
-            // Orca: if the config file is corrupted, we will show a error dialog and create a default config file.
+            // Infinium: if the config file is corrupted, we will show a error dialog and create a default config file.
             m_config_corrupted = true;
 
         }
@@ -2731,7 +2731,7 @@ int GUI_App::OnExit()
         m_agent = nullptr;
     }
 
-    // Orca: clean up encrypted bbl network log file if plugin is used
+    // Infinium: clean up encrypted bbl network log file if plugin is used
     // No point to keep them as they are encrypted and can't be used for debugging
     try {
         auto              log_folder  = boost::filesystem::path(data_dir()) / "log";
@@ -2915,7 +2915,7 @@ bool GUI_App::on_init_inner()
 
     ::Label::initSysFont();
 
-    // Register wxInspector plugins for Orca custom controls
+    // Register wxInspector plugins for Infinium custom controls
     RegisterOrcaInspectorPlugins();
 
     // Set initialization of image handlers before any UI actions - See GH issue #7469
@@ -3065,7 +3065,7 @@ bool GUI_App::on_init_inner()
      // Inform wxWidgets 3.3's dark mode system so it tracks NppDarkMode's state.
      // Must be called before NppDarkMode::InitDarkMode() so that NppDarkMode's
      // SetPreferredAppMode(ForceDark) overrides the AllowDark state set here.
-     // Orca: todo switch to native dark mode support in wxWidgets and remove NppDarkMode
+     // Infinium: todo switch to native dark mode support in wxWidgets and remove NppDarkMode
      MSWEnableDarkMode(DarkMode_Auto);
      NppDarkMode::InitDarkMode(init_dark_color_mode, init_sys_menu_enabled);
 #endif // __WINDOWS__
@@ -3093,7 +3093,7 @@ bool GUI_App::on_init_inner()
     }
 #endif
 
-    // Orca: we allow user to pin the version of plugin, so we don't need to remove old networking plugins when the app version is updated
+    // Infinium: we allow user to pin the version of plugin, so we don't need to remove old networking plugins when the app version is updated
     //
     // if (m_last_config_version) {
     //     int last_major = m_last_config_version->maj();
@@ -3112,12 +3112,12 @@ bool GUI_App::on_init_inner()
     //     }
     // }
 
-    //Orca: write Infinium version
+    //Infinium: write Infinium version
     if(app_config->get("version") != SoftFever_VERSION) {
         app_config->set("version", SoftFever_VERSION);
     }
 
-    // Orca: use wxWeakRef to provent wild pointer.
+    // Infinium: use wxWeakRef to provent wild pointer.
     wxWeakRef<SplashScreen> scrn = nullptr;
     if (app_config->get("show_splash_screen") == "true") {
         // Detect position (display) to show the splash screen
@@ -3278,7 +3278,7 @@ bool GUI_App::on_init_inner()
 
 
 
-    // Orca: select network plugin version based on configured version string
+    // Infinium: select network plugin version based on configured version string
     std::string configured_version = app_config->get_network_plugin_version();
     BOOST_LOG_TRIVIAL(info) << "Network plugin mode: "
         << (use_legacy_network_plugin() ? ("legacy (version: " + std::string(BAMBU_NETWORK_AGENT_VERSION_LEGACY) + ")") : ("modern (version: " + configured_version + ")"));
@@ -3713,7 +3713,7 @@ bool GUI_App::on_init_network(bool try_backup)
 
     if (should_load_networking_plugin) {
         // A version outside the whitelisted series (e.g. 02.03.00.62 configured by an older
-        // Orca release) must not be loaded - its ABI no longer matches this build. Fall back
+        // Infinium release) must not be loaded - its ABI no longer matches this build. Fall back
         // to the latest supported build if it is already on disk; otherwise clear the
         // configured version so the normal empty-version download flow takes over (the
         // download URL and install adoption both derive from the configured version, so it
@@ -3858,11 +3858,11 @@ bool GUI_App::on_init_network(bool try_backup)
         std::string country_code = app_config->get_country_code();
         m_agent->set_country_code(country_code);
         m_agent->start();
-        // Orca: disable Bambu telemetry up-front (before any login) so it never starts.
+        // Infinium: disable Bambu telemetry up-front (before any login) so it never starts.
         check_track_enable();
     }
 
-    // When using Orca cloud alongside the BBL network plugin, the BBL DLL agent still
+    // When using Infinium cloud alongside the BBL network plugin, the BBL DLL agent still
     // needs to be created and configured (config dir, certs, country, start) so that
     // BBLPrinterAgent can use it for LAN discovery and printer communication.
     if (should_load_networking_plugin && !m_networking_need_update) {
@@ -3876,7 +3876,7 @@ bool GUI_App::on_init_network(bool try_backup)
             bbl.init_log();
             bbl.set_cert_file(resources_dir() + "/cert", "slicer_base64.cer");
             bbl.set_country_code(app_config->get_country_code());
-            // Orca: disable Bambu telemetry before start() so the DLL never spins up tracking
+            // Infinium: disable Bambu telemetry before start() so the DLL never spins up tracking
             // workers. This covers the case where the BBL plugin is loaded for LAN discovery
             // but the user has not registered BBL_CLOUD_PROVIDER (so m_agent->track_enable
             // would not reach this DLL instance).
@@ -4025,7 +4025,7 @@ void GUI_App::switch_printer_agent()
 
     // The factory caches agents per ID, so an identical pointer means the agent type is unchanged.
     if (m_agent->get_printer_agent() == new_printer_agent) {
-        // Orca: the agent type is unchanged (e.g. switching between two Moonraker/Klipper
+        // Infinium: the agent type is unchanged (e.g. switching between two Moonraker/Klipper
         // printer presets), so the selected machine and the agent's cached device_info still
         // point at the previously active printer preset. Re-select the machine when the new
         // preset targets a different host, otherwise filament sync keeps hitting the old
@@ -4058,7 +4058,7 @@ void GUI_App::switch_printer_agent()
 void GUI_App::select_machine(const std::string& agent_id)
 {
     // Skip for BBL agent for now - uses its own device discovery/selection
-    // Orca todo: revisit in future if we want to support auto-switching for BBL printers
+    // Infinium todo: revisit in future if we want to support auto-switching for BBL printers
     if (agent_id == BBL_PRINTER_AGENT_ID) {
         return;
     }
@@ -4104,7 +4104,7 @@ void GUI_App::select_machine(const std::string& agent_id)
         machine.dev_name = dev_id;
         machine.printer_type = preset.config.opt_string("printer_model");
         auto access_code = preset.config.opt_string("printhost_apikey");
-        // Orca expect non empty access code
+        // Infinium expect non empty access code
         if (access_code.empty()) {
             access_code = "88888888";
         }
@@ -4177,7 +4177,7 @@ void GUI_App::init_label_colours()
 #if defined(_WIN32) || defined(__linux__) || defined(__APPLE__)
     m_color_label_default           = is_dark_mode ? wxColour(250, 250, 250) : m_color_label_sys; // wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
     m_color_highlight_label_default = is_dark_mode ? wxColour(230, 230, 230): wxSystemSettings::GetColour(/*wxSYS_COLOUR_HIGHLIGHTTEXT*/wxSYS_COLOUR_WINDOWTEXT);
-    m_color_highlight_default       = is_dark_mode ? wxColour("#36363B") : wxColour("#F1F1F1"); // ORCA row highlighting
+    m_color_highlight_default       = is_dark_mode ? wxColour("#36363B") : wxColour("#F1F1F1"); // INFINIUM row highlighting
     m_color_hovered_btn_label       = is_dark_mode ? wxColour(255, 255, 254) : wxColour(0,0,0);
     m_color_default_btn_label       = is_dark_mode ? wxColour(255, 255, 254): wxColour(0,0,0);
     m_color_selected_btn_bg         = is_dark_mode ? wxColour(84, 84, 91)   : wxColour(206, 206, 206);
@@ -4511,7 +4511,7 @@ std::string GUI_App::link_to_network_check()
         url = "https://status.bambulab.com";
     }
     //wxLaunchDefaultBrowser(url);
-    return url; // ORCA
+    return url; // INFINIUM
 }
 
 std::string GUI_App::link_to_lan_only_wiki()
@@ -4529,7 +4529,7 @@ std::string GUI_App::link_to_lan_only_wiki()
         url = "https://wiki.bambulab.com/en/knowledge-sharing/enable-lan-mode";
     }
     //wxLaunchDefaultBrowser(url);
-    return url; // ORCA
+    return url; // INFINIUM
 }
 
 bool GUI_App::tabs_as_menu() const
@@ -4985,7 +4985,7 @@ bool GUI_App::is_user_login(const std::string& provider/* = INFINIUM_CLOUD_PROVI
 
 const std::string& GUI_App::get_printer_cloud_provider() const
 {
-    // Orca todo: this need to be revisted. currently it is mainly used for device manager and related clausses and only bambu machines use them.
+    // Infinium todo: this need to be revisted. currently it is mainly used for device manager and related clausses and only bambu machines use them.
     // 
     return BBL_CLOUD_PROVIDER;
 }
@@ -5586,7 +5586,7 @@ void GUI_App::on_http_error(wxCommandEvent &evt)
         return;
     }
 
-    // Show general error notification for Orca Cloud API failures (not Bambu)
+    // Show general error notification for Infinium Cloud API failures (not Bambu)
     if (provider == INFINIUM_CLOUD_PROVIDER && status >= 400 && code != HttpErrorVersionLimited) {
         BOOST_LOG_TRIVIAL(warning) << "API call to Infinium Cloud failed with status=" << status;
     }
@@ -5675,7 +5675,7 @@ void GUI_App::on_user_login_handle(wxCommandEvent &evt)
 
 void GUI_App::check_track_enable()
 {
-    // Orca: telemetry only exists on the BBL cloud agent; always disable it.
+    // Infinium: telemetry only exists on the BBL cloud agent; always disable it.
     if (m_agent) {
         m_agent->track_enable(false);
         m_agent->track_remove_files();
@@ -5737,7 +5737,7 @@ void GUI_App::check_update(bool show_tips, int by_user)
 
 void GUI_App::check_new_version(bool show_tips, int by_user)
 {
-    return; // orca: not used, see check_new_version_sf
+    return; // infinium: not used, see check_new_version_sf
     std::string platform = "windows";
 
 #ifdef __WINDOWS__
@@ -5841,7 +5841,7 @@ std::string detect_updater_os_info()
     if (description.empty())
         description = wxGetOsDescription();
 
-    //Orca: workaround: wxGetOsVersion can't recognize Windows 11
+    //Infinium: workaround: wxGetOsVersion can't recognize Windows 11
     // For Windows, use actual version numbers to properly detect Windows 11
     // Windows 11 starts at build 22000
 #if defined(_WIN32)
@@ -6584,7 +6584,7 @@ void GUI_App::reload_settings()
             restore_snapshot(preset_bundle->filaments, filament_snap, "filament");
             restore_snapshot(preset_bundle->printers, printer_snap, "printer");
 
-            // Orca: settings changed, refresh ui to reflect the new preset values
+            // Infinium: settings changed, refresh ui to reflect the new preset values
             mainframe->update_side_preset_ui();
             for (auto tab : tabs_list) {
                 tab->reload_config();
@@ -7061,7 +7061,7 @@ void GUI_App::update_single_bundle(wxCommandEvent& evt)
             std::string initial_version = preset_bundle->bundles.m_bundles[bundle_id].version;
             preset_bundle->bundles.ReadUnlock();
 
-            BOOST_LOG_TRIVIAL(info) << __FUNCTION__ << __LINE__ << "ORCA : CallAfter from update_single_bundle function actually updating subscribed presets";
+            BOOST_LOG_TRIVIAL(info) << __FUNCTION__ << __LINE__ << "INFINIUM : CallAfter from update_single_bundle function actually updating subscribed presets";
             
             preset_bundle->bundles.WriteLock();
             
@@ -7092,7 +7092,7 @@ int GUI_App::sync_bundle(std::string bundle_id, std::string version)
 {
     // if(preset_bundle->bundles.pauseReads.load())
     // {
-    //     BOOST_LOG_TRIVIAL(info) << __FUNCTION__ << __LINE__ << "ORCA : Update thread sync_bundle function yielded to main thread. 1";
+    //     BOOST_LOG_TRIVIAL(info) << __FUNCTION__ << __LINE__ << "INFINIUM : Update thread sync_bundle function yielded to main thread. 1";
     //     return; // if the main thread acquires the lock at the start of our operations, we will yield
     // }
     if (!m_agent || !m_agent->is_user_login()) return 0;
@@ -7181,7 +7181,7 @@ int GUI_App::sync_bundle(std::string bundle_id, std::string version)
 
                     // if(!preset_bundle->bundles.pauseReads.load()) // check again if we can actually update so as to not block the main thread
                     // {
-                    BOOST_LOG_TRIVIAL(info) << __FUNCTION__ << __LINE__ << "ORCA : CallAfter from sync_bundle function actually updating subscribed presets";
+                    BOOST_LOG_TRIVIAL(info) << __FUNCTION__ << __LINE__ << "INFINIUM : CallAfter from sync_bundle function actually updating subscribed presets";
                     
                     preset_bundle->bundles.WriteLock();
                     
@@ -7280,7 +7280,7 @@ void GUI_App::check_bundle_updates()
     int updates_available = 0;
 
     for (auto& [bundle_id, local_metadata] : preset_bundle->bundles.m_bundles) {
-        // Only check subscribed bundles (those with UUID-style IDs from Orca Cloud)
+        // Only check subscribed bundles (those with UUID-style IDs from Infinium Cloud)
         // Skip external bundles (those with name+timestamp IDs)
         if (!local_metadata.is_subscribed) {
             continue;
@@ -7425,7 +7425,7 @@ void GUI_App::start_sync_user_preset(bool with_progress_dlg)
             if (ret == 0 && m_agent && !t.expired())
                 reload_settings();
 
-            // For orca specific syncing
+            // For infinium specific syncing
             auto infinium_agent = std::dynamic_pointer_cast<InfiniumCloudServiceAgent>(m_agent->get_cloud_agent());
             int tick_tock = -1, sync_count = 0; // tick_tock = -1 to immediately run sync the frist time this thread runs
             std::vector<Preset> presets_to_sync;
@@ -7501,7 +7501,7 @@ void GUI_App::start_sync_user_preset(bool with_progress_dlg)
                         process_delete_presets();
                     }
 
-                    // sync subscribed bundles, if orca
+                    // sync subscribed bundles, if infinium
                     if (infinium_agent)
                     {
                         bundles_to_sync.clear();
@@ -7544,7 +7544,7 @@ void GUI_App::start_sync_user_preset(bool with_progress_dlg)
                             // Sync each bundle individually
                             // if(!preset_bundle->bundles.pauseReads.load()) // if pause is true we will skip updating this frame altogether
                             // {
-                            BOOST_LOG_TRIVIAL(info) << __FUNCTION__ << __LINE__ << "ORCA : Update thread syncing bundles";
+                            BOOST_LOG_TRIVIAL(info) << __FUNCTION__ << __LINE__ << "INFINIUM : Update thread syncing bundles";
                             int res = sync_bundle(bundle_entry.first, bundle_entry.second);
 
                             const std::string known_update_key = bundle_entry.first + ":" + bundle_entry.second;
@@ -8689,7 +8689,7 @@ void GUI_App::load_current_presets(bool active_preset_combox/*= false*/, bool ch
 
     auto& edited_printer_preset = preset_bundle->printers.get_edited_preset();
     PrinterTechnology printer_technology = edited_printer_preset.printer_technology();
-    // ORCA: Sync filament count with the printer's nozzle count before loading presets for multi-tool printers.
+    // INFINIUM: Sync filament count with the printer's nozzle count before loading presets for multi-tool printers.
     // This ensures filament_presets vector is properly sized when combo boxes are created/updated.
     if (printer_technology == ptFFF && !edited_printer_preset.config.opt_bool("single_extruder_multi_material")) {
         auto* nozzle_diameter = edited_printer_preset.config.option<ConfigOptionFloats>("nozzle_diameter");

@@ -196,7 +196,7 @@ void SwitchButton::Rescale()
 #ifdef __WXOSX__
             bmp = wxBitmap(bmp.ConvertToImage(), -1, scale);
 #elif defined(__WXMSW__)
-            bmp.SetScaleFactor(scale); // ORCA
+            bmp.SetScaleFactor(scale); // INFINIUM
 #endif
 			(i == 0 ? m_off : m_on).bmp() = bmp;
 		}

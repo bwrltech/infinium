@@ -46,7 +46,7 @@ static std::vector<int> get_applied_volume_map(DynamicConfig& proj_config, const
 extern std::string& get_left_extruder_unprintable_text();
 extern std::string& get_right_extruder_unprintable_text();
 
-// Orca: minimal smart-filament toggle. When a filament track switch is ready every AMS filament is
+// Infinium: minimal smart-filament toggle. When a filament track switch is ready every AMS filament is
 // reachable from both nozzles, so one filament can be assigned to multiple nozzles to maximize
 // savings. The checkbox drives the enable_filament_dynamic_map project flag.
 class SmartFilamentPanel : public wxPanel
@@ -75,7 +75,7 @@ public:
         auto *label = new Label(this, _L("Enable smart filament assign: Assign one filament to multiple nozzles to maximize savings"));
         label->SetFont(Label::Body_12);
 
-        // Orca: dropped the vendor "Learn more" tracking link (no Orca help page for this feature).
+        // Infinium: dropped the vendor "Learn more" tracking link (no Infinium help page for this feature).
 
         auto *smart_sizer = new wxBoxSizer(wxHORIZONTAL);
         smart_sizer->Add(m_smart_filament_checkbox, 0, wxALIGN_CENTER_VERTICAL);
@@ -220,9 +220,9 @@ FilamentMapDialog::FilamentMapDialog(wxWindow                       *parent,
     SetMinSize(wxSize(FromDIP(580), -1));
     SetMaxSize(wxSize(FromDIP(580), -1));
 
-    // Orca: when a filament track switch is ready, every AMS filament reaches both nozzles, so the
+    // Infinium: when a filament track switch is ready, every AMS filament reaches both nozzles, so the
     // Match/Convenience sub-mode is dropped and Auto is presented purely as a filament-saving mode.
-    // Orca has no fmmAutoForQuality, so "only saving" collapses to "switch ready" and the remaining
+    // Infinium has no fmmAutoForQuality, so "only saving" collapses to "switch ready" and the remaining
     // auto mode set is { fmmAutoForFlush }.
     m_fila_switch_ready              = wxGetApp().sidebar().is_fila_switch_ready();
     const bool only_saving_mode     = m_fila_switch_ready;
@@ -231,7 +231,7 @@ FilamentMapDialog::FilamentMapDialog(wxWindow                       *parent,
     if (mode < fmmManual)
         m_page_type = PageType::ptAuto;
     else if (mode == fmmManual || mode == fmmNozzleManual)
-        // Orca: there is no dedicated nozzle-manual page, so treat an fmmNozzleManual plate as a manual variant and show the Custom page instead of misfiling it as "Same as Global".
+        // Infinium: there is no dedicated nozzle-manual page, so treat an fmmNozzleManual plate as a manual variant and show the Custom page instead of misfiling it as "Same as Global".
         m_page_type = PageType::ptManual;
     else
         m_page_type = PageType::ptDefault;
@@ -260,7 +260,7 @@ FilamentMapDialog::FilamentMapDialog(wxWindow                       *parent,
 
     auto            panel_sizer       = new wxBoxSizer(wxHORIZONTAL);
 
-    // Orca: fall back to the saving mode whenever Match is unavailable, which now also covers the
+    // Infinium: fall back to the saving mode whenever Match is unavailable, which now also covers the
     // filament-track-switch-ready case (auto_match_available folds in !m_fila_switch_ready).
     FilamentMapMode default_auto_mode = mode >= fmmManual ? fmmAutoForFlush :
         mode == fmmAutoForMatch && !auto_match_available ? fmmAutoForFlush :

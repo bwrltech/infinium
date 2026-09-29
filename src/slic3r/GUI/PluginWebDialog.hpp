@@ -13,7 +13,7 @@
 namespace Slic3r { namespace GUI {
 
 // A host-owned webview window that renders plugin-supplied raw HTML and bridges
-// messages to/from the page through a small injected `window.orca` API.
+// messages to/from the page through a small injected `window.infinium` API.
 //
 // This class is deliberately Python-agnostic: it talks to the plugin layer only
 // through std::function hooks. Those hooks must NOT capture bare pybind11
@@ -28,7 +28,7 @@ public:
     using SubmitHandler  = std::function<void(const nlohmann::json& data)>;
     using CloseHandler   = std::function<void()>;
 
-    // on_submit fires once for window.orca.submit(). on_close fires only on a
+    // on_submit fires once for window.infinium.submit(). on_close fires only on a
     // user/JS-initiated close (while the window is alive). on_destroyed runs from
     // the destructor on every path and must touch host-side state only (no Python
     // / no derived members).
@@ -48,12 +48,12 @@ public:
     static void destroy_for_plugin(PluginWebDialog* dialog);
 
     // Push a payload to the page; delivered to handlers registered via
-    // window.orca.onMessage(). MAIN-THREAD ONLY (the plugin layer marshals).
+    // window.infinium.onMessage(). MAIN-THREAD ONLY (the plugin layer marshals).
     void push_message(const nlohmann::json& data);
 
     bool is_open() const { return m_open; }
 
-    // The payload submitted via window.orca.submit() (modal use), if any.
+    // The payload submitted via window.infinium.submit() (modal use), if any.
     const std::optional<nlohmann::json>& result() const { return m_result; }
 
 protected:

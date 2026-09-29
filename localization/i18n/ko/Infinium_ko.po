@@ -1287,7 +1287,7 @@ msgid "Operation"
 msgstr "작업"
 
 #. TRN EmbossOperation
-#. ORCA
+#. INFINIUM
 msgid "Join"
 msgstr "접합부"
 
@@ -2634,8 +2634,8 @@ msgid "Infinium Cube"
 msgstr "Infinium 큐브"
 
 # AI Translated
-msgid "OrcaSliced Combo"
-msgstr "OrcaSliced Combo"
+msgid "InfiniumSliced Combo"
+msgstr "InfiniumSliced Combo"
 
 # AI Translated
 msgid "Infinium Badge"
@@ -6595,8 +6595,8 @@ msgid "Select profile to load:"
 msgstr "불러올 사전설정 선택:"
 
 # AI Translated
-msgid "Config files (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
-msgstr "설정 파일 (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
+msgid "Config files (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
+msgstr "설정 파일 (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
 
 #, c-format, boost-format
 msgid "There is %d config imported. (Only non-system and compatible configs)"
@@ -8862,7 +8862,7 @@ msgid "Associate"
 msgstr "링크"
 
 msgid "with Infinium Slicer so that Infinium can open models from"
-msgstr "를 Infinium Slicer와 연결하여 Orca가 다음 사이트의 모델을 열 수 있게 합니다"
+msgstr "를 Infinium Slicer와 연결하여 Infinium가 다음 사이트의 모델을 열 수 있게 합니다"
 
 msgid "Current Association: "
 msgstr "현재 연결: "
@@ -9053,7 +9053,7 @@ msgid "Remember printer configuration"
 msgstr "프린터 구성 기억"
 
 msgid "If enabled, Infinium will remember and switch filament/process configuration for each printer automatically."
-msgstr "활성화하면 Orca는 각 프린터의 필라멘트/프로세스 구성을 자동으로 기억하고 전환합니다."
+msgstr "활성화하면 Infinium는 각 프린터의 필라멘트/프로세스 구성을 자동으로 기억하고 전환합니다."
 
 # AI Translated
 msgid "Group user filament presets"
@@ -11740,7 +11740,7 @@ msgstr "채워넣기 선"
 
 # AI Translated
 msgid "Infinium would re-calculate your flushing volumes everytime the filaments color changed or filaments changed. You could disable the auto-calculate in Infinium Slicer > Preferences"
-msgstr "Orca는 필라멘트 색상이 바뀌거나 필라멘트가 변경될 때마다 플러시 용량을 다시 계산합니다. Infinium Slicer > 기본 설정에서 자동 계산을 비활성화할 수 있습니다"
+msgstr "Infinium는 필라멘트 색상이 바뀌거나 필라멘트가 변경될 때마다 플러시 용량을 다시 계산합니다. Infinium Slicer > 기본 설정에서 자동 계산을 비활성화할 수 있습니다"
 
 msgid "Flushing volume (mm³) for each filament pair."
 msgstr "각 필라멘트 쌍에 대한 버리기 볼륨(mm³)."
@@ -12650,26 +12650,26 @@ msgstr "저크 속도를 너무 낮게 설정하면 곡면에 아티팩트가 �
 msgid "The jerk setting exceeds the printer's maximum jerk (machine_max_jerk_x/machine_max_jerk_y).\nInfinium will automatically cap the jerk speed to ensure it doesn't surpass the printer's capabilities.\nYou can adjust the maximum jerk setting in your printer's configuration to get higher speeds."
 msgstr ""
 "저크 설정이 프린터의 최대 저크(machine_max_jerk_x/machine_max_jerk_y)를 초과합니다.\n"
-"Orca는 저크 속도를 자동으로 제한하여 프린터 성능을 초과하지 않도록 합니다.\n"
+"Infinium는 저크 속도를 자동으로 제한하여 프린터 성능을 초과하지 않도록 합니다.\n"
 "더 빠른 속도를 얻으려면 프린터 구성에서 최대 저크 설정을 조정할 수 있습니다."
 
 # AI Translated
 msgid "Junction deviation setting exceeds the printer's maximum value (machine_max_junction_deviation).\nInfinium will automatically cap the junction deviation to ensure it doesn't surpass the printer's capabilities.\nYou can adjust the machine_max_junction_deviation value in your printer's configuration to get higher limits."
 msgstr ""
 "Junction Deviation 설정이 프린터의 최대값(machine_max_junction_deviation)을 초과합니다.\n"
-"Orca는 프린터의 성능을 넘지 않도록 Junction Deviation을 자동으로 제한합니다.\n"
+"Infinium는 프린터의 성능을 넘지 않도록 Junction Deviation을 자동으로 제한합니다.\n"
 "더 높은 한계값을 사용하려면 프린터 구성에서 machine_max_junction_deviation 값을 조정하십시오."
 
 msgid "The acceleration setting exceeds the printer's maximum acceleration (machine_max_acceleration_extruding).\nInfinium will automatically cap the acceleration speed to ensure it doesn't surpass the printer's capabilities.\nYou can adjust the machine_max_acceleration_extruding value in your printer's configuration to get higher speeds."
 msgstr ""
 "가속 설정이 프린터의 최대 가속(machine_max_acceleration_extruding)을 초과합니다.\n"
-"Orca는 프린터의 성능을 초과하지 않도록 가속 속도를 자동으로 제한합니다.\n"
+"Infinium는 프린터의 성능을 초과하지 않도록 가속 속도를 자동으로 제한합니다.\n"
 "더 빠른 속도를 얻으려면 프린터 구성에서 machine_max_acceleration_extruding 값을 조정할 수 있습니다."
 
 msgid "The travel acceleration setting exceeds the printer's maximum travel acceleration (machine_max_acceleration_travel).\nInfinium will automatically cap the travel acceleration speed to ensure it doesn't surpass the printer's capabilities.\nYou can adjust the machine_max_acceleration_travel value in your printer's configuration to get higher speeds."
 msgstr ""
 "이동 가속도 설정이 프린터의 최대 이동 가속도(machine_max_acceleration_travel)를 초과합니다.\n"
-"Orca는 이동 가속 속도를 자동으로 제한하여 프린터의 성능을 초과하지 않도록 합니다.\n"
+"Infinium는 이동 가속 속도를 자동으로 제한하여 프린터의 성능을 초과하지 않도록 합니다.\n"
 "더 빠른 속도를 얻으려면 프린터 구성에서 machine_max_acceleration_travel 값을 조정할 수 있습니다."
 
 # AI Translated
@@ -17024,7 +17024,7 @@ msgid "Preheat time"
 msgstr "예열시간"
 
 msgid "To reduce the waiting time after tool change, Infinium can preheat the next tool while the current tool is still in use. This setting specifies the time in seconds to preheat the next tool. Infinium will insert a M104 command to preheat the tool in advance."
-msgstr "툴 체인지 후 대기 시간을 줄이기 위해 Orca는 현재 도구가 계속 사용되는 동안 다음 도구를 예열할 수 있습니다. 이 설정은 다음 도구를 예열하는 시간을 초 단위로 지정합니다. Orca는 도구를 미리 예열하기 위해 M104 명령을 삽입합니다."
+msgstr "툴 체인지 후 대기 시간을 줄이기 위해 Infinium는 현재 도구가 계속 사용되는 동안 다음 도구를 예열할 수 있습니다. 이 설정은 다음 도구를 예열하는 시간을 초 단위로 지정합니다. Infinium는 도구를 미리 예열하기 위해 M104 명령을 삽입합니다."
 
 msgid "Preheat steps"
 msgstr "예열 단계"
@@ -17085,7 +17085,7 @@ msgstr "프라임 타워에서 툴 체인지"
 
 # AI Translated
 msgid "Force the toolhead to travel to the wipe tower before issuing the tool change command (Tx). Only relevant for multi-extruder (multi-toolhead) printers using a Type 2 wipe tower. By default Infinium skips the travel on multi-toolhead machines because the firmware handles the head swap, which can result in the Tx command being issued above the printed part. Enable this option if you want the tool change to always be issued above the wipe tower instead."
-msgstr "툴 체인지 명령(Tx)을 실행하기 전에 툴헤드가 반드시 프라임 타워로 이동하도록 합니다. 유형 2 프라임 타워를 사용하는 다중 압출기(멀티 툴헤드) 프린터에만 해당됩니다. 기본적으로 Orca는 멀티 툴헤드 장비에서 펌웨어가 헤드 교체를 처리하므로 이동을 생략하는데, 이 때문에 Tx 명령이 출력물 위에서 실행될 수 있습니다. 툴 체인지가 항상 프라임 타워 위에서 실행되도록 하려면 이 옵션을 활성화하십시오."
+msgstr "툴 체인지 명령(Tx)을 실행하기 전에 툴헤드가 반드시 프라임 타워로 이동하도록 합니다. 유형 2 프라임 타워를 사용하는 다중 압출기(멀티 툴헤드) 프린터에만 해당됩니다. 기본적으로 Infinium는 멀티 툴헤드 장비에서 펌웨어가 헤드 교체를 처리하므로 이동을 생략하는데, 이 때문에 Tx 명령이 출력물 위에서 실행될 수 있습니다. 툴 체인지가 항상 프라임 타워 위에서 실행되도록 하려면 이 옵션을 활성화하십시오."
 
 # AI Translated
 msgid "Wait for temperature on wipe tower"
@@ -20203,17 +20203,17 @@ msgid "\n\nInfinium has detected that your user presets synchronization function
 msgstr ""
 "\n"
 "\n"
-"Orca에서는 사용자 사전 설정 동기화 기능이 활성화되어 있지 않아 장치 페이지에서 필라멘트 설정이 실패할 수 있음을 감지했습니다.\n"
+"Infinium에서는 사용자 사전 설정 동기화 기능이 활성화되어 있지 않아 장치 페이지에서 필라멘트 설정이 실패할 수 있음을 감지했습니다.\n"
 "동기화 기능을 활성화하려면 \"사용자 사전 설정 동기화\"를 클릭하세요."
 
 msgid "Printer Setting"
 msgstr "프린터 설정"
 
-msgid "Printer config bundle(.orca_printer)"
-msgstr "프린터 구성 번들(.orca_printer)"
+msgid "Printer config bundle(.infinium_printer)"
+msgstr "프린터 구성 번들(.infinium_printer)"
 
-msgid "Filament bundle(.orca_filament)"
-msgstr "필라멘트 번들(.orca_filament)"
+msgid "Filament bundle(.infinium_filament)"
+msgstr "필라멘트 번들(.infinium_filament)"
 
 msgid "Printer presets(.zip)"
 msgstr "프린터 사전 설정(.zip)"
@@ -22210,8 +22210,8 @@ msgstr ""
 "ABS와 같이 뒤틀림이 발생하기 쉬운 소재를 출력할 때, 히트베드 온도를 적절하게 높이면 뒤틀림 가능성을 줄일 수 있다는 사실을 알고 계셨나요?"
 
 # AI Translated
-#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart OrcaSlicer."
-#~ msgstr "네이티브 Wayland 실시간 보기에는 GStreamer GTK 비디오 싱크가 필요합니다. GStreamer용 gtksink 플러그인을 설치한 후 OrcaSlicer를 다시 시작하십시오."
+#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart Infinium."
+#~ msgstr "네이티브 Wayland 실시간 보기에는 GStreamer GTK 비디오 싱크가 필요합니다. GStreamer용 gtksink 플러그인을 설치한 후 Infinium를 다시 시작하십시오."
 
 # AI Translated
 #~ msgid "Failed to initialize the native Wayland GStreamer video sink. Please check your GStreamer GTK plugin installation."
@@ -22224,14 +22224,14 @@ msgstr ""
 #~ msgstr "뱀부소스가 미디어 재생에 올바르게 등록되지 않았습니다! 다시 등록하려면 예를 누르세요. 두 번 승격됩니다"
 
 # AI Translated
-#~ msgid "Missing BambuSource component registered for media playing! Please re-install OrcaSlicer or seek community help."
-#~ msgstr "미디어 재생용으로 등록된 BambuSource 구성 요소가 없습니다! OrcaSlicer를 다시 설치하거나 커뮤니티에 도움을 요청하십시오."
+#~ msgid "Missing BambuSource component registered for media playing! Please re-install Infinium or seek community help."
+#~ msgstr "미디어 재생용으로 등록된 BambuSource 구성 요소가 없습니다! Infinium를 다시 설치하거나 커뮤니티에 도움을 요청하십시오."
 
 #~ msgid "Using a BambuSource from a different install, video play may not work correctly! Press Yes to fix it."
 #~ msgstr "다른 설치 버전의 뱀부소스를 사용하면 동영상 재생이 제대로 작동하지 않을 수 있습니다! 예를 눌러 문제를 해결하세요."
 
-#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Orca Slicer?)"
-#~ msgstr "시스템에 동영상 재생을 위해 필요한 GStreamer용 H.264 코덱이 존재하지 않습니다. (gstreamer1.0-plugins-bad 또는 gstreamer1.0-libav 패키지를 설치한 다음 Orca Slicer를 다시 실행하십시오.)"
+#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Infinium?)"
+#~ msgstr "시스템에 동영상 재생을 위해 필요한 GStreamer용 H.264 코덱이 존재하지 않습니다. (gstreamer1.0-plugins-bad 또는 gstreamer1.0-libav 패키지를 설치한 다음 Infinium Slicer를 다시 실행하십시오.)"
 
 # AI Translated
 #~ msgid "N"
@@ -22318,8 +22318,8 @@ msgstr ""
 #~ msgstr "현재 펌웨어는 최대 16개의 재료를 지원합니다. 준비 페이지에서 재료 수를 16개 이하로 줄이거나 펌웨어를 업데이트해 보세요. 업데이트 후에도 여전히 제한이 있는 경우, 다음 펌웨어 지원이 나올 때까지 기다려 주세요."
 
 # TODO: Review, changed by lang refactor. PR 14254
-#~ msgid "Click OK to update the Network plug-in the next time Orca Slicer launches."
-#~ msgstr "다음 Orca Slicer를 시작할 때 네트워크 플러그인을 업데이트하려면 확인을 클릭합니다."
+#~ msgid "Click OK to update the Network plug-in the next time Infinium launches."
+#~ msgstr "다음 Infinium Slicer를 시작할 때 네트워크 플러그인을 업데이트하려면 확인을 클릭합니다."
 
 # TODO: Review, changed by lang refactor. PR 14254
 #, boost-format
@@ -22636,8 +22636,8 @@ msgstr ""
 #~ msgid "Object/Part Setting"
 #~ msgstr "객체/부품 설정"
 
-#~ msgid "OrcaSlicer is based on BambuStudio, PrusaSlicer, and SuperSlicer."
-#~ msgstr "Orca Slicer는 BambuStudio, PrusaSlicer 및 SuperSlicer를 기반으로 합니다."
+#~ msgid "Infinium is based on BambuStudio, PrusaSlicer, and SuperSlicer."
+#~ msgstr "Infinium Slicer는 BambuStudio, PrusaSlicer 및 SuperSlicer를 기반으로 합니다."
 
 #~ msgid "BambuStudio is originally based on PrusaSlicer by PrusaResearch."
 #~ msgstr "BambuStudio는 PrusaResearch의 PrusaSlicer를 기반으로 합니다."
@@ -22666,14 +22666,14 @@ msgstr ""
 #~ msgid "Flow ratio test - Pass 2"
 #~ msgstr "압출량 비율 테스트 - 2차"
 
-#~ msgid "Orca YOLO flowratio calibration, 0.01 step"
-#~ msgstr "Orca YOLO 압출량 비율 보정, 0.01 단계"
+#~ msgid "Infinium YOLO flowratio calibration, 0.01 step"
+#~ msgstr "Infinium YOLO 압출량 비율 보정, 0.01 단계"
 
 #~ msgid "YOLO (perfectionist version)"
 #~ msgstr "YOLO (완벽주의자 버전)"
 
-#~ msgid "Orca YOLO flowratio calibration, 0.005 step"
-#~ msgstr "Orca YOLO 압출량 비율 보정, 0.005 단계"
+#~ msgid "Infinium YOLO flowratio calibration, 0.005 step"
+#~ msgstr "Infinium YOLO 압출량 비율 보정, 0.005 단계"
 
 #~ msgid "Retraction test"
 #~ msgstr "후퇴 테스트"
@@ -22700,8 +22700,8 @@ msgstr ""
 #~ msgid "Show/Hide advanced parameters"
 #~ msgstr "고급 매개변수 표시/숨기기"
 
-#~ msgid "\"Fix Model\" feature is currently only on Windows. Please repair the model on Orca Slicer(windows) or CAD softwares."
-#~ msgstr "\"모델 수리\" 기능은 현재 Windows에만 있습니다. Orca Slicer(Wndows) 또는 CAD 소프트웨어 등에서 모델을 수정하세요."
+#~ msgid "\"Fix Model\" feature is currently only on Windows. Please repair the model on Infinium(windows) or CAD softwares."
+#~ msgstr "\"모델 수리\" 기능은 현재 Windows에만 있습니다. Infinium(Wndows) 또는 CAD 소프트웨어 등에서 모델을 수정하세요."
 
 #~ msgid "This stops the transmission of data to Bambu's cloud services. Users who don't use BBL machines or use LAN mode only can safely turn on this function."
 #~ msgstr "이 기능은 뱀부의 클라우드 서비스로의 데이터 전송을 중지합니다. BBL 머신을 사용하지 않거나 LAN 모드만 사용하는 사용자는 이 기능을 안전하게 켤 수 있습니다."
@@ -23079,8 +23079,8 @@ msgstr ""
 #~ msgid "Resync"
 #~ msgstr "재 동기화"
 
-#~ msgid "There are some unknown filaments mapped to generic preset. Please update Orca Slicer or restart Orca Slicer to check if there is an update to system presets."
-#~ msgstr "일반 사전 설정에 매핑된 알 수 없는 필라멘트가 있습니다. Orca Slicer를 업데이트하거나 Orca Slicer를 다시 시작하여 시스템 사전 설정에 대한 업데이트가 있는지 확인하세요."
+#~ msgid "There are some unknown filaments mapped to generic preset. Please update Infinium or restart Infinium to check if there is an update to system presets."
+#~ msgstr "일반 사전 설정에 매핑된 알 수 없는 필라멘트가 있습니다. Infinium Slicer를 업데이트하거나 Infinium Slicer를 다시 시작하여 시스템 사전 설정에 대한 업데이트가 있는지 확인하세요."
 
 #~ msgid ""
 #~ "Are you sure you want to store original SVGs with their local paths into the 3MF file?\n"
@@ -23125,8 +23125,8 @@ msgstr ""
 #~ msgid "System Sync"
 #~ msgstr "시스템 동기화"
 
-#~ msgid "Associate URLs to OrcaSlicer"
-#~ msgstr "OrcaSlicer에 URL 연결"
+#~ msgid "Associate URLs to Infinium"
+#~ msgstr "Infinium에 URL 연결"
 
 #~ msgid "every"
 #~ msgstr "매번"
@@ -23236,8 +23236,8 @@ msgstr ""
 #~ msgid "Auto-Calc"
 #~ msgstr "자동 계산"
 
-#~ msgid "Orca would re-calculate your flushing volumes every time the filaments color changed. You could disable the auto-calculate in Orca Slicer > Preferences"
-#~ msgstr "Orca는 필라멘트 색상이 변경될 때마다 버리기 볼륨을 다시 계산합니다. Orca Slicer > 기본 설정에서 자동 계산을 비활성화할 수 있습니다"
+#~ msgid "Infinium would re-calculate your flushing volumes every time the filaments color changed. You could disable the auto-calculate in Infinium > Preferences"
+#~ msgstr "Infinium는 필라멘트 색상이 변경될 때마다 버리기 볼륨을 다시 계산합니다. Infinium > 기본 설정에서 자동 계산을 비활성화할 수 있습니다"
 
 #~ msgid "unloaded"
 #~ msgstr "언로드됨"
@@ -23260,7 +23260,7 @@ msgstr ""
 #~ msgid "Resume Printing (problem solved)"
 #~ msgstr "출력 재개(문제 해결)"
 
-#~ msgid "Step 1. Please confirm Orca Slicer and your printer are in the same LAN."
+#~ msgid "Step 1. Please confirm Infinium and your printer are in the same LAN."
 #~ msgstr "1단계. 오르카 슬라이서와 프린터가 동일한 LAN에 있는지 확인하세요."
 
 #~ msgid "Step 2. If the IP and Access Code below are different from the actual values on your printer, please correct them."
@@ -23730,8 +23730,8 @@ msgstr ""
 #~ msgid "LAN Connection Failed (Sending print file)"
 #~ msgstr "LAN 연결 실패(출력 파일 전송 중)"
 
-#~ msgid "Step 1, please confirm Orca Slicer and your printer are in the same LAN."
-#~ msgstr "1단계, Orca Slicer와 프린터가 동일한 네트워크에 연결되어 있는지 확인하세요."
+#~ msgid "Step 1, please confirm Infinium and your printer are in the same LAN."
+#~ msgstr "1단계, Infinium Slicer와 프린터가 동일한 네트워크에 연결되어 있는지 확인하세요."
 
 #~ msgid "Step 2, if the IP and Access Code below are different from the actual values on your printer, please correct them."
 #~ msgstr "2단계, 아래의 IP 및 액세스 코드가 프린터의 실제 값과 다른 경우 수정하세요."
@@ -24085,8 +24085,8 @@ msgstr ""
 #~ "\n"
 #~ "벽에 접착할 이웃 충전재가 있으므로 벽을 먼저 출력하면 과도한 돌출부에 도움이 될 수 있습니다. 그러나 충전재는 출력된 벽이 부착된 부분을 약간 밀어내어 외부 표면 마감이 더 나빠집니다. 또한 충전재가 부품의 외부 표면을 통해 빛날 수도 있습니다."
 
-#~ msgid "Orca Slicer is based on BambuStudio by Bambulab, which is from PrusaSlicer by Prusa Research. PrusaSlicer is from Slic3r by Alessandro Ranellucci and the RepRap community"
-#~ msgstr "Orca Slicer는 Prusa Research의 PrusaSlicer에서 나온 뱀부랩의 BambuStudio를 기반으로 합니다. PrusaSlicer는 Alessandro Ranellucci와 RepRap 커뮤니티의 Slic3r에서 제작되었습니다"
+#~ msgid "Infinium is based on BambuStudio by Bambulab, which is from PrusaSlicer by Prusa Research. PrusaSlicer is from Slic3r by Alessandro Ranellucci and the RepRap community"
+#~ msgstr "Infinium Slicer는 Prusa Research의 PrusaSlicer에서 나온 뱀부랩의 BambuStudio를 기반으로 합니다. PrusaSlicer는 Alessandro Ranellucci와 RepRap 커뮤니티의 Slic3r에서 제작되었습니다"
 
 #~ msgid "Export &Configs"
 #~ msgstr "설정 내보내기 (&C)"
@@ -24249,11 +24249,11 @@ msgstr ""
 
 #~ msgid ""
 #~ "The speed setting exceeds the printer's maximum speed (machine_max_speed_x/machine_max_speed_y).\n"
-#~ "Orca will automatically cap the print speed to ensure it doesn't surpass the printer's capabilities.\n"
+#~ "Infinium will automatically cap the print speed to ensure it doesn't surpass the printer's capabilities.\n"
 #~ "You can adjust the maximum speed setting in your printer's configuration to get higher speeds."
 #~ msgstr ""
 #~ "속도 설정이 프린터의 최대 속도(machine_max_speed_x/machine_max_speed_y)를 초과합니다.\n"
-#~ "Orca는 인쇄 속도가 프린터의 성능을 초과하지 않도록 자동으로 제한합니다.\n"
+#~ "Infinium는 인쇄 속도가 프린터의 성능을 초과하지 않도록 자동으로 제한합니다.\n"
 #~ "더 빠른 속도를 얻으려면 프린터 구성에서 최대 속도 설정을 조정할 수 있습니다."
 
 #~ msgid "Alternate extra wall only works with ensure vertical shell thickness disabled. "
@@ -24336,8 +24336,8 @@ msgstr ""
 #~ msgid "Recalculate"
 #~ msgstr "다시계산"
 
-#~ msgid "Orca recalculates your flushing volumes every time the filament colors change. You can change this behavior in Preferences."
-#~ msgstr "Orca Slicer는 필라멘트 색상이 바뀔 때마다 플러싱 볼륨을 다시 계산합니다. 환경 설정에서 이 동작을 변경할 수 있습니다."
+#~ msgid "Infinium recalculates your flushing volumes every time the filament colors change. You can change this behavior in Preferences."
+#~ msgstr "Infinium Slicer는 필라멘트 색상이 바뀔 때마다 플러싱 볼륨을 다시 계산합니다. 환경 설정에서 이 동작을 변경할 수 있습니다."
 
 #~ msgid "The printer timed out while receiving a print job. Please check if the network is functioning properly and send the print again."
 #~ msgstr "프린터가 인쇄 작업을 수신하는 동안 시간이 초과되었습니다.네트워크가 제대로 작동하는지 확인하고 인쇄를 다시 보내십시오."
@@ -24393,10 +24393,10 @@ msgstr ""
 
 #~ msgid ""
 #~ "Subtract a Part\n"
-#~ "Did you know that you can subtract one mesh from another using the Negative part modifier? That way you can, for example, create easily resizable holes directly in Orca Slicer. Read more in the documentation."
+#~ "Did you know that you can subtract one mesh from another using the Negative part modifier? That way you can, for example, create easily resizable holes directly in Infinium. Read more in the documentation."
 #~ msgstr ""
 #~ "부품 비우기\n"
-#~ "네거티브 부분 수정자를 사용하여 하나의 메시를 다른 메시에서 뺄 수 있다는 것을 알고 계셨습니까? 예를 들어, 이렇게 하면 Orca Slicer에서 직접 쉽게 크기 조정이 가능한 구멍을 만들 수 있습니다. 설명서에서 자세한 내용을 읽어보세요."
+#~ "네거티브 부분 수정자를 사용하여 하나의 메시를 다른 메시에서 뺄 수 있다는 것을 알고 계셨습니까? 예를 들어, 이렇게 하면 Infinium Slicer에서 직접 쉽게 크기 조정이 가능한 구멍을 만들 수 있습니다. 설명서에서 자세한 내용을 읽어보세요."
 
 #~ msgid "Filling bed "
 #~ msgstr "베드 채우기 "
@@ -24522,8 +24522,8 @@ msgstr ""
 #~ msgid "Embedded"
 #~ msgstr "매입"
 
-#~ msgid "OrcaSlicer configuration file may be corrupted and is not abled to be parsed. Please delete the file and try again."
-#~ msgstr "OrcaSlicer 구성 파일이 손상되어 구문 분석할 수 없습니다. 파일을 삭제하고 다시 시도하십시오."
+#~ msgid "Infinium configuration file may be corrupted and is not abled to be parsed. Please delete the file and try again."
+#~ msgstr "Infinium 구성 파일이 손상되어 구문 분석할 수 없습니다. 파일을 삭제하고 다시 시도하십시오."
 
 #~ msgid "Online Models"
 #~ msgstr "온라인 모델"

@@ -1,4 +1,4 @@
-# Thai translation for OrcaSlicer.
+# Thai translation for Infinium.
 # Copyright (C) 2026 OrcaSlicer contributors
 # This file is distributed under the same license as the OrcaSlicer package.
 # Icezaza, 2026.
@@ -1288,7 +1288,7 @@ msgid "Operation"
 msgstr "การทำงาน"
 
 #. TRN EmbossOperation
-#. ORCA
+#. INFINIUM
 msgid "Join"
 msgstr "เข้าร่วม"
 
@@ -2609,8 +2609,8 @@ msgstr "ทอรัส"
 msgid "Infinium Cube"
 msgstr "ออร์ก้าคิวบ์"
 
-msgid "OrcaSliced Combo"
-msgstr "OrcaSliced Combo"
+msgid "InfiniumSliced Combo"
+msgstr "InfiniumSliced Combo"
 
 # AI Translated
 msgid "Infinium Badge"
@@ -6544,8 +6544,8 @@ msgid "Select profile to load:"
 msgstr "เลือกโปรไฟล์ที่จะโหลด:"
 
 # AI Translated
-msgid "Config files (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
-msgstr "ไฟล์การกำหนดค่า (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
+msgid "Config files (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
+msgstr "ไฟล์การกำหนดค่า (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
 
 #, c-format, boost-format
 msgid "There is %d config imported. (Only non-system and compatible configs)"
@@ -19620,11 +19620,11 @@ msgstr "\nInfinium ตรวจพบว่าไม่ได้เปิดใ�
 msgid "Printer Setting"
 msgstr "การตั้งค่าเครื่องพิมพ์"
 
-msgid "Printer config bundle(.orca_printer)"
-msgstr "ชุดกำหนดค่าเครื่องพิมพ์ (.orca_printer)"
+msgid "Printer config bundle(.infinium_printer)"
+msgstr "ชุดกำหนดค่าเครื่องพิมพ์ (.infinium_printer)"
 
-msgid "Filament bundle(.orca_filament)"
-msgstr "มัดเส้นพลาสติก(.orca_filament)"
+msgid "Filament bundle(.infinium_filament)"
+msgstr "มัดเส้นพลาสติก(.infinium_filament)"
 
 msgid "Printer presets(.zip)"
 msgstr "ค่าที่ตั้งล่วงหน้าของเครื่องพิมพ์ (.zip)"
@@ -21500,8 +21500,8 @@ msgstr ""
 "หลีกเลี่ยงการบิดเบี้ยว\n"
 "คุณรู้หรือไม่ว่าเมื่อพิมพ์วัสดุที่มีแนวโน้มที่จะเกิดการบิดเบี้ยว เช่น ABS การเพิ่มอุณหภูมิฐานพิมพ์อย่างเหมาะสมสามารถลดความน่าจะเป็นของการบิดเบี้ยวได้"
 
-#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart OrcaSlicer."
-#~ msgstr "Native Wayland liveview ต้องใช้ GStreamer GTK video sink โปรดติดตั้งปลั๊กอิน gtksink สำหรับ GStreamer จากนั้นรีสตาร์ท OrcaSlicer"
+#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart Infinium."
+#~ msgstr "Native Wayland liveview ต้องใช้ GStreamer GTK video sink โปรดติดตั้งปลั๊กอิน gtksink สำหรับ GStreamer จากนั้นรีสตาร์ท Infinium"
 
 #~ msgid "Failed to initialize the native Wayland GStreamer video sink. Please check your GStreamer GTK plugin installation."
 #~ msgstr "ไม่สามารถเริ่มต้น sink วิดีโอ Wayland GStreamer ดั้งเดิมได้ โปรดตรวจสอบการติดตั้งปลั๊กอิน GStreamer GTK ของคุณ"
@@ -21512,14 +21512,14 @@ msgstr ""
 #~ msgid "BambuSource has not correctly been registered for media playing! Press Yes to re-register it. You will be promoted twice"
 #~ msgstr "BambuSource ยังไม่ได้รับการลงทะเบียนอย่างถูกต้องสำหรับการเล่นสื่อ! กดใช่เพื่อลงทะเบียนใหม่ คุณจะได้รับการเลื่อนตำแหน่งสองครั้ง"
 
-#~ msgid "Missing BambuSource component registered for media playing! Please re-install OrcaSlicer or seek community help."
-#~ msgstr "ไม่มีส่วนประกอบ BambuSource ที่ลงทะเบียนสำหรับการเล่นสื่อ! โปรดติดตั้ง OrcaSlicer ใหม่หรือขอความช่วยเหลือจากชุมชน"
+#~ msgid "Missing BambuSource component registered for media playing! Please re-install Infinium or seek community help."
+#~ msgstr "ไม่มีส่วนประกอบ BambuSource ที่ลงทะเบียนสำหรับการเล่นสื่อ! โปรดติดตั้ง Infinium ใหม่หรือขอความช่วยเหลือจากชุมชน"
 
 #~ msgid "Using a BambuSource from a different install, video play may not work correctly! Press Yes to fix it."
 #~ msgstr "การใช้ BambuSource จากการติดตั้งอื่น การเล่นวิดีโออาจทำงานไม่ถูกต้อง! กดใช่เพื่อแก้ไข"
 
-#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Orca Slicer?)"
-#~ msgstr "ระบบของคุณไม่มีตัวแปลงสัญญาณ H.264 สำหรับ GStreamer ซึ่งจำเป็นในการเล่นวิดีโอ (ลองติดตั้งแพ็คเกจ gstreamer1.0-plugins-bad หรือ gstreamer1.0-libav จากนั้นรีสตาร์ท Orca Slicer หรือไม่)"
+#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Infinium?)"
+#~ msgstr "ระบบของคุณไม่มีตัวแปลงสัญญาณ H.264 สำหรับ GStreamer ซึ่งจำเป็นในการเล่นวิดีโอ (ลองติดตั้งแพ็คเกจ gstreamer1.0-plugins-bad หรือ gstreamer1.0-libav จากนั้นรีสตาร์ท Infinium หรือไม่)"
 
 # AI Translated
 #~ msgid "N"
@@ -21626,8 +21626,8 @@ msgstr ""
 #~ msgid "The current firmware supports a maximum of 16 materials. You can either reduce the number of materials to 16 or fewer on the Preparation Page, or try updating the firmware. If you are still restricted after the update, please wait for subsequent firmware support."
 #~ msgstr "เฟิร์มแวร์ปัจจุบันรองรับวัสดุได้สูงสุด 16 รายการ คุณสามารถลดจำนวนวัสดุเหลือ 16 ชิ้นหรือน้อยกว่านั้นได้ในหน้าการเตรียมการ หรือลองอัปเดตเฟิร์มแวร์ หากคุณยังคงถูกจำกัดหลังจากการอัพเดต โปรดรอส่วนรองรับเฟิร์มแวร์ครั้งต่อไป"
 
-#~ msgid "Click OK to update the Network plug-in the next time Orca Slicer launches."
-#~ msgstr "คลิกตกลงเพื่ออัปเดตปลั๊กอินเครือข่ายในครั้งถัดไปที่ Orca Slicer เริ่มทำงาน"
+#~ msgid "Click OK to update the Network plug-in the next time Infinium launches."
+#~ msgstr "คลิกตกลงเพื่ออัปเดตปลั๊กอินเครือข่ายในครั้งถัดไปที่ Infinium เริ่มทำงาน"
 
 #, boost-format
 #~ msgid "Failed to calculate line width of %1%. Cannot get value of “%2%”."
@@ -21732,14 +21732,14 @@ msgstr ""
 #~ "Cloud sync conflict: this preset has a newer version in OrcaCloud.\n"
 #~ "Pull downloads the cloud copy. Force push overwrites it with your local preset."
 #~ msgstr ""
-#~ "ความขัดแย้งในการซิงก์ Cloud: ค่าที่ตั้งไว้ล่วงหน้านี้มีเวอร์ชันใหม่กว่าใน Orca Cloud\n"
+#~ "ความขัดแย้งในการซิงก์ Cloud: ค่าที่ตั้งไว้ล่วงหน้านี้มีเวอร์ชันใหม่กว่าใน Infinium Cloud\n"
 #~ "ดึงข้อมูลจะดาวน์โหลดสำเนาจากคลาวด์ บังคับส่งจะเขียนทับด้วยค่าที่ตั้งไว้ล่วงหน้าในเครื่องของคุณ"
 
 #~ msgid ""
 #~ "Cloud sync conflict: a preset with this name already exists in OrcaCloud.\n"
 #~ "Pull downloads the cloud copy. Force push overwrites it with your local preset."
 #~ msgstr ""
-#~ "ความขัดแย้งในการซิงก์ Cloud: มีค่าที่ตั้งไว้ล่วงหน้าชื่อนี้อยู่ใน Orca Cloud แล้ว\n"
+#~ "ความขัดแย้งในการซิงก์ Cloud: มีค่าที่ตั้งไว้ล่วงหน้าชื่อนี้อยู่ใน Infinium Cloud แล้ว\n"
 #~ "ดึงข้อมูลจะดาวน์โหลดสำเนาจากคลาวด์ บังคับส่งจะเขียนทับด้วยค่าที่ตั้งไว้ล่วงหน้าในเครื่องของคุณ"
 
 #~ msgid ""
@@ -21929,7 +21929,7 @@ msgstr ""
 #~ msgid "Cloud Error"
 #~ msgstr "ข้อผิดพลาดคลาวด์"
 
-#~ msgid "This disables all cloud services e.g. Orca Cloud and Bambu Cloud. This stops the transmission of data to Bambu's cloud services too. Users who don't use BBL machines or use LAN mode only can safely turn on this function."
+#~ msgid "This disables all cloud services e.g. Infinium Cloud and Bambu Cloud. This stops the transmission of data to Bambu's cloud services too. Users who don't use BBL machines or use LAN mode only can safely turn on this function."
 #~ msgstr "การดำเนินการนี้จะปิดใช้งานบริการคลาวด์ทั้งหมด เช่น ออร์ก้าคลาวด์และแบมบูคลาวด์ ซึ่งจะหยุดการส่งข้อมูลไปยังบริการคลาวด์ของ Bambu ด้วยเช่นกัน ผู้ใช้ที่ไม่ได้ใช้เครื่อง BBL หรือใช้โหมด LAN เท่านั้นสามารถเปิดฟังก์ชันนี้ได้อย่างปลอดภัย"
 
 #~ msgid ""

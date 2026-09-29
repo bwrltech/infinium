@@ -17,7 +17,7 @@
 
 namespace Slic3r {
 
-// Orca: Some support entities may contain empty nested paths, which cannot be reordered safely.
+// Infinium: Some support entities may contain empty nested paths, which cannot be reordered safely.
 static bool extrusion_entity_has_endpoints(const ExtrusionEntity *entity)
 {
     auto paths_have_endpoints = [](const ExtrusionPaths &paths) {
@@ -1061,7 +1061,7 @@ void chain_and_reorder_extrusion_entities(std::vector<ExtrusionEntity*> &entitie
 
 void chain_and_reorder_extrusion_entities(std::vector<ExtrusionEntity*> &entities, const Point *start_near)
 {
-    // Orca: Reordering queries first_point() / last_point(); drop entities that cannot provide valid endpoints.
+    // Infinium: Reordering queries first_point() / last_point(); drop entities that cannot provide valid endpoints.
     entities.erase(std::remove_if(entities.begin(), entities.end(), [](ExtrusionEntity *entity) {
         return !extrusion_entity_has_endpoints(entity);
     }),

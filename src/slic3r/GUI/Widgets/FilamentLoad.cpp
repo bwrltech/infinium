@@ -39,7 +39,7 @@ FilamentLoad::FilamentLoad(wxWindow* parent, wxWindowID id, const wxPoint& pos, 
     FILAMENT_CHANGE_STEP_STRING[FilamentStep::STEP_CONFIRM_EXTRUDED]    = _L("Confirm extruded");
     FILAMENT_CHANGE_STEP_STRING[FilamentStep::STEP_CHECK_POSITION]      = _L("Check filament location");
 
-    // Orca: labels for the device-numbered steps carried by the AMS (ams.cfs). Overlapping steps
+    // Infinium: labels for the device-numbered steps carried by the AMS (ams.cfs). Overlapping steps
     // reuse the wording above so the current-step highlight (driven by the legacy ams_status_sub
     // path) still text-matches; the switch/hotend/cooling and Filament Track Switch steps are new.
     // STEP_CHECK_POSITION and STEP_CONFIRM_EXTRUDED share code 0x08, so CONFIRM is assigned first
@@ -152,7 +152,7 @@ void FilamentLoad::SetupSteps(MachineObject* obj_, bool has_fila_to_switch) {
     m_filament_unload_steps->DeleteAllItems();
     m_filament_vt_load_steps->DeleteAllItems();
 
-    // Orca: newer firmware sends the exact change-step sequence through the AMS (ams.cfs). When
+    // Infinium: newer firmware sends the exact change-step sequence through the AMS (ams.cfs). When
     // present, build the visible steps straight from that list and skip the hardcoded per-model
     // sequences below. Inert on current firmware: the list is empty, so this branch is skipped and
     // the legacy logic runs unchanged.

@@ -93,18 +93,18 @@ class wxRenderer : public wxDelegateRendererNative
 public:
     wxRenderer() : wxDelegateRendererNative(wxRendererNative::Get()) {}
     virtual void DrawItemSelectionRect(wxWindow *win, wxDC& dc, const wxRect& rect, int flags = 0) override
-    {   // ORCA draw selection background to improve consistency between platforms
+    {   // INFINIUM draw selection background to improve consistency between platforms
         dc.SetBrush(StateColor::darkModeColorFor(wxColour("#BFE1DE")));
         dc.DrawRectangle(rect);
         //GetGeneric().DrawItemSelectionRect(win, dc, rect, flags);
     }
     virtual void DrawFocusRect(        wxWindow *win, wxDC& dc, const wxRect& rect, int flags = 0) override
-    {   // ORCA draw focus rectangle to improve consistency between platforms
+    {   // INFINIUM draw focus rectangle to improve consistency between platforms
         dc.SetPen(  StateColor::darkModeColorFor(wxColour("#0D6E63")));
         dc.DrawRectangle(rect);
     }
     virtual void DrawTreeItemButton(   wxWindow *win, wxDC& dc, const wxRect& rect, int flags = 0) override
-    {   // ORCA draw custom triangle to improve consistency between platforms
+    {   // INFINIUM draw custom triangle to improve consistency between platforms
         dc.SetPen(  StateColor::darkModeColorFor(wxColour("#7C8282")));
         dc.SetBrush(StateColor::darkModeColorFor(wxColour("#7C8282")));
         bool expanded = (flags == wxCONTROL_EXPANDED || flags == (wxCONTROL_CURRENT | wxCONTROL_EXPANDED));
@@ -126,7 +126,7 @@ public:
         int flags = 0, // wxCONTROL_SELECTED wxCONTROL_FOCUSED wxCONTROL_DISABLED 
         wxEllipsizeMode ellipsizeMode = wxELLIPSIZE_END
     ) override
-    {   // ORCA draw custom text to improve consistency between platforms
+    {   // INFINIUM draw custom text to improve consistency between platforms
         //dc.SetFont(win->GetFont()); Without SetFont it pulls font from window
         dc.SetTextForeground(StateColor::darkModeColorFor(wxColour("#262E30"))); // use same color for selected / non-selected
         dc.DrawText(text,wxPoint(rect.x, rect.y));
@@ -134,7 +134,7 @@ public:
 };
 
 ObjectList::ObjectList(wxWindow* parent) :
-    wxDataViewCtrl(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxDV_MULTIPLE | wxNO_BORDER | wxDV_NO_HEADER) // ORCA: Remove border and header
+    wxDataViewCtrl(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxDV_MULTIPLE | wxNO_BORDER | wxDV_NO_HEADER) // INFINIUM: Remove border and header
 {
     wxGetApp().UpdateDVCDarkUI(this, true);
 
@@ -1649,7 +1649,7 @@ void ObjectList::show_context_menu(const bool evt_context_menu)
                 const ModelVolume *volume = object(obj_idx)->volumes[vol_idx];
 
                 menu = volume->is_text() ? plater->text_part_menu() :
-			volume->is_svg() ? plater->svg_part_menu() : // ORCA fixes missing "Edit SVG" item for Add/Negative/Modifier SVG objects in object list
+			volume->is_svg() ? plater->svg_part_menu() : // INFINIUM fixes missing "Edit SVG" item for Add/Negative/Modifier SVG objects in object list
                     plater->part_menu();
             }
             else
@@ -3239,7 +3239,7 @@ void ObjectList::layers_editing()
     const auto& print_config = wxGetApp().preset_bundle->prints.get_edited_preset().config;
     if (print_config.opt_bool("enable_mixed_color_sublayer")) {
         if (wxGetApp().app_config->get("no_warn_mixed_sublayer_variable_layer") != "1") {
-            // Orca: parent to the plater like the sibling site in Plater::priv::on_action_layersediting
+            // Infinium: parent to the plater like the sibling site in Plater::priv::on_action_layersediting
             // (BBS passes nullptr, which MsgDialog remaps to the main frame).
             MessageDialog dlg(wxGetApp().plater(),
                 _L("Using variable layer height together with mixed color sublayer may result in poor color mixing quality."),
@@ -5501,7 +5501,7 @@ ModelVolume* ObjectList::get_selected_model_volume()
     return (*m_objects)[obj_idx]->volumes[vol_idx];
 }
 
-// ORCA: kept as dead code (not called by any active path). Preserved in #if 0
+// INFINIUM: kept as dead code (not called by any active path). Preserved in #if 0
 // form for traceability with upstream Bambu Studio -- removing outright would
 // produce merge conflicts on every BBL sync. The active "Change Type" UI goes
 // through the submenu in GUI_Factories.cpp -> ObjectList::set_volume_type().
@@ -5536,7 +5536,7 @@ void ObjectList::change_part_type()
       }
     }
 
-    // ORCA: Fix crash when changing type of svg / text modifier
+    // INFINIUM: Fix crash when changing type of svg / text modifier
     wxArrayString names;
     names.Add(_L("Part"));
     names.Add(_L("Negative Part"));
@@ -6618,7 +6618,7 @@ void ObjectList::set_extruder_for_selected_items(const int extruder)
          * So, if Instance is selected, get its Object item and change it
          */
         ItemType sel_item_type = m_objects_model->GetItemType(sel_item);
-        // ORCA: Fix crash when setting filament for instance (item was used uninitialized)
+        // INFINIUM: Fix crash when setting filament for instance (item was used uninitialized)
         wxDataViewItem item = (sel_item_type & itInstance) ? m_objects_model->GetObject(sel_item) : sel_item;
         ItemType type = m_objects_model->GetItemType(item);
         if (type & itVolume) {

@@ -117,7 +117,7 @@ public:
     int get_model_mall_detail_url(std::string* url, std::string id, const std::string& provider = INFINIUM_CLOUD_PROVIDER);
     int get_my_profile(std::string token, unsigned int* http_code, std::string* http_body, const std::string& provider = INFINIUM_CLOUD_PROVIDER);
     int get_my_token(std::string ticket, unsigned int* http_code, std::string* http_body, const std::string& provider = INFINIUM_CLOUD_PROVIDER);
-    // Orca: telemetry only exists on the BBL cloud agent (Orca cloud has no track events).
+    // Infinium: telemetry only exists on the BBL cloud agent (Infinium cloud has no track events).
     int track_enable(bool enable);
     int track_remove_files();
     int track_event(std::string evt_key, std::string content, const std::string& provider = INFINIUM_CLOUD_PROVIDER);

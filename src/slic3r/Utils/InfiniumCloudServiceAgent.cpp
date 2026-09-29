@@ -64,7 +64,7 @@ namespace {
 constexpr const char* INFINIUM_DEFAULT_API_URL   = "api.infinium.com";
 constexpr const char* INFINIUM_DEFAULT_AUTH_URL  = "https://auth.infinium.com";
 constexpr const char* INFINIUM_DEFAULT_CLOUD_URL = "https://cloud.infinium.com";
-// Orca: This is a public key with no secret, used to identify the client application to the backend.
+// Infinium: This is a public key with no secret, used to identify the client application to the backend.
 constexpr const char* INFINIUM_DEFAULT_PUB_KEY = "sb_publishable_lvVe_whOi80SU9BPSxM1kA_tbt9AbR_";
 
 constexpr const char* INFINIUM_HEALTH_PATH = "/api/v1/health";
@@ -95,7 +95,7 @@ constexpr const char* SECRET_STORE_SERVICE = "Infinium/Auth";
 constexpr const char* SECRET_STORE_USER    = "infinium_refresh_token";
 constexpr std::chrono::seconds TOKEN_REFRESH_SKEW{900}; // 15 minutes
 
-// Cross-process advisory lock serializing refresh-token rotation between Orca instances on
+// Cross-process advisory lock serializing refresh-token rotation between Infinium instances on
 // this machine. The Supabase refresh token rotates on every use, so read -> spend -> write-back
 // of the rotated successor must be one critical section across processes; otherwise a second
 // instance can re-spend a token a peer already rotated, triggering `refresh_token_already_used`.
@@ -260,7 +260,7 @@ std::string sha256_base64url(const std::string& input)
 
 std::string os_machine_id()
 {
-    // Orca: OS-level identifiers that live outside data_dir, so a copied data_dir
+    // Infinium: OS-level identifiers that live outside data_dir, so a copied data_dir
     // on another machine yields a different key and the stored refresh
     // token silently fails to decrypt (forcing a normal sign-in).
 #if defined(__linux__)
@@ -752,7 +752,7 @@ int InfiniumCloudServiceAgent::change_user(std::string user_info)
             return success ? BAMBU_NETWORK_SUCCESS : BAMBU_NETWORK_ERR_INVALID_HANDLE;
         }
 
-        // Orca cloud session payload (default flow)
+        // Infinium cloud session payload (default flow)
         const json* session_node = nullptr;
         if (tree.contains("data") && tree["data"].is_object()) {
             const auto& data = tree["data"];
@@ -774,7 +774,7 @@ int InfiniumCloudServiceAgent::change_user(std::string user_info)
             return set_user_session(*session_node) ? BAMBU_NETWORK_SUCCESS : BAMBU_NETWORK_ERR_INVALID_HANDLE;
         }
 
-        BOOST_LOG_TRIVIAL(warning) << "InfiniumCloudServiceAgent: Username/password login is disabled. Use the Orca cloud PKCE flow.";
+        BOOST_LOG_TRIVIAL(warning) << "InfiniumCloudServiceAgent: Username/password login is disabled. Use the Infinium cloud PKCE flow.";
         return BAMBU_NETWORK_ERR_INVALID_HANDLE;
 
     } catch (const std::exception& e) {
@@ -813,7 +813,7 @@ int InfiniumCloudServiceAgent::user_logout(bool request)
                              BAMBU_NETWORK_SUCCESS :
                              BAMBU_NETWORK_ERR_INVALID_HANDLE;
             if (result != BAMBU_NETWORK_SUCCESS || http_code >= 400) {
-                BOOST_LOG_TRIVIAL(warning) << "InfiniumCloudServiceAgent: Orca cloud logout request failed - http_code=" << http_code;
+                BOOST_LOG_TRIVIAL(warning) << "InfiniumCloudServiceAgent: Infinium cloud logout request failed - http_code=" << http_code;
             }
         }
     }
@@ -1986,15 +1986,15 @@ bool InfiniumCloudServiceAgent::set_user_session(const json& session_json, bool 
 
     std::string user_id, username, nickname, avatar;
     if (session_json.contains("user") && session_json["user"].is_object()) {
-        // Nested format (Orca cloud / GoTrue response)
+        // Nested format (Infinium cloud / GoTrue response)
         const auto& user = session_json["user"];
         user_id          = get_json_string_field(user, "id");
 
         if (user.contains("user_metadata") && user["user_metadata"].is_object()) {
             const auto& meta = user["user_metadata"];
-            username         = get_json_string_field(meta, "username"); // Orca Cloud's unique username
+            username         = get_json_string_field(meta, "username"); // Infinium Cloud's unique username
 
-            // Orca Cloud's primary display name field is display_name.
+            // Infinium Cloud's primary display name field is display_name.
             // Fallback to different names from different providers if display_name is not set.
             nickname = resolve_display_name(get_json_string_field(meta, "display_name"), get_json_string_field(meta, "nickname"),
                                             get_json_string_field(meta, "full_name"), get_json_string_field(meta, "name"), username);
@@ -2387,7 +2387,7 @@ bool InfiniumCloudServiceAgent::http_post_token(const std::string& body,
             })
             // Keep this timeout finite: refresh_from_storage holds a cross-process lock across
             // this call, so an unbounded refresh POST would let one instance wedge token refresh
-            // for every other Orca instance on the machine.
+            // for every other Infinium instance on the machine.
             .timeout_max(30)
             .perform_sync();
 
@@ -2765,7 +2765,7 @@ int InfiniumCloudServiceAgent::get_my_profile(std::string token, unsigned int* h
 
 int InfiniumCloudServiceAgent::get_my_token(std::string ticket, unsigned int* http_code, std::string* http_body)
 {
-    BOOST_LOG_TRIVIAL(debug) << "InfiniumCloudServiceAgent: get_my_token (stub) - Orca cloud uses code-based OAuth, not tickets";
+    BOOST_LOG_TRIVIAL(debug) << "InfiniumCloudServiceAgent: get_my_token (stub) - Infinium cloud uses code-based OAuth, not tickets";
     if (http_code)
         *http_code = 0;
     if (http_body)

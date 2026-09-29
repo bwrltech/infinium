@@ -4,7 +4,7 @@
 
 
 #include "DevDefs.h"
-#include "libslic3r/calib.hpp" // Orca: lowercase filename (Linux case-sensitive)
+#include "libslic3r/calib.hpp" // Infinium: lowercase filename (Linux case-sensitive)
 
 
 namespace Slic3r {

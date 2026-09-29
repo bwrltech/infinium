@@ -62,7 +62,7 @@ static wxColour texture_import_separator_colour()
     return StateColor::darkModeColorFor(wxColour(SEPARATOR_COLOUR_KEY));
 }
 
-// Orca's confirm palette, applied here rather than through Button::SetStyle because these buttons
+// Infinium's confirm palette, applied here rather than through Button::SetStyle because these buttons
 // keep custom pill geometry that SetStyle resets. The Disabled entries are load-bearing: without
 // one, StateColor::colorForStates falls through to the Normal entry and a disabled button paints
 // as a live accent button.
@@ -1379,7 +1379,7 @@ void TexturePreviewCanvas::ensure_gl_ready()
 {
     if (m_gl_initialized) return;
 
-    // BBS loads the GL entry points here with GLEW; Orca loads them centrally in
+    // BBS loads the GL entry points here with GLEW; Infinium loads them centrally in
     // OpenGLManager, so only check that this has already happened (glad leaves unresolved
     // entry points null) and drain any stale error state.
     if (glGetString == nullptr) {
@@ -2401,7 +2401,7 @@ void TextureImportDialog::start_computation(bool auto_color, bool initial)
     settings.smooth_weight     = m_param_smooth / 10.0;
     settings.mesh_repair_decision = m_mesh_repair_decision;
     // BBS repairs the mesh through the Windows 3D SDK, which is only available on Windows
-    // builds that ship the SDK. Orca's CGAL-based repair (MeshBoolean::cgal::repair) works
+    // builds that ship the SDK. Infinium's CGAL-based repair (MeshBoolean::cgal::repair) works
     // on all three platforms, so use that instead.
     settings.mesh_repair_callback = [](const indexed_triangle_set& mesh,
                                        indexed_triangle_set&       repaired_mesh,

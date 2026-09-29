@@ -161,7 +161,7 @@ bool Layer::is_perimeter_compatible(const Print& print, const PrintRegion& a, co
 		&& config.detect_thin_wall                  == other_config.detect_thin_wall
 		&& config.infill_wall_overlap              == other_config.infill_wall_overlap
         && config.top_bottom_infill_wall_overlap              == other_config.top_bottom_infill_wall_overlap
-        // Orca: these flags directly change the effective wall count produced by the perimeter
+        // Infinium: these flags directly change the effective wall count produced by the perimeter
         // generator. If two regions disagree on any of them, merging their slices into one shared make_perimeters
         // call would silently use the first region's flag for both.
         && config.only_one_wall_first_layer == other_config.only_one_wall_first_layer
@@ -235,7 +235,7 @@ void Layer::make_perimeters()
                 (*layerm)->make_perimeters((*layerm)->slices, {*layerm}, &(*layerm)->fill_surfaces, &(*layerm)->fill_no_overlap_expolygons);
 	            (*layerm)->fill_expolygons = to_expolygons((*layerm)->fill_surfaces.surfaces);
 	        } else {
-	            // Orca: Unlike the compatible regions above, the initiating region has not
+	            // Infinium: Unlike the compatible regions above, the initiating region has not
 	            // been cleared yet and may contain paths from a previous incompatible run.
 	            clear_generated_extrusions(*layerm);
 

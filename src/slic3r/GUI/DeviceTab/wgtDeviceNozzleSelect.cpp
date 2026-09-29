@@ -11,10 +11,10 @@
 #include "slic3r/GUI/I18N.hpp"
 #include "slic3r/GUI/GUI_App.hpp"
 #include "slic3r/GUI/DeviceTab/wgtMsgBox.h"
-#include "slic3r/GUI/Widgets/Label.hpp" // Orca: explicit Label include
+#include "slic3r/GUI/Widgets/Label.hpp" // Infinium: explicit Label include
 
 static wxColour s_gray_clr("#B0B0B0");
-static wxColour s_hgreen_clr("#0D6E63"); // Orca: accent green
+static wxColour s_hgreen_clr("#0D6E63"); // Infinium: accent green
 static wxColour s_red_clr("#D01B1B");
 
 static std::vector<int> a_nozzle_seq = {16, 18, 20, 17, 19, 21};

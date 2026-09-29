@@ -307,7 +307,7 @@ void GLGizmoMmuSegmentation::render_tooltip_button(float x, float y)
     GLGizmoUtils::render_tooltip_button(m_imgui, m_parent, get_shortcuts(), x, y);
 }
 
-// ORCA
+// INFINIUM
 bool GLGizmoMmuSegmentation::draw_color_button(int idx, const char* id_str, const ColorRGBA& color, ColorRGBA& map_color, bool active, float scale)
 {
     // Inset of the frame stroked below, which is what trims the swatch down to its visible shape.
@@ -455,7 +455,7 @@ void GLGizmoMmuSegmentation::on_render_input_window(float x, float y, float bott
 
         if (extruder_idx < int(GLGizmoMmuSegmentation::EXTRUDERS_LIMIT) && ImGui::IsItemHovered()) m_imgui->tooltip(_L("Shortcut Key ") + std::to_string(extruder_idx + 1), max_tooltip_width);
     }
-    // ORCA: Remap filaments section (Border only, Title in border). 
+    // INFINIUM: Remap filaments section (Border only, Title in border). 
     // Styled as a panel for visual grouping.
     if (ImGui::TreeNodeEx(m_desc.at("perform_remap").c_str(), ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_FramePadding)){
         render_filament_remap_ui(window_width, max_tooltip_width, scale);
@@ -470,7 +470,7 @@ void GLGizmoMmuSegmentation::on_render_input_window(float x, float y, float bott
 
         ImGui::Dummy(ImVec2(0,0));
 
-        // ORCA: Add Remap and Cancel buttons (outside the panel)
+        // INFINIUM: Add Remap and Cancel buttons (outside the panel)
         m_imgui->disabled_begin(!has_mapping); // disable when no mapping
         if (m_imgui->button(m_desc.at("remap"))) {
             this->remap_filament_assignments();
@@ -514,13 +514,13 @@ void GLGizmoMmuSegmentation::on_render_input_window(float x, float y, float bott
         ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.f);
         ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding  , 3.f * scale);
         ImGui::PushStyleVar(ImGuiStyleVar_FramePadding   , ImVec2(4.f * scale, 4.f * scale));
-        ImGui::PushStyleColor(ImGuiCol_Text         , ImVec4(1,1,1,1)); // ORCA Fixes icon rendered without colors while using Light theme
-        ImGui::PushStyleColor(ImGuiCol_Button       , is_active ? ImVec4(0.f, .59f, .53f, .25f) : ImVec4(0,0,0,0));         // ORCA
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, is_active ? ImVec4(0.f, .59f, .53f, .25f) : ImVec4(.6f,.6f,.6f,.2f)); // ORCA
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive , is_active ? ImVec4(0.f, .59f, .53f, .30f) : ImVec4(0,0,0,0));         // ORCA
-        ImGui::PushStyleColor(ImGuiCol_Border       , is_active ? ImGuiWrapper::COL_ORCA        : ImVec4(0,0,0,0));         // ORCA
-        ImGui::PushStyleColor(ImGuiCol_BorderActive , is_active ? ImGuiWrapper::COL_ORCA        : ImVec4(0,0,0,0));         // ORCA matched color for fixing flicker on click
-        bool btn_clicked = m_imgui->glyph_button(icons[i], ImVec2(16.f  * scale, 16.f  * scale)); // ORCA glyph_button for fixing unequal paddings
+        ImGui::PushStyleColor(ImGuiCol_Text         , ImVec4(1,1,1,1)); // INFINIUM Fixes icon rendered without colors while using Light theme
+        ImGui::PushStyleColor(ImGuiCol_Button       , is_active ? ImVec4(0.f, .59f, .53f, .25f) : ImVec4(0,0,0,0));         // INFINIUM
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, is_active ? ImVec4(0.f, .59f, .53f, .25f) : ImVec4(.6f,.6f,.6f,.2f)); // INFINIUM
+        ImGui::PushStyleColor(ImGuiCol_ButtonActive , is_active ? ImVec4(0.f, .59f, .53f, .30f) : ImVec4(0,0,0,0));         // INFINIUM
+        ImGui::PushStyleColor(ImGuiCol_Border       , is_active ? ImGuiWrapper::COL_ORCA        : ImVec4(0,0,0,0));         // INFINIUM
+        ImGui::PushStyleColor(ImGuiCol_BorderActive , is_active ? ImGuiWrapper::COL_ORCA        : ImVec4(0,0,0,0));         // INFINIUM matched color for fixing flicker on click
+        bool btn_clicked = m_imgui->glyph_button(icons[i], ImVec2(16.f  * scale, 16.f  * scale)); // INFINIUM glyph_button for fixing unequal paddings
         ImGui::PopStyleColor(6);
         ImGui::PopStyleVar(3);
 
@@ -727,7 +727,7 @@ void GLGizmoMmuSegmentation::update_model_object()
         wxGetApp().plater()->get_partplate_list().notify_instance_update(obj_idx, 0);
         m_parent.post_event(SimpleEvent(EVT_GLCANVAS_SCHEDULE_BACKGROUND_PROCESS));
 
-        // ORCA: Refresh cache
+        // INFINIUM: Refresh cache
         this->update_used_filaments();
     }
 }
@@ -799,7 +799,7 @@ void GLGizmoMmuSegmentation::update_from_model_object(bool first_update)
 
     this->init_model_triangle_selectors();
 
-    // ORCA: Refresh cache when model changes
+    // INFINIUM: Refresh cache when model changes
     this->update_used_filaments();
 }
 
@@ -986,7 +986,7 @@ void GLMmSegmentationGizmo3DScene::finalize_triangle_indices()
     }
 }
 
-// ORCA: Update the cache of used filaments (both base volume extruders and painted triangles)
+// INFINIUM: Update the cache of used filaments (both base volume extruders and painted triangles)
 void GLGizmoMmuSegmentation::update_used_filaments()
 {
     m_used_filaments.clear();
@@ -1022,7 +1022,7 @@ void GLGizmoMmuSegmentation::render_filament_remap_ui(float window_width, float 
     int displayed_count = 0;
     const int max_per_line = 8;
 
-    // ORCA: Use m_used_filaments to show only relevant source filaments
+    // INFINIUM: Use m_used_filaments to show only relevant source filaments
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(7.f * scale, 7.f * scale));
     for (size_t src : m_used_filaments) {
         if (src >= n_extr) continue;
@@ -1066,7 +1066,7 @@ void GLGizmoMmuSegmentation::render_filament_remap_ui(float window_width, float 
         if (ImGui::IsItemHovered() && src != m_extruder_remap[src]) // show tooltip if it has mapping info
             m_imgui->tooltip(std::to_string(src + 1) + " >> " + std::to_string(m_extruder_remap[src] + 1), max_tooltip_width);
         
-        // Apply popup styling before BeginPopup using standard Orca colors
+        // Apply popup styling before BeginPopup using standard Infinium colors
         ImGui::PushStyleVar(ImGuiStyleVar_PopupRounding  , 8.0f * scale);
         ImGui::PushStyleVar(ImGuiStyleVar_PopupBorderSize, 2.0f * scale); // thicker & colored border to prevent mixing with main window. Current ImGui version not supports shadows
         ImGui::PushStyleColor(ImGuiCol_PopupBg, ImGui::GetStyleColorVec4(ImGuiCol_WindowBg));
@@ -1152,7 +1152,7 @@ void GLGizmoMmuSegmentation::remap_filament_assignments()
         ts->remap_triangle_state(state_map);
         ts->request_update_render_data(true);
 
-        // ORCA: Remap base volume extruder as well if selected
+        // INFINIUM: Remap base volume extruder as well if selected
         int current_ext_id = mv->extruder_id();
         int current_idx = (current_ext_id > 0) ? current_ext_id - 1 : 0;
 
@@ -1178,18 +1178,18 @@ void GLGizmoMmuSegmentation::remap_filament_assignments()
     }
 
     if (updated) {
-        // ORCA: Update renderer colors if base volume extruder changed
+        // INFINIUM: Update renderer colors if base volume extruder changed
         if (volume_extruder_changed) {
             this->update_triangle_selectors_colors();
-            // ORCA: Update GUI_ObjectList extruder column to reflect the new extruder value
+            // INFINIUM: Update GUI_ObjectList extruder column to reflect the new extruder value
             wxGetApp().obj_list()->update_objects_list_filament_column(wxGetApp().filaments_cnt());
         }
 
-        // ORCA: Removed "Filament remapping finished" notification to reduce UI noise.
+        // INFINIUM: Removed "Filament remapping finished" notification to reduce UI noise.
         update_model_object();
         m_parent.set_as_dirty();
         
-        // ORCA: Refresh used filaments cache
+        // INFINIUM: Refresh used filaments cache
         this->update_used_filaments();
     }
 }

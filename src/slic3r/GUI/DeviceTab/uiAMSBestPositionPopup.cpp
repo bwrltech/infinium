@@ -319,7 +319,7 @@ UiAMSSlot::UiAMSSlot(wxWindow* parent,
 {
     SetDoubleBuffered(true);
     SetBackgroundStyle(wxBG_STYLE_PAINT);
-    m_ams_slot_readonly = new ScalableBitmap(this, "ams_readonly", 10 * m_scaleFactor); // Orca: reuse the existing readonly glyph
+    m_ams_slot_readonly = new ScalableBitmap(this, "ams_readonly", 10 * m_scaleFactor); // Infinium: reuse the existing readonly glyph
 
     m_size = wxSize(
         static_cast<int>(size.GetWidth() * scaleFactor),
@@ -599,10 +599,10 @@ ReselectMachineDialog::ReselectMachineDialog(wxWindow* parent)
     suggestText = new Label(textPanel, wxEmptyString);
 
     linkwiki = new Label(textPanel, _L("How to save time?→"));
-    linkwiki->SetForegroundColour(wxColour("#0D6E63")); // Orca: accent green
+    linkwiki->SetForegroundColour(wxColour("#0D6E63")); // Infinium: accent green
     linkwiki->SetBackgroundColour(wxColour("#FFFFFF"));
     linkwiki->SetFont(Label::Body_14);
-    // Orca: no vendor wiki page for this feature; hide the placeholder link and drop the external URL.
+    // Infinium: no vendor wiki page for this feature; hide the placeholder link and drop the external URL.
     linkwiki->Hide();
     textSizer->Add(suggestText, 0, wxALIGN_LEFT | wxTOP, FromDIP(5));
     textSizer->Add(linkwiki, 0, wxALIGN_LEFT | wxTOP, FromDIP(2));
@@ -668,7 +668,7 @@ ReselectMachineDialog::ReselectMachineDialog(wxWindow* parent)
     m_buttonClose = new Button(this, _L("Close"));
     m_buttonClose->SetMinSize(wxSize(FromDIP(80), FromDIP(32)));
     m_buttonClose->SetMaxSize(wxSize(FromDIP(80), FromDIP(32)));
-    m_buttonClose->SetBackgroundColor(wxColour("#0D6E63")); // Orca: accent green
+    m_buttonClose->SetBackgroundColor(wxColour("#0D6E63")); // Infinium: accent green
     m_buttonClose->Bind(wxEVT_BUTTON, [this](wxCommandEvent &e){
         this->Close();
     });

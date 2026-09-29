@@ -427,9 +427,9 @@ public:
 
 private:
     Label* m_text_basic;
-    HyperLink* m_link_server_state; // ORCA
+    HyperLink* m_link_server_state; // INFINIUM
     Label* m_text_proposal;
-    HyperLink* m_text_wiki; // ORCA
+    HyperLink* m_text_wiki; // INFINIUM
     Button *         m_button_confirm;
 
 public:

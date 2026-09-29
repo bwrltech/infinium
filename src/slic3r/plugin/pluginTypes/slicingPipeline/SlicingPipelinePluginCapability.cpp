@@ -34,8 +34,8 @@ void SlicingPipelinePluginCapability::RegisterBindings(py::module_& module) {
         .export_values();
 
     // The read-graph data model (Surface / ExPolygon / the extrusion tree / LayerRegion /
-    // Layer / PrintObject / Print) and the 2D-geometry mutators live in orca.host, registered
-    // by PluginHostSlicing.cpp. orca.slicing is workflow-only: Step, unscale, the context, and
+    // Layer / PrintObject / Print) and the 2D-geometry mutators live in infinium.host, registered
+    // by PluginHostSlicing.cpp. infinium.slicing is workflow-only: Step, unscale, the context, and
     // the capability base. See PluginHostSlicing.cpp for the mandatory reference-lifetime rule.
 
     // Scaled integer coordinate -> millimeters. Reads the live SCALING_FACTOR at call

@@ -220,7 +220,7 @@ class GLCanvas3D
 
         static const float THICKNESS_BAR_WIDTH;
 
-        // Orca: Shrinkage compensation
+        // Infinium: Shrinkage compensation
         void set_shrinkage_compensation(const Vec3d &shrinkage_compensation) { m_shrinkage_compensation = shrinkage_compensation; };
 
     private:
@@ -236,7 +236,7 @@ class GLCanvas3D
         SlicingParameters* m_slicing_parameters{ nullptr };
         std::vector<double>         m_layer_height_profile;
 
-        // Orca: Shrinkage compensation to apply when we need to use object_max_z with Z compensation.
+        // Infinium: Shrinkage compensation to apply when we need to use object_max_z with Z compensation.
         Vec3d                       m_shrinkage_compensation{ Vec3d::Ones() };
 
         mutable float               m_adaptive_quality{ 0.5f };
@@ -867,7 +867,7 @@ public:
     void enable_picking(bool enable)
     {
         m_picking_enabled = enable;
-        // Orca: invalidate hover state when dragging is toggled, otherwise if we turned off dragging
+        // Infinium: invalidate hover state when dragging is toggled, otherwise if we turned off dragging
         // while hovering above a volume, the hovering state won't update even if mouse has moved away.
         // Fixes https://github.com/Infinium/Infinium/pull/9979#issuecomment-3065575889
         m_hover_volume_idxs.clear();
@@ -1017,7 +1017,7 @@ public:
     void mirror_selection(Axis axis);
 
     void reload_scene(bool refresh_immediately, bool force_full_scene_refresh = false);
-    //Orca: shell preview improvement
+    //Infinium: shell preview improvement
     void set_shell_transparence(float alpha = 0.2f);
     void load_shells(const Print& print, bool force_previewing = false);
     void reset_shells() { m_gcode_viewer.reset_shell(); }

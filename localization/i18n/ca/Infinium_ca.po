@@ -1339,7 +1339,7 @@ msgid "Operation"
 msgstr "Operació"
 
 #. TRN EmbossOperation
-#. ORCA
+#. INFINIUM
 msgid "Join"
 msgstr "Unir"
 
@@ -2688,8 +2688,8 @@ msgid "Infinium Cube"
 msgstr "Cub d'Infinium"
 
 # AI Translated
-msgid "OrcaSliced Combo"
-msgstr "OrcaSliced Combo"
+msgid "InfiniumSliced Combo"
+msgstr "InfiniumSliced Combo"
 
 # AI Translated
 msgid "Infinium Badge"
@@ -6679,8 +6679,8 @@ msgid "Select profile to load:"
 msgstr "Seleccioneu el perfil que voleu carregar:"
 
 # AI Translated
-msgid "Config files (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
-msgstr "Fitxers de configuració (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
+msgid "Config files (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
+msgstr "Fitxers de configuració (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
 
 #, c-format, boost-format
 msgid "There is %d config imported. (Only non-system and compatible configs)"
@@ -20067,11 +20067,11 @@ msgstr "\n\nL'Infinium ha detectat que la funció de sincronització de perfils 
 msgid "Printer Setting"
 msgstr "Configuració de la Impressora"
 
-msgid "Printer config bundle(.orca_printer)"
-msgstr "Paquet de configuració d'impressores( .orca_printer )"
+msgid "Printer config bundle(.infinium_printer)"
+msgstr "Paquet de configuració d'impressores( .infinium_printer )"
 
-msgid "Filament bundle(.orca_filament)"
-msgstr "Paquet de filament( .orca_filament )"
+msgid "Filament bundle(.infinium_filament)"
+msgstr "Paquet de filament( .infinium_filament )"
 
 msgid "Printer presets(.zip)"
 msgstr "Perfils d'impressora( .zip )"
@@ -22035,8 +22035,8 @@ msgstr ""
 "Sabíeu que quan imprimiu materials propensos a deformar-se, com ara l'ABS, augmentar adequadament la temperatura del llit pot reduir la probabilitat de deformació?"
 
 # AI Translated
-#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart OrcaSlicer."
-#~ msgstr "La visualització en directe nativa de Wayland requereix el sink de vídeo GTK de GStreamer. Instal·leu el connector gtksink per a GStreamer i reinicieu l'OrcaSlicer."
+#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart Infinium."
+#~ msgstr "La visualització en directe nativa de Wayland requereix el sink de vídeo GTK de GStreamer. Instal·leu el connector gtksink per a GStreamer i reinicieu l'Infinium."
 
 # AI Translated
 #~ msgid "Failed to initialize the native Wayland GStreamer video sink. Please check your GStreamer GTK plugin installation."
@@ -22048,14 +22048,14 @@ msgstr ""
 #~ msgid "BambuSource has not correctly been registered for media playing! Press Yes to re-register it. You will be promoted twice"
 #~ msgstr "BambuSource no s'ha registrat correctament per a la reproducció multimèdia! Premeu Sí per tornar-lo a registrar. Seràs promocionat dues vegades"
 
-#~ msgid "Missing BambuSource component registered for media playing! Please re-install OrcaSlicer or seek community help."
-#~ msgstr "Falta el component BambuSource registrat per a la reproducció multimèdia! Reinstal·leu OrcaSlicer o cerqueu ajuda a la comunitat."
+#~ msgid "Missing BambuSource component registered for media playing! Please re-install Infinium or seek community help."
+#~ msgstr "Falta el component BambuSource registrat per a la reproducció multimèdia! Reinstal·leu Infinium o cerqueu ajuda a la comunitat."
 
 #~ msgid "Using a BambuSource from a different install, video play may not work correctly! Press Yes to fix it."
 #~ msgstr "Utilitzar un BambuSource des d'una instal·lació diferent, la reproducció de vídeo pot no funcionar correctament! Premeu Sí per solucionar-ho."
 
-#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Orca Slicer?)"
-#~ msgstr "Al vostre sistema li falten còdecs H.264 per al GStreamer, necessaris per reproduir vídeo. (Proveu d'instal·lar els paquets gstreamer1.0-plugins-bad o gstreamer1.0-libav i, a continuació, reinicieu Orca Slicer?)"
+#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Infinium?)"
+#~ msgstr "Al vostre sistema li falten còdecs H.264 per al GStreamer, necessaris per reproduir vídeo. (Proveu d'instal·lar els paquets gstreamer1.0-plugins-bad o gstreamer1.0-libav i, a continuació, reinicieu Infinium?)"
 
 # AI Translated
 #~ msgid "N"
@@ -22160,8 +22160,8 @@ msgstr ""
 #~ msgstr "El firmware actual admet un màxim de 16 materials. Podeu reduir el nombre de materials a 16 o menys a la pàgina de preparació, o provar d'actualitzar el firmware. Si encara esteu restringit després de l'actualització, espereu el suport de firmware posterior."
 
 # TODO: Review, changed by lang refactor. PR 14254
-#~ msgid "Click OK to update the Network plug-in the next time Orca Slicer launches."
-#~ msgstr "Feu clic a D'acord per actualitzar el plugin de Xarxa la propera vegada que s'executi Orca Slicer."
+#~ msgid "Click OK to update the Network plug-in the next time Infinium launches."
+#~ msgstr "Feu clic a D'acord per actualitzar el plugin de Xarxa la propera vegada que s'executi Infinium."
 
 # TODO: Review, changed by lang refactor. PR 14254
 #, boost-format
@@ -22529,8 +22529,8 @@ msgstr ""
 #~ msgid "Object/Part Setting"
 #~ msgstr "Configuració de l'objecte/peça"
 
-#~ msgid "OrcaSlicer is based on BambuStudio, PrusaSlicer, and SuperSlicer."
-#~ msgstr "OrcaSlicer es basa en BambuStudio, PrusaSlicer i SuperSlicer."
+#~ msgid "Infinium is based on BambuStudio, PrusaSlicer, and SuperSlicer."
+#~ msgstr "Infinium es basa en BambuStudio, PrusaSlicer i SuperSlicer."
 
 #~ msgid "BambuStudio is originally based on PrusaSlicer by PrusaResearch."
 #~ msgstr "BambuStudio es basa originalment en PrusaSlicer de PrusaResearch."
@@ -22559,14 +22559,14 @@ msgstr ""
 #~ msgid "Flow ratio test - Pass 2"
 #~ msgstr "Test de relació de flux - Pas 2"
 
-#~ msgid "Orca YOLO flowratio calibration, 0.01 step"
-#~ msgstr "Calibració de relació de flux YOLO d'Orca, pas de 0,01"
+#~ msgid "Infinium YOLO flowratio calibration, 0.01 step"
+#~ msgstr "Calibració de relació de flux YOLO d'Infinium, pas de 0,01"
 
 #~ msgid "YOLO (perfectionist version)"
 #~ msgstr "YOLO (versió perfeccionista)"
 
-#~ msgid "Orca YOLO flowratio calibration, 0.005 step"
-#~ msgstr "Calibració de relació de flux YOLO d'Orca, pas de 0,005"
+#~ msgid "Infinium YOLO flowratio calibration, 0.005 step"
+#~ msgstr "Calibració de relació de flux YOLO d'Infinium, pas de 0,005"
 
 #~ msgid "Retraction test"
 #~ msgstr "Prova de retracció"
@@ -22601,8 +22601,8 @@ msgstr ""
 #~ msgid "Right nozzle: %smm"
 #~ msgstr "Broquet dret: %smm"
 
-#~ msgid "\"Fix Model\" feature is currently only on Windows. Please repair the model on Orca Slicer(windows) or CAD softwares."
-#~ msgstr "Actualment, la funció \"Reparar el model\" només es troba a Windows. Repareu el model a l'Orca Slicer ( windows ) o programes de CAD."
+#~ msgid "\"Fix Model\" feature is currently only on Windows. Please repair the model on Infinium(windows) or CAD softwares."
+#~ msgstr "Actualment, la funció \"Reparar el model\" només es troba a Windows. Repareu el model a l'Infinium ( windows ) o programes de CAD."
 
 #~ msgid "This stops the transmission of data to Bambu's cloud services. Users who don't use BBL machines or use LAN mode only can safely turn on this function."
 #~ msgstr "Això atura la transmissió de dades als serveis en el núvol de Bambu. Els usuaris que no utilitzen màquines BBL o només utilitzen el mode LAN poden activar aquesta funció de manera segura."
@@ -22985,8 +22985,8 @@ msgstr ""
 #~ msgid "Resync"
 #~ msgstr "Resincronitzar"
 
-#~ msgid "There are some unknown filaments mapped to generic preset. Please update Orca Slicer or restart Orca Slicer to check if there is an update to system presets."
-#~ msgstr "Hi ha alguns filaments desconeguts assignats al perfil genèric. Actualitzeu Orca Slicer o reinicieu Orca Slicer per comprovar si hi ha una actualització dels perfils del sistema."
+#~ msgid "There are some unknown filaments mapped to generic preset. Please update Infinium or restart Infinium to check if there is an update to system presets."
+#~ msgstr "Hi ha alguns filaments desconeguts assignats al perfil genèric. Actualitzeu Infinium o reinicieu Infinium per comprovar si hi ha una actualització dels perfils del sistema."
 
 #~ msgid ""
 #~ "Are you sure you want to store original SVGs with their local paths into the 3MF file?\n"
@@ -23031,8 +23031,8 @@ msgstr ""
 #~ msgid "System Sync"
 #~ msgstr "Sincronitzar del Sistema"
 
-#~ msgid "Associate URLs to OrcaSlicer"
-#~ msgstr "Associeu URLs a OrcaSlicer"
+#~ msgid "Associate URLs to Infinium"
+#~ msgstr "Associeu URLs a Infinium"
 
 #~ msgid "every"
 #~ msgstr "cada"
@@ -23142,8 +23142,8 @@ msgstr ""
 #~ msgid "Auto-Calc"
 #~ msgstr "Calcular Automàticament"
 
-#~ msgid "Orca would re-calculate your flushing volumes every time the filaments color changed. You could disable the auto-calculate in Orca Slicer > Preferences"
-#~ msgstr "Orca recalcularà els volums de purga cada vegada que canviïs el color del filament. Pots desactivar el càlcul automàtic a Orca Slicer > Preferències"
+#~ msgid "Infinium would re-calculate your flushing volumes every time the filaments color changed. You could disable the auto-calculate in Infinium > Preferences"
+#~ msgstr "Infinium recalcularà els volums de purga cada vegada que canviïs el color del filament. Pots desactivar el càlcul automàtic a Infinium > Preferències"
 
 #~ msgid "unloaded"
 #~ msgstr "descarregat"
@@ -23166,8 +23166,8 @@ msgstr ""
 #~ msgid "Resume Printing (problem solved)"
 #~ msgstr "Reprendre la impressió (problema resolt)"
 
-#~ msgid "Step 1. Please confirm Orca Slicer and your printer are in the same LAN."
-#~ msgstr "Pas 1. Confirmeu que Orca Slicer i la vostra impressora estan a la mateixa LAN."
+#~ msgid "Step 1. Please confirm Infinium and your printer are in the same LAN."
+#~ msgstr "Pas 1. Confirmeu que Infinium i la vostra impressora estan a la mateixa LAN."
 
 #~ msgid "Step 2. If the IP and Access Code below are different from the actual values on your printer, please correct them."
 #~ msgstr "Pas 2. Si la IP i el codi d'accés següents són diferents dels valors reals de la impressora, corregiu-los."
@@ -23586,8 +23586,8 @@ msgstr ""
 #~ msgid "Support: propagate branches at layer %d"
 #~ msgstr "Suport: propagar branques a la capa %d"
 
-#~ msgid "Orca Slicer"
-#~ msgstr "Orca Slicer"
+#~ msgid "Infinium"
+#~ msgstr "Infinium"
 
 #, c-format, boost-format
 #~ msgid "Connect failed [%d]!"
@@ -23730,14 +23730,14 @@ msgstr ""
 #~ msgid "Not associated to any application"
 #~ msgstr "No associar a cap aplicació"
 
-#~ msgid "Associate OrcaSlicer with prusaslicer:// links so that Orca can open models from Printable.com"
-#~ msgstr "Associar OrcaSlicer amb els enllaços prusaslicer:// perquè Orca pugui obrir models des de Printable.com"
+#~ msgid "Associate Infinium with prusaslicer:// links so that Infinium can open models from Printable.com"
+#~ msgstr "Associar Infinium amb els enllaços prusaslicer:// perquè Infinium pugui obrir models des de Printable.com"
 
 #~ msgid "Associate bambustudio://"
 #~ msgstr "Associar bambustudio://"
 
-#~ msgid "Associate OrcaSlicer with bambustudio:// links so that Orca can open models from makerworld.com"
-#~ msgstr "Associar OrcaSlicer amb els enllaços bambustudio:// perquè Orca pugui obrir models des de makerworld.com"
+#~ msgid "Associate Infinium with bambustudio:// links so that Infinium can open models from makerworld.com"
+#~ msgstr "Associar Infinium amb els enllaços bambustudio:// perquè Infinium pugui obrir models des de makerworld.com"
 
 #~ msgid "Printer local connection failed, please try again."
 #~ msgstr "La connexió local de la impressora ha fallat, torneu-ho a provar."
@@ -23753,8 +23753,8 @@ msgstr ""
 #~ msgid "Maximum print speed when purging"
 #~ msgstr "Màxima velocitat d'impressió en purgar"
 
-#~ msgid "Orca Slicer is based on BambuStudio by Bambulab, which is from PrusaSlicer by Prusa Research. PrusaSlicer is from Slic3r by Alessandro Ranellucci and the RepRap community"
-#~ msgstr "Orca Slicer es basa en BambuStudio de Bambulab, que és de PrusaSlicer de Prusa Research. PrusaSlicer és de Slic3r d'Alessandro Ranellucci i la comunitat RepRap"
+#~ msgid "Infinium is based on BambuStudio by Bambulab, which is from PrusaSlicer by Prusa Research. PrusaSlicer is from Slic3r by Alessandro Ranellucci and the RepRap community"
+#~ msgstr "Infinium es basa en BambuStudio de Bambulab, que és de PrusaSlicer de Prusa Research. PrusaSlicer és de Slic3r d'Alessandro Ranellucci i la comunitat RepRap"
 
 #~ msgid "Export &Configs"
 #~ msgstr "Exportar &Configuracions"
@@ -23890,11 +23890,11 @@ msgstr ""
 
 #~ msgid ""
 #~ "The speed setting exceeds the printer's maximum speed (machine_max_speed_x/machine_max_speed_y).\n"
-#~ "Orca will automatically cap the print speed to ensure it doesn't surpass the printer's capabilities.\n"
+#~ "Infinium will automatically cap the print speed to ensure it doesn't surpass the printer's capabilities.\n"
 #~ "You can adjust the maximum speed setting in your printer's configuration to get higher speeds."
 #~ msgstr ""
 #~ "La configuració de velocitat supera la velocitat màxima de la impressora (machine_max_speed_x/machine_max_speed_y).\n"
-#~ "L'Orca limitarà automàticament la velocitat d'impressió per assegurar-se que no superi les capacitats de la impressora.\n"
+#~ "L'Infinium limitarà automàticament la velocitat d'impressió per assegurar-se que no superi les capacitats de la impressora.\n"
 #~ "Podeu ajustar la configuració de velocitat màxima a la configuració de la impressora per obtenir velocitats més altes."
 
 #~ msgid "Studio Version:"

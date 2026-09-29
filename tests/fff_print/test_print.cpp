@@ -409,7 +409,7 @@ TEST_CASE("export_gcode writes G-code without a result pointer", "[Print][export
 
 TEST_CASE("Sequential printing follows model order", "[Print]")
 {
-    // Two objects of different heights, taller one added first. Orca prints
+    // Two objects of different heights, taller one added first. Infinium prints
     // sequential objects in model order, so the taller one is printed first.
     const std::string gcode = Slic3r::Test::slice({ cube(20), Slic3r::make_cube(20, 20, 10) }, {
         { "print_sequence",             "by object" },

@@ -67,7 +67,7 @@ PrintRegion::PrintRegion(const PrintRegionConfig &config) : PrintRegion(config, 
 PrintRegion::PrintRegion(PrintRegionConfig &&config) : PrintRegion(std::move(config), config.hash()) {}
 
 //BBS
-// ORCA: Now this is a parameter
+// INFINIUM: Now this is a parameter
 //float Print::min_skirt_length = 0;
 
 struct FilamentType {
@@ -189,7 +189,7 @@ bool Print::invalidate_state_by_config_options(const ConfigOptionResolver & /* n
         "filename_format",
         "retraction_minimum_travel",
         "retract_before_wipe",
-        // Orca:
+        // Infinium:
         "retract_after_wipe",
         "retract_when_changing_layer",
         "retraction_length",
@@ -219,7 +219,7 @@ bool Print::invalidate_state_by_config_options(const ConfigOptionResolver & /* n
         "required_nozzle_HRC",
         "upward_compatible_machine",
         "is_infill_first",
-        // Orca
+        // Infinium
         "chamber_temperature",
         "chamber_minimal_temperature",
         "thumbnails",
@@ -239,7 +239,7 @@ bool Print::invalidate_state_by_config_options(const ConfigOptionResolver & /* n
         "gcode_label_objects", 
         "exclude_object",
         "support_material_interface_fan_speed",
-        "internal_bridge_fan_speed", // ORCA: Add support for separate internal bridge fan speed control
+        "internal_bridge_fan_speed", // INFINIUM: Add support for separate internal bridge fan speed control
         "ironing_fan_speed",
         "single_extruder_multi_material_priming",
         "activate_air_filtration",
@@ -489,7 +489,7 @@ std::vector<unsigned int> Print::object_extruders() const
     std::vector<unsigned int> extruders;
     extruders.reserve(m_print_regions.size() * m_objects.size() * 3);
 
-    //Orca: Collect extruders from all regions.
+    //Infinium: Collect extruders from all regions.
     for (const PrintObject *object : m_objects)
 		for (const PrintRegion &region : object->all_regions())
         	region.collect_object_printing_extruders(*this, extruders);
@@ -610,7 +610,7 @@ std::vector<ObjectID> Print::print_object_ids() const
 
 bool Print::has_infinite_skirt() const
 {
-    // Orca: unclear why (m_config.ooze_prevention && this->extruders().size() > 1) logic is here, removed.
+    // Infinium: unclear why (m_config.ooze_prevention && this->extruders().size() > 1) logic is here, removed.
     // return (m_config.draft_shield == dsEnabled && m_config.skirt_loops > 0) || (m_config.ooze_prevention && this->extruders().size() > 1);
 
     return (m_config.draft_shield == dsEnabled && m_config.skirt_loops > 0);
@@ -690,7 +690,7 @@ StringObjectException Print::sequential_print_clearance_valid(const Print &print
             assert(! print_object->model_object()->instances.empty());
             assert(! print_object->instances().empty());
             
-            // Orca: check convex hull intersection for each instance individually to handle rotation/offset differences correctly
+            // Infinium: check convex hull intersection for each instance individually to handle rotation/offset differences correctly
             // Now we check that no instance of convex_hull intersects any of the previously checked object instances.
             for (const PrintInstance &instance : print_object->instances()) {
                 Polygon convex_hull0 = print_object->model_object()->convex_hull_2d(Geometry::assemble_transform(
@@ -710,7 +710,7 @@ StringObjectException Print::sequential_print_clearance_valid(const Print &print
                     if (single_object_exception.string.empty()) {
                         single_object_exception.string = (boost::format(L("%1% is too close to exclusion area. There may be collisions when printing.")) %instance.model_instance->get_object()->name).str();
                         // single_object_exception.object = instance.model_instance->get_object();
-                        //ORCA: Pass ModelInstance instead of ModelObject
+                        //INFINIUM: Pass ModelInstance instead of ModelObject
                         single_object_exception.object = instance.model_instance;
                     }
                     else {
@@ -729,14 +729,14 @@ StringObjectException Print::sequential_print_clearance_valid(const Print &print
                         if (single_object_exception.string.empty()) {
                             single_object_exception.string = (boost::format(L("%1% is too close to others, and collisions may be caused.")) %instance.model_instance->get_object()->name).str();
                             // single_object_exception.object = instance.model_instance->get_object();
-                            //ORCA: Pass ModelInstance instead of ModelObject for better selection
+                            //INFINIUM: Pass ModelInstance instead of ModelObject for better selection
                             single_object_exception.object = instance.model_instance;
                             has_exception                  = true;
                         }
                         else {
                             single_object_exception.string += "\n"+(boost::format(L("%1% is too close to others, and collisions may be caused.")) %instance.model_instance->get_object()->name).str();
                             // single_object_exception.object = nullptr; 
-                            // ORCA: Keep the first object so jump works
+                            // INFINIUM: Keep the first object so jump works
                             // has_exception                  = true;
                             has_exception                  = true;
                         }
@@ -985,7 +985,7 @@ static StringObjectException layered_print_cleareance_valid(const Print &print, 
     }
 
     Polygons convex_hulls_other;
-    // Orca: check convex hull intersection for each instance individually
+    // Infinium: check convex hull intersection for each instance individually
     for (auto& inst : print_instances_ordered) {
         Polygons current_instance_hulls;
         for (const ModelVolume *v : inst->print_object->model_object()->volumes) {
@@ -998,7 +998,7 @@ static StringObjectException layered_print_cleareance_valid(const Print &print, 
             if (!intersection(exclude_polys, volume_hull).empty()) {
                 // return {inst->model_instance->get_object()->name + L(" is too close to exclusion area, there may be collisions when printing.") + "\n",
                 //        inst->model_instance->get_object()};
-                //ORCA: Pass ModelInstance instead of ModelObject
+                //INFINIUM: Pass ModelInstance instead of ModelObject
                 return {inst->model_instance->get_object()->name + L(" is too close to exclusion area, there may be collisions when printing.") + "\n",
                         inst->model_instance};
             }
@@ -1006,7 +1006,7 @@ static StringObjectException layered_print_cleareance_valid(const Print &print, 
             if (print_config.enable_wrapping_detection.value && !intersection(wrapping_poly, volume_hull).empty()) {
                 // return {inst->model_instance->get_object()->name + L(" is too close to clumping detection area, there may be collisions when printing.") + "\n",
                 //        inst->model_instance->get_object()};
-                //ORCA: Pass ModelInstance instead of ModelObject
+                //INFINIUM: Pass ModelInstance instead of ModelObject
                 return {inst->model_instance->get_object()->name + L(" is too close to clumping detection area, there may be collisions when printing.") + "\n",
                         inst->model_instance};
             }
@@ -1018,11 +1018,11 @@ static StringObjectException layered_print_cleareance_valid(const Print &print, 
                 if (warning->string.empty()) {
                     warning->string = (boost::format(L("%1% is too close to others, and collisions may be caused.")) % inst->model_instance->get_object()->name).str();
                     // warning->object = inst->model_instance->get_object();
-                    //ORCA: Pass ModelInstance instead of ModelObject for better selection
+                    //INFINIUM: Pass ModelInstance instead of ModelObject for better selection
                     warning->object = inst->model_instance;
                 } else {
                     warning->string += "\n" + (boost::format(L("%1% is too close to others, and collisions may be caused.")) % inst->model_instance->get_object()->name).str();
-                    // ORCA: Keep the first object so jump works
+                    // INFINIUM: Keep the first object so jump works
                     if (!warning->object) warning->object = inst->model_instance;
                 }
                 warning->is_warning = true;
@@ -1355,7 +1355,7 @@ StringObjectException Print::validate(std::vector<StringObjectException> *warnin
     if (extruders.empty())
         return { L("No extrusions under current settings.") };
 
-    // Orca: a gradient mixed filament only renders its gradient with "Mixed color sublayer" on;
+    // Infinium: a gradient mixed filament only renders its gradient with "Mixed color sublayer" on;
     // without it ToolOrdering::resolve_mixed_filaments prints one whole component per layer and
     // the gradient is dropped silently. extruders() already covers painting, height ranges,
     // per-feature filament ids and supports, and still lists mixed slots under their own id here.
@@ -1439,7 +1439,7 @@ StringObjectException Print::validate(std::vector<StringObjectException> *warnin
         assert(m_objects.size() == 1);
         const auto all_regions = m_objects.front()->all_regions();
         if (all_regions.size() > 1) {
-            // Orca: make sure regions are not compatible
+            // Infinium: make sure regions are not compatible
             if (std::any_of(all_regions.begin() + 1, all_regions.end(), [this, ra = all_regions.front()](const auto rb) {
                 return !Layer::is_perimeter_compatible(*this, ra, rb);
             })) {
@@ -1503,7 +1503,7 @@ StringObjectException Print::validate(std::vector<StringObjectException> *warnin
     for (size_t print_object_idx = 0; print_object_idx < m_objects.size(); ++ print_object_idx)
         if (const PrintObject &print_object = *m_objects[print_object_idx];
             print_object.has_support_material() && is_tree(print_object.config().support_type.value) && (print_object.config().support_style.value == smsTreeOrganic || 
-                // Orca: use organic as default
+                // Infinium: use organic as default
                 print_object.config().support_style.value == smsDefault) &&
             print_object.model_object()->has_custom_layering()) {
             if (const std::vector<coordf_t> &layers = layer_height_profile(print_object_idx); ! layers.empty())
@@ -1512,7 +1512,7 @@ StringObjectException Print::validate(std::vector<StringObjectException> *warnin
         }
 
     if (this->has_wipe_tower() && ! m_objects.empty()) {
-        // Orca: wipe_tower_filament (issue #10971) is inserted into the tool order after
+        // Infinium: wipe_tower_filament (issue #10971) is inserted into the tool order after
         // resolve_mixed_filaments has expanded every mixed (virtual) slot, so a mixed slot here
         // would reach the G-code as a tool change to a slot no nozzle carries. The GUI hides
         // mixed slots from the option; this guards loaded projects and the CLI.
@@ -1687,16 +1687,16 @@ StringObjectException Print::validate(std::vector<StringObjectException> *warnin
                 // https://github.com/prusa3d/PrusaSlicer/commit/96b3ae85013ac363cd1c3e98ec6b7938aeacf46d
                 if (is_tree(object->config().support_type.value)) {
                     if (object->config().support_style == smsTreeOrganic ||
-                        // Orca: use organic as default
+                        // Infinium: use organic as default
                         object->config().support_style == smsDefault) {
 
-                        // Orca: check the support wall count and the base pattern
+                        // Infinium: check the support wall count and the base pattern
                         if (object->config().tree_support_wall_count > 1 &&
                             object->config().support_base_pattern != SupportMaterialPattern::smpNone &&
                             object->config().support_base_pattern != SupportMaterialPattern::smpDefault)
                             warn(L("For Organic supports, two walls are supported only with the Hollow/Default base pattern."), "support_base_pattern");
 
-                        // Orca: check if the Lightning base pattern selected
+                        // Infinium: check if the Lightning base pattern selected
                         if (object->config().support_base_pattern == SupportMaterialPattern::smpLightning)
                             warn(L("The Lightning base pattern is not supported by this support type; Rectilinear will be used instead."), "support_base_pattern");
 
@@ -1711,10 +1711,10 @@ StringObjectException Print::validate(std::vector<StringObjectException> *warnin
                             return { L("Organic support branch diameter must not be smaller than support tree tip diameter."), object, "tree_support_branch_diameter_organic" };
                     }
                 } else if (object->config().support_base_pattern == SupportMaterialPattern::smpLightning) {
-                    // Orca: check if the Lightning base pattern selected
+                    // Infinium: check if the Lightning base pattern selected
                     warn(L("The Lightning base pattern is not supported by this support type; Rectilinear will be used instead."), "support_base_pattern");
                 } else if (object->config().support_base_pattern == SupportMaterialPattern::smpNone) {
-                    // Orca: check if the Hollow base pattern selected
+                    // Infinium: check if the Hollow base pattern selected
                     warn(L("The Hollow base pattern is not supported by this support type; Rectilinear will be used instead."), "support_base_pattern");
                 }
             }
@@ -1788,9 +1788,9 @@ StringObjectException Print::validate(std::vector<StringObjectException> *warnin
         }
     }
 
-    // Orca: G92 E0 is not supported when using absolute extruder addressing
+    // Infinium: G92 E0 is not supported when using absolute extruder addressing
     // This check is modified from PrusaSlicer, the original author is Vojtech Bubnik
-    // Orca: case‑sensitive match for exactly "G92 E0" (uppercase G and E only) 
+    // Infinium: case‑sensitive match for exactly "G92 E0" (uppercase G and E only) 
     // because gcode is case sensitive and G92 e0 satisfies the regex but causes a slicing error
     // https://github.com/Infinium/Infinium/issues/13927
 
@@ -1847,7 +1847,7 @@ StringObjectException Print::validate(std::vector<StringObjectException> *warnin
     const ConfigOptionDef* bed_type_def = print_config_def.get("curr_bed_type");
     assert(bed_type_def != nullptr);
 
-    // ORCA: check if bed type is compatible with all selected filaments
+    // INFINIUM: check if bed type is compatible with all selected filaments
     if (is_BBL_printer() || m_config.support_multi_bed_types.value) {
 	    const t_config_enum_values* bed_type_keys_map = bed_type_def->enum_keys_map;
 	    for (unsigned int extruder_id : extruders) {
@@ -1942,7 +1942,7 @@ StringObjectException Print::validate(std::vector<StringObjectException> *warnin
                 }
 
                 // Check junction deviation
-                // Orca: Only marlin FW supports max junction deviation. Dont display warning if firmware is not supporting it.
+                // Infinium: Only marlin FW supports max junction deviation. Dont display warning if firmware is not supporting it.
                 const bool support_max_junction_deviation = ( m_config.gcode_flavor == gcfMarlinFirmware);
                 if (warning_key.empty() && m_default_object_config.default_junction_deviation.get_at(extruder_id) > max_junction_deviation && support_max_junction_deviation) {
                     motion_warning.string  = L( "Junction deviation setting exceeds the printer's maximum value (machine_max_junction_deviation).\n"
@@ -2011,7 +2011,7 @@ StringObjectException Print::validate(std::vector<StringObjectException> *warnin
                 }
 
                 // check speed
-                // Orca: disable the speed check for now as we don't cap the speed
+                // Infinium: disable the speed check for now as we don't cap the speed
                 // if (warning_key.empty()) {
                 //    auto       speed_to_check = {"inner_wall_speed",  "outer_wall_speed", "sparse_infill_speed",   "internal_solid_infill_speed",
                 //                                 "top_surface_speed", "bridge_speed",     "internal_bridge_speed", "gap_infill_speed"};
@@ -2149,7 +2149,7 @@ Flow Print::brim_flow() const
 Flow Print::skirt_flow() const
 {
 
-    // Orca: fall back to m_config if no objects are present
+    // Infinium: fall back to m_config if no objects are present
     ConfigOptionFloatOrPercent width = m_config.initial_layer_line_width;
     if (width.value <= 0)
         width = m_objects.empty() ? m_config.initial_layer_line_width : m_objects.front()->config().line_width;
@@ -2697,7 +2697,7 @@ void Print::process(long long *time_cost_with_cache, bool use_cache)
                 // (e.g. nozzle_diameter_at_nozzle_id[]) and custom g-code fails to resolve.
                 auto grouping_result = ToolOrdering::get_recommended_filament_maps(all_filaments, this, map_mode, physical_unprintables, geometric_unprintables, filament_unprintable_volumes);
                 this->set_nozzle_group_result(std::make_shared<MultiNozzleUtils::LayeredNozzleGroupResult>(grouping_result));
-                // Orca: the sequential write-back stays gated to auto modes. In manual modes the
+                // Infinium: the sequential write-back stays gated to auto modes. In manual modes the
                 // config maps already carry the user's assignment (the per-object ToolOrdering below
                 // consumes them directly), so a write-back would only re-store the pre-slice values;
                 // keeping the gate avoids churning the config on every sequential manual slice.
@@ -2707,7 +2707,7 @@ void Print::process(long long *time_cost_with_cache, bool use_cache)
                         filament_maps = derived_maps;
                         // Write the maps back: used filaments adopt the engine's extruder/nozzle
                         // choice, unused ones keep their config assignment.
-                        // Orca: the config maps are the merge base; fall back to a synthesized base
+                        // Infinium: the config maps are the merge base; fall back to a synthesized base
                         // when no producer sized them to the filament count (CLI runs until the
                         // per-filament synthesis lands there), where indexing per filament would
                         // run out of bounds.
@@ -2749,7 +2749,7 @@ void Print::process(long long *time_cost_with_cache, bool use_cache)
                             seq_last_extruder = ordering.last_extruder();
                         const auto &object_maps = ordering.get_layered_nozzle_group_result().get_layer_filament_nozzle_maps();
                         nozzle_map_per_layer.insert(nozzle_map_per_layer.end(), object_maps.begin(), object_maps.end());
-                        // Orca: the stitch input comes from the same orderings that produced the
+                        // Infinium: the stitch input comes from the same orderings that produced the
                         // per-layer maps — the collection loop above is per-instance and seeded -1,
                         // so its layers are misaligned with these plans. layer_tools() of a sorted
                         // ordering already carries the planned per-layer filament order.
@@ -2834,7 +2834,7 @@ void Print::process(long long *time_cost_with_cache, bool use_cache)
             if (!existObject && objectExtruderMap.find(print_object_ID) != objectExtruderMap.end())
                 objPrintVec.push_back(std::make_pair(print_object_ID, objectExtruderMap.at(print_object_ID)));
         }
-        // Orca: Build both the old object-keyed brim map and the per-instance
+        // Infinium: Build both the old object-keyed brim map and the per-instance
         // maps used by skirt/brim groups.
         m_brimMap.clear();
         m_brimMapByInstance.clear();
@@ -2992,7 +2992,7 @@ void Print::_make_skirt()
         Polygon      hull;
     };
 
-    // Orca: Build one local occupied hull per object from object/support
+    // Infinium: Build one local occupied hull per object from object/support
     // geometry up to skirt height. Instances translate this hull later.
     std::vector<ObjectSkirtHull> object_convex_hulls;
     for (PrintObject *object : m_objects) {
@@ -3054,7 +3054,7 @@ void Print::_make_skirt()
             // Generate the skirt centerline.
             Polygon loop;
             {
-                // Orca: the hull already represents the occupied outline used for this skirt.
+                // Infinium: the hull already represents the occupied outline used for this skirt.
                 Polygons loops = offset(hull, distance, ClipperLib::jtRound, float(scale_(0.1)));
                 Geometry::simplify_polygons(loops, scale_(0.05), &loops);
 			    if (loops.empty())
@@ -3110,7 +3110,7 @@ void Print::_make_skirt()
             bool         emits_skirt;
         };
 
-        // Orca: Each object instance can emit skirt/brim. Wipe tower is only an
+        // Infinium: Each object instance can emit skirt/brim. Wipe tower is only an
         // obstacle here; it may merge nearby items, but does not emit anything.
         std::vector<SkirtBrimGroupItem> group_items;
         const coord_t grouping_offset = scale_(m_config.skirt_distance.value + m_config.skirt_loops.value * spacing);
@@ -3138,14 +3138,14 @@ void Print::_make_skirt()
             }
         }
 
-        // Orca: the wipe tower contributes occupied area, but does not emit a skirt by itself.
+        // Infinium: the wipe tower contributes occupied area, but does not emit a skirt by itself.
         Points wipe_tower_points = this->first_layer_wipe_tower_corners();
         if (wipe_tower_points.size() >= 3)
             group_items.push_back({ std::move(wipe_tower_points), ObjectID(), size_t(-1), false });
 
         std::vector<size_t> parent(group_items.size());
         std::iota(parent.begin(), parent.end(), 0);
-        // Orca: Use union-find so touching items can be merged while scanning.
+        // Infinium: Use union-find so touching items can be merged while scanning.
         auto find_parent = [&parent](size_t idx) {
             while (parent[idx] != idx) {
                 parent[idx] = parent[parent[idx]];
@@ -3160,7 +3160,7 @@ void Print::_make_skirt()
                 parent[b] = a;
         };
 
-        // Orca: Combined skirt starts with all items in the same group.
+        // Infinium: Combined skirt starts with all items in the same group.
         if (m_config.skirt_type == stCombined && !group_items.empty())
             for (size_t i = 1; i < group_items.size(); ++i)
                 unite(0, i);
@@ -3192,11 +3192,11 @@ void Print::_make_skirt()
                 if (group.points.size() < 3)
                     continue;
 
-                // Orca: Only skirt-emitting groups are expanded by skirt distance;
+                // Infinium: Only skirt-emitting groups are expanded by skirt distance;
                 // obstacle-only groups stay at their occupied outline.
                 Polygon envelope = Geometry::convex_hull(group.points);
                 if (group.emits_skirt) {
-                    // Orca: If the expanded skirt outline touches another group
+                    // Infinium: If the expanded skirt outline touches another group
                     // or obstacle, merge them and run the pass again.
                     Polygons envelopes = offset(envelope, grouping_offset, ClipperLib::jtRound, float(scale_(0.1)));
                     if (envelopes.empty())
@@ -3295,7 +3295,7 @@ void Print::_make_skirt()
                 continue;
             if (generate_skirt && m_config.skirt_type == stPerObject && group.instances.size() > 1)
                 m_has_shared_per_object_skirt = true;
-            // Orca: Group points already include the occupied outline, so don't
+            // Infinium: Group points already include the occupied outline, so don't
             // add skirt distance here again.
             ExtrusionEntityCollection group_skirt;
             if (generate_skirt)
@@ -3303,7 +3303,7 @@ void Print::_make_skirt()
             std::vector<SkirtBrimGroup::Brim> group_brims = make_brims_for_skirt_brim_group(group.instances);
             if (!group_skirt.empty()) {
                 group_skirt.reverse();
-                // Orca: Keep m_skirt filled for code that still reads a flat
+                // Infinium: Keep m_skirt filled for code that still reads a flat
                 // skirt collection.
                 m_skirt.append(group_skirt.entities);
             }
@@ -3364,7 +3364,7 @@ Points Print::first_layer_wipe_tower_corners(bool check_wipe_tower_existance) co
 
         for (Vec2d& pt : pts) {
             pt = Eigen::Rotation2Dd(Geometry::deg2rad(m_config.wipe_tower_rotation_angle.value)) * pt;
-            //Orca: offset the wipe tower to the plate origin
+            //Infinium: offset the wipe tower to the plate origin
             pt += Vec2d(m_config.wipe_tower_x.get_at(m_plate_index) + m_origin(0), m_config.wipe_tower_y.get_at(m_plate_index) + m_origin(1));
             corners.emplace_back(Point(scale_(pt.x()), scale_(pt.y())));
         }
@@ -3514,7 +3514,7 @@ void Print::update_filament_maps_to_config(std::vector<int> f_maps, std::vector<
         extruder_volume_type_count = m_ori_full_print_config.get_extruder_nozzle_volume_count(extruder_count, nozzle_volume_types);
 
         //filament_map_2
-        // Orca: seed with 0-based extruder indices so the override keying below degenerates to the
+        // Infinium: seed with 0-based extruder indices so the override keying below degenerates to the
         // plain per-extruder slot when the rebuild loop is skipped; the loop overwrites every
         // entry when it runs.
         m_config.filament_map_2.values = f_maps;
@@ -3522,7 +3522,7 @@ void Print::update_filament_maps_to_config(std::vector<int> f_maps, std::vector<
             --v;
         auto opt_extruder_type = dynamic_cast<const ConfigOptionEnumsGeneric*>(m_ori_full_print_config.option("extruder_type"));
         auto opt_nozzle_volume_type = dynamic_cast<const ConfigOptionEnumsGeneric*>(m_ori_full_print_config.option("nozzle_volume_type"));
-        // Orca: the loop tolerates configs without the extruder options (unit tests, degenerate
+        // Infinium: the loop tolerates configs without the extruder options (unit tests, degenerate
         // presets); the backfill and the override are bounds-checked because the change block above
         // is skipped when the maps are unchanged, in which case the stored map may be shorter than
         // the filament count.
@@ -3540,7 +3540,7 @@ void Print::update_filament_maps_to_config(std::vector<int> f_maps, std::vector<
             }
             else if ((extruder_volume_type_count > extruder_count) && (m_config.filament_volume_map.values.size() > index))
                 nozzle_volume_type = (NozzleVolumeType)(m_config.filament_volume_map.values[index]);
-            // Orca: when the process variant columns cannot be matched (degenerate
+            // Infinium: when the process variant columns cannot be matched (degenerate
             // print_extruder_id), key the override by plain extruder index like the seeding
             // above instead of poisoning the map with -1.
             int slot_index = m_ori_full_print_config.get_index_for_extruder(f_maps[index], "print_extruder_id", extruder_type, nozzle_volume_type, "print_extruder_variant");
@@ -3593,7 +3593,7 @@ bool Print::collect_filament_variant_uses(const MultiNozzleUtils::LayeredNozzleG
     const size_t filament_count = opt_filament_type->values.size();
     const size_t extruder_count = opt_extruder_type->values.size();
     auto add_use = [&](std::set<FilamentVariantUse> &variant_set, const MultiNozzleUtils::NozzleInfo &nozzle) {
-        // Orca: a persisted result can outlive a printer swap; never index the extruder
+        // Infinium: a persisted result can outlive a printer swap; never index the extruder
         // arrays with a stale nozzle record.
         if (nozzle.extruder_id < 0 || static_cast<size_t>(nozzle.extruder_id) >= extruder_count)
             return;
@@ -3646,7 +3646,7 @@ void Print::update_to_config_by_nozzle_group_result(const MultiNozzleUtils::Laye
         return;
     }
 
-    // Orca: keep the coarse per-filament extruder map published even though the per-layer truth
+    // Infinium: keep the coarse per-filament extruder map published even though the per-layer truth
     // lives in the grouping result: the pre-export consumers, the plate read-back after slicing
     // and the preview panel all key on filament_map. The write is direct — the full map
     // write-back's single-slot rebuild would undo the per-variant expansion below.
@@ -3868,7 +3868,7 @@ std::shared_ptr<MultiNozzleUtils::LayeredNozzleGroupResult> Print::get_layered_n
 }
 
 // Dynamic (per-layer selector) regroup predicate.
-// Orca: enable_filament_dynamic_map is a project flag registered in the ConfigDef but NOT a static
+// Infinium: enable_filament_dynamic_map is a project flag registered in the ConfigDef but NOT a static
 // PrintConfig member, so it is read from the applied full config. No profile sets it; it is turned
 // on per project by the "smart filament assign" checkbox (shown when a filament track switch is
 // ready), so absent-key -> nullptr -> false keeps the static grouping path (identical output) for
@@ -3932,7 +3932,7 @@ void Print::update_filament_self_index_cache()
 
 int Print::get_nozzle_config_index(int filament_id, int layer_id)
 {
-    // Orca: print_extruder_id/print_extruder_variant are PrintRegionConfig members in this codebase;
+    // Infinium: print_extruder_id/print_extruder_variant are PrintRegionConfig members in this codebase;
     // the process-wide expanded values live in the default region config (regions never override them).
     return get_config_index(filament_id, layer_id, m_default_region_config.print_extruder_variant.values, m_default_region_config.print_extruder_id.values, m_nozzle_index_map);
 }
@@ -3940,13 +3940,13 @@ int Print::get_nozzle_config_index(int filament_id, int layer_id)
 int Print::get_config_index(int filament_id, int layer_id, const std::vector<std::string> &variant_list, const std::vector<int>& self_index_list, FilamentIndexMap &index_map)
 {
     auto group_result = get_layered_nozzle_group_result();
-    // Orca: defensive — when no grouping producer has published a result yet, fall back to the
+    // Infinium: defensive — when no grouping producer has published a result yet, fall back to the
     // static identity: one filament-variant column per filament.
     if (!group_result)
         return filament_id;
     auto nozzle_info  = group_result->get_nozzle_for_filament(filament_id, layer_id);
     if (!nozzle_info.has_value()) {
-        // Orca: this fallback runs per-filament/per-layer in the g-code hot path — log once per filament
+        // Infinium: this fallback runs per-filament/per-layer in the g-code hot path — log once per filament
         // (reset each slice) instead of flooding thousands of identical lines that bury the real error.
         if (m_missing_nozzle_group_logged.insert(filament_id).second)
             BOOST_LOG_TRIVIAL(error) << __FUNCTION__
@@ -3972,13 +3972,13 @@ int Print::get_config_index(int filament_id, int layer_id, const std::vector<std
 int Print::get_config_index(int filament_id, int layer_id, const std::vector<std::string> &variant_list, const std::vector<int>& self_index_list, PrintIndexMap &index_map)
 {
     auto group_result = get_layered_nozzle_group_result();
-    // Orca: same static fallback as the filament overload; the slot degenerates to the filament's
+    // Infinium: same static fallback as the filament overload; the slot degenerates to the filament's
     // extruder column (filament_map is 1 based, get_extruder_id guards the filament id range).
     if (!group_result)
         return (int)get_extruder_id(filament_id);
     auto nozzle_info  = group_result->get_nozzle_for_filament(filament_id, layer_id);
     if (!nozzle_info.has_value()) {
-        // Orca: this fallback runs per-filament/per-layer in the g-code hot path — log once per filament
+        // Infinium: this fallback runs per-filament/per-layer in the g-code hot path — log once per filament
         // (reset each slice) instead of flooding thousands of identical lines that bury the real error.
         if (m_missing_nozzle_group_logged.insert(filament_id).second)
             BOOST_LOG_TRIVIAL(error) << __FUNCTION__
@@ -4101,8 +4101,8 @@ void Print::_make_wipe_tower()
         // in BBL machine, wipe tower is only use to prime extruder. So just use a global wipe volume.
         WipeTower wipe_tower(m_config, m_plate_index, m_origin, m_wipe_tower_data.tool_ordering.first_extruder(),
                              m_wipe_tower_data.tool_ordering.empty() ? 0.f : m_wipe_tower_data.tool_ordering.back().print_z, m_wipe_tower_data.tool_ordering.all_extruders());
-        // Orca: the tower's first-layer flow follows the user's first-layer flow ratio (BBS reads
-        // its initial_layer_flow_ratio here — STUDIO-14254; first_layer_flow_ratio is Orca's analog,
+        // Infinium: the tower's first-layer flow follows the user's first-layer flow ratio (BBS reads
+        // its initial_layer_flow_ratio here — STUDIO-14254; first_layer_flow_ratio is Infinium's analog,
         // default 1.0 in both). Honor the set_other_flow_ratios gate that governs the option
         // everywhere else.
         wipe_tower.set_first_layer_flow_ratio(m_default_object_config.set_other_flow_ratios
@@ -4117,7 +4117,7 @@ void Print::_make_wipe_tower()
             print_group_result ? *print_group_result : m_wipe_tower_data.tool_ordering.get_layered_nozzle_group_result();
         wipe_tower.set_nozzle_group_result(nozzle_group_result);
         {
-            // Orca: acceleration options are object-scope (PrintConfig members in BBS), so resolve
+            // Infinium: acceleration options are object-scope (PrintConfig members in BBS), so resolve
             // the per-variant columns here; initial_layer_travel_acceleration is FloatOrPercent
             // over travel_acceleration and needs the full config to resolve.
             std::vector<double> first_layer_travel_accels;
@@ -4309,7 +4309,7 @@ void Print::_make_wipe_tower()
         for (unsigned int i = 0; i<number_of_extruders; ++i)
             wipe_volumes.push_back(std::vector<float>(flush_matrix.begin()+i*number_of_extruders, flush_matrix.begin()+(i+1)*number_of_extruders));
 
-        // Orca: itertate over wipe_volumes and change the non-zero values to the prime_volume
+        // Infinium: itertate over wipe_volumes and change the non-zero values to the prime_volume
         if ((!m_config.purge_in_prime_tower || !m_config.single_extruder_multi_material) && is_wipe_tower_type2) {
             for (unsigned int i = 0; i < number_of_extruders; ++i) {
                 for (unsigned int j = 0; j < number_of_extruders; ++j) {
@@ -4622,7 +4622,7 @@ std::string PrintStatistics::finalize_output_path(const std::string &path_in) co
     return final_path;
 }
 
-// Orca: Implement prusa's filament shrink compensation approach
+// Infinium: Implement prusa's filament shrink compensation approach
 // Returns if all used filaments have same shrinkage compensations.
  bool Print::has_same_shrinkage_compensations() const {
      const std::vector<unsigned int> extruders = this->extruders();
@@ -4642,7 +4642,7 @@ std::string PrintStatistics::finalize_output_path(const std::string &path_in) co
      return true;
  }
 
-// Orca: Implement prusa's filament shrink compensation approach, but amended so 100% from the user is the equivalent to 0 in orca.
+// Infinium: Implement prusa's filament shrink compensation approach, but amended so 100% from the user is the equivalent to 0 in infinium.
  // Returns scaling for each axis representing shrinkage compensations in each axis.
 Vec3d Print::shrinkage_compensation() const
 {
@@ -5949,7 +5949,7 @@ ExtrusionLayers FakeWipeTower::getTrueExtrusionLayersFromWipeTower() const
     ExtrusionLayers wtels;
     wtels.type = ExtrusionLayersType::WIPE_TOWER;
 
-    //ORCA: Fallback for WipeTower2 if outer_wall is empty
+    //INFINIUM: Fallback for WipeTower2 if outer_wall is empty
     if (outer_wall.empty()) {
         auto fake_paths = getFakeExtrusionPathsFromWipeTower2();
         float current_z = 0.f;

@@ -1252,7 +1252,7 @@ msgid "Operation"
 msgstr "Eragiketa"
 
 #. TRN EmbossOperation
-#. ORCA
+#. INFINIUM
 msgid "Join"
 msgstr "Elkartu"
 
@@ -2547,8 +2547,8 @@ msgstr "Toroidea"
 msgid "Infinium Cube"
 msgstr "Infinium kuboa"
 
-msgid "OrcaSliced Combo"
-msgstr "OrcaSliced Combo"
+msgid "InfiniumSliced Combo"
+msgstr "InfiniumSliced Combo"
 
 msgid "Infinium Badge"
 msgstr "Infinium Badge"
@@ -2572,7 +2572,7 @@ msgid "Stanford Bunny"
 msgstr "Stanford Untxia"
 
 msgid "Infinium String Hell"
-msgstr "Orcako harien testa \"String Hell\""
+msgstr "Infinium-eko harien testa \"String Hell\""
 
 msgid ""
 "This model features text embossment on the top surface. For optimal results, it is advisable to set the 'One Wall Threshold (min_width_top_surface)' to 0 for the 'Only One Wall on Top Surfaces' to work best.\n"
@@ -6426,8 +6426,8 @@ msgstr "Esportatu emaitza"
 msgid "Select profile to load:"
 msgstr "Hautatu kargatu beharreko profila:"
 
-msgid "Config files (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
-msgstr "Konfigurazio-fitxategiak (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
+msgid "Config files (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
+msgstr "Konfigurazio-fitxategiak (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
 
 #, c-format, boost-format
 msgid "There is %d config imported. (Only non-system and compatible configs)"
@@ -8615,7 +8615,7 @@ msgid "Associate"
 msgstr "Elkartu"
 
 msgid "with Infinium Slicer so that Infinium can open models from"
-msgstr "Infinium Slicerrekin, Orcak hemendik modeloak ireki ahal izateko:"
+msgstr "Infinium Slicerrekin, Infinium-ek hemendik modeloak ireki ahal izateko:"
 
 msgid "Current Association: "
 msgstr "Uneko esleipena: "
@@ -8787,7 +8787,7 @@ msgid "Remember printer configuration"
 msgstr "Gogoratu inprimagailuaren konfigurazioa"
 
 msgid "If enabled, Infinium will remember and switch filament/process configuration for each printer automatically."
-msgstr "Gaituta badago, Orcak automatikoki gogoratuko eta aldatuko du inprimagailu bakoitzerako filamentua/prozesuaren konfigurazioa."
+msgstr "Gaituta badago, Infinium-ek automatikoki gogoratuko eta aldatuko du inprimagailu bakoitzerako filamentua/prozesuaren konfigurazioa."
 
 msgid "Group user filament presets"
 msgstr "Taldekatu erabiltzailearen filamentuen aurrezarpenak"
@@ -11302,7 +11302,7 @@ msgid "Ramming line"
 msgstr "Moldaketa-lerroa"
 
 msgid "Infinium would re-calculate your flushing volumes everytime the filaments color changed or filaments changed. You could disable the auto-calculate in Infinium Slicer > Preferences"
-msgstr "Orcak purgatze-bolumenak berriro kalkulatuko ditu filamentuen kolorea edo filamentuak aldatzen diren bakoitzean. Kalkulu automatikoa desgaitu dezakezu Infinium Slicer > Hobespenak atalean"
+msgstr "Infinium-ek purgatze-bolumenak berriro kalkulatuko ditu filamentuen kolorea edo filamentuak aldatzen diren bakoitzean. Kalkulu automatikoa desgaitu dezakezu Infinium Slicer > Hobespenak atalean"
 
 msgid "Flushing volume (mm³) for each filament pair."
 msgstr "Filamentu bikote bakoitzerako purgatze-bolumena (mm³)."
@@ -12176,25 +12176,25 @@ msgstr "Astindu-abiadura baxuegi ezartzeak artefaktuak sor ditzake gainazal kurb
 msgid "The jerk setting exceeds the printer's maximum jerk (machine_max_jerk_x/machine_max_jerk_y).\nInfinium will automatically cap the jerk speed to ensure it doesn't surpass the printer's capabilities.\nYou can adjust the maximum jerk setting in your printer's configuration to get higher speeds."
 msgstr ""
 "Astinduaren ezarpenak inprimagailuaren gehieneko astindua gainditzen du (machine_max_jerk_x/machine_max_jerk_y).\n"
-"Orcak automatikoki mugatuko du astindu-abiadura, inprimagailuaren gaitasunak gaindi ez ditzan.\n"
+"Infinium-ek automatikoki mugatuko du astindu-abiadura, inprimagailuaren gaitasunak gaindi ez ditzan.\n"
 "Gehieneko astinduaren ezarpena inprimagailuaren konfigurazioan doi dezakezu abiadura handiagoak lortzeko."
 
 msgid "Junction deviation setting exceeds the printer's maximum value (machine_max_junction_deviation).\nInfinium will automatically cap the junction deviation to ensure it doesn't surpass the printer's capabilities.\nYou can adjust the machine_max_junction_deviation value in your printer's configuration to get higher limits."
 msgstr ""
 "Lotura-desbideratzearen ezarpenak inprimagailuaren gehieneko balioa gainditzen du (machine_max_junction_deviation).\n"
-"Orcak automatikoki mugatuko du lotura-desbideratzea, inprimagailuaren gaitasunak gaindi ez ditzan.\n"
+"Infinium-ek automatikoki mugatuko du lotura-desbideratzea, inprimagailuaren gaitasunak gaindi ez ditzan.\n"
 "Muga handiagoak lortzeko, machine_max_junction_deviation balioa doi dezakezu inprimagailuaren konfigurazioan."
 
 msgid "The acceleration setting exceeds the printer's maximum acceleration (machine_max_acceleration_extruding).\nInfinium will automatically cap the acceleration speed to ensure it doesn't surpass the printer's capabilities.\nYou can adjust the machine_max_acceleration_extruding value in your printer's configuration to get higher speeds."
 msgstr ""
 "Azelerazio-ezarpenak inprimagailuaren gehieneko azelerazioa gainditzen du (machine_max_acceleration_extruding).\n"
-"Orcak automatikoki mugatuko du azelerazio-abiadura, inprimagailuaren gaitasunak gaindi ez ditzan.\n"
+"Infinium-ek automatikoki mugatuko du azelerazio-abiadura, inprimagailuaren gaitasunak gaindi ez ditzan.\n"
 "Inprimagailuaren konfigurazioan machine_max_acceleration_extruding balioa doi dezakezu abiadura handiagoak lortzeko."
 
 msgid "The travel acceleration setting exceeds the printer's maximum travel acceleration (machine_max_acceleration_travel).\nInfinium will automatically cap the travel acceleration speed to ensure it doesn't surpass the printer's capabilities.\nYou can adjust the machine_max_acceleration_travel value in your printer's configuration to get higher speeds."
 msgstr ""
 "Lekualdatze-azelerazioaren ezarpenak inprimagailuaren gehieneko lekualdatze-azelerazioa gainditzen du (machine_max_acceleration_travel).\n"
-"Orcak automatikoki mugatuko du lekualdatze-azelerazioaren abiadura, inprimagailuaren gaitasunak gaindi ez ditzan.\n"
+"Infinium-ek automatikoki mugatuko du lekualdatze-azelerazioaren abiadura, inprimagailuaren gaitasunak gaindi ez ditzan.\n"
 "Inprimagailuaren konfigurazioan machine_max_acceleration_travel balioa doi dezakezu abiadura handiagoak lortzeko."
 
 msgid "The precise wall option will be ignored for outer-inner or inner-outer-inner wall sequences."
@@ -16343,7 +16343,7 @@ msgid "Preheat time"
 msgstr "Aurrez berotzeko denbora"
 
 msgid "To reduce the waiting time after tool change, Infinium can preheat the next tool while the current tool is still in use. This setting specifies the time in seconds to preheat the next tool. Infinium will insert a M104 command to preheat the tool in advance."
-msgstr "Tresna aldatu ondorengo itxaron-denbora murrizteko, Orcak hurrengo tresnaaurrez berotu dezake uneko tresna oraindik erabiltzen ari den bitartean.Ezarpen honek hurrengo tresna aurrez berotzeko denbora zehazten du,segundotan. Orcak M104 komandoa txertatuko du tresna aldez aurretikberotzeko."
+msgstr "Tresna aldatu ondorengo itxaron-denbora murrizteko, Infinium-ek hurrengo tresnaaurrez berotu dezake uneko tresna oraindik erabiltzen ari den bitartean.Ezarpen honek hurrengo tresna aurrez berotzeko denbora zehazten du,segundotan. Infinium-ek M104 komandoa txertatuko du tresna aldez aurretikberotzeko."
 
 msgid "Preheat steps"
 msgstr "Aurrez berotzeko urratsak"
@@ -16400,7 +16400,7 @@ msgid "Tool change on wipe tower"
 msgstr "Tresna-aldaketa purgatze-dorrean"
 
 msgid "Force the toolhead to travel to the wipe tower before issuing the tool change command (Tx). Only relevant for multi-extruder (multi-toolhead) printers using a Type 2 wipe tower. By default Infinium skips the travel on multi-toolhead machines because the firmware handles the head swap, which can result in the Tx command being issued above the printed part. Enable this option if you want the tool change to always be issued above the wipe tower instead."
-msgstr "Behartu inprimatze-burua purgatze-dorrera joatera tresna aldatzeko agindua (Tx) eman aurretik. 2. motako purgatze-dorrea erabiltzen duten estrusore anitzeko (inprimatze-buru anitzeko) inprimagailuetarako bakarrik da garrantzitsua. Lehenespenez, Orcak ez du joan-etorria egiten inprimatze-buru anitzeko makinetan, firmwareak buruaren aldaketa kudeatzen duelako; horren ondorioz, Tx agindua inprimatutako piezaren gainean eman daiteke. Gaitu aukera hau tresna-aldaketa beti purgatze-dorrearen gainean egin dadin."
+msgstr "Behartu inprimatze-burua purgatze-dorrera joatera tresna aldatzeko agindua (Tx) eman aurretik. 2. motako purgatze-dorrea erabiltzen duten estrusore anitzeko (inprimatze-buru anitzeko) inprimagailuetarako bakarrik da garrantzitsua. Lehenespenez, Infinium-ek ez du joan-etorria egiten inprimatze-buru anitzeko makinetan, firmwareak buruaren aldaketa kudeatzen duelako; horren ondorioz, Tx agindua inprimatutako piezaren gainean eman daiteke. Gaitu aukera hau tresna-aldaketa beti purgatze-dorrearen gainean egin dadin."
 
 # AI Translated
 msgid "Wait for temperature on wipe tower"
@@ -19389,17 +19389,17 @@ msgid "\n\nInfinium has detected that your user presets synchronization function
 msgstr ""
 "\n"
 "\n"
-"Orcak detektatu du erabiltzaile-aurrezarpenen sinkronizazio-funtzioa ez dagoela gaituta; horrek Gailua orriko Filamentuaren ezarpenetan huts egitea eragin dezake.\n"
+"Infinium-ek detektatu du erabiltzaile-aurrezarpenen sinkronizazio-funtzioa ez dagoela gaituta; horrek Gailua orriko Filamentuaren ezarpenetan huts egitea eragin dezake.\n"
 "Egin klik \"Sinkronizatu erabiltzaile-aurrezarpenak\" aukeran sinkronizazio-funtzioa gaitzeko."
 
 msgid "Printer Setting"
 msgstr "Inprimagailuaren ezarpena"
 
-msgid "Printer config bundle(.orca_printer)"
-msgstr "Inprimagailuaren konfigurazio-sorta (.orca_printer)"
+msgid "Printer config bundle(.infinium_printer)"
+msgstr "Inprimagailuaren konfigurazio-sorta (.infinium_printer)"
 
-msgid "Filament bundle(.orca_filament)"
-msgstr "Filamentu-sorta (.orca_filament)"
+msgid "Filament bundle(.infinium_filament)"
+msgstr "Filamentu-sorta (.infinium_filament)"
 
 msgid "Printer presets(.zip)"
 msgstr "Inprimagailu-aurrezarpenak (.zip)"
@@ -21183,8 +21183,8 @@ msgstr ""
 "Saihestu okertzea\n"
 "Ba al zenekien ABS bezalako okertzeko joera duten materialak inprimatzean ohe beroaren tenperatura egoki igotzeak okertzeko probabilitatea murriztu dezakeela?"
 
-#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart OrcaSlicer."
-#~ msgstr "Waylanden jatorrizko zuzeneko ikuspegiak GStreamer GTK bideo-hustubidea behar du. Instalatu GStreamerrerako gtksink plugina eta berrabiarazi OrcaSlicer."
+#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart Infinium."
+#~ msgstr "Waylanden jatorrizko zuzeneko ikuspegiak GStreamer GTK bideo-hustubidea behar du. Instalatu GStreamerrerako gtksink plugina eta berrabiarazi Infinium."
 
 #~ msgid "Failed to initialize the native Wayland GStreamer video sink. Please check your GStreamer GTK plugin installation."
 #~ msgstr "Ezin izan da Waylanden jatorrizko GStreamer bideo-hustubidea hasieratu. Egiaztatu GStreamer GTK pluginaren instalazioa."
@@ -21195,14 +21195,14 @@ msgstr ""
 #~ msgid "BambuSource has not correctly been registered for media playing! Press Yes to re-register it. You will be promoted twice"
 #~ msgstr "BambuSource ez da behar bezala erregistratu multimedia erreproduzitzeko! Sakatu Bai berriro erregistratzeko. Bi aldiz galdetuko zaizu"
 
-#~ msgid "Missing BambuSource component registered for media playing! Please re-install OrcaSlicer or seek community help."
-#~ msgstr "Multimedia erreproduzitzeko erregistratutako BambuSource osagaia falta da! Berrinstalatu OrcaSlicer edo eskatu laguntza komunitateari."
+#~ msgid "Missing BambuSource component registered for media playing! Please re-install Infinium or seek community help."
+#~ msgstr "Multimedia erreproduzitzeko erregistratutako BambuSource osagaia falta da! Berrinstalatu Infinium edo eskatu laguntza komunitateari."
 
 #~ msgid "Using a BambuSource from a different install, video play may not work correctly! Press Yes to fix it."
 #~ msgstr "Beste instalazio bateko BambuSource erabiltzen ari zara; baliteke bideo-erreprodukzioak behar bezala ez funtzionatzea! Sakatu Bai konpontzeko."
 
-#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Orca Slicer?)"
-#~ msgstr "Zure sisteman GStreamer-erako H.264 kodekak falta dira, eta beharrezkoak dira bideoa erreproduzitzeko. (Saiatu gstreamer1.0-plugins-bad edo gstreamer1.0-libav paketeak instalatzen, eta berrabiarazi OrcaSlicer?)"
+#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Infinium?)"
+#~ msgstr "Zure sisteman GStreamer-erako H.264 kodekak falta dira, eta beharrezkoak dira bideoa erreproduzitzeko. (Saiatu gstreamer1.0-plugins-bad edo gstreamer1.0-libav paketeak instalatzen, eta berrabiarazi Infinium?)"
 
 #~ msgid "N"
 #~ msgstr "N"
@@ -21415,8 +21415,8 @@ msgstr ""
 #~ msgid "Configuration file \"%1%\" was loaded, but some values were not recognized."
 #~ msgstr "\"%1%\" konfigurazio-fitxategia kargatu da, baina balio batzuk ez dira ezagutu."
 
-#~ msgid "The Orca Slicer needs an upgrade"
-#~ msgstr "Orca Slicer-ek eguneraketa bat behar du"
+#~ msgid "The Infinium needs an upgrade"
+#~ msgstr "Infinium-ek eguneraketa bat behar du"
 
 #~ msgid "Choose one file (3mf):"
 #~ msgstr "Aukeratu fitxategi bat (3mf):"
@@ -21695,8 +21695,8 @@ msgstr ""
 #~ msgid "Portions copyright"
 #~ msgstr "Copyright zatiak"
 
-#~ msgid "OrcaSlicer is based on BambuStudio, PrusaSlicer, and SuperSlicer."
-#~ msgstr "OrcaSlicer softwarea BambuStudio, PrusaSlicer eta SuperSlicer-en oinarritua dago."
+#~ msgid "Infinium is based on BambuStudio, PrusaSlicer, and SuperSlicer."
+#~ msgstr "Infinium softwarea BambuStudio, PrusaSlicer eta SuperSlicer-en oinarritua dago."
 
 #~ msgid "BambuStudio is originally based on PrusaSlicer by PrusaResearch."
 #~ msgstr "BambuStudio, jatorriz, PrusaResearch-en PrusaSlicer-en oinarritzen da."
@@ -22107,13 +22107,13 @@ msgstr ""
 #~ msgid "Flow rate test - Pass 2"
 #~ msgstr "Fluxuaren Testa - 2. pausoa"
 
-#~ msgid "Orca YOLO flowrate calibration, 0.01 step"
+#~ msgid "Infinium YOLO flowrate calibration, 0.01 step"
 #~ msgstr "Orcaren YOLO fluxua-kalibrazioa: 0,01eko gehikuntza"
 
 #~ msgid "YOLO (perfectionist version)"
 #~ msgstr "YOLO (bertsio perfekzionista)"
 
-#~ msgid "Orca YOLO flowrate calibration, 0.005 step"
+#~ msgid "Infinium YOLO flowrate calibration, 0.005 step"
 #~ msgstr "Orcaren YOLO fluxua-kalibrazioa: 0,005eko gehikuntza"
 
 #~ msgid "Retraction test"
@@ -22239,14 +22239,14 @@ msgstr ""
 #~ msgid "Newer 3mf version"
 #~ msgstr "3mf bertsio berriagoa"
 
-#~ msgid "The 3mf file version is in Beta and it is newer than the current OrcaSlicer version."
+#~ msgid "The 3mf file version is in Beta and it is newer than the current Infinium version."
 #~ msgstr "3mf fitxategiaren bertsioa Beta da eta OrcaSlicerren uneko bertsioa baino berriagoa da."
 
-#~ msgid "The 3mf file version is newer than the current Orca Slicer version."
+#~ msgid "The 3mf file version is newer than the current Infinium version."
 #~ msgstr "3mf fitxategiaren bertsioa OrcaSlicerren uneko bertsioa baino berriagoa da."
 
-#~ msgid "Update your Orca Slicer could enable all functionality in the 3mf file."
-#~ msgstr "OrcaSlicer eguneratuz gero, 3mf fitxategiko funtzionalitate guztiak gaitu ahal izango dira."
+#~ msgid "Update your Infinium could enable all functionality in the 3mf file."
+#~ msgstr "Infinium eguneratuz gero, 3mf fitxategiko funtzionalitate guztiak gaitu ahal izango dira."
 
 #~ msgid "Configuration can update now."
 #~ msgstr "Konfigurazioa orain egunera daiteke."
@@ -22309,8 +22309,8 @@ msgstr ""
 #~ msgid "Resync"
 #~ msgstr "Berriro sinkronizatu"
 
-#~ msgid "There are some unknown filaments mapped to generic preset. Please update Orca Slicer or restart Orca Slicer to check if there is an update to system presets."
-#~ msgstr "Filamentu ezezagun batzuk aurrezarpen generikora esleitu dira. Eguneratu Orca Slicer edo berrabiarazi Orca Slicer sistemako aurrezarpenen eguneratzerik dagoen egiaztatzeko."
+#~ msgid "There are some unknown filaments mapped to generic preset. Please update Infinium or restart Infinium to check if there is an update to system presets."
+#~ msgstr "Filamentu ezezagun batzuk aurrezarpen generikora esleitu dira. Eguneratu Infinium edo berrabiarazi Infinium sistemako aurrezarpenen eguneratzerik dagoen egiaztatzeko."
 
 #, c-format, boost-format
 #~ msgid "Ejecting of device %s(%s) has failed."
@@ -22325,7 +22325,7 @@ msgstr ""
 #~ msgid "The nozzle hardness required by the filament is higher than the default nozzle hardness of the printer. Please replace the hardened nozzle or filament, otherwise, the nozzle will be attrited or damaged."
 #~ msgstr "Filamentuak eskatzen duen pitaren gogortasuna inprimagailuaren pitaren gogortasun lehenetsia baino handiagoa da. Ordeztu pita gogortuarekin edo filamentua; bestela, pita higatu edo kaltetu daiteke."
 
-#~ msgid "The 3mf is not supported by OrcaSlicer, load geometry data only."
+#~ msgid "The 3mf is not supported by Infinium, load geometry data only."
 #~ msgstr "3mf-a ez du OrcaSlicerrek onartzen; kargatu geometriaren datuak bakarrik."
 
 #~ msgid "Load 3mf"
@@ -22464,8 +22464,8 @@ msgstr ""
 #~ msgid "Invalid number"
 #~ msgstr "Zenbaki baliogabea"
 
-#~ msgid "\"Fix Model\" feature is currently only on Windows. Please repair the model on Orca Slicer(windows) or CAD softwares."
-#~ msgstr "\"Konpondu modeloa\" funtzioa Windowsen bakarrik dago une honetan. Konpondu modeloa Orca Slicer-en (Windows) edo CAD softwareetan."
+#~ msgid "\"Fix Model\" feature is currently only on Windows. Please repair the model on Infinium(windows) or CAD softwares."
+#~ msgstr "\"Konpondu modeloa\" funtzioa Windowsen bakarrik dago une honetan. Konpondu modeloa Infinium-en (Windows) edo CAD softwareetan."
 
 #, c-format, boost-format
 #~ msgid "Plate %d: %s is not suggested to be used to print filament %s (%s). If you still want to do this print job, please set this filament's bed temperature to non-zero."
@@ -22516,8 +22516,8 @@ msgstr ""
 #~ msgid "If enabled, auto-calculate every time when filament is changed"
 #~ msgstr "Gaituta badago, automatikoki kalkulatzen du filamentua aldatzen den bakoitzean"
 
-#~ msgid "Multi-device Management (Take effect after restarting Orca Slicer)."
-#~ msgstr "Gailu anitzen kudeaketa (Orca Slicer berrabiarazi ondoren izango du eragina)."
+#~ msgid "Multi-device Management (Take effect after restarting Infinium)."
+#~ msgstr "Gailu anitzen kudeaketa (Infinium berrabiarazi ondoren izango du eragina)."
 
 #~ msgid "Auto arrange plate after object cloning"
 #~ msgstr "Antolatu plaka automatikoki objektua klonatu ondoren"
@@ -22534,26 +22534,26 @@ msgstr ""
 #~ msgid "System Sync"
 #~ msgstr "Sistemaren sinkronizazioa"
 
-#~ msgid "Associate .3mf files to OrcaSlicer"
-#~ msgstr "Esleitu .3mf fitxategiak OrcaSlicerri"
+#~ msgid "Associate .3mf files to Infinium"
+#~ msgstr "Esleitu .3mf fitxategiak Infinium-i"
 
-#~ msgid "If enabled, sets OrcaSlicer as default application to open .3mf files"
-#~ msgstr "Gaituta badago, OrcaSlicer ezartzen du .3mf fitxategiak irekitzeko aplikazio lehenetsi gisa"
+#~ msgid "If enabled, sets Infinium as default application to open .3mf files"
+#~ msgstr "Gaituta badago, Infinium ezartzen du .3mf fitxategiak irekitzeko aplikazio lehenetsi gisa"
 
-#~ msgid "Associate .stl files to OrcaSlicer"
-#~ msgstr "Esleitu .stl fitxategiak OrcaSlicerri"
+#~ msgid "Associate .stl files to Infinium"
+#~ msgstr "Esleitu .stl fitxategiak Infinium-i"
 
-#~ msgid "If enabled, sets OrcaSlicer as default application to open .stl files"
-#~ msgstr "Gaituta badago, OrcaSlicer ezartzen du .stl fitxategiak irekitzeko aplikazio lehenetsi gisa"
+#~ msgid "If enabled, sets Infinium as default application to open .stl files"
+#~ msgstr "Gaituta badago, Infinium ezartzen du .stl fitxategiak irekitzeko aplikazio lehenetsi gisa"
 
-#~ msgid "Associate .step/.stp files to OrcaSlicer"
+#~ msgid "Associate .step/.stp files to Infinium"
 #~ msgstr "Elkartu .step/.stp fitxategiak OrcaSlicerrekin"
 
-#~ msgid "If enabled, sets OrcaSlicer as default application to open .step files"
-#~ msgstr "Gaituta badago, OrcaSlicer ezartzen du .step fitxategiak irekitzeko aplikazio lehenetsi gisa"
+#~ msgid "If enabled, sets Infinium as default application to open .step files"
+#~ msgstr "Gaituta badago, Infinium ezartzen du .step fitxategiak irekitzeko aplikazio lehenetsi gisa"
 
-#~ msgid "Associate URLs to OrcaSlicer"
-#~ msgstr "Esleitu URLak OrcaSlicerri"
+#~ msgid "Associate URLs to Infinium"
+#~ msgstr "Esleitu URLak Infinium-i"
 
 #~ msgid "Load Behaviour"
 #~ msgstr "Kargatze-portaera"
@@ -22748,8 +22748,8 @@ msgstr ""
 #~ msgid "An SD card needs to be inserted before send to printer SD card."
 #~ msgstr "SD txartela sartu behar da inprimagailuaren SD txartelera bidali aurretik."
 
-#~ msgid "The printer is required to be in the same LAN as Orca Slicer."
-#~ msgstr "Inprimagailuak Orca Slicerren LAN berean egon behar du."
+#~ msgid "The printer is required to be in the same LAN as Infinium."
+#~ msgstr "Inprimagailuak Infinium Slicerren LAN berean egon behar du."
 
 #~ msgid "The printer does not support sending to printer SD card."
 #~ msgstr "Inprimagailuak ez du SD txartelera bidaltzea onartzen."
@@ -22934,8 +22934,8 @@ msgstr ""
 #~ msgid "Auto-Calc"
 #~ msgstr "Kalkulu automatikoa"
 
-#~ msgid "Orca would re-calculate your flushing volumes every time the filaments color changed. You could disable the auto-calculate in Orca Slicer > Preferences"
-#~ msgstr "Orcak purgatze-bolumenak berriro kalkulatuko ditu filamentuen kolorea aldatzen den bakoitzean. Kalkulu automatikoa desgaitu dezakezu Orca Slicer > Hobespenak atalean"
+#~ msgid "Infinium would re-calculate your flushing volumes every time the filaments color changed. You could disable the auto-calculate in Infinium > Preferences"
+#~ msgstr "Infinium-ek purgatze-bolumenak berriro kalkulatuko ditu filamentuen kolorea aldatzen den bakoitzean. Kalkulu automatikoa desgaitu dezakezu Infinium > Hobespenak atalean"
 
 #~ msgid "unloaded"
 #~ msgstr "deskargatuta"
@@ -23027,8 +23027,8 @@ msgstr ""
 #~ msgid "Shift+Mouse wheel"
 #~ msgstr "Shift+Saguaren gurpila"
 
-#~ msgid "Click OK to update the Network plug-in when Orca Slicer launches next time."
-#~ msgstr "Egin klik Ados sareko plugina eguneratzeko Orca Slicer hurrengo aldiz abiarazten denean."
+#~ msgid "Click OK to update the Network plug-in when Infinium launches next time."
+#~ msgstr "Egin klik Ados sareko plugina eguneratzeko Infinium hurrengo aldiz abiarazten denean."
 
 #~ msgid "resume"
 #~ msgstr "berrekin"
@@ -23042,8 +23042,8 @@ msgstr ""
 #~ msgid "Load Filament"
 #~ msgstr "Kargatu filamentua"
 
-#~ msgid "Step 1. Please confirm Orca Slicer and your printer are in the same LAN."
-#~ msgstr "1. urratsa. Berretsi Orca Slicer eta zure inprimagailua LAN berean daudela."
+#~ msgid "Step 1. Please confirm Infinium and your printer are in the same LAN."
+#~ msgstr "1. urratsa. Berretsi Infinium eta zure inprimagailua LAN berean daudela."
 
 #~ msgid "Step 2. If the IP and Access Code below are different from the actual values on your printer, please correct them."
 #~ msgstr "2. urratsa. Beheko IPa eta sarbide-kodea zure inprimagailuko benetako balioekin bat ez badatoz, zuzendu."
@@ -23054,8 +23054,8 @@ msgstr ""
 #~ msgid "An important update was detected and needs to be run before printing can continue. Do you want to update now? You can also update later from 'Upgrade firmware'."
 #~ msgstr "Eguneratze garrantzitsu bat detektatu da eta inprimaketak jarraitu aurretik exekutatu behar da. Orain eguneratu nahi duzu? Geroago ere eguneratu dezakezu 'Eguneratu firmwarea' ataletik."
 
-#~ msgid "The firmware version is abnormal. Repairing and updating are required before printing. Do you want to update now? You can also update later on printer or update next time starting Orca."
-#~ msgstr "Firmwarearen bertsioa anormala da. Inprimatu aurretik konpondu eta eguneratu behar da. Orain eguneratu nahi duzu? Geroago ere eguneratu dezakezu inprimagailuan edo Orca hurrengo aldiz abiaraztean."
+#~ msgid "The firmware version is abnormal. Repairing and updating are required before printing. Do you want to update now? You can also update later on printer or update next time starting Infinium."
+#~ msgstr "Firmwarearen bertsioa anormala da. Inprimatu aurretik konpondu eta eguneratu behar da. Orain eguneratu nahi duzu? Geroago ere eguneratu dezakezu inprimagailuan edo Infinium hurrengo aldiz abiaraztean."
 
 #~ msgid "Saving objects into the 3mf failed."
 #~ msgstr "Objektuak 3mf fitxategian gordetzeak huts egin du."

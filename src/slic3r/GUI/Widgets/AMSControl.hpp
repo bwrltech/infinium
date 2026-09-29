@@ -53,10 +53,10 @@ protected:
 
     int         m_total_ext_count = 1;
     AMSextruder *m_extruder{nullptr};
-    SwitcherImage *m_switcher{nullptr};       // Orca: filament-switch routing glyph (hidden unless a switch is installed)
+    SwitcherImage *m_switcher{nullptr};       // Infinium: filament-switch routing glyph (hidden unless a switch is installed)
     AMSRoadDownPart* m_down_road{ nullptr };
 
-    // Orca: "AMS not initialized" warning banner, materialized lazily only when a switch needs it (see show_switcher_status)
+    // Infinium: "AMS not initialized" warning banner, materialized lazily only when a switch needs it (see show_switcher_status)
     wxBoxSizer*     m_sizer_body{nullptr};
     wxPanel*        tipPanel{nullptr};
     wxBoxSizer*     tipSizer{nullptr};
@@ -162,7 +162,7 @@ public:
     void StopRridLoading(wxString amsid, wxString canid);
     void ShowFilamentTip(bool hasams = true);
 
-    // Orca: Filament Track Switch awareness. isFilaSwitchReady() resolves the selected machine and
+    // Infinium: Filament Track Switch awareness. isFilaSwitchReady() resolves the selected machine and
     // returns {installed, ready}; show_switcher_status() toggles the "AMS not initialized" banner.
     std::tuple<bool, bool> isFilaSwitchReady();
     void show_switcher_status(bool show);
@@ -182,7 +182,7 @@ public:
                    MachineObject*       obj      = nullptr,
                    bool                 is_reset = true,
                    bool                 test     = false);
-    // Orca: simulation-data generator for local AMS-layout testing (no device required)
+    // Infinium: simulation-data generator for local AMS-layout testing (no device required)
     std::vector<AMSinfo> GenerateSimulateData();
 
     void AddAms(AMSinfo info, AMSPanelPos pos = AMSPanelPos::LEFT_PANEL);

@@ -934,7 +934,7 @@ Slic3r::Polylines intersection_pl(const Slic3r::Polylines &subject, const Slic3r
 Slic3r::Polylines intersection_pl(const Slic3r::Polygons &subject, const Slic3r::Polygons &clip)
     { return _clipper_pl_closed(ClipperLib::ctIntersection, ClipperUtils::PolygonsProvider(subject), ClipperUtils::PolygonsProvider(clip)); }
 
-// Orca: Sort and orient open polyline fragments produced by clipping `source` with
+// Infinium: Sort and orient open polyline fragments produced by clipping `source` with
 // intersection_pl(), so that they run in the same order and direction as the source
 // polyline. Clipping creates new endpoints at the clip boundary, but it keeps the
 // interior source vertices intact, so a fragment's position on the source path is

@@ -99,7 +99,7 @@ DeviceErrorDialog::DeviceErrorDialog(MachineObject* obj, wxWindow* parent, wxWin
 
 DeviceErrorDialog::~DeviceErrorDialog()
 {
-    // Orca: invalidate any in-flight cloud snapshot callback (the request has no cancel handle)
+    // Infinium: invalidate any in-flight cloud snapshot callback (the request has no cancel handle)
     *m_alive = false;
 
     if (m_request_timer) {
@@ -206,7 +206,7 @@ bool DeviceErrorDialog::get_fail_snapshot_from_cloud()
     NetworkAgent* agent = wxGetApp().getAgent();
     if (!agent) { return false; }
 
-    // Orca: the cloud request has no cancel handle, so guard the callback against dialog
+    // Infinium: the cloud request has no cancel handle, so guard the callback against dialog
     // destruction with a liveness token (m_alive, cleared in the dtor) and marshal onto the UI
     // thread via the always-valid app handler instead of this->CallAfter. The raw bytes are
     // decoded on the UI thread so no wxImage (non-atomic refcount) is shared across threads.
@@ -386,7 +386,7 @@ wxString DeviceErrorDialog::show_error_code(int error_code)
     Raise();
 
 #ifndef __linux__
-    // Orca: skip RequestUserAttention on Linux/Wayland (urgency-hint deadlock).
+    // Infinium: skip RequestUserAttention on Linux/Wayland (urgency-hint deadlock).
     // On Linux (especially Wayland) RequestUserAttention(wxUSER_ATTENTION_ERROR) maps to
     // gtk_window_set_urgency_hint(TRUE) which can leave the window in an urgent-but-unfocused
     // state — clicks no longer reach any widget in the app and the user has to kill the
@@ -451,7 +451,7 @@ void DeviceErrorDialog::update_contents(const wxString& title, const wxString& t
     }
 
     /* image */
-    // Orca: tiered image slot — prefer the printer's captured camera frame of the failure
+    // Infinium: tiered image slot — prefer the printer's captured camera frame of the failure
     // (cloud, keyed by m_print_error_img_id), else the local/HTTP HMS illustration, else hide.
     // Reuses m_error_picture + on_webrequest_state (single widget, no second request). The
     // loading placeholder and 10s watchdog are armed only for the async cloud fetch; the local
@@ -496,7 +496,7 @@ void DeviceErrorDialog::update_contents(const wxString& title, const wxString& t
         auto text_size = m_error_msg_label->GetBestSize();
         if (text_size.y < FromDIP(360))
         {
-            // Orca: reserve the image area exactly when an image is coming (cloud snapshot,
+            // Infinium: reserve the image area exactly when an image is coming (cloud snapshot,
             // local illustration, or the loading placeholder) - m_error_picture's visibility
             // was decided above, so no blank slot is reserved when neither source is usable.
             if (m_error_picture->IsShown())

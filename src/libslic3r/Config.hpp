@@ -784,7 +784,7 @@ public:
                 this->values[i] = rhs_vec->values[i];
                 modified        = true;
             } else {
-                // Orca: a negative slot (failed variant lookup) must not silently collapse the
+                // Infinium: a negative slot (failed variant lookup) must not silently collapse the
                 // whole array to the first slot's value — the int-vs-size_t comparison used to
                 // promote -1 past the bounds check. Keep the slot's own value (get_at-style
                 // clamp) when no valid index is available.
@@ -1882,7 +1882,7 @@ public:
     {
         UNUSED(append);
 
-        // Orca: take the first value if input is an array
+        // Infinium: take the first value if input is an array
         std::istringstream is(str);
         std::string        item_str;
         if (std::getline(is, item_str, ',')) {
@@ -2125,7 +2125,7 @@ public:
             throw ConfigurationError("ConfigOptionEnumGeneric: Assigning an incompatible type");
         // rhs could be of the following type: ConfigOptionEnumGeneric or ConfigOptionEnum<T>
         this->value = rhs->getInt();
-        // Orca: options embedded in a StaticPrintConfig are constructed without a keys_map;
+        // Infinium: options embedded in a StaticPrintConfig are constructed without a keys_map;
         // adopt the source's so a later serialize() can emit names.
         if (this->keys_map == nullptr)
             if (auto rhs_generic = dynamic_cast<const ConfigOptionEnumGeneric *>(rhs))
@@ -2189,7 +2189,7 @@ public:
         // rhs could be of the following type: ConfigOptionEnumsGeneric
         auto rhs_enums = dynamic_cast<const ConfigOptionEnumsGenericTempl *>(rhs);
         this->values = rhs_enums->values;
-        // Orca: options embedded in a StaticPrintConfig are constructed without a keys_map;
+        // Infinium: options embedded in a StaticPrintConfig are constructed without a keys_map;
         // adopt the source's so a later serialize() emits names instead of empty tokens.
         if (this->keys_map == nullptr)
             this->keys_map = rhs_enums->keys_map;

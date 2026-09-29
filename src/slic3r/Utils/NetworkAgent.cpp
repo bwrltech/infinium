@@ -582,7 +582,7 @@ int NetworkAgent::get_my_token(std::string ticket, unsigned int* http_code, std:
 
 int NetworkAgent::track_enable(bool enable)
 {
-    // Orca cloud has no telemetry; the only cloud agent that tracks events is BBL.
+    // Infinium cloud has no telemetry; the only cloud agent that tracks events is BBL.
     this->enable_track = enable;
     const auto cloud_agent = get_cloud_agent(BBL_CLOUD_PROVIDER);
     if (cloud_agent)

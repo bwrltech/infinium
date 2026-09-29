@@ -174,7 +174,7 @@ TEST_CASE("Only whitelisted series pass the load gate", "[NetworkVersions]")
     REQUIRE(is_supported_network_version("02.03.00_custom"));
     REQUIRE(is_supported_network_version(BAMBU_NETWORK_AGENT_VERSION_LEGACY));
 
-    // Series whitelisted by previous Orca releases that no generation here can call.
+    // Series whitelisted by previous Infinium releases that no generation here can call.
     REQUIRE_FALSE(is_supported_network_version("02.01.01.52"));
     REQUIRE_FALSE(is_supported_network_version("02.00.02.50"));
 

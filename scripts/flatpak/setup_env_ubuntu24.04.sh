@@ -7,7 +7,7 @@ flatpak install flathub org.gnome.Platform//50 org.gnome.Sdk//50 org.freedesktop
 
 
 ##
-# in Infinium folder, run following command to build Orca
+# in Infinium folder, run following command to build Infinium
 
 # # First time build
 # ./scripts/flatpak/make_deps_tar.sh && flatpak-builder --state-dir=.flatpak-builder --keep-build-dirs --user --force-clean build-dir scripts/flatpak/com.infinium.Infinium.yml

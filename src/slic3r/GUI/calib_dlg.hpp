@@ -195,7 +195,7 @@ protected:
     virtual void on_start(wxCommandEvent& event);
 
     RadioGroup* m_rbType;
-    // ORCA: use standard Infinium ComboBox instead of BitmapComboBox
+    // INFINIUM: use standard Infinium ComboBox instead of BitmapComboBox
     ComboBox* m_rbPattern;
     Plater* m_plater;
 };

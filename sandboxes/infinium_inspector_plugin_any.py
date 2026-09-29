@@ -3,12 +3,12 @@
 # dependencies = ["numpy"]
 #
 # [tool.infinium.plugin]
-# name = "Orca Inspector"
+# name = "Infinium Inspector"
 # description = "An interactive panel that browses the whole orca.host read-only API and demos every orca.host.ui facility."
 # author = "SoftFever"
 # version = "0.0.3"
 # ///
-"""Orca Inspector — a guided tour of `orca.host` and `orca.host.ui`.
+"""Infinium Inspector — a guided tour of `orca.host` and `orca.host.ui`.
 
 Run it from the Plugins dialog. It opens a NON-MODAL window (Infinium stays
 usable) with a sidebar of sections, each exercising one part of the API:
@@ -621,7 +621,7 @@ PAGE = r"""<!DOCTYPE html>
 </head>
 <body>
   <header>
-    <h1>Orca Inspector</h1>
+    <h1>Infinium Inspector</h1>
     <span id="stamp"></span>
     <button class="small" onclick="refresh()">Refresh</button>
     <button class="small secondary" onclick="orca.close()">Close</button>
@@ -1343,7 +1343,7 @@ class OrcaInspectorPanel(orca.script.ScriptPluginCapabilityBase):
     cfgwin = None
 
     def get_name(self):
-        return "Orca Inspector"
+        return "Infinium Inspector"
 
     def execute(self):
         # Capability objects are instantiated once per plugin load, so a second
@@ -1363,14 +1363,14 @@ class OrcaInspectorPanel(orca.script.ScriptPluginCapabilityBase):
         # Non-modal: returns immediately. The window is host-owned and lives on
         # after execute() returns; on_message keeps firing when the page posts.
         self.win = orca.host.ui.create_window(
-            title="Orca Inspector",
+            title="Infinium Inspector",
             html=PAGE,
             width=940,
             height=680,
             on_message=self.on_message,
             on_close=self.on_close,
         )
-        return orca.ExecutionResult.success("Orca Inspector opened.")
+        return orca.ExecutionResult.success("Infinium Inspector opened.")
 
     # Called on the UI thread when the page posts a message. Every branch posts
     # a reply carrying ok/error so the page never waits on a silent failure.
@@ -1393,7 +1393,7 @@ class OrcaInspectorPanel(orca.script.ScriptPluginCapabilityBase):
         if self.cfgwin is not None:
             self.cfgwin.close()
             self.cfgwin = None
-        print("Orca Inspector closed")
+        print("Infinium Inspector closed")
 
     def send_section(self, section, gen=None):
         builder = SECTION_BUILDERS.get(section)
@@ -1424,7 +1424,7 @@ class OrcaInspectorPanel(orca.script.ScriptPluginCapabilityBase):
             if self.cfgwin is not None:
                 self.cfgwin.close()
             self.cfgwin = orca.host.ui.create_window(
-                title=f"Orca Inspector — {name}",
+                title=f"Infinium Inspector — {name}",
                 html=config_page(collection, name, rows),
                 width=520, height=640)
             self.win.post({**reply, "ok": True})
@@ -1442,8 +1442,8 @@ class OrcaInspectorPanel(orca.script.ScriptPluginCapabilityBase):
         try:
             if action == "message":
                 clicked = orca.host.ui.message(
-                    msg.get("text") or "Hello from Orca Inspector",
-                    title="Orca Inspector",
+                    msg.get("text") or "Hello from Infinium Inspector",
+                    title="Infinium Inspector",
                     buttons=msg.get("buttons", "ok"),
                     icon=msg.get("icon", "info"))
                 report(f"user clicked {clicked!r}")
@@ -1454,7 +1454,7 @@ class OrcaInspectorPanel(orca.script.ScriptPluginCapabilityBase):
                 # The modal window is created asynchronously on the UI thread,
                 # but the handle remains usable for post()/close() and callbacks.
                 self.modal = orca.host.ui.create_window(
-                    html=MODAL_PAGE, title="Orca Inspector — modal", width=420, height=280,
+                    html=MODAL_PAGE, title="Infinium Inspector — modal", width=420, height=280,
                     style=orca.host.ui.WINDOW_MODAL,
                     on_message=lambda m: self.win.post(
                         {**reply, "ok": True, "result": f"modal posted {m!r} while open"}),
@@ -1476,7 +1476,7 @@ class OrcaInspectorPanel(orca.script.ScriptPluginCapabilityBase):
                     # Not `reply`: the close can also come from "child_close" later, so the
                     # on_close payload is labelled neutrally.
                     self.child = orca.host.ui.create_window(
-                        title="Orca Inspector — child", html=CHILD_PAGE,
+                        title="Infinium Inspector — child", html=CHILD_PAGE,
                         width=380, height=240, on_message=self.on_child_message,
                         on_close=lambda: self.win.post(
                             {"command": "ui_result", "action": "child",
@@ -1510,7 +1510,7 @@ class OrcaInspectorPanel(orca.script.ScriptPluginCapabilityBase):
                  orca.host.ui.PD_ESTIMATED_TIME | orca.host.ui.PD_REMAINING_TIME)
         outcome = "completed 40 steps"
         with orca.host.ui.create_progress_dialog(
-                "Orca Inspector", "Crunching very important numbers…",
+                "Infinium Inspector", "Crunching very important numbers…",
                 maximum=40, style=style) as progress:
             for step in range(1, 41):
                 time.sleep(0.05)
@@ -1523,7 +1523,7 @@ class OrcaInspectorPanel(orca.script.ScriptPluginCapabilityBase):
     def pulse_demo(self):
         # ui.ProgressDialog(...) is the constructor form of create_progress_dialog().
         with orca.host.ui.ProgressDialog(
-                "Orca Inspector", "Waiting for something indeterminate…",
+                "Infinium Inspector", "Waiting for something indeterminate…",
                 style=orca.host.ui.PD_APP_MODAL | orca.host.ui.PD_AUTO_HIDE) as progress:
             for _ in range(10):                     # manual single-shot pulses...
                 time.sleep(0.1)

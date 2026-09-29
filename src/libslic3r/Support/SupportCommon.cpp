@@ -81,18 +81,18 @@ std::pair<SupportGeneratorLayersPtr, SupportGeneratorLayersPtr> generate_interfa
         if (support_params.has_base_interfaces())
             base_interface_layers.assign(intermediate_layers.size(), nullptr);
         const auto smoothing_distance    = support_params.support_material_interface_flow.scaled_spacing() * 1.5;
-        // ORCA: use top/bottom interface densities for smoothing.
+        // INFINIUM: use top/bottom interface densities for smoothing.
         const auto minimum_island_radius_top = support_params.support_material_interface_flow.scaled_spacing() / support_params.top_interface_density;
         const auto minimum_island_radius_bottom = support_params.support_material_interface_flow.scaled_spacing() / support_params.bottom_interface_density;
         const auto closing_distance      = smoothing_distance; // scaled<float>(config.support_material_closing_radius.value);
         // Insert a new layer into base_interface_layers, if intersection with base exists.
-        // ORCA: regularize top and bottom interfaces with separate minimum island radii.
+        // INFINIUM: regularize top and bottom interfaces with separate minimum island radii.
         auto insert_layer = [&layer_storage, smooth_supports, closing_distance, smoothing_distance, minimum_island_radius_top, minimum_island_radius_bottom](
                 SupportGeneratorLayer &intermediate_layer, Polygons &bottom, Polygons &&top, SupportGeneratorLayer *top_interface_layer,
                 const Polygons *subtract, SupporLayerType type) -> SupportGeneratorLayer* {
             bool has_top_interface = top_interface_layer && ! top_interface_layer->polygons.empty();
             assert(! bottom.empty() || ! top.empty() || has_top_interface);
-            // ORCA: regularize interfaces using the top/bottom radii.
+            // INFINIUM: regularize interfaces using the top/bottom radii.
             auto regularize = [&](Polygons polys, coordf_t minimum_island_radius) -> Polygons {
                 if (polys.empty())
                     return polys;
@@ -100,7 +100,7 @@ std::pair<SupportGeneratorLayersPtr, SupportGeneratorLayersPtr> generate_interfa
                     smooth_outward(closing(std::move(polys), closing_distance + minimum_island_radius, closing_distance, SUPPORT_SURFACES_OFFSET_PARAMETERS), smoothing_distance) :
                     union_safety_offset(std::move(polys));
             };
-            // ORCA: apply independent smoothing to bottom vs top.
+            // INFINIUM: apply independent smoothing to bottom vs top.
             Polygons bottom_polys = regularize(std::move(bottom), minimum_island_radius_bottom);
             Polygons top_polys = regularize(std::move(top), minimum_island_radius_top);
             append(bottom_polys, std::move(top_polys));
@@ -1627,7 +1627,7 @@ void generate_support_toolpaths(
 
             // This layer is a raft contact layer. Any contact polygons at this layer are raft contacts.
             bool raft_layer = slicing_params.interface_raft_layers && top_contact_layer.layer && is_approx(top_contact_layer.layer->print_z, slicing_params.raft_contact_top_z);
-            // ORCA: Organic tree uses projected contacts to build the interface stack; avoid extra bottom-contact extrusion.
+            // INFINIUM: Organic tree uses projected contacts to build the interface stack; avoid extra bottom-contact extrusion.
             const bool organic_tree = support_params.support_style == SupportMaterialStyle::smsTreeOrganic;
             const bool top_interfaces = support_params.num_top_interface_layers > 0;
             const bool bottom_interfaces = support_params.num_bottom_interface_layers > 0;
@@ -1642,7 +1642,7 @@ void generate_support_toolpaths(
                 }
             } else {
                 if (support_params.ironing && !top_contact_layer.empty()) {
-                    // Orca: save the top surface to be ironed later
+                    // Infinium: save the top surface to be ironed later
                     layer_cache.ironing_angle = support_interface_angle; // TODO: should we rotate 90 degrees?
                     layer_cache.polys_to_iron = top_contact_layer.polygons_to_extrude();
                 }
@@ -1654,7 +1654,7 @@ void generate_support_toolpaths(
                 if (top_contact_layer.could_merge(interface_layer) && ! raft_layer)
                     top_contact_layer.merge(std::move(interface_layer));
             }
-            // Orca: Organic bottom contacts are projection seeds, not same-layer toolpaths.
+            // Infinium: Organic bottom contacts are projection seeds, not same-layer toolpaths.
             // Do not merge them into another same-layer support region.
             if (!organic_tree) {
                 if (!bottom_interfaces && support_params.can_merge_support_regions) {
@@ -1683,7 +1683,7 @@ void generate_support_toolpaths(
                 }
             }
 
-            // Orca: For organic trees the support-material regions are generated from
+            // Infinium: For organic trees the support-material regions are generated from
             // expanded wall polygons. With zero top Z gap and separate interface material,
             // that expansion can overlap same-layer interface-material regions, so trim
             // the support-material regions from those interface footprints here.
@@ -1724,7 +1724,7 @@ void generate_support_toolpaths(
                 if (! layer_ex.empty() && ! layer_ex.polygons_to_extrude().empty()) {
                     bool interface_as_base = interface_layer_type == InterfaceLayerType::InterfaceAsBase;
                     bool raft_contact      = interface_layer_type == InterfaceLayerType::RaftContact;
-                    // ORCA: detect bottom interface layers for density selection.
+                    // INFINIUM: detect bottom interface layers for density selection.
                     bool bottom_interface  = interface_layer_type == InterfaceLayerType::BottomContact ||
                         (interface_layer_type == InterfaceLayerType::Interface && layer_ex.layer->layer_type == SupporLayerType::BottomInterface);
                     //FIXME Bottom interfaces are extruded with the briding flow. Some bridging layers have its height slightly reduced, therefore
@@ -1742,7 +1742,7 @@ void generate_support_toolpaths(
                             raft_contact ?
                                 support_params.raft_interface_angle(support_layer.interface_id()) :
                                 support_interface_angle;
-                    // ORCA: pick density based on interface type.
+                    // INFINIUM: pick density based on interface type.
                     double density = raft_contact ? support_params.raft_interface_density :
                         interface_as_base ? support_params.support_density :
                         bottom_interface ? support_params.bottom_interface_density : support_params.top_interface_density;
@@ -1817,8 +1817,8 @@ void generate_support_toolpaths(
                     no_sort = true;
                 } else if (support_params.support_style == SupportMaterialStyle::smsTreeOrganic &&
                            (config.support_base_pattern == smpNone || config.support_base_pattern == smpDefault)) {
-                    // Orca: A special case for the hollow Organic supports
-                    // Orca: If the tree supports are too tall, use a double wall to make it stronger
+                    // Infinium: A special case for the hollow Organic supports
+                    // Infinium: If the tree supports are too tall, use a double wall to make it stronger
                     SupportParameters support_params2 = support_params;
                     if (support_layer.print_z > 100.0)
                         support_params2.tree_branch_diameter_double_wall_area_scaled = 0.1;
@@ -1901,7 +1901,7 @@ void generate_support_toolpaths(
                 support_layer.support_fills.append(std::move(layer_cache_item.layer_extruded->extrusions));
             }
 
-            // Orca: Generate iron toolpath for contact layer
+            // Infinium: Generate iron toolpath for contact layer
             if (!layer_cache.polys_to_iron.empty()) {
                 auto f = std::unique_ptr<Fill>(Fill::new_from_type(support_params.ironing_pattern));
                 f->set_bounding_box(bbox_object);

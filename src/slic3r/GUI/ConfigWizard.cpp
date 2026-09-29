@@ -73,7 +73,7 @@ bool Bundle::load(fs::path dir, const std::string &vendor_name, bool ais_in_reso
     this->is_bbl_bundle = ais_bbl_bundle;
 
     //BBS: add json logic for vendor bundles
-    // Orca: served from the vendor's preset cache where one covers it — which is
+    // Infinium: served from the vendor's preset cache where one covers it — which is
     // how a shipped build carries its vendors — and parsed from the JSONs otherwise.
     // A vendor that can be neither read nor parsed — a cache the build cannot use
     // with the preset JSONs behind it pruned, say — is one the wizard cannot offer.
@@ -123,8 +123,8 @@ BundleMap BundleMap::load()
     const auto vendor_dir = (boost::filesystem::path(Slic3r::data_dir()) / PRESET_SYSTEM_DIR).make_preferred();
     const auto rsrc_vendor_dir = (boost::filesystem::path(resources_dir()) / "profiles").make_preferred();
 
-    //Orca: add custom as default
-    //Orca: add json logic for vendor bundle
+    //Infinium: add custom as default
+    //Infinium: add json logic for vendor bundle
     {
         const bool from_rsrc = ! is_vendor_installed(PresetBundle::INFINIUM_DEFAULT_BUNDLE);
         Bundle bbl_bundle;
@@ -153,7 +153,7 @@ BundleMap BundleMap::load()
 
 Bundle& BundleMap::bbl_bundle()
 {
-    //Orca: add custom as default
+    //Infinium: add custom as default
     auto it = find(PresetBundle::INFINIUM_DEFAULT_BUNDLE);
     if (it == end()) {
         throw Slic3r::RuntimeError("ConfigWizard: Internal error in BundleMap: INFINIUM_DEFAULT_BUNDLE not loaded");
@@ -615,7 +615,7 @@ std::set<std::string> PagePrinters::get_selected_models()
 
 void PagePrinters::set_run_reason(ConfigWizard::RunReason run_reason)
 {
-    //Orca: add custom as default
+    //Infinium: add custom as default
     if (is_primary_printer_page
         && (run_reason == ConfigWizard::RR_DATA_EMPTY || run_reason == ConfigWizard::RR_DATA_LEGACY)
         && printer_pickers.size() > 0 
@@ -1921,7 +1921,7 @@ void ConfigWizard::priv::create_3rdparty_pages()
 {
     for (const auto &pair : bundles) {
         const VendorProfile *vendor = pair.second.vendor_profile;
-        //Orca: add custom as default
+        //Infinium: add custom as default
         if (vendor->id == PresetBundle::INFINIUM_DEFAULT_BUNDLE) { continue; }
 
         bool is_fff_technology = false;

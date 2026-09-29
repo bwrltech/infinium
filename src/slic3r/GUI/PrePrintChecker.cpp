@@ -108,7 +108,7 @@ wxString PrePrintChecker::get_pre_state_msg(PrintDialogStatus status)
     case PrintStatusTPUUnsupportAutoCali: return _L("TPU 90A/TPU 85A is too soft and does not support automatic Flow Dynamics calibration.");
     case PrintStatusWarningKvalueNotUsed: return _L("Set dynamic flow calibration to 'OFF' to enable custom dynamic flow value.");
     case PrintStatusNotSupportedPrintAll: return _L("This printer does not support printing all plates.");
-    // Orca: %s-parameterized so the real per-printer max color count can be filled in by the caller
+    // Infinium: %s-parameterized so the real per-printer max color count can be filled in by the caller
     // (SelectMachine formats it via get_pre_state_msg before add()); default templates keep the wording.
     case PrintStatusColorQuantityExceed: return _L("The current firmware supports a maximum of %s materials. You can either reduce the number of materials to %s or fewer on the Preparation Page, or try updating the firmware. If you are still restricted after the update, please wait for subsequent firmware support.");
     case PrintStatusWarningExtFilamentNotMatch: return _L("The type of external filament is unknown or does not match with the filament type in the slicing file. Please make sure you have installed the correct filament in the external spool.");
@@ -175,7 +175,7 @@ void PrePrintChecker::add(PrintDialogStatus state, wxString msg, wxString tip, c
     }
 }
 
-// Orca: minimal callback-link variant of add(): stores an internal click action
+// Infinium: minimal callback-link variant of add(): stores an internal click action
 // (link_callback) rendered as a trailing link instead of the wiki-url launcher.
 void PrePrintChecker::add_with_link(PrintDialogStatus state, wxString msg, wxString link_label, std::function<void()> link_callback)
 {
@@ -218,7 +218,7 @@ void PrePrintChecker::add_with_link(PrintDialogStatus state, wxString msg, wxStr
     }
 }
 
-// Orca: acknowledgement-checkbox variant of add(); see add_with_link() for the shared classification.
+// Infinium: acknowledgement-checkbox variant of add(); see add_with_link() for the shared classification.
 void PrePrintChecker::add_with_checkbox(PrintDialogStatus state, wxString msg, wxString checkbox_label, bool checked, std::function<void(bool)> checkbox_callback)
 {
     prePrintInfo info;
@@ -331,7 +331,7 @@ bool PrinterMsgPanel::UpdateInfos(const std::vector<prePrintInfo>& infos)
 
             if (!info.link_label.empty())
             {
-                // Orca: internal callback link (e.g. "Clean up files") instead of a wiki url
+                // Infinium: internal callback link (e.g. "Clean up files") instead of a wiki url
                 label->SetLabel(info.msg + " " + info.link_label);
                 label->Bind(wxEVT_ENTER_WINDOW, [this](auto& e) { SetCursor(wxCURSOR_HAND); });
                 label->Bind(wxEVT_LEAVE_WINDOW, [this](auto& e) { SetCursor(wxCURSOR_ARROW); });
@@ -354,7 +354,7 @@ bool PrinterMsgPanel::UpdateInfos(const std::vector<prePrintInfo>& infos)
             m_sizer->Add(label, 0, wxBOTTOM, FromDIP(4));
         }
 
-        // Orca: acknowledgement checkbox rendered beneath the message (e.g. a nozzle diameter that
+        // Infinium: acknowledgement checkbox rendered beneath the message (e.g. a nozzle diameter that
         // differs from the one the printer remembers, which the user may legitimately override).
         if (!info.checkbox_label.empty())
         {

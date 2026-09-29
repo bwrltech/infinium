@@ -211,7 +211,7 @@ public:
     void on_full_screen(IntEvent &);
     void get_big_btn_sync_pos_size(wxPoint &pt, wxSize &size);
     void get_small_btn_sync_pos_size(wxPoint &pt, wxSize &size);
-    // Orca
+    // Infinium
     static bool should_show_SEMM_buttons();
     void show_SEMM_buttons();
     void enable_purge_mode_btn(bool enable);
@@ -365,7 +365,7 @@ public:
 
     // SoftFever
     void calib_pa(const Calib_Params& params);
-    //ORCA: Add pattern parameter to calib_flowrate
+    //INFINIUM: Add pattern parameter to calib_flowrate
     void calib_flowrate(bool is_linear, int pass, InfillPattern pattern = ipArchimedeanChords);
     void calib_temp(const Calib_Params& params);
     void calib_max_vol_speed(const Calib_Params& params);

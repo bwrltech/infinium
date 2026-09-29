@@ -111,7 +111,7 @@ TEST_CASE("Plugin host API exposes host-owned bundle and preset surface to Pytho
     CHECK(printers.attr("find_preset")(printer_preset.name).attr("name").cast<std::string>() == printer_preset.name);
 }
 
-TEST_CASE("Plugin host API reports unavailable GUI objects before Orca app initialization", "[PluginHost][Python]")
+TEST_CASE("Plugin host API reports unavailable GUI objects before Infinium app initialization", "[PluginHost][Python]")
 {
     py::object host = import_infinium_module().attr("host");
 
@@ -127,7 +127,7 @@ TEST_CASE("Plugin host API reports unavailable GUI objects before Orca app initi
     }
 }
 
-TEST_CASE("Plugin host API exposes the UI module and guards it before Orca app initialization", "[PluginHost][Python]")
+TEST_CASE("Plugin host API exposes the UI module and guards it before Infinium app initialization", "[PluginHost][Python]")
 {
     py::object host = import_infinium_module().attr("host");
     REQUIRE(has_attr(host, "ui"));

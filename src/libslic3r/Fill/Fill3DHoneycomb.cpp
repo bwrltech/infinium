@@ -225,7 +225,7 @@ void Fill3DHoneycomb::_fill_surface_single(
     // This means that the resultant infill won't be an ideal truncated octahedron,
     // but it should look better than the equivalent quantised version
 
-    //Orca: uses a fixed layer height to avoid inconsistent bridges and variable layer height artifacts.
+    //Infinium: uses a fixed layer height to avoid inconsistent bridges and variable layer height artifacts.
     //coordf_t layerHeight = scale_(thickness_layers);
     coordf_t layerHeight = scale_(1.0);
     // ceiling to an integer value of layers per Z
@@ -272,7 +272,7 @@ void Fill3DHoneycomb::_fill_surface_single(
     for (Polyline &pl : polylines){
       pl.translate(bb.min);
       pl.simplify(5 * spacing); // simplify to 5x line width
-      // Orca: round the corners of the octahedral wave. The layers where the wave degenerates to a
+      // Infinium: round the corners of the octahedral wave. The layers where the wave degenerates to a
       // straight line have no corner to round.
       smooth_polyline_corners(pl, params.smooth_factor, scaled<double>(params.resolution));
     }

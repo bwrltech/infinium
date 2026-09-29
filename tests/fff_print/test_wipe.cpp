@@ -34,7 +34,7 @@ DynamicPrintConfig wipe_config(const char *wall_generator, bool wipe_inward,
         { "layer_height",                "0.2" },
         { "initial_layer_print_height",  "0.2" },
         { "line_width",                  "0.45" },
-        { "outer_wall_line_width",       "0" }, // Orca: Auto must use the actual path width.
+        { "outer_wall_line_width",       "0" }, // Infinium: Auto must use the actual path width.
         { "wall_loops",                  wall_loops },
         { "wall_generator",              wall_generator },
         { "wall_sequence",               wall_sequence },
@@ -433,7 +433,7 @@ TEST_CASE("Inward wipe is retained across layers with a back seam", "[Wipe][Regr
         if (trajectory.destinations.empty())
             continue;
         const Vec2d first_move = trajectory.destinations.front() - trajectory.start;
-        // Orca: a back seam lands on the cube's positive-X/positive-Y corner.
+        // Infinium: a back seam lands on the cube's positive-X/positive-Y corner.
         // Its inward wipe must move diagonally away from both external faces.
         has_inward_wipe = has_inward_wipe ||
             (trajectory.start.x() > 13. && trajectory.start.y() > 13. &&

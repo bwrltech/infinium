@@ -34,7 +34,7 @@ class OpenGLManager;
 static const float GCODE_VIEWER_SLIDER_SCALE = 0.6f;
 static const float SLIDER_DEFAULT_RIGHT_MARGIN  = 10.0f;
 static const float SLIDER_DEFAULT_BOTTOM_MARGIN = 10.0f;
-// ORCA: match right margin to the vertical slider window width to prevent overlap.
+// INFINIUM: match right margin to the vertical slider window width to prevent overlap.
 static inline const float SLIDER_RIGHT_MARGIN = IMSlider::vertical_slider_window_width();
 static const float SLIDER_BOTTOM_MARGIN = 64.0f;
 class GCodeViewer
@@ -332,10 +332,10 @@ public:
 
     libvgcode::EViewType get_view_type() const { return m_viewer.get_view_type(); }
 
-    // ORCA: darken the layers not scrubbed to while using the preview layer slider
+    // INFINIUM: darken the layers not scrubbed to while using the preview layer slider
     void set_dim_previous_layers(bool value) { m_viewer.set_dim_previous_layers(value); }
     bool is_dim_previous_layers() const { return m_viewer.is_dim_previous_layers(); }
-    // ORCA: brightness of those darkened layers, 1.0 = unchanged, 0.0 = black
+    // INFINIUM: brightness of those darkened layers, 1.0 = unchanged, 0.0 = black
     void set_dim_previous_layers_brightness(float value) { m_viewer.set_dim_previous_layers_brightness(value); }
     float get_dim_previous_layers_brightness() const { return m_viewer.get_dim_previous_layers_brightness(); }
 

@@ -85,7 +85,7 @@ public:
     bool is_top_layer_only_view_range() const { return m_settings.top_layer_only_view_range; }
     void toggle_top_layer_only_view_range();
 
-    // ORCA: darken every layer the layer slider is not scrubbed to, so that only the inspected
+    // INFINIUM: darken every layer the layer slider is not scrubbed to, so that only the inspected
     // one(s) - the top thumb's layer, the bottom thumb's layer, or both - stay at full
     // brightness. dim_previous_layers_brightness sets how dark the rest go, 1.0 = unchanged,
     // 0.0 = black
@@ -120,7 +120,7 @@ public:
         EGCodeExtrusionRole::Ironing, EGCodeExtrusionRole::BridgeInfill, EGCodeExtrusionRole::GapFill,
         EGCodeExtrusionRole::Skirt, EGCodeExtrusionRole::SupportMaterial, EGCodeExtrusionRole::SupportMaterialInterface,
         EGCodeExtrusionRole::WipeTower, EGCodeExtrusionRole::Custom,
-        // ORCA
+        // INFINIUM
         EGCodeExtrusionRole::BottomSurface, EGCodeExtrusionRole::InternalBridgeInfill, EGCodeExtrusionRole::Brim,
         EGCodeExtrusionRole::SupportTransition, EGCodeExtrusionRole::Mixed
     }) const;
@@ -298,11 +298,11 @@ private:
     ColorRange m_actual_speed_range;
     ColorRange m_fan_speed_range;
     ColorRange m_temperature_range;
-    // ORCA: Add Pressure Advance visualization support
+    // INFINIUM: Add Pressure Advance visualization support
     ColorRange m_pressure_advance_range;
-    // ORCA: Add Acceleration visualization support
+    // INFINIUM: Add Acceleration visualization support
     ColorRange m_acceleration_range;
-    // ORCA: Add Jerk visualization support
+    // INFINIUM: Add Jerk visualization support
     ColorRange m_jerk_range;
     ColorRange m_volumetric_rate_range;
     ColorRange m_actual_volumetric_rate_range;

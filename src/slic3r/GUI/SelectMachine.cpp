@@ -220,14 +220,14 @@ SelectMachineDialog::SelectMachineDialog(Plater *plater)
     m_rename_text->SetFont(::Label::Head_14);
     m_rename_text->SetBackgroundColour(*wxWHITE);
     m_rename_text->SetMaxSize(wxSize(FromDIP(340), -1));
-    rename_editable       = new ScalableBitmap(m_scroll_area, "rename_edit", FromDIP(13)); // ORCA Match edit icon and its size
-    rename_editable_light = new ScalableBitmap(m_scroll_area, "rename_edit", FromDIP(13)); // ORCA Match edit icon and its size
+    rename_editable       = new ScalableBitmap(m_scroll_area, "rename_edit", FromDIP(13)); // INFINIUM Match edit icon and its size
+    rename_editable_light = new ScalableBitmap(m_scroll_area, "rename_edit", FromDIP(13)); // INFINIUM Match edit icon and its size
     m_rename_button = new wxStaticBitmap(m_rename_normal_panel, wxID_ANY, rename_editable->bmp(), wxDefaultPosition, wxSize(FromDIP(20), FromDIP(20)), 0);
     m_rename_button->Bind(wxEVT_ENTER_WINDOW, [this](auto& e) {SetCursor(wxCURSOR_HAND); });
     m_rename_button->Bind(wxEVT_LEAVE_WINDOW, [this](auto& e) {SetCursor(wxCURSOR_ARROW); });
 
-    rename_sizer_h->Add(m_rename_text, 0, wxALIGN_CENTER, 0); // ORCA align text with icon
-    rename_sizer_h->Add(m_rename_button, 0, wxALIGN_CENTER| wxLEFT, FromDIP(3)); // ORCA add gap between text and icon
+    rename_sizer_h->Add(m_rename_text, 0, wxALIGN_CENTER, 0); // INFINIUM align text with icon
+    rename_sizer_h->Add(m_rename_button, 0, wxALIGN_CENTER| wxLEFT, FromDIP(3)); // INFINIUM add gap between text and icon
     rename_sizer_v->Add(rename_sizer_h, 1, wxTOP, 0);
 
     m_rename_normal_panel->SetSizer(rename_sizer_v);
@@ -330,7 +330,7 @@ SelectMachineDialog::SelectMachineDialog(Plater *plater)
     m_text_printer_msg_tips->Hide();
     m_text_printer_msg_tips->GetAlignment();
 
-    // Orca: best-position "recommended arrangement saves X" clickable tip. Hidden unless the
+    // Infinium: best-position "recommended arrangement saves X" clickable tip. Hidden unless the
     // printer has a filament switcher and a better arrangement exists; click opens the best-position popup.
     m_saveTimeText = new Label(m_basic_panel, wxEmptyString);
     m_saveTimeText->SetForegroundColour(wxColour("#FF6F00"));
@@ -604,7 +604,7 @@ SelectMachineDialog::SelectMachineDialog(Plater *plater)
         ops_auto, "nozzle_offset_cali"
     );
 
-    // Orca: PA-profile-sharing toggle (extrude_cali_manual_mode). On = nozzles/filaments of the
+    // Infinium: PA-profile-sharing toggle (extrude_cali_manual_mode). On = nozzles/filaments of the
     // same type share one PA profile; shown only for pa_mode printers with Flow Dynamics Cali off.
     auto option_pa_value = new PrintOption(
         m_options_other,
@@ -771,7 +771,7 @@ SelectMachineDialog::SelectMachineDialog(Plater *plater)
     sizer_extra_info->Add(st_title_extra_info_doc, 0, wxALL, 0);
     sizer_extra_info->Add(m_st_txt_extra_info, 0, wxALL, 0);
 
-    // ORCA standardized HyperLink
+    // INFINIUM standardized HyperLink
     m_link_network_state = new HyperLink(m_sw_print_failed_info, _L("Check the status of current system services"), wxGetApp().link_to_network_check());
     m_link_network_state->SetFont(::Label::Body_12);
 
@@ -946,7 +946,7 @@ void SelectMachineDialog::update_select_layout(MachineObject *obj)
     if (obj && obj->get_printer_arch() == PrinterArch::ARCH_I3) { m_checkbox_list["timelapse"]->setValue("off"); } /*off timelapse on selected for n series by zhimin.zeng*/
     save_option_vals(obj);
 
-    // Orca: pa_value visibility depends on the freshly-loaded flow_cali value, so recompute it
+    // Infinium: pa_value visibility depends on the freshly-loaded flow_cali value, so recompute it
     // after load_option_vals and re-run the grid layout.
     update_pa_value_option(obj);
     update_options_layout();
@@ -1636,7 +1636,7 @@ bool SelectMachineDialog::CheckErrorDynamicSwitchNozzle(MachineObject* obj_)
 void SelectMachineDialog::clear_nozzle_mapping()
 {
     m_nozzle_mapping_result.clear();
-    // Orca: no BBS get_current_machine(); use the selected device (same accessor get_mapped_nozzles uses).
+    // Infinium: no BBS get_current_machine(); use the selected device (same accessor get_mapped_nozzles uses).
     DeviceManager* dev = wxGetApp().getDeviceManager();
     if (MachineObject* obj_ = dev ? dev->get_selected_machine() : nullptr)
         obj_->get_nozzle_mapping_result()->Clear();
@@ -1646,7 +1646,7 @@ void SelectMachineDialog::update_pa_value_option(MachineObject *obj)
 {
     auto it = m_checkbox_list.find("pa_value");
     if (it == m_checkbox_list.end()) return;
-    // Orca: the PA-profile-sharing toggle only applies when the printer advertises pa_mode support
+    // Infinium: the PA-profile-sharing toggle only applies when the printer advertises pa_mode support
     // and Flow Dynamics Calibration is set to off (mirrors the device's own gate for the switch).
     const bool show_pa = obj && obj->is_support_pa_mode
         && m_checkbox_list["flow_cali"]->IsShown()
@@ -1660,7 +1660,7 @@ void SelectMachineDialog::on_flow_cali_option_changed()
     MachineObject* obj_ = dev ? dev->get_selected_machine() : nullptr;
     if (!obj_) return;
 
-    // Orca: the PA-profile-sharing toggle is shown only while Flow Dynamics Calibration is off,
+    // Infinium: the PA-profile-sharing toggle is shown only while Flow Dynamics Calibration is off,
     // so its visibility must track flow_cali changes (for every pa_mode printer, rack or not).
     update_pa_value_option(obj_);
     update_options_layout();
@@ -1677,7 +1677,7 @@ void SelectMachineDialog::on_flow_cali_option_changed()
 
 void SelectMachineDialog::on_pa_value_option_changed()
 {
-    // Orca: the PA-sharing value feeds the printer-side rack nozzle-mapping request (V0), so a
+    // Infinium: the PA-sharing value feeds the printer-side rack nozzle-mapping request (V0), so a
     // change must invalidate the cached mapping and let the next status poll re-request it.
     DeviceManager* dev  = wxGetApp().getDeviceManager();
     MachineObject* obj_ = dev ? dev->get_selected_machine() : nullptr;
@@ -1778,7 +1778,7 @@ bool SelectMachineDialog::CheckErrorSyncNozzleMappingResultV0(MachineObject* obj
     const auto& obj_nozzle_mapping_ptr = obj_->get_nozzle_mapping_result();
     if (!obj_nozzle_mapping_ptr->HasResult()) {
         if (time(nullptr) - s_nozzle_mapping_last_request_time > 10) { // avoid too many requests
-            // Orca: PA-profile-sharing value from the send-dialog toggle (On = share -> 0, Off -> 1).
+            // Infinium: PA-profile-sharing value from the send-dialog toggle (On = share -> 0, Off -> 1).
             // Only pa_mode-capable printers honor the toggle; others keep the prior default (1) so this
             // feature changes nothing for them (matches the print-command gate in on_send_print).
             const int pa_value = obj_->is_support_pa_mode ? ((m_checkbox_list["pa_value"]->getValue() == "on") ? 0 : 1) : 1;
@@ -1927,7 +1927,7 @@ bool SelectMachineDialog::CheckWarningFilamentCrossExtruder(MachineObject* obj_)
     return true;
 }
 
-// ===== Orca: pre-send checks + AMS best-position popup =====
+// ===== Infinium: pre-send checks + AMS best-position popup =====
 
 bool SelectMachineDialog::CheckWarningSmartNozzleBlobAuto(MachineObject* obj_)
 {
@@ -1986,9 +1986,9 @@ wxString SelectMachineDialog::FormatTime(float totalSeconds)
     return wxString::Format("%ds", seconds);
 }
 
-// Orca: estimated filament-change time gap (actual vs. sliced) for the current AMS arrangement. Inlines
+// Infinium: estimated filament-change time gap (actual vs. sliced) for the current AMS arrangement. Inlines
 // REF's calc_filament_change_gap_for_assignment (a thin wrapper over simulate_filament_change_time, which
-// Orca keeps) so no libslic3r change is needed. std::nullopt unless a filament switcher is installed.
+// Infinium keeps) so no libslic3r change is needed. std::nullopt unless a filament switcher is installed.
 std::optional<float> SelectMachineDialog::get_filament_change_gap_time(MachineObject* obj_) const
 {
     if (m_print_type != PrintFromType::FROM_NORMAL) return std::nullopt;
@@ -2031,7 +2031,7 @@ std::optional<float> SelectMachineDialog::get_filament_change_gap_time(MachineOb
     params.selector_unload_time = params.standard_unload_time * 0.5;
 
     int group_count = group_of_filaments.empty() ? 0 : *std::max_element(group_of_filaments.begin(), group_of_filaments.end()) + 1;
-    // Orca: kept device model has no ams_preload_version; assume no AMS pre-load (conservative).
+    // Infinium: kept device model has no ams_preload_version; assume no AMS pre-load (conservative).
     std::vector<bool> ams_preload_enabled(group_count, false);
 
     try {
@@ -2129,8 +2129,8 @@ bool SelectMachineDialog::is_at_suggested_pos(MachineObject* obj_, int filament_
     return true;
 }
 
-// Orca adaptation: drives only the "saves X" tip (m_saveTimeText); unlike REF it does NOT re-set the
-// print-time label m_stext_time, so Orca's existing time display is untouched. No-op unless a filament
+// Infinium adaptation: drives only the "saves X" tip (m_saveTimeText); unlike REF it does NOT re-set the
+// print-time label m_stext_time, so Infinium's existing time display is untouched. No-op unless a filament
 // switcher is installed and a better arrangement exists.
 void SelectMachineDialog::refresh_save_time(MachineObject* obj)
 {
@@ -2182,7 +2182,7 @@ void SelectMachineDialog::on_reselect_dialog_btn_clicked(wxMouseEvent&)
 
 void SelectMachineDialog::update_best_pos_dialog(wxCommandEvent& evt)
 {
-    if (!m_best_pos_dialog) return; // Orca: only relevant while the popup is open
+    if (!m_best_pos_dialog) return; // Infinium: only relevant while the popup is open
     DeviceManager* dev = wxGetApp().getDeviceManager();
     MachineObject* obj_ = dev ? dev->get_selected_machine() : nullptr;
     if (!obj_) return;
@@ -2270,7 +2270,7 @@ void SelectMachineDialog::show_status(PrintDialogStatus status, std::vector<wxSt
         Enable_Refresh_Button(true);
         Enable_Send_Button(false);
     } else if (status == PrintStatusNozzleDiameterMismatch) {
-        // Orca: overridable — a non-standard nozzle is a valid reason to differ. Send is gated on
+        // Infinium: overridable — a non-standard nozzle is a valid reason to differ. Send is gated on
         // the acknowledgement checkbox added to the message board below (add_with_checkbox), which
         // is enabled only while the user's acknowledgement still matches the current mismatch.
         Enable_Refresh_Button(true);
@@ -2622,7 +2622,7 @@ bool SelectMachineDialog::is_same_printer_model()
     if(preset_bundle == nullptr) return result;
     const auto source_model = preset_bundle->printers.get_edited_preset().get_printer_type(preset_bundle);
     const auto target_model = obj_->printer_type;
-    // Orca: ignore P1P -> P1S
+    // Infinium: ignore P1P -> P1S
     if (source_model != target_model) {
         if ((source_model == "C12" && target_model == "C11") || (source_model == "C11" && target_model == "C12") ||
             ((obj_->is_support_upgrade_kit && obj_->installed_upgrade_kit) && (source_model == "C12"))) {
@@ -3178,7 +3178,7 @@ void SelectMachineDialog::update_timelapse_folder_btn_icon()
 
 void SelectMachineDialog::show_timelapse_folder_popup()
 {
-    // Orca: this popup is an Orca-themed implementation (RadioBox + Label, mirroring the
+    // Infinium: this popup is an Infinium-themed implementation (RadioBox + Label, mirroring the
     // SendToPrinter storage selector) rather than a straight port of the upstream widget.
     if (m_timelapse_storage_popup && m_timelapse_storage_popup->IsShown()) {
         m_timelapse_storage_popup->Dismiss();
@@ -3296,7 +3296,7 @@ void SelectMachineDialog::start_timelapse_storage_check(MachineObject* obj)
     if (!obj) { on_send_print(); return; }
 
     // get total layer count from the sliced result
-    // Orca: PrintStatistics::Mode has no per-layer time vector (unlike the reference), so
+    // Infinium: PrintStatistics::Mode has no per-layer time vector (unlike the reference), so
     // derive the timelapse layer count from the sliced print objects instead.
     m_timelapse_total_layer = 0;
     if (m_print_type == PrintFromType::FROM_NORMAL) {
@@ -3408,7 +3408,7 @@ void SelectMachineDialog::show_timelapse_storage_dialog(MachineObject* obj)
     // use int id to distinguish choices: wxID_OK=confirm, wxID_NO=cancel_tl, ID_CLEANUP=cleanup
     if (show_confirm_btn) {
         auto* btn_confirm = new Button(&dlg, _L("Confirm & Print"));
-        // Orca: use the accent green rather than the reference's hard-coded confirm colour.
+        // Infinium: use the accent green rather than the reference's hard-coded confirm colour.
         StateColor confirm_bg(std::pair<wxColour, int>(wxColour(13, 110, 99), StateColor::Normal));
         btn_confirm->SetBackgroundColor(confirm_bg);
         btn_confirm->SetTextColor(StateColor(std::pair<wxColour, int>(*wxWHITE, StateColor::Normal)));
@@ -3418,7 +3418,7 @@ void SelectMachineDialog::show_timelapse_storage_dialog(MachineObject* obj)
 
     auto* btn_cancel_tl = new Button(&dlg, _L("Cancel Timelapse & Print"));
     if (!show_confirm_btn) {
-        // Orca: use the accent green rather than the reference's hard-coded confirm colour.
+        // Infinium: use the accent green rather than the reference's hard-coded confirm colour.
         StateColor cancel_bg(std::pair<wxColour, int>(wxColour(13, 110, 99), StateColor::Normal));
         btn_cancel_tl->SetBackgroundColor(cancel_bg);
         btn_cancel_tl->SetTextColor(StateColor(std::pair<wxColour, int>(*wxWHITE, StateColor::Normal)));
@@ -4370,7 +4370,7 @@ static std::unordered_multimap<int, NozzleDef> s_get_slicing_extuder_nozzles()
                         used_extuder_nozzles.insert({ physical_idx, nozzle_data });
                     }
                 } else {
-                    // Orca: a by-object plate with several objects produces no plate-level nozzle
+                    // Infinium: a by-object plate with several objects produces no plate-level nozzle
                     // grouping, so the used flows are unknown; skip the check for this extruder
                     // rather than blocking the print.
                     BOOST_LOG_TRIVIAL(warning) << __FUNCTION__ << ": no nozzle group result, nozzle check skipped for extruder " << logic_extruder_idx;
@@ -4477,7 +4477,7 @@ void SelectMachineDialog::CheckWarningRackStatus(MachineObject* obj_)
 
         // check if unreliable nozzle maybe used
         if (need_nozzle.second > installed_reliable_count && nozzle_sys->HasUnreliableNozzles()) {
-            // Orca: text-only warning; this message board has no refresh / don't-show-again buttons.
+            // Infinium: text-only warning; this message board has no refresh / don't-show-again buttons.
             show_status(PrintDialogStatus::PrintStatusHasUnreliableNozzleWarning,
                         { _L("The reported hotend information may be unreliable.") + " " + _L("Please refresh the nozzle information and try again.") });
         }
@@ -4585,7 +4585,7 @@ bool SelectMachineDialog::CheckErrorExtruderNozzleWithSlicing(MachineObject* obj
 
                     msg_params.emplace_back(_L("Tips: If you changed your nozzle of your printer lately, please go to 'Device -> Printer parts' to change your nozzle setting."));
 
-                    // Orca: non-blocking. A diameter that differs from the one the printer
+                    // Infinium: non-blocking. A diameter that differs from the one the printer
                     // remembers is legitimate with a non-standard nozzle, so the print is held back
                     // only by the acknowledgement checkbox shown in the message board, not by a
                     // disabled Send outright. Keep checking the remaining extruders.
@@ -4633,7 +4633,7 @@ static wxString _get_ext_loc_str(const std::unordered_set<int>& extruders, int t
 void SelectMachineDialog::update_show_status(MachineObject* obj_)
 {
     m_pre_print_checker.clear();
-    // Orca: re-raised by CheckErrorExtruderNozzleWithSlicing() below if the mismatch is still there,
+    // Infinium: re-raised by CheckErrorExtruderNozzleWithSlicing() below if the mismatch is still there,
     // so an early return from this pass cannot leave a stale warning behind.
     m_nozzle_diameter_mismatch_msg.clear();
 
@@ -4842,7 +4842,7 @@ void SelectMachineDialog::update_show_status(MachineObject* obj_)
 
     if (m_print_type == PrintFromType::FROM_NORMAL)
     {
-        // Orca: blocking hardness gate on the mounted nozzles; the rack extruder is instead judged
+        // Infinium: blocking hardness gate on the mounted nozzles; the rack extruder is instead judged
         // per dispatch-mapped nozzle in the blacklist loop below, as a non-blocking caution.
         const auto &used_nozzle_idxes = _get_used_nozzle_idxes();
         for (const auto &extder : obj_->GetExtderSystem()->GetExtruders()) {
@@ -4894,7 +4894,7 @@ void SelectMachineDialog::update_show_status(MachineObject* obj_)
     // both self-clear on the next status refresh.
     if (DevPrinterConfigUtil::support_print_check_firmware_for_tpu_left(obj_->printer_type)) {
         // Read the raw string members fila.ams_id/fila.slot_id — an int round-trip would throw on
-        // an unmapped filament. Orca: the jump-to-upgrade button styling is not ported.
+        // an unmapped filament. Infinium: the jump-to-upgrade button styling is not ported.
         bool has_tpu_left = false;
         for (const auto& fila : m_ams_mapping_result) {
             const auto& ams_id  = fila.ams_id;
@@ -5085,7 +5085,7 @@ void SelectMachineDialog::update_show_status(MachineObject* obj_)
     }
     check_timelapse_storage_warning(obj_);
 
-    // Orca: show warning if external filament does not match
+    // Infinium: show warning if external filament does not match
     for (auto& m : m_ams_mapping_result) {
         if (devPrinterUtil::IsVirtualSlot(m.ams_id)) {
             for (auto& fs : m_filaments) {
@@ -5254,12 +5254,12 @@ void SelectMachineDialog::Enable_Send_Button(bool en)
     if (!en) {
         if (m_button_ensure->IsEnabled()) {
             m_button_ensure->Disable();
-            // ORCA no need to set colors again
+            // INFINIUM no need to set colors again
         }
     } else {
         if (!m_button_ensure->IsEnabled()) {
             m_button_ensure->Enable();
-            // ORCA no need to set colors again
+            // INFINIUM no need to set colors again
         }
     }
 }
@@ -5276,7 +5276,7 @@ void SelectMachineDialog::on_dpi_changed(const wxRect &suggested_rect)
         ams_mapping_help_icon->msw_rescale();
         if (img_amsmapping_tip)img_amsmapping_tip->SetBitmap(ams_mapping_help_icon->bmp());
     }
-    m_button_ensure->Rescale(); // ORCA
+    m_button_ensure->Rescale(); // INFINIUM
     m_status_bar->msw_rescale();
 
     for (auto material1 : m_materialList) {
@@ -5598,7 +5598,7 @@ void SelectMachineDialog::reset_and_sync_ams_list()
         m_filament_panel_sizer->Layout();
     }
 
-    // Orca: a filament switch feeds both extruders, so the per-nozzle material items collapse into
+    // Infinium: a filament switch feeds both extruders, so the per-nozzle material items collapse into
     // the single panel. Reposition once the selected machine's switch state is known (no-op otherwise).
     DeviceManager* dev = wxGetApp().getDeviceManager();
     update_material_item_pos(dev ? dev->get_selected_machine() : nullptr);
@@ -5606,7 +5606,7 @@ void SelectMachineDialog::reset_and_sync_ams_list()
     // reset_ams_material();//show "-"
 }
 
-// Orca: collapse the per-nozzle material items into the single panel when the printer has one
+// Infinium: collapse the per-nozzle material items into the single panel when the printer has one
 // extruder or a filament switch (both feed a single logical mapping surface); otherwise keep the
 // left/right split. Early-returns unless an item is actually in the wrong panel.
 void SelectMachineDialog::update_material_item_pos(MachineObject* obj_)
@@ -5706,7 +5706,7 @@ void SelectMachineDialog::clone_thumbnail_data() {
     while (iter != m_materialList.end()) {
         Material *    item = iter->second;
         MaterialItem *m    = item->item;
-        // Orca: key the preview colours by filament slot, as m_cur_colors_in_thumbnail and
+        // Infinium: key the preview colours by filament slot, as m_cur_colors_in_thumbnail and
         // SyncAmsInfoDialog already do, so recompute_mixed_slot_colors() below can look a mixed
         // slot's component colours up by id (BBS keys this array by list position).
         if (item->id >= m_preview_colors_in_thumbnail.size()) {
@@ -6005,9 +6005,9 @@ void SelectMachineDialog::set_default_normal(const ThumbnailData &data)
 
     char weight[64];
     if (wxGetApp().app_config->get("use_inches") == "1") {
-        ::sprintf(weight, "%.2f oz", aprint_stats.total_weight * 0.035274); // ORCA remove spacing before text
+        ::sprintf(weight, "%.2f oz", aprint_stats.total_weight * 0.035274); // INFINIUM remove spacing before text
     } else {
-        ::sprintf(weight, "%.2f g", aprint_stats.total_weight); // ORCA remove spacing before text
+        ::sprintf(weight, "%.2f g", aprint_stats.total_weight); // INFINIUM remove spacing before text
     }
 
     m_stext_time->SetLabel(time);
@@ -6218,7 +6218,7 @@ void SelectMachineDialog::set_default_from_sdcard()
         wxString   time;
         time = wxString::Format("%s", short_time(get_time_dhms(float_time)));
         char weight[64];
-        ::sprintf(weight, "%.2f g", float_weight); // ORCA remove spacing before text
+        ::sprintf(weight, "%.2f g", float_weight); // INFINIUM remove spacing before text
         m_stext_time->SetLabel(time);
         m_stext_weight->SetLabel(weight);
         refresh_save_time(obj_); // no-op for FROM_SDCARD_VIEW (refresh_save_time early-returns)
@@ -6339,7 +6339,7 @@ void SelectMachineDialog::UpdateStatusCheckWarning_ExtensionTool(MachineObject* 
                 {
                     show_status(PrintDialogStatus::PrintStatusToolHeadCoolingFanWarning,
                                 { _L("Install toolhead enhanced cooling fan to prevent filament softening.")},
-                                "https://www.infinium.com/wiki/"); // Orca: neutral wiki link (vendor URL removed)
+                                "https://www.infinium.com/wiki/"); // Infinium: neutral wiki link (vendor URL removed)
                     return;
                 }
             }
@@ -7085,7 +7085,7 @@ void PrinterInfoBox::Create()
 
 void PrinterInfoBox::OnBtnQuestionClicked(wxCommandEvent& event)
 {
-    wxLaunchDefaultBrowser(wxT("https://www.infinium.com/wiki/")); // Orca: neutral wiki link (vendor URL removed)
+    wxLaunchDefaultBrowser(wxT("https://www.infinium.com/wiki/")); // Infinium: neutral wiki link (vendor URL removed)
 }
 
 

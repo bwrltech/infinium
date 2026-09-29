@@ -364,7 +364,7 @@ double ExtrusionLoop::min_mm3_per_mm() const
     return min_mm3_per_mm;
 }
 
-// Orca: This function is used to check if the loop is smooth(continuous) or not. 
+// Infinium: This function is used to check if the loop is smooth(continuous) or not. 
 // TODO: the main logic is largly copied from the calculate_polygon_angles_at_vertices function in SeamPlacer file. Need to refactor the code in the future.
 bool ExtrusionLoop::is_smooth(double angle_threshold, double min_arm_length) const
 {

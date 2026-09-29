@@ -768,7 +768,7 @@ TEST_CASE("Solid infill direction offsets every layer when no template is set", 
     }
 }
 
-// Orca: the spiral inset pattern chains the concentric loops into a single continuous path per
+// Infinium: the spiral inset pattern chains the concentric loops into a single continuous path per
 // island, so it has to cope with the degenerate loops offsetting leaves behind and it must not join
 // loops that only look adjacent.
 namespace {
@@ -1301,7 +1301,7 @@ TEST_CASE("Smoothing multiline lightning infill keeps its outlines connected", "
 
 TEST_CASE("Sparse plane-path anchors match the printed infill", "[Fill][InternalBridge][Regression]")
 {
-    // Orca: Compare generated anchors with actual extrusion across plane-path patterns,
+    // Infinium: Compare generated anchors with actual extrusion across plane-path patterns,
     // smoothing, multiline and rotations; an origin shift must not pass as valid support.
     const std::string pattern = GENERATE("hilbertcurve", "octagramspiral", "archimedeanchords");
     const std::string smoothing = GENERATE("0%", "100%");
@@ -1330,7 +1330,7 @@ TEST_CASE("Sparse plane-path anchors match the printed infill", "[Fill][Internal
     Model model;
     TriangleMesh mesh = make_cube(30, 24, 1);
     if (separated) {
-        // Orca: Two disconnected bodies in one object must each use their own infill origin.
+        // Infinium: Two disconnected bodies in one object must each use their own infill origin.
         TriangleMesh second = make_cube(30, 24, 1);
         second.translate(50, 0, 0);
         mesh.merge(second);
@@ -1351,7 +1351,7 @@ TEST_CASE("Sparse plane-path anchors match the printed infill", "[Fill][Internal
     REQUIRE_FALSE(printed.empty());
     const AABBTreeLines::LinesDistancer<Line> printed_tree(to_lines(printed));
 
-    // Orca: Exclude perimeter connections: anchoring and extrusion can trim those differently.
+    // Infinium: Exclude perimeter connections: anchoring and extrusion can trim those differently.
     const Polylines anchors = intersection_pl(layer.generate_sparse_infill_polylines_for_anchoring(nullptr, nullptr, nullptr),
                                               shrink(to_polygons(layer.lslices), scale_(3.)));
     REQUIRE_FALSE(anchors.empty());
@@ -1359,7 +1359,7 @@ TEST_CASE("Sparse plane-path anchors match the printed infill", "[Fill][Internal
     for (const Polyline &path : anchors)
         for (const Point &point : path.equally_spaced_points(scale_(0.25)))
             max_distance = std::max(max_distance, printed_tree.distance_from_lines<false>(point));
-    // Orca: Allow only the configured simplification tolerance; infill-scale offsets
+    // Infinium: Allow only the configured simplification tolerance; infill-scale offsets
     // would hide anchors that no longer coincide with printed lines.
     CHECK(unscale<double>(max_distance) <= config.opt_float("resolution"));
 }

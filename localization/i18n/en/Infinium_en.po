@@ -1200,7 +1200,7 @@ msgid "Operation"
 msgstr ""
 
 #. TRN EmbossOperation
-#. ORCA
+#. INFINIUM
 msgid "Join"
 msgstr ""
 
@@ -2458,7 +2458,7 @@ msgstr ""
 msgid "Infinium Cube"
 msgstr ""
 
-msgid "OrcaSliced Combo"
+msgid "InfiniumSliced Combo"
 msgstr ""
 
 msgid "Infinium Badge"
@@ -6217,7 +6217,7 @@ msgstr ""
 msgid "Select profile to load:"
 msgstr ""
 
-msgid "Config files (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
+msgid "Config files (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
 msgstr ""
 
 #, c-format, boost-format
@@ -18212,10 +18212,10 @@ msgstr ""
 msgid "Printer Setting"
 msgstr ""
 
-msgid "Printer config bundle(.orca_printer)"
+msgid "Printer config bundle(.infinium_printer)"
 msgstr ""
 
-msgid "Filament bundle(.orca_filament)"
+msgid "Filament bundle(.infinium_filament)"
 msgstr ""
 
 msgid "Printer presets(.zip)"
@@ -20126,8 +20126,8 @@ msgstr ""
 #~ msgid "Initialize failed (%s)!"
 #~ msgstr "Initialization failed (%s)!"
 
-#~ msgid "Step 1, please confirm Orca Slicer and your printer are in the same LAN."
-#~ msgstr "Step 1, please confirm that Orca Slicer and your printer are on the same LAN."
+#~ msgid "Step 1, please confirm Infinium and your printer are in the same LAN."
+#~ msgstr "Step 1, please confirm that Infinium and your printer are on the same LAN."
 
 #~ msgid "Force cooling for overhang and bridge"
 #~ msgstr "Force cooling for overhangs and bridges"

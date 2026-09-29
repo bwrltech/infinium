@@ -47,7 +47,7 @@ inline void sort_plugin_changelog(std::vector<PluginChangelog>& changelog)
     });
 }
 
-// Canonical plugin runtime/catalog representation used by Orca.
+// Canonical plugin runtime/catalog representation used by Infinium.
 struct PluginDescriptor
 {
     std::string plugin_key;                             // Infinium-generated operational identity
@@ -72,7 +72,7 @@ struct PluginDescriptor
     // during a live package replacement.
     bool install_state_valid = false;
     // Package auto-load flag, read from .install_state.json. Defaults to FALSE: a package with no
-    // sidecar has never been installed through Orca and carries no auto-load intent, so it must not
+    // sidecar has never been installed through Infinium and carries no auto-load intent, so it must not
     // be loaded at startup. Installing a package writes the sidecar with enabled = true.
     bool enabled = false;
     std::string sharing_token;             // Use BASE_URL/p/SHARING_TOKEN to open relevant plugin in browser.

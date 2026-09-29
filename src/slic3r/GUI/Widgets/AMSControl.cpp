@@ -156,7 +156,7 @@ AMSControl::AMSControl(wxWindow *parent, wxWindowID id, const wxPoint &pos, cons
     m_extruder = new AMSextruder(m_amswin, wxID_ANY, m_total_ext_count, wxDefaultPosition, AMS_EXTRUDER_SIZE);
     m_sizer_option_mid->Add( m_extruder, 0, wxALIGN_CENTER, 0 );
 
-    // Orca: filament-switch routing glyph; hidden by default so it stays inert (zero layout impact)
+    // Infinium: filament-switch routing glyph; hidden by default so it stays inert (zero layout impact)
     // on any printer without a Filament Track Switch. Shown from UpdateAms only when installed.
     m_switcher = new SwitcherImage(m_amswin, wxID_ANY, "fila_switch", wxSize(FromDIP(29), FromDIP(16)), wxDefaultPosition);
     m_switcher->Hide();
@@ -334,7 +334,7 @@ std::string AMSControl::GetCurrentCan(std::string amsid)
 
 bool AMSControl::IsAmsInRightPanel(std::string ams_id) {
     if (m_total_ext_count == 2){
-        // Orca: inlet-aware panel routing (see AMSinfo::routes_to_main_extruder)
+        // Infinium: inlet-aware panel routing (see AMSinfo::routes_to_main_extruder)
         if (m_ams_item_list.find(ams_id) != m_ams_item_list.end() && m_ams_item_list[ams_id]->routes_to_main_extruder()) {
             return true;
         }
@@ -492,9 +492,9 @@ void AMSControl::msw_rescale()
 
     m_extruder->msw_rescale();
 
-    if (m_button_extruder_feed) m_button_extruder_feed->Rescale(); // ORCA
-    if (m_button_extruder_back) m_button_extruder_back->Rescale(); // ORCA
-    if (m_button_auto_refill) m_button_auto_refill->Rescale();     // ORCA
+    if (m_button_extruder_feed) m_button_extruder_feed->Rescale(); // INFINIUM
+    if (m_button_extruder_back) m_button_extruder_back->Rescale(); // INFINIUM
+    if (m_button_auto_refill) m_button_auto_refill->Rescale();     // INFINIUM
     if (m_button_ams_setting) m_button_ams_setting->SetMinSize(wxSize(FromDIP(25), FromDIP(24)));
 
 
@@ -605,7 +605,7 @@ void AMSControl::CreateAmsDoubleNozzle(const std::string &series_name, const std
     std::vector<AMSinfo> single_info_right;
 
     //Freeze();
-    // Orca: place each AMS by its switch inlet when a Filament Track Switch is installed, else by the pinned
+    // Infinium: place each AMS by its switch inlet when a Filament Track Switch is installed, else by the pinned
     // nozzle_id (routes_to_main_extruder). Switch-less machines are unaffected; ext spools keep nozzle_id.
     for (auto ams_info = m_ams_info.begin(); ams_info != m_ams_info.end(); ams_info++){
         if (ams_info->cans.size() == GENERIC_AMS_SLOT_NUM){
@@ -945,7 +945,7 @@ void AMSControl::UpdateAms(const std::string   &series_name,
                     fresh = true;
                 }
 
-                // Orca: rebuild when the panel assignment changes; inlet-aware so a Filament Track Switch
+                // Infinium: rebuild when the panel assignment changes; inlet-aware so a Filament Track Switch
                 // re-plug (same pinned nozzle_id, different inlet) still refreshes placement.
                 if (m_ams_info[i].routes_to_main_extruder() != ams_info[i].routes_to_main_extruder()) {
                     fresh = true;
@@ -1001,7 +1001,7 @@ void AMSControl::UpdateAms(const std::string   &series_name,
 
         // 2D mode (laser/cut) makes every spool view-only: show the read-only (eye) icon while the spool
         // stays clickable to open the read-only filament dialog.
-        // Orca: gated on the device mode via MachineObject::is_fdm_type(); obj is null for callers that do
+        // Infinium: gated on the device mode via MachineObject::is_fdm_type(); obj is null for callers that do
         // not supply it, leaving spools editable.
         const bool view_only = obj && !obj->is_fdm_type();
         for (auto ams_item : m_ams_item_list) {
@@ -1047,7 +1047,7 @@ void AMSControl::UpdateAms(const std::string   &series_name,
     }
 
     /*update switch status*/
-    // Orca: inert on any printer without a Filament Track Switch — install is false, so the banner is
+    // Infinium: inert on any printer without a Filament Track Switch — install is false, so the banner is
     // never materialized, the glyph stays hidden, and every ShowRoad(true) below is a no-op.
     const auto [install, ready] = isFilaSwitchReady();
     show_switcher_status(install && (!ready));
@@ -1066,7 +1066,7 @@ void AMSControl::UpdateAms(const std::string   &series_name,
     bool road_visibility_changed = false;
     for (auto& [ams_id, ams_item] : m_ams_item_list) {
         if (!ams_item) continue;
-        // Orca: drop the external-spool road (AMSModel::EXT_AMS) while the switch routes all filament.
+        // Infinium: drop the external-spool road (AMSModel::EXT_AMS) while the switch routes all filament.
         const bool should_show_road = !(install && ams_item->get_ams_model() == AMSModel::EXT_AMS);
         if (ams_item->ShowRoad(should_show_road)) { road_visibility_changed = true; }
     }
@@ -1698,7 +1698,7 @@ std::tuple<bool, bool> AMSControl::isFilaSwitchReady()
     if (!dev) return {false, false};
     MachineObject* obj = dev->get_selected_machine();
     if (!obj) return {false, false};
-    // Orca: GetFilaSwitch() is a raw non-null accessor (BBS returns a shared_ptr).
+    // Infinium: GetFilaSwitch() is a raw non-null accessor (BBS returns a shared_ptr).
     DevFilaSwitch* fila_switch = obj->GetFilaSwitch();
     if (fila_switch)
     {
@@ -1709,7 +1709,7 @@ std::tuple<bool, bool> AMSControl::isFilaSwitchReady()
 
 void AMSControl::show_switcher_status(bool show)
 {
-    // Orca: never materialize the banner on printers that never request it, so the AMS control is
+    // Infinium: never materialize the banner on printers that never request it, so the AMS control is
     // byte-identical without a Filament Track Switch (UpdateAms calls this with show=false every refresh).
     if (!show && tipPanel == nullptr) { return; }
 

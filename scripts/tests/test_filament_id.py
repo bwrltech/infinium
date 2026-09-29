@@ -1904,7 +1904,7 @@ class TestDriftReport(unittest.TestCase):
 
         report = "\n".join(lines)
         self.assertIn("Upstream Only PLA", report)
-        self.assertIn("Orca BBL filaments with no row: 1", report)
+        self.assertIn("Infinium BBL filaments with no row: 1", report)
         self.assertNotIn("Match PLA", report)  # the matched filament is not drift
 
 

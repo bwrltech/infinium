@@ -67,7 +67,7 @@ void CustomWidgetsPlugin::addButtonProps(Button* btn,
         return "Regular";
     };
 
-    props.push_back({"Button Style", "Orca Button", PropertyType::Choice,
+    props.push_back({"Button Style", "Infinium Button", PropertyType::Choice,
         styleToStr(btn->GetStyle()), false, styleChoices,
         [btn, styleToStr]() { return styleToStr(btn->GetStyle()); },
         [btn](const wxString& v) {
@@ -99,7 +99,7 @@ void CustomWidgetsPlugin::addButtonProps(Button* btn,
         return "Compact";
     };
 
-    props.push_back({"Button Type", "Orca Button", PropertyType::Choice,
+    props.push_back({"Button Type", "Infinium Button", PropertyType::Choice,
         typeToStr(btn->GetType()), false, typeChoices,
         [btn, typeToStr]() { return typeToStr(btn->GetType()); },
         [btn](const wxString& v) {
@@ -113,7 +113,7 @@ void CustomWidgetsPlugin::addButtonProps(Button* btn,
             return true;
         }});
 
-    props.push_back({"Selected", "Orca Button", PropertyType::Boolean,
+    props.push_back({"Selected", "Infinium Button", PropertyType::Boolean,
         btn->IsSelected() ? "true" : "false", false, {},
         [btn]() { return btn->IsSelected() ? "true" : "false"; },
         [btn](const wxString& v) {
@@ -142,17 +142,17 @@ void CustomWidgetsPlugin::addTextInputProps(TextInput* ti,
 {
     using namespace wxInspector;
 
-    props.push_back({"Label", "Orca TextInput", PropertyType::String,
+    props.push_back({"Label", "Infinium TextInput", PropertyType::String,
         ti->GetLabel(), false, {},
         [ti]() { return ti->GetLabel(); },
         [ti](const wxString& v) { ti->SetLabel(v); return true; }});
 
-    props.push_back({"Text Value", "Orca TextInput", PropertyType::String,
+    props.push_back({"Text Value", "Infinium TextInput", PropertyType::String,
         ti->GetTextCtrl()->GetValue(), false, {},
         [ti]() { return ti->GetTextCtrl()->GetValue(); },
         [ti](const wxString& v) { ti->GetTextCtrl()->SetValue(v); return true; }});
 
-    props.push_back({"Corner Radius", "Orca TextInput", PropertyType::Integer,
+    props.push_back({"Corner Radius", "Infinium TextInput", PropertyType::Integer,
         wxString::Format("%d", ti->GetCornerRadius()), false, {},
         [ti]() { return wxString::Format("%d", ti->GetCornerRadius()); },
         [ti](const wxString& v) {

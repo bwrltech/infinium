@@ -49,7 +49,7 @@ void Slic3r::DevFan::converse_to_duct(bool is_suppt_part_fun, bool is_suppt_aux_
 // Old protocol
 int Slic3r::DevFan::command_control_fan(int fan_type, int val)
 {
-    // Orca: strip analytics telemetry
+    // Infinium: strip analytics telemetry
     std::string gcode = (boost::format("M106 P%1% S%2% \n") % (int) fan_type % (val)).str();
     return m_owner->publish_gcode(gcode);
 }

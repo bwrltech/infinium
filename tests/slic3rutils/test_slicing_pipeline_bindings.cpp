@@ -117,7 +117,7 @@ TEST_CASE("orca.slicing is workflow-only: context exposes raw print/object; view
                                 "LayerView", "PrintObjectView", "PathData", "SurfaceType" })
         CHECK_FALSE(py::hasattr(slicing, legacy));
 
-    // unscale() stays in orca.slicing and reads the live SCALING_FACTOR.
+    // unscale() stays in infinium.slicing and reads the live SCALING_FACTOR.
     const coord_t scaled10 = (coord_t) scale_(10.0);
     double mm = slicing.attr("unscale")(scaled10).cast<double>();
     CHECK_THAT(mm, WithinRel(10.0, 1e-9));
@@ -236,7 +236,7 @@ static void build_nested_perimeters(TestLayerRegion& region) {
 } // namespace
 
 // ---------------------------------------------------------------------------
-// Raw Print-graph data model (orca.host) — replaces the *View wrapper API.
+// Raw Print-graph data model (infinium.host) — replaces the *View wrapper API.
 // LIFETIME: raw bindings follow C++ semantics — references into the slicing
 // graph are valid during execute(ctx) and invalidated by container-replacing
 // mutators, exactly like std::vector iterators.
@@ -252,7 +252,7 @@ TEST_CASE("orca.host leaf geometry: Surface/ExPolygon/Polygon raw bindings", "[s
     for (const char* name : { "SurfaceType", "Polygon", "ExPolygon", "Surface", "SurfaceCollection" })
         CHECK(py::hasattr(host, name));
 
-    // SurfaceType enum values round-trip to the C++ enumerators (moved from orca.slicing).
+    // SurfaceType enum values round-trip to the C++ enumerators (moved from infinium.slicing).
     py::object ST = host.attr("SurfaceType");
     CHECK(ST.attr("stTop").cast<Slic3r::SurfaceType>()           == Slic3r::stTop);
     CHECK(ST.attr("stInternalSolid").cast<Slic3r::SurfaceType>() == Slic3r::stInternalSolid);
@@ -488,7 +488,7 @@ TEST_CASE("orca.host ExtrusionPath.points() is a read-only (N,3) int64 view", "[
 }
 
 // ---------------------------------------------------------------------------
-// Raw Print-graph spine (orca.host): LayerRegion / Layer / PrintObject / Print,
+// Raw Print-graph spine (infinium.host): LayerRegion / Layer / PrintObject / Print,
 // read side. LayerRegion/Layer ctors are protected (friend class PrintObject),
 // so the tests use tiny derived structs -- the pattern TestLayerRegion above
 // already establishes; TestLayer is its Layer counterpart.

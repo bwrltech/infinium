@@ -18,8 +18,8 @@ DragCanvas::DragCanvas(wxWindow* parent, const std::vector<std::string>& colors,
 {
     SetBackgroundColour(*wxWHITE);
 
-    m_background_color = StateColor::darkModeColorFor("#FFFFFF"); // ORCA
-    m_border_color     = StateColor::darkModeColorFor("#DBDBDB"); // ORCA
+    m_background_color = StateColor::darkModeColorFor("#FFFFFF"); // INFINIUM
+    m_border_color     = StateColor::darkModeColorFor("#DBDBDB"); // INFINIUM
 
     m_arrow_bmp = create_scaled_bitmap("plate_settings_arrow", this, 16);
 
@@ -134,15 +134,15 @@ void DragCanvas::on_erase(wxEraseEvent& event)
     if (event.GetDC())
     {
         auto& dc = *(event.GetDC());
-        dc.SetPen(  m_border_color);     // ORCA
-        dc.SetBrush(m_background_color); // ORCA
+        dc.SetPen(  m_border_color);     // INFINIUM
+        dc.SetBrush(m_background_color); // INFINIUM
         dc.DrawRectangle({ 0,0 }, size);
     }
     else 
     {
         wxClientDC dc(this);
-        dc.SetPen(  m_border_color);     // ORCA
-        dc.SetBrush(m_background_color); // ORCA
+        dc.SetPen(  m_border_color);     // INFINIUM
+        dc.SetBrush(m_background_color); // INFINIUM
         dc.DrawRectangle({ 0,0 }, size);
     }
 }

@@ -1376,7 +1376,7 @@ msgstr "Åtgärd"
 
 # AI Translated
 #. TRN EmbossOperation
-#. ORCA
+#. INFINIUM
 msgid "Join"
 msgstr "Sammanfoga"
 
@@ -2937,8 +2937,8 @@ msgid "Infinium Cube"
 msgstr "Infinium Cube"
 
 # AI Translated
-msgid "OrcaSliced Combo"
-msgstr "OrcaSliced Combo"
+msgid "InfiniumSliced Combo"
+msgstr "InfiniumSliced Combo"
 
 # AI Translated
 msgid "Infinium Badge"
@@ -7245,8 +7245,8 @@ msgid "Select profile to load:"
 msgstr "Välj den profil som ska laddas:"
 
 # AI Translated
-msgid "Config files (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
-msgstr "Konfigurationsfiler (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
+msgid "Config files (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
+msgstr "Konfigurationsfiler (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
 
 #, c-format, boost-format
 msgid "There is %d config imported. (Only non-system and compatible configs)"
@@ -21683,7 +21683,7 @@ msgstr "Exportera logg"
 
 # AI Translated
 msgid "Infinium Slicer Version:"
-msgstr "OrcaSlicer-version:"
+msgstr "Infinium-version:"
 
 msgid "System Version:"
 msgstr "Systemversion:"
@@ -22018,12 +22018,12 @@ msgid "Printer Setting"
 msgstr "Printer inställningar"
 
 # AI Translated
-msgid "Printer config bundle(.orca_printer)"
-msgstr "Skrivarkonfigurationspaket (.orca_printer)"
+msgid "Printer config bundle(.infinium_printer)"
+msgstr "Skrivarkonfigurationspaket (.infinium_printer)"
 
 # AI Translated
-msgid "Filament bundle(.orca_filament)"
-msgstr "Filamentpaket (.orca_filament)"
+msgid "Filament bundle(.infinium_filament)"
+msgstr "Filamentpaket (.infinium_filament)"
 
 msgid "Printer presets(.zip)"
 msgstr "Printer inställningar(.zip)"
@@ -24202,8 +24202,8 @@ msgstr ""
 "Visste du att när du skriver ut material som är benägna att vrida, såsom ABS, kan en lämplig ökning av värmebäddens temperatur minska sannolikheten för vridning?"
 
 # AI Translated
-#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart OrcaSlicer."
-#~ msgstr "Liveview i Wayland kräver GStreamers GTK-videosink. Installera insticksmodulen gtksink för GStreamer och starta sedan om OrcaSlicer."
+#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart Infinium."
+#~ msgstr "Liveview i Wayland kräver GStreamers GTK-videosink. Installera insticksmodulen gtksink för GStreamer och starta sedan om Infinium."
 
 # AI Translated
 #~ msgid "Failed to initialize the native Wayland GStreamer video sink. Please check your GStreamer GTK plugin installation."
@@ -24217,16 +24217,16 @@ msgstr ""
 #~ msgid "BambuSource has not correctly been registered for media playing! Press Yes to re-register it. You will be promoted twice"
 #~ msgstr "BambuSource har inte registrerats korrekt för mediauppspelning! Tryck på Ja för att registrera om den. Du får två frågor"
 
-#~ msgid "Missing BambuSource component registered for media playing! Please re-install OrcaSlicer or seek community help."
-#~ msgstr "Saknad BambuSource-komponent registrerad för mediauppspelning! Installera om OrcaSlicer eller sök hjälp i gemenskapen."
+#~ msgid "Missing BambuSource component registered for media playing! Please re-install Infinium or seek community help."
+#~ msgstr "Saknad BambuSource-komponent registrerad för mediauppspelning! Installera om Infinium eller sök hjälp i gemenskapen."
 
 # AI Translated
 #~ msgid "Using a BambuSource from a different install, video play may not work correctly! Press Yes to fix it."
 #~ msgstr "Du använder en BambuSource från en annan installation, videouppspelningen kanske inte fungerar korrekt! Tryck på Ja för att åtgärda det."
 
 # AI Translated
-#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Orca Slicer?)"
-#~ msgstr "Ditt system saknar H.264-kodekar för GStreamer, som krävs för att spela upp video. (Prova att installera paketen gstreamer1.0-plugins-bad eller gstreamer1.0-libav och starta sedan om Orca Slicer.)"
+#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Infinium?)"
+#~ msgstr "Ditt system saknar H.264-kodekar för GStreamer, som krävs för att spela upp video. (Prova att installera paketen gstreamer1.0-plugins-bad eller gstreamer1.0-libav och starta sedan om Infinium.)"
 
 # AI Translated
 #~ msgid "N"
@@ -24296,7 +24296,7 @@ msgstr ""
 #~ msgstr "Välj Filament && Hotends"
 
 # TODO: Review, changed by lang refactor. PR 14254
-#~ msgid "Click OK to update the Network plug-in the next time Orca Slicer launches."
+#~ msgid "Click OK to update the Network plug-in the next time Infinium launches."
 #~ msgstr "Klicka på OK för att uppdatera Nätverks plugin programmet nästa gång Bambu Studio startar."
 
 # TODO: Review, changed by lang refactor. PR 14254
@@ -24615,8 +24615,8 @@ msgstr ""
 #~ msgid "Object/Part Setting"
 #~ msgstr "Objekt/Del Inställningar"
 
-#~ msgid "OrcaSlicer is based on BambuStudio, PrusaSlicer, and SuperSlicer."
-#~ msgstr "OrcaSlicer is based on BambuStudio, PrusaSlicer, and SuperSlicer."
+#~ msgid "Infinium is based on BambuStudio, PrusaSlicer, and SuperSlicer."
+#~ msgstr "Infinium is based on BambuStudio, PrusaSlicer, and SuperSlicer."
 
 #~ msgid "BambuStudio is originally based on PrusaSlicer by PrusaResearch."
 #~ msgstr "BambuStudio is originally based on PrusaSlicer by PrusaResearch."
@@ -24645,14 +24645,14 @@ msgstr ""
 #~ msgid "Flow ratio test - Pass 2"
 #~ msgstr "Test av flödesförhållande - Godkänt 2"
 
-#~ msgid "Orca YOLO flowratio calibration, 0.01 step"
-#~ msgstr "Orca YOLO flowratio calibration, 0.01 step"
+#~ msgid "Infinium YOLO flowratio calibration, 0.01 step"
+#~ msgstr "Infinium YOLO flowratio calibration, 0.01 step"
 
 #~ msgid "YOLO (perfectionist version)"
 #~ msgstr "YOLO (perfectionist version)"
 
-#~ msgid "Orca YOLO flowratio calibration, 0.005 step"
-#~ msgstr "Orca YOLO flowratio calibration, 0.005 step"
+#~ msgid "Infinium YOLO flowratio calibration, 0.005 step"
+#~ msgstr "Infinium YOLO flowratio calibration, 0.005 step"
 
 #~ msgid "Retraction test"
 #~ msgstr "Retraction test"
@@ -24687,8 +24687,8 @@ msgstr ""
 #~ msgid "Right nozzle: %smm"
 #~ msgstr "Right nozzle: %smm"
 
-#~ msgid "\"Fix Model\" feature is currently only on Windows. Please repair the model on Orca Slicer(windows) or CAD softwares."
-#~ msgstr "\"Fix Model\" feature is currently only on Windows. Please repair the model on Orca Slicer(windows) or CAD softwares."
+#~ msgid "\"Fix Model\" feature is currently only on Windows. Please repair the model on Infinium(windows) or CAD softwares."
+#~ msgstr "\"Fix Model\" feature is currently only on Windows. Please repair the model on Infinium(windows) or CAD softwares."
 
 #~ msgid "This stops the transmission of data to Bambu's cloud services. Users who don't use BBL machines or use LAN mode only can safely turn on this function."
 #~ msgstr "This stops the transmission of data to Bambu's cloud services. Users who don't use BBL machines or use LAN mode only can safely turn on this function."
@@ -25453,8 +25453,8 @@ msgstr ""
 #~ msgid "LAN Connection Failed (Sending print file)"
 #~ msgstr "LAN-anslutning misslyckades (skickar utskriftsfil)"
 
-#~ msgid "Step 1, please confirm Orca Slicer and your printer are in the same LAN."
-#~ msgstr "Steg 1: Bekräfta att Orca Slicer och din skrivare finns på samma LAN."
+#~ msgid "Step 1, please confirm Infinium and your printer are in the same LAN."
+#~ msgstr "Steg 1: Bekräfta att Infinium och din skrivare finns på samma LAN."
 
 #~ msgid "Step 2, if the IP and Access Code below are different from the actual values on your printer, please correct them."
 #~ msgstr "Steg 2, om IP- och åtkomst koden nedan skiljer sig från de faktiska värdena på skrivaren, korrigera dem."

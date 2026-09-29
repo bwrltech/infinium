@@ -245,7 +245,7 @@ wxWindow* ui_parent()
 }
 
 // --------------------------------------------------------------------------
-// orca.host.ui.message
+// infinium.host.ui.message
 // --------------------------------------------------------------------------
 long message_style(const std::string& buttons, const std::string& icon)
 {
@@ -293,7 +293,7 @@ constexpr long WINDOW_MODELESS  = 0L;
 constexpr long WINDOW_MODAL     = 1L << 0;
 constexpr long PLUGIN_WX_STYLE = wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxMAXIMIZE_BOX | wxRESIZE_BORDER;
 
-// orca.host.ui.create_window + UiWindow handle
+// infinium.host.ui.create_window + UiWindow handle
 // --------------------------------------------------------------------------
 struct UiWindowHandle
 {

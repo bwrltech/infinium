@@ -108,7 +108,7 @@ const std::string GCodeProcessor::Flush_End_Tag = " FLUSH_END";
 const std::string GCodeProcessor::VFlush_Start_Tag = " VFLUSH_START";
 const std::string GCodeProcessor::VFlush_End_Tag  = " VFLUSH_END";
 
-//Orca: External device purge tag
+//Infinium: External device purge tag
 const std::string GCodeProcessor::External_Purge_Tag = " EXTERNAL_PURGE";
 
 // SKIPPABLE region tags. SKIPTYPE carries a trailing "<type>" payload so it is matched with
@@ -437,7 +437,7 @@ void GCodeProcessor::TimeMachine::calculate_time(GCodeProcessorResult& result, P
 {
     if (!enabled)
         return;
-    // Orca: on the finalization pass, drain extra time that is still buffered (e.g. a
+    // Infinium: on the finalization pass, drain extra time that is still buffered (e.g. a
     // trailing filament change) even with fewer than two blocks queued -- no later pass
     // exists to attribute it on. Every other pass keeps the original >= 2 requirement,
     // and an empty buffer keeps today's early-return unchanged (no behavior change).
@@ -486,7 +486,7 @@ void GCodeProcessor::TimeMachine::calculate_time(GCodeProcessorResult& result, P
         }
 
         time += double(block_time);
-        // Orca: accumulate per-SkipType time spent inside SKIPPABLE regions, folded into this single
+        // Infinium: accumulate per-SkipType time spent inside SKIPPABLE regions, folded into this single
         // calculate_time write site. Fires fleet-wide (the shipping time_lapse_gcode template stamps
         // blocks stTimelapse), but writes only skippable_part_time, which has no g-code-emitting
         // reader until the pre-heat injector consumes it, so output is byte-identical.
@@ -525,12 +525,12 @@ void GCodeProcessor::TimeMachine::calculate_time(GCodeProcessorResult& result, P
                 if ((position - prev_move.position).norm() > EPSILON &&
                     (position - curr_move.position).norm() > EPSILON) {
                     const float delta_extruder = interpolate ? lerp(prev_move.delta_extruder, curr_move.delta_extruder, t) : curr_move.delta_extruder;
-                    const float feedrate = curr_move.feedrate; //  ORCA: set feedrate to the gcode feed rate to prevent visualiser from
+                    const float feedrate = curr_move.feedrate; //  INFINIUM: set feedrate to the gcode feed rate to prevent visualiser from
                                                                 // displaying erroneous speed transition when actual speed/actual flow views are NOT selected.
                                                                 // interpolate ? lerp(prev_move.feedrate, curr_move.feedrate, t) : curr_move.feedrate;
                     const float width = interpolate ? lerp(prev_move.width, curr_move.width, t) : curr_move.width;
                     const float height = interpolate ? lerp(prev_move.height, curr_move.height, t) : curr_move.height;
-                    // ORCA: Fix issue with flow rate changes being visualized incorrectly
+                    // INFINIUM: Fix issue with flow rate changes being visualized incorrectly
                     const float mm3_per_mm = curr_move.mm3_per_mm;
                     const float fan_speed = curr_move.fan_speed;
                     const float temperature = interpolate ? lerp(prev_move.temperature, curr_move.temperature, t) : curr_move.temperature;
@@ -556,12 +556,12 @@ void GCodeProcessor::TimeMachine::calculate_time(GCodeProcessorResult& result, P
                 if ((position - prev_move.position).norm() > EPSILON &&
                     (position - curr_move.position).norm() > EPSILON) {
                     const float delta_extruder = interpolate ? lerp(prev_move.delta_extruder, curr_move.delta_extruder, t) : curr_move.delta_extruder;
-                    const float feedrate = curr_move.feedrate; //  ORCA: set feedrate to the gcode feed rate to prevent visualiser from
+                    const float feedrate = curr_move.feedrate; //  INFINIUM: set feedrate to the gcode feed rate to prevent visualiser from
                                                                 // displaying erroneous speed transition when actual speed/actual flow views are NOT selected.
                                                                 // interpolate ? lerp(prev_move.feedrate, curr_move.feedrate, t) : curr_move.feedrate;
                     const float width = interpolate ? lerp(prev_move.width, curr_move.width, t) : curr_move.width;
                     const float height = interpolate ? lerp(prev_move.height, curr_move.height, t) : curr_move.height;
-                    // ORCA: Fix issue with flow rate changes being visualized incorrectly
+                    // INFINIUM: Fix issue with flow rate changes being visualized incorrectly
                     const float mm3_per_mm = curr_move.mm3_per_mm;
                     const float fan_speed = curr_move.fan_speed;
                     const float temperature = interpolate ? lerp(prev_move.temperature, curr_move.temperature, t) : curr_move.temperature;
@@ -607,7 +607,7 @@ void GCodeProcessor::TimeMachine::calculate_time(GCodeProcessorResult& result, P
     m_additional_time_buffer.clear();
     if (additional_buffer_idx < additional_buffer.size()) {
         if (is_final) {
-            // Orca EOF hardening: no later pass remains to attribute this remainder,
+            // Infinium EOF hardening: no later pass remains to attribute this remainder,
             // so add it to the machine total (and the custom-gcode cache) instead of
             // dropping it. Deliberately NOT attributed to any move vertex, so a stray
             // filament-change delay can never leak into an extrusion role's time.
@@ -860,7 +860,7 @@ public:
                       std::function<std::string(unsigned int, const std::vector<float>&)> line_inserter,
                       std::function<std::string(const std::string&)>                      line_replacer)
     {
-        // Orca: find start pos by seaching G28/G29/PRINT_START/START_PRINT commands
+        // Infinium: find start pos by seaching G28/G29/PRINT_START/START_PRINT commands
         auto is_start_pos = [](const std::string& curr_cmd) {
             return boost::iequals(curr_cmd, "G28") || boost::iequals(curr_cmd, "G29") || boost::iequals(curr_cmd, "PRINT_START") ||
                    boost::iequals(curr_cmd, "START_PRINT");
@@ -1150,7 +1150,7 @@ void GCodeProcessor::run_post_process()
                     if (mode == PrintEstimatedStatistics::ETimeMode::Normal || machine.enabled) {
                         char buf[128];
                         if (!s_IsBBLPrinter)
-                            // Orca: compatibility with klipper_estimator
+                            // Infinium: compatibility with klipper_estimator
                             sprintf(buf, "; estimated printing time (%s mode) = %s\n",
                                     (mode == PrintEstimatedStatistics::ETimeMode::Normal) ? "normal" : "silent",
                                     get_time_dhms(machine.time).c_str());
@@ -1174,7 +1174,7 @@ void GCodeProcessor::run_post_process()
                     }
                 }
             }
-            // Orca: write total layer number, this is used by Bambu printers only as of now
+            // Infinium: write total layer number, this is used by Bambu printers only as of now
             else if (line == reserved_tag(ETags::Total_Layer_Number_Placeholder)) {
                 char buf[128];
                 sprintf(buf, "; total layer number: %u\n", m_layer_id);
@@ -1340,7 +1340,7 @@ void GCodeProcessor::run_post_process()
         }
     };
 
-    // Orca: track the current layer during the post-processing pass so that preheat M104s emitted
+    // Infinium: track the current layer during the post-processing pass so that preheat M104s emitted
     // for tool changes on the first layer use the correct first-layer temperature. The member
     // m_layer_id is populated during the analysis pass and ends at the total layer count, so it
     // cannot be used here — it would always select the "other layers" temperature for multi-layer
@@ -1367,7 +1367,7 @@ void GCodeProcessor::run_post_process()
                     warning += gcode_line;
                     warning += "Generated M104 lines may be incorrect.";
                     BOOST_LOG_TRIVIAL(error) << warning;
-                    // Orca todo
+                    // Infinium todo
                     if (m_print != nullptr)
                         m_print->active_step_add_warning(PrintStateBase::WarningLevel::CRITICAL, warning);
                 }
@@ -1375,14 +1375,14 @@ void GCodeProcessor::run_post_process()
                     backtrace, cmd,
                     // line inserter
                     [tool_number, this, &current_layer_id](unsigned int id, const std::vector<float>& time_diffs) {
-                        // Orca: use the locally-tracked layer index (current_layer_id) rather than
+                        // Infinium: use the locally-tracked layer index (current_layer_id) rather than
                         // the stale m_layer_id from the analysis pass. current_layer_id == 0 means
                         // we haven't reached the first ;LAYER_CHANGE marker yet (e.g. tool change
                         // inside start gcode); == 1 means we are inside the first printed layer.
                         // Both cases should use the first-layer nozzle temperature.
                         const int temperature = int(current_layer_id > 1 ? m_filament_nozzle_temp[tool_number] :
                                                                          m_filament_nozzle_temp_first_layer[tool_number]);
-                        // Orca: M104.1 for XL printers, I can't find the documentation for this so I copied the C++ comments from
+                        // Infinium: M104.1 for XL printers, I can't find the documentation for this so I copied the C++ comments from
                         // Prusa-Firmware-Buddy here
                         /**
                         * M104.1: Early Set Hotend Temperature (preheat, and with stealth mode support)
@@ -1433,7 +1433,7 @@ void GCodeProcessor::run_post_process()
     m_result.lines_ends.clear();
     // m_result.lines_ends.emplace_back(std::vector<size_t>());
 
-    // Orca: freshly collect SKIPPABLE ranges each post-process pass. The ranges are stored on the
+    // Infinium: freshly collect SKIPPABLE ranges each post-process pass. The ranges are stored on the
     // member (rather than a local) so the injection pass can consume them, hence the clear here to
     // avoid stale ranges on re-invocation.
     m_skippable_blocks.clear();
@@ -1480,7 +1480,7 @@ void GCodeProcessor::run_post_process()
             nozzle_id = layered_ngr->get_nozzle_id(filament_id, current_layer_id);
         int extruder_id = 0;
         if (layered_ngr) {
-            // Orca: nil-guard the optional nozzle lookup.
+            // Infinium: nil-guard the optional nozzle lookup.
             if (auto nozzle_info = layered_ngr->get_nozzle_from_id(nozzle_id))
                 extruder_id = nozzle_info->extruder_id;
         }
@@ -1635,7 +1635,7 @@ void GCodeProcessor::run_post_process()
                 if (eol) {
                     ++line_id;
                     const unsigned int internal_g1_lines_counter = export_line.update(gcode_line, line_id, g1_lines_counter);
-                    // Orca: track the current layer for preheat temperature selection.
+                    // Infinium: track the current layer for preheat temperature selection.
                     // The line is ";" + reserved_tag(Layer_Change) + EOL; match it independent of
                     // BBL vs. compatible flavor (which differ in the tag text).
                     if (gcode_line.size() > 1 && gcode_line.front() == ';') {
@@ -1811,13 +1811,13 @@ void GCodeProcessor::run_second_pass_injection()
             }
         }
         // Reach the concrete layer-aware grouping (get_nozzle_from_id / is_support_dynamic_nozzle_map
-        // are not on the base interface). Orca: nil-guard it — on a slicing path that never populated
+        // are not on the base interface). Infinium: nil-guard it — on a slicing path that never populated
         // the grouping, skip injection → empty map → identity rewrite. The shared_ptr local keeps the
         // object alive for the injector's const ref.
         auto layered_ngr = std::dynamic_pointer_cast<MultiNozzleUtils::LayeredNozzleGroupResult>(m_result.nozzle_group_result);
         if (layered_ngr) {
             constexpr float inject_time_threshold = 0.f; // threshold hardcoded to 0
-            // Orca: nozzle temps are stored as float (ExtruderTemps) but the injector signature takes
+            // Infinium: nozzle temps are stored as float (ExtruderTemps) but the injector signature takes
             // std::vector<int>, so convert to int locals that outlive the injector (they are
             // int-valued floats — see apply_config).
             std::vector<int> filament_nozzle_temps(m_filament_nozzle_temp.begin(), m_filament_nozzle_temp.end());
@@ -1826,7 +1826,7 @@ void GCodeProcessor::run_second_pass_injection()
             // pass the same inert default (the config is registered but unwired).
             const std::vector<double> filament_max_temperature_drop_when_ec{ 0.f };
 
-            // Orca: MoveVertex.time[mode] stores the per-move DURATION (calculate_time: `= block_time`),
+            // Infinium: MoveVertex.time[mode] stores the per-move DURATION (calculate_time: `= block_time`),
             // but the injector's algorithm reads move.time[] as CUMULATIVE print time (idle-window gap =
             // upper.time - prev(lower).time; heating_start back-solve = upper.time - delta/rate). Build a
             // cumulative view of the active mode IN PLACE (prefix-sum in gcode-id/move order — moves are
@@ -1906,7 +1906,7 @@ void GCodeProcessor::run_second_pass_injection()
         str.clear();
     };
 
-    // Orca: read/split lines with EOL-preserving semantics (keep the original \r and \n bytes, and
+    // Infinium: read/split lines with EOL-preserving semantics (keep the original \r and \n bytes, and
     // synthesize no trailing newline). This is required for the empty-map identity: normalizing every
     // line ending to "\n" would not be byte-identical if the finished file used \r\n or lacked a
     // final newline.
@@ -2706,7 +2706,7 @@ void GCodeProcessor::register_commands()
         {"M702", [this](const GCodeReader::GCodeLine& line) { process_M702(line); }}, // Unload the current filament into the MK3 MMU2 unit at the end of print.
         {"M1020", [this](const GCodeReader::GCodeLine& line) { process_M1020(line); }}, // Select Tool
 
-// ORCA: Add Pressure Advance visualization support
+// INFINIUM: Add Pressure Advance visualization support
         {"M900", [this](const GCodeReader::GCodeLine& line) { process_M900(line); }}, // Marlin: Set pressure advance
         {"M572", [this](const GCodeReader::GCodeLine& line) { process_M572(line); }}, // RepRapFirmware/Duet: Set pressure advance
 
@@ -2920,7 +2920,7 @@ void GCodeProcessor::apply_config(const PrintConfig& config)
     size_t filament_count = config.filament_diameter.values.size();
     m_result.filaments_count = filament_count;
 
-    // Orca:
+    // Infinium:
     m_is_XL_printer = is_XL_printer(config);
     m_preheat_time = config.preheat_time;
     m_preheat_steps = config.preheat_steps;
@@ -2981,7 +2981,7 @@ void GCodeProcessor::apply_config(const PrintConfig& config)
     for (size_t i = 0; i < filament_count; ++ i) {
         m_extruder_offsets[i] = to_3d(config.extruder_offset.get_at(filament_map[i] - 1).cast<float>().eval(), 0.f);
         m_extruder_colors[i]            = static_cast<unsigned char>(i);
-        // Orca: pre-heat bookkeeping reads the filament's first per-variant column by design;
+        // Infinium: pre-heat bookkeeping reads the filament's first per-variant column by design;
         // it feeds estimation-side heat-up modelling only, never the emitted commands.
         m_filament_nozzle_temp_first_layer[i] = static_cast<int>(config.nozzle_temperature_initial_layer.get_at(i));
         m_filament_nozzle_temp[i]      = static_cast<int>(config.nozzle_temperature.get_at(i));
@@ -3638,7 +3638,7 @@ void GCodeProcessor::process_file(const std::string& filename, std::function<voi
             // Get the correct printer vendor based on the `printer_model` field
             auto printer_model_opt = config.opt<ConfigOptionString>("printer_model");
             if (printer_model_opt && !printer_model_opt->value.empty()) {
-                // TODO: Orca hack, proper vendor check?
+                // TODO: Infinium hack, proper vendor check?
                 GCodeProcessor::s_IsBBLPrinter = boost::starts_with(printer_model_opt->value, "Bambu Lab");
             }
 
@@ -3704,7 +3704,7 @@ void GCodeProcessor::finalize(bool post_process)
         }
     }
 
-    // Orca: final pass -- also drains any filament-change delay still buffered because
+    // Infinium: final pass -- also drains any filament-change delay still buffered because
     // calculate_time early-returns with fewer than two queued blocks (see calculate_time).
     calculate_time(m_result, 0, 0.0f, EMoveType::Noop, /*is_final=*/true);
 
@@ -3911,7 +3911,7 @@ void GCodeProcessor::process_gcode_line(const GCodeReader::GCodeLine& line, bool
             process_SET_VELOCITY_LIMIT(line);
             return;
         }
-// ORCA: Add Pressure Advance visualization support
+// INFINIUM: Add Pressure Advance visualization support
         if (boost::iequals(cmd, "SET_PRESSURE_ADVANCE"))
         {
             process_SET_PRESSURE_ADVANCE(line);
@@ -4235,7 +4235,7 @@ void GCodeProcessor::process_tags(const std::string_view comment, bool producers
         return;
     }
 
-    // Orca: Integrate filament consumption for purging performed to an external device and controlled via macros
+    // Infinium: Integrate filament consumption for purging performed to an external device and controlled via macros
     // (eg. Happy Hare) in the filament consumption stats.
     if (boost::starts_with(comment, GCodeProcessor::External_Purge_Tag)) {
         static const std::regex numberRegex(R"(\d+\.\d+)");
@@ -4267,7 +4267,7 @@ void GCodeProcessor::process_tags(const std::string_view comment, bool producers
                 BOOST_LOG_TRIVIAL(error) << "GCodeProcessor encountered an invalid value for Width (" << comment << ").";
             return;
         }
-        // Orca: manual tool change tag
+        // Infinium: manual tool change tag
         if (m_manual_filament_change && boost::starts_with(comment, reserved_tag(ETags::Manual_Tool_Change))) {
             std::string_view tool_change_cmd = comment.substr(reserved_tag(ETags::Manual_Tool_Change).length());
             if (boost::starts_with(tool_change_cmd, "T")) {
@@ -5130,7 +5130,7 @@ void GCodeProcessor::process_G1(const std::array<std::optional<double>, 4>& axes
         static const float PREVIOUS_FEEDRATE_THRESHOLD = 0.0001f;
         const bool has_prev_move = !blocks.empty() && prev.feedrate > PREVIOUS_FEEDRATE_THRESHOLD;
 
-        // Orca: junction deviation where the firmware uses it (Klipper always, Marlin 2 with M205 J).
+        // Infinium: junction deviation where the firmware uses it (Klipper always, Marlin 2 with M205 J).
         // Negative leaves the classic jerk path below unchanged.
         const float vmax_junction_jd = calc_vmax_junction_deviation(block, prev, curr, has_prev_move,
                                                                     static_cast<PrintEstimatedStatistics::ETimeMode>(i));
@@ -5506,7 +5506,7 @@ void GCodeProcessor::process_VG1(const GCodeReader::GCodeLine& line)
         static const float PREVIOUS_FEEDRATE_THRESHOLD = 0.0001f;
         const bool has_prev_move = !blocks.empty() && prev.feedrate > PREVIOUS_FEEDRATE_THRESHOLD;
 
-        // Orca: junction deviation where the firmware uses it (Klipper always, Marlin 2 with M205 J).
+        // Infinium: junction deviation where the firmware uses it (Klipper always, Marlin 2 with M205 J).
         // Negative leaves the classic jerk path below unchanged.
         const float vmax_junction_jd = calc_vmax_junction_deviation(block, prev, curr, has_prev_move,
                                                                     static_cast<PrintEstimatedStatistics::ETimeMode>(i));
@@ -5959,7 +5959,7 @@ void GCodeProcessor::process_G10(const GCodeReader::GCodeLine& line)
     GCodeReader::GCodeLine g10;
     g10.set(Axis::E, -this->m_parser.config().retraction_length.get_at(m_extruder_id));
     g10.set(Axis::F,  this->m_parser.config().retraction_speed.get_at(m_extruder_id) * 60);
-    //Orca: Firmware retract emulation must not change the modal G1 feedrate.
+    //Infinium: Firmware retract emulation must not change the modal G1 feedrate.
     const float feedrate = m_feedrate;
     --m_g1_line_id;
     process_G1(g10);
@@ -5972,7 +5972,7 @@ void GCodeProcessor::process_G11(const GCodeReader::GCodeLine& line)
     GCodeReader::GCodeLine g11;
     g11.set(Axis::E, this->m_parser.config().retraction_length.get_at(m_extruder_id) + this->m_parser.config().retract_restart_extra.get_at(m_extruder_id));
     g11.set(Axis::F, this->m_parser.config().deretraction_speed.get_at(m_extruder_id) * 60);
-    // Orca: Firmware unretract emulation must not change the modal G1 feedrate.
+    // Infinium: Firmware unretract emulation must not change the modal G1 feedrate.
     const float feedrate = m_feedrate;
     --m_g1_line_id;
     process_G1(g11);
@@ -6117,7 +6117,7 @@ void GCodeProcessor::process_M106(const GCodeReader::GCodeLine& line)
     }
 }
 
-// ORCA: Add Pressure Advance visualization support
+// INFINIUM: Add Pressure Advance visualization support
 void GCodeProcessor::process_M900(const GCodeReader::GCodeLine &line)
 {
     float pa_value = m_pressure_advance;
@@ -6252,7 +6252,7 @@ void GCodeProcessor::process_M201(const GCodeReader::GCodeLine& line)
     float factor = ((m_flavor != gcfRepRapSprinter && m_flavor != gcfRepRapFirmware) && m_units == EUnits::Inches) ? INCHES_TO_MM : 1.0f;
 
     // The arrays are slot-major ([slot*2 + mode]); a firmware M201 changes the machine's live
-    // limits globally, so write the value into EVERY slot's mode entry. Orca: covering every slot
+    // limits globally, so write the value into EVERY slot's mode entry. Infinium: covering every slot
     // (not a partial range) keeps the per-slot reads in lockstep with the mode-only reads they
     // replaced. Per-mode gating unchanged: Stealth entries only once envelope processing is on.
     auto set_all_slots = [](ConfigOptionFloats &option, size_t mode, float value) {
@@ -6605,7 +6605,7 @@ void GCodeProcessor::process_T(const std::string_view command, int nozzle_id)
     if (command.length() > 1) {
         if (eid < 0 || eid > 254) {
             //BBS: T255, T1000 and T1100 is used as special command for BBL machine and does not cost time. return directly
-            // Orca: T1001 (hotend-type detection) and T65535/T65279 (AMS unload virtual-tool selects, paired with
+            // Infinium: T1001 (hotend-type detection) and T65535/T65279 (AMS unload virtual-tool selects, paired with
             // M620/M621 S65535/S65279) are firmware opcodes emitted verbatim by BBL machine start/end g-code, not
             // real tool changes - whitelist them so the time estimator stops flagging these valid lines.
             if ((m_flavor == gcfMarlinLegacy || m_flavor == gcfMarlinFirmware) && (command == "Tx" || command == "Tc" || command == "T?" ||
@@ -6731,7 +6731,7 @@ bool GCodeProcessor::use_multi_nozzle_change_time_model() const
 // Estimator-gated: for the single-nozzle fleet it delegates to the single-arg model, so their time
 // estimate — hence exported g-code — is unchanged.
 //
-// Orca:
+// Infinium:
 //  - The nozzle-grouping result is stored on m_result. Both resolver methods are virtual on
 //    NozzleGroupResultBase, so no down-cast is needed.
 //  - The flush delay is attributed via a Tool_change move-type block with no extrusion role (mirroring
@@ -6759,7 +6759,7 @@ void GCodeProcessor::process_filament_change(int id, int nozzle_id)
     // Gate: outside the multi-nozzle context, or when the nozzle-grouping result is not available
     // (e.g. re-importing a bare g-code file), run the existing single-arg model byte-for-byte.
     if (!use_multi_nozzle_change_time_model() || !m_result.nozzle_group_result) {
-        // Orca: occupancy bookkeeping is deliberately decoupled from the gated change-time model:
+        // Infinium: occupancy bookkeeping is deliberately decoupled from the gated change-time model:
         // the per-slot machine-limit resolution needs the recorder during the streaming pass,
         // where the richer time model stays byte-frozen behind the result-field gate above.
         // Recorder writes have no time effect.
@@ -6800,8 +6800,8 @@ void GCodeProcessor::process_filament_change(int id, int nozzle_id)
     const bool nozzle_in_extruder_change = new_nozzle_id_in_extruder != old_nozzle_id_in_extruder;
     const bool filament_in_nozzle_change = new_filament_id != old_filament_in_nozzle;
 
-    // Orca: attribute the accumulated volume usage to the OLD extruder before switching state. Unlike
-    // an unconditional call, the single-arg model (and every other Orca estimator path) skips this on
+    // Infinium: attribute the accumulated volume usage to the OLD extruder before switching state. Unlike
+    // an unconditional call, the single-arg model (and every other Infinium estimator path) skips this on
     // the very first tool-select (prev_extruder_id == -1) where there is no prior filament segment to
     // close out. Matching that keeps H2C's initial `T<fil> H<n>` byte-identical to its single-arg
     // baseline; every subsequent change closes out identically.
@@ -6812,19 +6812,19 @@ void GCodeProcessor::process_filament_change(int id, int nozzle_id)
     if (extruder_change && old_extruder_id != -1) {
         const float t = get_extruder_change_time(new_extruder_id);
         extra_time += t;
-        m_result.print_statistics.total_tool_change_time += t;   // Orca-only stat
-        m_result.print_statistics.total_extruder_changes += 1;   // Orca-only stat
+        m_result.print_statistics.total_tool_change_time += t;   // Infinium-only stat
+        m_result.print_statistics.total_extruder_changes += 1;   // Infinium-only stat
     }
     if (nozzle_in_extruder_change || filament_in_nozzle_change) {
         if (old_filament_in_extruder >= 0) {
             const float t = get_filament_unload_time(static_cast<size_t>(old_filament_in_extruder));
             extra_time += t;
-            m_result.print_statistics.total_filament_unload_time += t; // Orca-only stat
+            m_result.print_statistics.total_filament_unload_time += t; // Infinium-only stat
         }
         m_time_processor.extruder_unloaded = false;
         const float t = get_filament_load_time(static_cast<size_t>(new_filament_id));
         extra_time += t;
-        m_result.print_statistics.total_filament_load_time += t;       // Orca-only stat
+        m_result.print_statistics.total_filament_load_time += t;       // Infinium-only stat
         if (filament_in_nozzle_change && old_filament_in_nozzle != -1)
             m_result.print_statistics.total_flush_filament_changes += 1;
     }
@@ -7050,11 +7050,11 @@ void GCodeProcessor::store_move_vertex(EMoveType type, EMovePathType path_type, 
         m_travel_dist,
         m_fan_speed,
         m_extruder_temps[filament_id],
-// ORCA: Add Pressure Advance visualization support
+// INFINIUM: Add Pressure Advance visualization support
         m_pressure_advance,
-        // ORCA: Add Acceleration visualization support
+        // INFINIUM: Add Acceleration visualization support
         move_acceleration,
-        // ORCA: Add Jerk visualization support
+        // INFINIUM: Add Jerk visualization support
         move_jerk,
         { 0.0f, 0.0f }, // time
         static_cast<float>(m_layer_id), //layer_duration: set later
@@ -7127,7 +7127,7 @@ int GCodeProcessor::get_machine_config_idx() const
         return 0;
     const int nozzle_id = m_nozzle_status_recorder.get_nozzle_in_extruder(extruder_id);
     auto nozzle_info = m_nozzle_group_result->get_nozzle_from_id(nozzle_id);
-    // Orca: bounds guard — a stale grouping context after a printer swap must not index OOB.
+    // Infinium: bounds guard — a stale grouping context after a printer swap must not index OOB.
     if (!nozzle_info || extruder_id >= (int) m_result.extruder_types.size())
         return 0;
     return std::max(0, get_config_index_base(nozzle_info->volume_type, m_result.extruder_types[extruder_id],

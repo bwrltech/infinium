@@ -47,7 +47,7 @@
 #include "DeviceCore/DevManager.h"
 #include "DeviceCore/DevUtil.h"
 
-// Orca: adopt DeviceCore split — axis/calib/chamber/status/upgrade modules
+// Infinium: adopt DeviceCore split — axis/calib/chamber/status/upgrade modules
 #include "DeviceCore/DevAxis.h"
 #include "DeviceCore/DevChamber.h"
 #include "DeviceCore/DevStatus.h"
@@ -625,7 +625,7 @@ MachineObject::MachineObject(DeviceManager* manager, NetworkAgent* agent, std::s
 
         m_nozzle_mapping_ptr = std::make_shared<DevNozzleMappingCtrl>(this);
 
-        // Orca: adopt DeviceCore split — axis/calib/chamber/status/upgrade modules
+        // Infinium: adopt DeviceCore split — axis/calib/chamber/status/upgrade modules
         m_axis    = DevAxis::Create(this);
         m_chamber = DevChamber::Create(this);
         m_upgrade = DevUpgrade::Create(this);
@@ -684,7 +684,7 @@ MachineObject::~MachineObject()
         delete m_print_options;
         m_print_options = nullptr;
 
-        // Orca: adopt DeviceCore split
+        // Infinium: adopt DeviceCore split
         delete m_calib;
         m_calib = nullptr;
 
@@ -1680,7 +1680,7 @@ int MachineObject::command_ams_change_filament(bool load, std::string ams_id, st
         if (atoi(ams_id.c_str()) < 16) {
             tray_id = atoi(ams_id.c_str()) * 4 + atoi(slot_id.c_str());
         }
-        // TODO: Orca hack
+        // TODO: Infinium hack
         if (ams_id == "254")
             ams_id = "255";
 
@@ -3100,7 +3100,7 @@ int MachineObject::parse_json(std::string tunnel, std::string payload, bool key_
 
                 //supported function
                 m_config->ParseConfig(jj);
-                m_status->ParseStatus(jj); // Orca: adopt DeviceCore split — populate DevStatus module
+                m_status->ParseStatus(jj); // Infinium: adopt DeviceCore split — populate DevStatus module
 
                 if (jj.contains("support_build_plate_marker_detect")) {
                     if (jj["support_build_plate_marker_detect"].is_boolean()) {
@@ -3328,7 +3328,7 @@ int MachineObject::parse_json(std::string tunnel, std::string payload, bool key_
                         if (jj["print_error"].is_number())
                             print_error = jj["print_error"].get<int>();
                     }
-                    // Orca: keep the failure-snapshot id only while an error is active, so a stale
+                    // Infinium: keep the failure-snapshot id only while an error is active, so a stale
                     // id can't leak into a later unrelated error dialog once the failure clears.
                     if (print_error <= 0) {
                         m_print_error_img_id.clear();
@@ -3528,7 +3528,7 @@ int MachineObject::parse_json(std::string tunnel, std::string payload, bool key_
                     if (!key_field_only) {
                         /* temperature */
 
-                        // Orca: adopt DeviceCore split — populate DevAxis/DevChamber modules
+                        // Infinium: adopt DeviceCore split — populate DevAxis/DevChamber modules
                         // alongside the inline handling (side-effect-free; inline stays authoritative).
                         // Contained locally so a malformed field cannot abort the whole status parse.
                         try {
@@ -4632,7 +4632,7 @@ int MachineObject::parse_json(std::string tunnel, std::string payload, bool key_
 void MachineObject::set_ctt_dlg( wxString text){
     if (!m_set_ctt_dlg) {
         m_set_ctt_dlg = true;
-        auto print_error_dlg = new GUI::SecondaryCheckDialog(nullptr, wxID_ANY, _L("Warning"), GUI::SecondaryCheckDialog::VisibleButtons::ONLY_CONFIRM); // ORCA VisibleButtons instead ButtonStyle 
+        auto print_error_dlg = new GUI::SecondaryCheckDialog(nullptr, wxID_ANY, _L("Warning"), GUI::SecondaryCheckDialog::VisibleButtons::ONLY_CONFIRM); // INFINIUM VisibleButtons instead ButtonStyle 
         print_error_dlg->update_text(text);
         print_error_dlg->Bind(wxEVT_SHOW, [this](auto& e) {
             if (!e.IsShown()) {
@@ -5865,7 +5865,7 @@ wxString MachineObject::get_nozzle_replace_url() const
         return link_map["en"].get<wxString>();
     }/*retry with en*/
 
-    // Orca: no neutral wiki equivalent for this fallback — return empty so the caller hides the link
+    // Infinium: no neutral wiki equivalent for this fallback — return empty so the caller hides the link
     // (PrinterPartsDialog::OnWikiClicked reports "No wiki link available" instead of opening a browser)
     return wxEmptyString;
 }

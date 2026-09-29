@@ -438,7 +438,7 @@ void ToolOrdering::sort_and_build_data(const Print& print, unsigned int first_ex
     this->fill_wipe_tower_partitions(print.config(), object_bottom_z, max_layer_height);
     if (this->insert_wipe_tower_extruder()) {
         reorder_extruders_for_minimum_flush_volume(reorder_first_layer);
-        // Orca reorders a second time here (BBS has no such path); re-enforce so the
+        // Infinium reorders a second time here (BBS has no such path); re-enforce so the
         // mixed sub-layer component order survives the extra pass.
         this->enforce_mixed_component_order();
         this->fill_wipe_tower_partitions(print.config(), object_bottom_z, max_layer_height);
@@ -462,7 +462,7 @@ void ToolOrdering::sort_and_build_data(const PrintObject& object , unsigned int 
     this->fill_wipe_tower_partitions(object.print()->config(), object.layers().front()->print_z - object.layers().front()->height, max_layer_height);
     if (this->insert_wipe_tower_extruder()) {
         reorder_extruders_for_minimum_flush_volume(reorder_first_layer);
-        // Orca reorders a second time here (BBS has no such path); re-enforce so the
+        // Infinium reorders a second time here (BBS has no such path); re-enforce so the
         // mixed sub-layer component order survives the extra pass.
         this->enforce_mixed_component_order();
         this->fill_wipe_tower_partitions(object.print()->config(), object.layers().front()->print_z - object.layers().front()->height, max_layer_height);
@@ -898,7 +898,7 @@ void ToolOrdering::collect_extruders(const PrintObject &object, const std::vecto
                 if (! vol_id.valid())
                     continue;
                 const PrintRegionConfig &rcfg = region.config();
-                // Orca splits BBS's three role slots into five; cover them all so a mixed
+                // Infinium splits BBS's three role slots into five; cover them all so a mixed
                 // slot used by any role is tracked.
                 const unsigned int role_slots[5] = {
                     static_cast<unsigned int>(rcfg.outer_wall_filament_id.value),
@@ -1410,7 +1410,7 @@ static std::vector<FlushMatrix> prepare_flush_matrices(const PrintConfig& print_
 }
 
 // Per-extruder physical nozzle groups.
-// Orca: bounds-guards the nozzle_volume_type / extruder_max_nozzle_count arrays, which may be
+// Infinium: bounds-guards the nozzle_volume_type / extruder_max_nozzle_count arrays, which may be
 // shorter than the extruder count on some profiles.
 static std::vector<MultiNozzleUtils::NozzleGroupInfo> build_nozzle_groups(const PrintConfig& print_config, size_t extruder_nums)
 {
@@ -1436,10 +1436,10 @@ static std::vector<MultiNozzleUtils::NozzleGroupInfo> build_nozzle_groups(const 
 }
 
 // Build the nozzle-centric FilamentGroupContext.
-// Orca deviations, all inert for the shipping fleet:
+// Infinium deviations, all inert for the shipping fleet:
 //   * no print->get_filament_usage_type() → FilamentInfo::usage_type stays ModelOnly (the default);
 //   * no print->get_filament_print_time() → speed_info.filament_print_time empty (TimeEvaluator → 0);
-//   * the fmmAutoForQuality and Bowden-PA-calibration limit blocks are omitted (Orca has no
+//   * the fmmAutoForQuality and Bowden-PA-calibration limit blocks are omitted (Infinium has no
 //     fmmAutoForQuality mode and no Calib_Params::has_bowden_extruder).
 // prefer_non_model_filament (Bowden extruders) is all-false for the Direct-Drive BBL fleet, so the
 // support-preference reward path stays dormant.
@@ -1536,7 +1536,7 @@ static FilamentGroupContext build_filament_group_context(
     context.group_info.has_filament_switcher = has_filament_switcher;
 
     // hybrid flow means no special per-filament nozzle-volume request.
-    // Orca: honour the config's per-filament volume map only when it is sized to the filament
+    // Infinium: honour the config's per-filament volume map only when it is sized to the filament
     // count. The full-config producers (PresetBundle injection, engine write-back) always size
     // it; a mis-sized map (stale project value, CLI runs until the per-filament synthesis lands
     // there) must not displace the hybrid fallback rebuild_nozzle_unprintables relies on, nor be
@@ -1582,7 +1582,7 @@ static FilamentGroupContext build_filament_group_context(
     return context;
 }
 
-// Orca: restore the master-extruder preference. Orca historically ran
+// Infinium: restore the master-extruder preference. Infinium historically ran
 // optimize_group_for_master_extruder / can_swap_groups after grouping so a light-filament print stays
 // on the primary/master extruder. A weak in-enum penalty alone cannot overcome a pre-existing
 // non-zero right-extruder self-flush term in the flush matrix (which otherwise pulls a lone filament
@@ -1690,7 +1690,7 @@ MultiNozzleUtils::LayeredNozzleGroupResult ToolOrdering::get_recommended_filamen
         auto manual_filament_map = print_config.filament_map.values;
         std::transform(manual_filament_map.begin(), manual_filament_map.end(), manual_filament_map.begin(), [](int v) { return v - 1; });
         float diameter = print_config.nozzle_diameter.values.empty() ? 0.4f : (float)print_config.nozzle_diameter.values.front();
-        // Orca: create() indexes the volume/nozzle maps per used filament with no bounds check, so
+        // Infinium: create() indexes the volume/nozzle maps per used filament with no bounds check, so
         // pass them only when a producer sized them to the filament count (mis-sized maps can
         // arrive from stale projects or CLI runs until the per-filament synthesis lands there).
         // Without valid maps the fully-manual request cannot be honoured; return the empty result,
@@ -1809,7 +1809,7 @@ static std::vector<MultiNozzleUtils::NozzleInfo> build_default_nozzle_list(const
         tmp.diameter    = format_diameter_to_str(print_config.nozzle_diameter.values[idx]);
         tmp.group_id    = static_cast<int>(idx);
         tmp.extruder_id = static_cast<int>(idx);
-        // nozzle_volume_type may be shorter than nozzle_diameter on some Orca profiles; default to Standard.
+        // nozzle_volume_type may be shorter than nozzle_diameter on some Infinium profiles; default to Standard.
         tmp.volume_type = idx < print_config.nozzle_volume_type.values.size()
                               ? NozzleVolumeType(print_config.nozzle_volume_type.values[idx])
                               : nvtStandard;
@@ -1835,7 +1835,7 @@ static MultiNozzleUtils::LayeredNozzleGroupResult build_group_result_from_map(
     const size_t filament_nums = print_config.filament_colour.values.size();
     const bool   has_multiple_nozzle = std::any_of(print_config.extruder_max_nozzle_count.values.begin(), print_config.extruder_max_nozzle_count.values.end(),
                                                    [](int v) { return v > 1; });
-    // Orca: same sizing guard as the manual grouping paths — create() indexes the volume/nozzle
+    // Infinium: same sizing guard as the manual grouping paths — create() indexes the volume/nozzle
     // maps per used filament with no bounds check, so only maps sized to the filament count are
     // trusted (mis-sized maps can arrive from stale projects or CLI runs until the per-filament
     // synthesis lands there). Unsized maps fall through to the extruder-level wrap below.
@@ -2002,7 +2002,7 @@ struct VectorHash
 // physical nozzle occupancy across ranges so the selector rewards keeping an already-loaded filament.
 // Per range: get_recommended_filament_maps -> refine_groups_by_Nozzle_State (nozzle re-match) ->
 // reorder_filaments_for_multi_nozzle_extruder (in-range ordering). Emits a per-layer
-// filament->nozzle match + filament order. Orca: there is no ToolOrdering::OrderingContext here, so
+// filament->nozzle match + filament order. Infinium: there is no ToolOrdering::OrderingContext here, so
 // the custom-sequence function is passed directly instead. Only the dynamic branch
 // (H2C selector, is_dynamic_group_reorder) calls this.
 static std::vector<FilamentPlanRes> plan_filament_mapping_and_order_by_combo_ranges(
@@ -2863,7 +2863,7 @@ void ToolOrdering::reorder_extruders_for_minimum_flush_volume(bool reorder_first
     // whole shipping fleet AND H2C static mode — the static branch below is the only one they take, so
     // their g-code is byte-identical. Only an H2C profile that enables the selector opens this branch.
     const bool dynamic_reorder = m_print && m_print->is_dynamic_group_reorder();
-    // Orca: there is no is_sequential_print() helper, so the not-sequential check is mirrored with
+    // Infinium: there is no is_sequential_print() helper, so the not-sequential check is mirrored with
     // the same predicate the static by-object gate below uses. Sequential prints (with more than
     // one object) publish and write back from the by-object branch in Print::process instead of
     // from each per-object ordering.
@@ -2923,7 +2923,7 @@ void ToolOrdering::reorder_extruders_for_minimum_flush_volume(bool reorder_first
         // choice, unused ones keep their config assignment. In manual modes the extruder map
         // mirrors the user's map (a deviation throws in get_recommended_filament_maps).
         if (!derived_maps.empty()) {
-            // Orca: the config maps are the merge base; fall back to a synthesized base when no
+            // Infinium: the config maps are the merge base; fall back to a synthesized base when no
             // producer sized them to the filament count (CLI runs until the per-filament
             // synthesis lands there), where indexing per filament would run out of bounds.
             std::vector<int> base_filament_map = print_config->filament_map.values;
@@ -2952,7 +2952,7 @@ void ToolOrdering::reorder_extruders_for_minimum_flush_volume(bool reorder_first
     // placeholders are unchanged; H2C/A2L resolve to a nozzle-granular result (dynamic mode
     // resolves per-layer). GCode consumes this via Print::get_layered_nozzle_group_result().
     m_nozzle_group_result = grouping_result;
-    // Orca: the ToolOrdering member is stored unconditionally, but the Print-level store is gated
+    // Infinium: the ToolOrdering member is stored unconditionally, but the Print-level store is gated
     // behind the not-sequential check hoisted above.
     if (m_print != nullptr && not_sequential)
         m_print->set_nozzle_group_result(std::make_shared<MultiNozzleUtils::LayeredNozzleGroupResult>(m_nozzle_group_result));

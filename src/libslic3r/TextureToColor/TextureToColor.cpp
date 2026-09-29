@@ -639,7 +639,7 @@ static bool repair_cluster_smooth(
     {
         TriangleMesh stats_mesh(static_cast<const indexed_triangle_set&>(mesh));
         const auto& stats = stats_mesh.stats();
-        // Orca's TriangleMeshStats only counts open edges: manifold() is open_edges == 0, and
+        // Infinium's TriangleMeshStats only counts open edges: manifold() is open_edges == 0, and
         // there are no separate non-manifold edge/vertex counters to test or log here.
         if (!stats.manifold()) {
             BOOST_LOG_TRIVIAL(info) << log_prefix << ": mesh has non-manifold geometry or open boundaries, open_edges="

@@ -48,7 +48,7 @@ if (SLIC3R_GUI)
     if(APPLE AND TARGET wx::wxgl)
         # Newer wxWidgets CMake exports may inject the macOS OpenGL framework
         # as a quoted file path inside wx::wxgl, which Ninja then treats as a
-        # missing input file. Orca links OpenGL explicitly elsewhere, so strip
+        # missing input file. Infinium links OpenGL explicitly elsewhere, so strip
         # these broken pseudo-paths from the imported target.
         get_target_property(_wx_gl_libs wx::wxgl INTERFACE_LINK_LIBRARIES)
         if(_wx_gl_libs)

@@ -29,7 +29,7 @@
 #define PRESET_TEMPLATE_DIR "Template"
 #define PRESET_CUSTOM_VENDOR "Custom"
 
-// Orca: bundle import directories
+// Infinium: bundle import directories
 #define PRESET_LOCAL_DIR          "_local"
 #define PRESET_SUBSCRIBED_DIR     "_subscribed"
 #define PRESET_BUNDLE_METADATA    "bundle_metadata.json"
@@ -80,7 +80,7 @@
 #define BBL_JSON_KEY_NOT_SUPPORT_BED_TYPE       "not_support_bed_type"
 #define BBL_JSON_KEY_MODEL_ID                   "model_id"
 
-// Orca extension
+// Infinium extension
 #define INFINIUM_JSON_KEY_RENAMED_FROM              "renamed_from"
 
 
@@ -294,15 +294,15 @@ public:
     // and to match the "inherits" field of user profiles with updated system profiles.
     std::vector<std::string> renamed_from;
 
-    // Orca: maintain a list of printer models that are excluded from this preset, designed for filaments without compatible_printer defined
-    // (hence they are visible to all printer models by default) in Orca Filament Library. However, we might have speciliazed filament for
+    // Infinium: maintain a list of printer models that are excluded from this preset, designed for filaments without compatible_printer defined
+    // (hence they are visible to all printer models by default) in Infinium Filament Library. However, we might have speciliazed filament for
     // certain printer models defined in the vendor profile as well, in this case we want to hide this generic preset for these printer models.
     std::set<std::string> m_excluded_from;
 
-    // Orca: flag to indicate if this preset is from Orca Filament Library
+    // Infinium: flag to indicate if this preset is from Infinium Filament Library
     bool m_from_infinium_filament_lib = false;
 
-    // Orca: bundle tracking - imported preset bundles. Bundle ID: UUID (InfiniumCloud) or name+timestamp (external).
+    // Infinium: bundle tracking - imported preset bundles. Bundle ID: UUID (InfiniumCloud) or name+timestamp (external).
     // Presence of bundle_id is the source of truth for "came from a bundle".
     std::string         bundle_id;
     bool                is_from_bundle() const { return ! bundle_id.empty(); }
@@ -459,7 +459,7 @@ protected:
 bool is_compatible_with_print  (const PresetWithVendorProfile &preset, const PresetWithVendorProfile &active_print, const PresetWithVendorProfile &active_printer);
 bool is_compatible_with_printer(const PresetWithVendorProfile &preset, const PresetWithVendorProfile &active_printer, const DynamicPrintConfig *extra_config);
 bool is_compatible_with_printer(const PresetWithVendorProfile &preset, const PresetWithVendorProfile &active_printer);
-// ORCA: same check for callers that hold raw configs rather than Presets (the CLI). Wraps them in
+// INFINIUM: same check for callers that hold raw configs rather than Presets (the CLI). Wraps them in
 // throwaway Preset shells and delegates, so the compatibility policy -- including the fail-open on a
 // malformed compatible_printers_condition -- lives in one place for the GUI and the CLI alike.
 bool is_compatible_with_printer(const DynamicPrintConfig &preset_config, Preset::Type preset_type,
@@ -742,7 +742,7 @@ public:
     {
         return const_cast<PresetCollection*>(this)->find_preset(name, first_visible_if_not_found);
     }
-    // Orca: find preset, if not found, keep searching in the renamed history. This is function should only be used when find
+    // Infinium: find preset, if not found, keep searching in the renamed history. This is function should only be used when find
     // system(parent) presets for custom preset.
     Preset* find_preset2(const std::string& name, bool auto_match = true);
     const Preset* find_preset2(const std::string& name, bool auto_match = true) const
@@ -882,7 +882,7 @@ protected:
     // Update m_map_system_profile_renamed from loaded system profiles.
     void 			update_map_system_profile_renamed();
 
-    // Orca: update m_excluded_from loaded system profiles.
+    // Infinium: update m_excluded_from loaded system profiles.
     void 			update_library_profile_excluded_from();
 
 
@@ -984,7 +984,7 @@ private:
     //BBS: mutex
     std::recursive_mutex          m_mutex;
 
-    // Orca: used for validation only
+    // Infinium: used for validation only
     int m_errors = 0;
 };
 

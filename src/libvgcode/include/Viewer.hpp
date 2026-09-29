@@ -91,7 +91,7 @@ public:
     //
     void toggle_top_layer_only_view_range();
     //
-    // Dim previous layers (ORCA)
+    // Dim previous layers (INFINIUM)
     // Whether the layers the layer slider is not scrubbed to are rendered darkened while
     // showing less than the full print, so only the inspected layer(s) are at full brightness.
     // How bright those darkened layers are rendered, 1.0 = unchanged, 0.0 = black.
@@ -179,11 +179,11 @@ public:
     // EViewType::ActualSpeed
     // EViewType::FanSpeed
     // EViewType::Temperature
-    // ORCA: Add Pressure Advance visualization support
+    // INFINIUM: Add Pressure Advance visualization support
     // EViewType::PressureAdvance
-    // ORCA: Add Acceleration visualization support
+    // INFINIUM: Add Acceleration visualization support
     // EViewType::Acceleration
-    // ORCA: Add Jerk visualization support
+    // INFINIUM: Add Jerk visualization support
     // EViewType::Jerk
     // EViewType::VolumetricFlowRate
     // EViewType::ActualVolumetricFlowRate
@@ -201,11 +201,11 @@ public:
     // EViewType::ActualSpeed
     // EViewType::FanSpeed
     // EViewType::Temperature
-    // ORCA: Add Pressure Advance visualization support
+    // INFINIUM: Add Pressure Advance visualization support
     // EViewType::PressureAdvance
-    // ORCA: Add Acceleration visualization support
+    // INFINIUM: Add Acceleration visualization support
     // EViewType::Acceleration
-    // ORCA: Add Jerk visualization support
+    // INFINIUM: Add Jerk visualization support
     // EViewType::Jerk
     // EViewType::VolumetricFlowRate
     // EViewType::ActualVolumetricFlowRate
@@ -393,7 +393,7 @@ public:
         EGCodeExtrusionRole::Ironing, EGCodeExtrusionRole::BridgeInfill, EGCodeExtrusionRole::GapFill,
         EGCodeExtrusionRole::Skirt, EGCodeExtrusionRole::SupportMaterial, EGCodeExtrusionRole::SupportMaterialInterface,
         EGCodeExtrusionRole::WipeTower, EGCodeExtrusionRole::Custom,
-        // ORCA
+        // INFINIUM
         EGCodeExtrusionRole::BottomSurface, EGCodeExtrusionRole::InternalBridgeInfill, EGCodeExtrusionRole::Brim,
         EGCodeExtrusionRole::SupportTransition, EGCodeExtrusionRole::Mixed
     }) const;

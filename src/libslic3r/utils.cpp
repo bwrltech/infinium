@@ -128,7 +128,7 @@ void set_logging_level(unsigned int level)
 {
     logSeverity = level_to_boost(level);
 
-    // Orca: force at info or lower level logging for pre-release builds.
+    // Infinium: force at info or lower level logging for pre-release builds.
     // Note: not setting to debug or trace as they might affect long time usage especially with BBL printers.
     const std::string version = SoftFever_VERSION;
     if (level < (unsigned int) boost::log::trivial::info &&
@@ -442,7 +442,7 @@ void flush_logs()
 	return;
 }
 
-// ORCA
+// INFINIUM
 boost::filesystem::path get_log_file_name()
 {
     if (g_log_sink)

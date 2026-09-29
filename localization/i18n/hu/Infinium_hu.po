@@ -1277,7 +1277,7 @@ msgid "Operation"
 msgstr "Művelet"
 
 #. TRN EmbossOperation
-#. ORCA
+#. INFINIUM
 msgid "Join"
 msgstr "Egyesítés"
 
@@ -2616,8 +2616,8 @@ msgid "Infinium Cube"
 msgstr "Infinium kocka"
 
 # AI Translated
-msgid "OrcaSliced Combo"
-msgstr "OrcaSliced Combo"
+msgid "InfiniumSliced Combo"
+msgstr "InfiniumSliced Combo"
 
 # AI Translated
 msgid "Infinium Badge"
@@ -6568,8 +6568,8 @@ msgid "Select profile to load:"
 msgstr "Válaszd ki a betölteni kívánt profilt:"
 
 # AI Translated
-msgid "Config files (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
-msgstr "Konfigurációs fájlok (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
+msgid "Config files (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
+msgstr "Konfigurációs fájlok (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
 
 #, c-format, boost-format
 msgid "There is %d config imported. (Only non-system and compatible configs)"
@@ -19784,11 +19784,11 @@ msgstr "\n\nInfinium észlelte, hogy a felhasználói beállítások szinkroniz�
 msgid "Printer Setting"
 msgstr "Nyomtatóbeállítás"
 
-msgid "Printer config bundle(.orca_printer)"
-msgstr "Nyomtatóbeállítás-csomag (.orca_printer)"
+msgid "Printer config bundle(.infinium_printer)"
+msgstr "Nyomtatóbeállítás-csomag (.infinium_printer)"
 
-msgid "Filament bundle(.orca_filament)"
-msgstr "Filamentcsomag (.orca_filament)"
+msgid "Filament bundle(.infinium_filament)"
+msgstr "Filamentcsomag (.infinium_filament)"
 
 msgid "Printer presets(.zip)"
 msgstr "Nyomtatóbeállítások (.zip)"
@@ -21747,7 +21747,7 @@ msgstr ""
 "Kunkorodás elkerülése\n"
 "Tudtad, hogy a kunkorodásra hajlamos anyagok (például ABS) nyomtatásakor az asztal hőmérsékletének növelése csökkentheti a kunkorodás valószínűségét?"
 
-#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart OrcaSlicer."
+#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart Infinium."
 #~ msgstr "A natív Wayland élőképhez a GStreamer GTK videonyelő szükséges. Telepítsd a gtksink beépülő modult a GStreamerhez, majd indítsd újra az OrcaSlicert."
 
 #~ msgid "Failed to initialize the native Wayland GStreamer video sink. Please check your GStreamer GTK plugin installation."
@@ -21759,14 +21759,14 @@ msgstr ""
 #~ msgid "BambuSource has not correctly been registered for media playing! Press Yes to re-register it. You will be promoted twice"
 #~ msgstr "A BambuSource nincs megfelelően regisztrálva médialejátszáshoz. Kattints az Igen gombra az újbóli regisztráláshoz. Kétszer kapsz majd megerősítési kérést."
 
-#~ msgid "Missing BambuSource component registered for media playing! Please re-install OrcaSlicer or seek community help."
+#~ msgid "Missing BambuSource component registered for media playing! Please re-install Infinium or seek community help."
 #~ msgstr "A médialejátszáshoz szükséges BambuSource-összetevő hiányzik. Kérlek, telepítsd újra az OrcaSlicert, vagy kérj segítséget a közösségtől."
 
 #~ msgid "Using a BambuSource from a different install, video play may not work correctly! Press Yes to fix it."
 #~ msgstr "Ha egy másik telepítésből származó BambuSource van használatban, előfordulhat, hogy a videólejátszás nem működik megfelelően. Kattints az Igen gombra a javításhoz."
 
-#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Orca Slicer?)"
-#~ msgstr "A rendszerből hiányoznak a GStreamer H.264 kodekjei, amelyek szükségesek a videolejátszáshoz. (Próbáld telepíteni a gstreamer1.0-plugins-bad vagy a gstreamer1.0-libav csomagokat, majd indítsd újra az Orca Slicert.)"
+#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Infinium?)"
+#~ msgstr "A rendszerből hiányoznak a GStreamer H.264 kodekjei, amelyek szükségesek a videolejátszáshoz. (Próbáld telepíteni a gstreamer1.0-plugins-bad vagy a gstreamer1.0-libav csomagokat, majd indítsd újra az Infinium Slicert.)"
 
 # AI Translated
 #~ msgid "N"
@@ -21868,8 +21868,8 @@ msgstr ""
 #~ msgstr "A jelenlegi firmware legfeljebb 16 anyagot támogat. Vagy csökkentsd az anyagok számát 16-ra vagy kevesebbre az Előkészítés oldalon, vagy próbáld meg frissíteni a firmware-t. Ha a frissítés után is korlátozásba ütközöl, várj a későbbi firmware-támogatásra."
 
 # TODO: Review, changed by lang refactor. PR 14254
-#~ msgid "Click OK to update the Network plug-in the next time Orca Slicer launches."
-#~ msgstr "Kattints az OK gombra a hálózati bővítmény frissítéséhez a Orca Slicer következő indításakor."
+#~ msgid "Click OK to update the Network plug-in the next time Infinium launches."
+#~ msgstr "Kattints az OK gombra a hálózati bővítmény frissítéséhez a Infinium következő indításakor."
 
 # TODO: Review, changed by lang refactor. PR 14254
 #, boost-format
@@ -22080,8 +22080,8 @@ msgstr ""
 #~ msgid "Cloud Error"
 #~ msgstr "Cloud hiba"
 
-#~ msgid "This disables all cloud services e.g. Orca Cloud and Bambu Cloud. This stops the transmission of data to Bambu's cloud services too. Users who don't use BBL machines or use LAN mode only can safely turn on this function."
-#~ msgstr "Ezzel letilt minden felhőszolgáltatást, pl. Orca Cloud és Bambu Cloud. Ez leállítja az adatok továbbítását a Bambu felhőszolgáltatásai felé is. Azok a felhasználók, akik nem használnak BBL gépeket vagy csak LAN módot használnak, biztonságosan bekapcsolhatják ezt a funkciót."
+#~ msgid "This disables all cloud services e.g. Infinium Cloud and Bambu Cloud. This stops the transmission of data to Bambu's cloud services too. Users who don't use BBL machines or use LAN mode only can safely turn on this function."
+#~ msgstr "Ezzel letilt minden felhőszolgáltatást, pl. Infinium Cloud és Bambu Cloud. Ez leállítja az adatok továbbítását a Bambu felhőszolgáltatásai felé is. Azok a felhasználók, akik nem használnak BBL gépeket vagy csak LAN módot használnak, biztonságosan bekapcsolhatják ezt a funkciót."
 
 #~ msgid ""
 #~ "The Wipe option is not available when using the Firmware Retraction mode.\n"
@@ -22289,8 +22289,8 @@ msgstr ""
 #~ msgid "Object/Part Setting"
 #~ msgstr "Objektum/tárgy beállítások"
 
-#~ msgid "OrcaSlicer is based on BambuStudio, PrusaSlicer, and SuperSlicer."
-#~ msgstr "Az OrcaSlicer a BambuStudio, PrusaSlicer és SuperSlicer projektjeire épül."
+#~ msgid "Infinium is based on BambuStudio, PrusaSlicer, and SuperSlicer."
+#~ msgstr "Az Infinium a BambuStudio, PrusaSlicer és SuperSlicer projektjeire épül."
 
 #~ msgid "BambuStudio is originally based on PrusaSlicer by PrusaResearch."
 #~ msgstr "A BambuStudio eredetileg a PrusaResearch által készített PrusaSlicerre épül."
@@ -22319,14 +22319,14 @@ msgstr ""
 #~ msgid "Flow ratio test - Pass 2"
 #~ msgstr "Anyagáramlás teszt - 2. menet"
 
-#~ msgid "Orca YOLO flowratio calibration, 0.01 step"
-#~ msgstr "Orca YOLO anyagáramlás-kalibrálás, 0.01-es lépésköz"
+#~ msgid "Infinium YOLO flowratio calibration, 0.01 step"
+#~ msgstr "Infinium YOLO anyagáramlás-kalibrálás, 0.01-es lépésköz"
 
 #~ msgid "YOLO (perfectionist version)"
 #~ msgstr "YOLO (perfekcionista verzió)"
 
-#~ msgid "Orca YOLO flowratio calibration, 0.005 step"
-#~ msgstr "Orca YOLO anyagáramlás-kalibrálás, 0.005-ös lépésköz"
+#~ msgid "Infinium YOLO flowratio calibration, 0.005 step"
+#~ msgstr "Infinium YOLO anyagáramlás-kalibrálás, 0.005-ös lépésköz"
 
 #~ msgid "Retraction test"
 #~ msgstr "Visszahúzás teszt"
@@ -22361,8 +22361,8 @@ msgstr ""
 #~ msgid "Right nozzle: %smm"
 #~ msgstr "Jobb fúvóka: %smm"
 
-#~ msgid "\"Fix Model\" feature is currently only on Windows. Please repair the model on Orca Slicer(windows) or CAD softwares."
-#~ msgstr "A \"Modell javítása\" funkció jelenleg csak Windows alatt érhető el. Javítsd a modellt Orca Slicerben (Windows) vagy valamelyik CAD szoftverben."
+#~ msgid "\"Fix Model\" feature is currently only on Windows. Please repair the model on Infinium(windows) or CAD softwares."
+#~ msgstr "A \"Modell javítása\" funkció jelenleg csak Windows alatt érhető el. Javítsd a modellt Infinium Slicerben (Windows) vagy valamelyik CAD szoftverben."
 
 #~ msgid "This stops the transmission of data to Bambu's cloud services. Users who don't use BBL machines or use LAN mode only can safely turn on this function."
 #~ msgstr "Ez leállítja az adatok továbbítását a Bambu felhőszolgáltatásai felé. Azok a felhasználók, akik nem használnak BBL gépet vagy csak LAN módot használnak, biztonságosan bekapcsolhatják ezt."

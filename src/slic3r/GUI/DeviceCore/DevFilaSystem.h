@@ -82,7 +82,7 @@ public:
     wxColour        wx_color;
     bool            is_bbl;
     bool            is_exists = false;
-    bool            is_slot_placeholder = false;  // Orca: True for empty tray slots from pull-mode agents
+    bool            is_slot_placeholder = false;  // Infinium: True for empty tray slots from pull-mode agents
     int             hold_count = 0;
     int             remain = 0;         // filament remain: 0 ~ 100
 
@@ -270,7 +270,7 @@ private:
     AmsType       m_ams_type = AmsType::AMS;
     std::string   m_ams_id;
     int           m_ext_id;//extruder id
-    // Orca: pull-mode / multi-vendor agent model — keeps the legacy single m_ext_id for existing
+    // Infinium: pull-mode / multi-vendor agent model — keeps the legacy single m_ext_id for existing
     // consumers and carries the switch-aware binding alongside it. Without a Filament Track Switch
     // the set is {m_ext_id}; with one installed the device binds both extruders and records which
     // input track (A/B) feeds this AMS.

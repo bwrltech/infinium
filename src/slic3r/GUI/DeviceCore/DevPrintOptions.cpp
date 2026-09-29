@@ -42,7 +42,7 @@ void DevPrintOptionsParser::Parse(DevPrintOptions* opts, const nlohmann::json& p
             opts->m_speed_level = (DevPrintingSpeedLevel)DevUtil::get_flag_bits(cfg, 8, 3);
         }
 
-        // Orca: xcam.cfg is an integer bitfield (distinct from the top-level cfg string) that
+        // Infinium: xcam.cfg is an integer bitfield (distinct from the top-level cfg string) that
         //       carries the plate-align/FOD/displacement current values.
         if (print_json.contains("xcam") && print_json["xcam"].contains("cfg")) {
             int xcam_cfg = print_json["xcam"]["cfg"].get<int>();
@@ -54,7 +54,7 @@ void DevPrintOptionsParser::Parse(DevPrintOptions* opts, const nlohmann::json& p
                 opts->m_displacement_detection.current_detect_value = DevUtil::get_flag_bits(xcam_cfg, 22);
         }
 
-        // Orca: fun2 support bits (distinct from the top-level cfg/fun fields). ORCA's DevUtil has no
+        // Infinium: fun2 support bits (distinct from the top-level cfg/fun fields). INFINIUM's DevUtil has no
         //       no-border extractor, so the MachineObject helper is used here instead.
         if (print_json.contains("fun2") && print_json["fun2"].is_string()) {
             std::string fun2 = print_json["fun2"].get<std::string>();
@@ -195,7 +195,7 @@ void DevPrintOptionsParser::ParseDetectionV2_1(DevPrintOptions *opts, std::strin
     if (time(nullptr) - opts->m_idel_heating_protect_detection.detect_hold_start > HOLD_TIME_3SEC)
         opts->m_idel_heating_protect_detection.current_detect_value = DevUtil::get_flag_bits(cfg, 32, 2);
 
-    // Orca: further top-level cfg-string detection bits, parsed here alongside idle-heating.
+    // Infinium: further top-level cfg-string detection bits, parsed here alongside idle-heating.
     if (time(nullptr) - opts->m_purify_air_at_print_end.detect_hold_start > HOLD_TIME_3SEC)
         opts->m_purify_air_at_print_end.current_detect_value = DevUtil::get_flag_bits(cfg, 36, 2);
 

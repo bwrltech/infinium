@@ -53,7 +53,7 @@ int DevAxis::Ctrl_Axis(std::string axis, double unit, double input_val, int spee
         return -1;
     }
 
-    // Orca: strip analytics telemetry (matches MachineObject::command_axis_control)
+    // Infinium: strip analytics telemetry (matches MachineObject::command_axis_control)
     return m_owner->publish_gcode(cmd);
 }
 

@@ -464,7 +464,7 @@ void DevFilaSystemParser::ParseV1_0(const json& jj, MachineObject* obj, DevFilaS
                                 binded_switcher_pos = DevFilaSwitch::SwitchPos::POS_IN_A;
                             }
 
-                            // Orca: the switch feeds every AMS to both extruders; pin a deterministic
+                            // Infinium: the switch feeds every AMS to both extruders; pin a deterministic
                             // single-extruder id so legacy GetExtruderId() consumers keep a valid value
                             // while switch-aware code reads the binding set instead.
                             extuder_id = MAIN_EXTRUDER_ID;
@@ -479,7 +479,7 @@ void DevFilaSystemParser::ParseV1_0(const json& jj, MachineObject* obj, DevFilaS
                     }
 
                     /*AMS without initialization*/
-                    // Orca: an AMS reporting extruder 0xE without a Filament Track Switch installed has
+                    // Infinium: an AMS reporting extruder 0xE without a Filament Track Switch installed has
                     // no usable extruder binding; drop it, preserving the existing display for
                     // half-initialized printers. With the switch installed the 0xE case is remapped
                     // above to both extruders and falls through to normal handling.

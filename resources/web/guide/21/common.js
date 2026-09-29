@@ -74,7 +74,7 @@ function HandleModelList( pVal )
 
 	pModel=pVal['model'];
 
-	// ORCA ensure list correctly ordered
+	// INFINIUM ensure list correctly ordered
 	pModel = pModel.sort((a, b)=>(a["vendor"].localeCompare(b["vendor"])))
 	pModel = [ // move custom printers to top
 		...pModel.filter(i=>i.vendor === "Custom"),
@@ -102,11 +102,11 @@ function HandleModelList( pVal )
 		if( !ModelHtml.hasOwnProperty(strVendor))
 			ModelHtml[strVendor]='';
 			
-		ModelHtml[strVendor] += CreatePrinterBlock(OneModel); // ORCA
+		ModelHtml[strVendor] += CreatePrinterBlock(OneModel); // INFINIUM
 	}
 	
 	//Update Nozzel Html Append
-	// ORCA: HandleModelList can now be called more than once per dialog (e.g. after a new vendor
+	// INFINIUM: HandleModelList can now be called more than once per dialog (e.g. after a new vendor
 	// is installed via "check for new printers"). pModel always holds the full, current list, so
 	// clear each vendor's printer area before repopulating instead of appending on top of a
 	// previous render.
@@ -222,7 +222,7 @@ function FilterModelList(keyword) {
 		if (!ModelHtml.hasOwnProperty(strVendor))
 			ModelHtml[strVendor] = '';
 			
-		ModelHtml[strVendor] += CreatePrinterBlock(OneModel); // ORCA
+		ModelHtml[strVendor] += CreatePrinterBlock(OneModel); // INFINIUM
 	}
 
 	//Update Nozzel Html Append
@@ -274,7 +274,7 @@ function CreateVendorBlock(vendorName)
 	if( alt == "Custom")
 		alt = "Custom Printer";
 	if( alt == "Other")
-		alt = "Orca colosseum";
+		alt = "Infinium colosseum";
 	
 	return 	'<div class="OneVendorBlock" Vendor="' + vendorName + '">' +
 			'	<div class="BlockBanner">' +
@@ -304,8 +304,8 @@ function CreatePrinterBlock(OneModel)
 	// these not matches. have to fix in profiles to reduce conditions in here;
 	else if (vendor == "MagicMaker" && modelName.startsWith("MM"))
 		modelName = modelName.slice(("MM").length);
-	else if (vendor == "OrcaArena")
-		modelName = modelName.slice(("Orca Arena").length);
+	else if (vendor == "InfiniumArena")
+		modelName = modelName.slice(("Infinium Arena").length);
 	else if (vendor == "RolohaunDesign" && modelName.startsWith("Rolohaun"))
 		modelName = modelName.slice(("Rolohaun").length);
 
@@ -598,7 +598,7 @@ function initScrollEvents() {
 		}
 	});
 
-	// ORCA unfocus search bar while scrolling and its content empty
+	// INFINIUM unfocus search bar while scrolling and its content empty
 	$content[0].addEventListener("scroll", () => {
 		if (document.activeElement === SearchBox && SearchBox.value == "")
 			SearchBox.blur();
@@ -650,7 +650,7 @@ function initKeyEvents(closeOnESC) {
 			}
 		}
 
-		// ORCA focus search bar on key input
+		// INFINIUM focus search bar on key input
 		// SearchBox not in focus && writable character && non modifier
 		if (document.activeElement != SearchBox && e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
 			SearchBox.focus();

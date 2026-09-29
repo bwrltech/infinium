@@ -929,7 +929,7 @@ public:
     // Extruder ID is only valid for FFF. Returns -1 for SLA or if the extruder ID is not applicable (support volumes).
     int                 extruder_id() const;
 
-    //Orca: cache clearing procedure to ensure that the shape is positioned accurately when manipulating it
+    //Infinium: cache clearing procedure to ensure that the shape is positioned accurately when manipulating it
     void clear_cache() {
         m_cached_trans_matrix = Transform3d::Identity().inverse(); // get unvelivable matrix
         m_convex_hull_2d.clear();
@@ -1032,7 +1032,7 @@ public:
     bool is_fuzzy_skin_painted() const { return !this->fuzzy_skin_facets.empty(); }
     bool is_any_painted() const { return is_fdm_support_painted() || is_seam_painted() || is_mm_painted() || is_fuzzy_skin_painted(); }
     
-    // Orca: Implement prusa's filament shrink compensation approach
+    // Infinium: Implement prusa's filament shrink compensation approach
     // Returns 0-based indices of extruders painted by multi-material painting gizmo.
      std::vector<size_t> get_extruders_from_multi_material_painting() const;
 

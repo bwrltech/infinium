@@ -229,7 +229,7 @@ static ExtrusionEntityCollection traverse_loops(const PerimeterGenerator &perime
 
     // Append thin walls to the nearest-neighbor search (only for first iteration)
     if (! thin_walls.empty()) {
-        // Orca: apply fuzzy skin to thin walls as well
+        // Infinium: apply fuzzy skin to thin walls as well
         for (auto& thin_wall : thin_walls) {
             // First, we convert the ThickPolyline into Arachne::ExtrusionLine so we could reuse our existing fuzzy code
             Arachne::ExtrusionLine el(0, true);
@@ -278,7 +278,7 @@ static ExtrusionEntityCollection traverse_loops(const PerimeterGenerator &perime
             else
                 eloop->make_clockwise();
 
-            // Orca: Reverse print order for thin wall holes.
+            // Infinium: Reverse print order for thin wall holes.
             if (reverse_thin_wall_hole) {
                 std::reverse(out.entities.begin(), out.entities.end());
             }
@@ -563,7 +563,7 @@ static ExtrusionEntityCollection traverse_extrusions(const PerimeterGenerator& p
                 }
                 assert(extrusion_loop.paths.front().first_point() == extrusion_loop.paths.back().last_point());
                 extrusion_coll.append(std::move(extrusion_loop));
-                // Orca: Reverse the order of paths for thin wall holes. We define thin wall hole as a hole with only one perimeter.
+                // Infinium: Reverse the order of paths for thin wall holes. We define thin wall hole as a hole with only one perimeter.
                 const bool thin_wall_hole = !pg_extrusion.is_contour && pg_extrusions.size() == 2;
                 if (thin_wall_hole && perimeter_generator.config->wall_sequence != WallSequence::OuterInner)
                     std::reverse(extrusion_coll.entities.begin(), extrusion_coll.entities.end());
@@ -595,7 +595,7 @@ static ExtrusionEntityCollection traverse_extrusions(const PerimeterGenerator& p
     return extrusion_coll;
 }
 
-// ORCA: only_one_wall_top acts on top surfaces, so without a top shell there is nothing for it to act on: zero top
+// INFINIUM: only_one_wall_top acts on top surfaces, so without a top shell there is nothing for it to act on: zero top
 // shell layers retype the top surfaces as internal, see LayerRegion::prepare_fill_surfaces(). A 0% top surface
 // density does leave a top surface - just an unfilled one - so it does not disable the feature.
 // ConfigManipulation::toggle_print_fff_options() hides the option under the same condition, so a profile that left
@@ -605,7 +605,7 @@ static bool has_top_shell_layers(const PrintRegionConfig &config)
     return config.top_shell_layers.value > 0;
 }
 
-// ORCA: only_one_wall_first_layer thins the first layer to a single wall, the bottom counterpart of the above and
+// INFINIUM: only_one_wall_first_layer thins the first layer to a single wall, the bottom counterpart of the above and
 // gated the same way: zero bottom shell layers retype the bottom surfaces as internal, so that wall would ring
 // sparse infill on the bed. The bottom surface density plays no part - an unfilled bottom surface is still a bottom
 // surface, exactly as for the top - and it cannot reach zero anyway, being capped at a 10% minimum.
@@ -614,7 +614,7 @@ static bool has_bottom_shell_layers(const PrintRegionConfig &config)
     return config.bottom_shell_layers.value > 0;
 }
 
-// ORCA: the inner walls are only given up when a top fill takes their space, and it has to actually reach it -
+// INFINIUM: the inner walls are only given up when a top fill takes their space, and it has to actually reach it -
 // a 0% top surface density leaves no fill at all, and without top_surface_expansion the fill never grows over
 // them. Either way the original generation is kept (re-onion the not-top region), which is what users of
 // only_one_wall_top alone have always got.
@@ -623,7 +623,7 @@ static bool top_fill_replaces_inner_walls(const PrintRegionConfig &config)
     return has_top_shell_layers(config) && config.top_surface_density.value > 0 && config.top_surface_expansion.value > 0;
 }
 
-// ORCA: only_one_wall_top - cheap per-vertex classification of a wall against the top surface. Only Partial
+// INFINIUM: only_one_wall_top - cheap per-vertex classification of a wall against the top surface. Only Partial
 // needs the geometry clipped or measured; a segment crossing the top with no vertex inside is rare enough to ignore.
 enum class TopOverlap { None, Partial, Full };
 
@@ -655,7 +655,7 @@ static TopOverlap classify_over_top(const Arachne::ExtrusionLine &el, const ExPo
     return inside == 0 ? TopOverlap::None : inside == el.junctions.size() ? TopOverlap::Full : TopOverlap::Partial;
 }
 
-// ORCA: only_one_wall_top for Arachne - cut out of the already generated inner walls the parts running over the top
+// INFINIUM: only_one_wall_top for Arachne - cut out of the already generated inner walls the parts running over the top
 // surface, so geometry that continues upward keeps its walls. A wall too short over the top to be worth slitting open
 // is left whole, its footprint reported in kept_over_top for the caller to withhold from the top fill.
 static void clip_inner_walls_over_top(std::vector<Arachne::VariableWidthLines> &inner_perimeters, const ExPolygons &top_region, coord_t perimeter_width, Polygons &kept_over_top)
@@ -1333,7 +1333,7 @@ void PerimeterGenerator::process_classic()
 
     coord_t ext_perimeter_spacing   = this->ext_perimeter_flow.scaled_spacing();
     coord_t ext_perimeter_spacing2;
-    // Orca: ignore precise_outer_wall if wall_sequence is not InnerOuter
+    // Infinium: ignore precise_outer_wall if wall_sequence is not InnerOuter
     if(config->precise_outer_wall && config->wall_sequence == WallSequence::InnerOuter)
         ext_perimeter_spacing2 = scaled<coord_t>(0.5f * (this->ext_perimeter_flow.width() + this->perimeter_flow.width()));
     else
@@ -1396,7 +1396,7 @@ void PerimeterGenerator::process_classic()
     for (const Surface &surface : all_surfaces)
         surface_exp.push_back(surface.expolygon);
     std::vector<size_t> surface_order = chain_expolygons(surface_exp);
-    // ORCA: neither one-wall option has a surface to act on without the shell behind it, see
+    // INFINIUM: neither one-wall option has a surface to act on without the shell behind it, see
     // has_top_shell_layers() / has_bottom_shell_layers(). Gated here so every use below - including the
     // topmost and first layers - sees the same answer.
     const bool only_one_wall_top         = this->config->only_one_wall_top && has_top_shell_layers(*this->config);
@@ -1418,7 +1418,7 @@ void PerimeterGenerator::process_classic()
         ExPolygons gaps;
         ExPolygons top_fills;
         ExPolygons fill_clip;
-        // ORCA: only_one_wall_top, all empty unless this island has a top surface on this layer. See the
+        // INFINIUM: only_one_wall_top, all empty unless this island has a top surface on this layer. See the
         // post-onion reduction below: the region to keep clear of inner walls, the space freed by the dropped
         // walls (goes to infill, not left as a void) and the space held by the kept ones (withheld from the fill).
         ExPolygons one_wall_top_region;
@@ -1565,7 +1565,7 @@ void PerimeterGenerator::process_classic()
                 //store surface for top infill if only_one_wall_top
                 if (i == 0 && i!=loop_number && only_one_wall_top && !surface.is_bridge() && this->upper_slices != NULL) {
                     if (top_fill_replaces_inner_walls(*this->config)) {
-                        // ORCA: take the top fill and the keep-out region but leave `last` as the real geometry,
+                        // INFINIUM: take the top fill and the keep-out region but leave `last` as the real geometry,
                         // so the onion follows it and the walls over the top are reduced in one step below.
                         ExPolygons non_top_polygons;
                         this->split_top_surfaces(last, top_fills, non_top_polygons, fill_clip);
@@ -1585,7 +1585,7 @@ void PerimeterGenerator::process_classic()
                 }
             }
 
-            // ORCA: only_one_wall_top reduction - drop the inner walls (depth > 0) running over the top surface and
+            // INFINIUM: only_one_wall_top reduction - drop the inner walls (depth > 0) running over the top surface and
             // take that space back from the gaps, leaving the top with the outer wall and the top infill. Classic
             // perimeters are closed loops, so a wall can only be kept or dropped whole; one that merely grazes the
             // top (same tolerance as the Arachne clip) is kept and withheld from the top fill instead.
@@ -1705,7 +1705,7 @@ void PerimeterGenerator::process_classic()
                     this->object_config->brim_type == BrimType::btOuterOnly &&
                     this->object_config->brim_width.value > 0))
                 entities.reverse();
-            // Orca: sandwich mode. Apply after 1st layer.
+            // Infinium: sandwich mode. Apply after 1st layer.
             else if ((this->config->wall_sequence == WallSequence::InnerOuterInner) && layer_id > 0){
                 entities.reverse(); // reverse all entities - order them from external to internal
                 if(entities.entities.size()>2){ // 3 walls minimum needed to do inner outer inner ordering
@@ -1812,7 +1812,7 @@ void PerimeterGenerator::process_classic()
 
         // fill gaps
         if (! gaps.empty()) { // collapse
-            // ORCA: Use the smaller width as the lower bound to avoid overestimating safe overlap
+            // INFINIUM: Use the smaller width as the lower bound to avoid overestimating safe overlap
             double min = 0.2 * std::min(perimeter_width, ext_perimeter_width) * (1 - INSET_OVERLAP_TOLERANCE);
             double max = 2. * perimeter_spacing;
             ExPolygons gaps_ex = diff_ex(
@@ -1907,13 +1907,13 @@ void PerimeterGenerator::process_classic()
         // append infill areas to fill_surfaces
         //if any top_fills, grow them by ext_perimeter_spacing/2 to have the real un-anchored fill
         ExPolygons top_infill_exp = intersection_ex(fill_clip, offset_ex(top_fills, double(ext_perimeter_spacing / 2)));
-        // ORCA: only_one_wall_top - route the top fill around the walls kept despite grazing the top.
+        // INFINIUM: only_one_wall_top - route the top fill around the walls kept despite grazing the top.
         if (!one_wall_top_kept_bands.empty())
             top_infill_exp = diff_ex(top_infill_exp, one_wall_top_kept_bands);
         if (!top_fills.empty()) {
             infill_exp = union_ex(infill_exp, offset_ex(top_infill_exp, double(top_infill_peri_overlap)));
         }
-        // ORCA: only_one_wall_top - what the top fill does not cover of the dropped walls goes to infill.
+        // INFINIUM: only_one_wall_top - what the top fill does not cover of the dropped walls goes to infill.
         if (!one_wall_top_reclaimed.empty())
             infill_exp = union_ex(infill_exp, one_wall_top_reclaimed);
         this->fill_surfaces->append(infill_exp, stInternal);
@@ -1975,7 +1975,7 @@ void PerimeterGenerator::add_infill_contour_for_arachne( ExPolygons        infil
     append(*this->fill_no_overlap, offset2_ex(union_ex(inner_pp), float(-min_perimeter_infill_spacing / 2.), float(+min_perimeter_infill_spacing / 2.)));
 }
 
-// Orca: sacrificial bridge layer algorithm ported from SuperSlicer
+// Infinium: sacrificial bridge layer algorithm ported from SuperSlicer
 void PerimeterGenerator::process_no_bridge(Surfaces& all_surfaces, coord_t perimeter_spacing, coord_t ext_perimeter_width)
 {
 
@@ -2011,7 +2011,7 @@ void PerimeterGenerator::process_no_bridge(Surfaces& all_surfaces, coord_t perim
                             BridgeDetector detector{ unsupported,
                                                     lower_island.expolygons,
                                                     perimeter_spacing / 4}; // Use a finer BridgeDetector. This affects coverage resolution, not extrusion spacing.
-                            // ORCA: Relative/Align Bridge Angle
+                            // INFINIUM: Relative/Align Bridge Angle
                             const double custom_angle_deg = this->config->bridge_angle.value;
                             const bool   relative_angle   = this->config->relative_bridge_angle.value;
                             const double detect_angle_rad = (custom_angle_deg > 0.0 && !relative_angle)
@@ -2105,7 +2105,7 @@ void PerimeterGenerator::process_no_bridge(Surfaces& all_surfaces, coord_t perim
                                 }
                                 //TODO: add other polys as holes inside this one (-margin)
                             } else { // if(this->config->counterbore_hole_bridging.value == chbBridges)
-                                // Orca: Partial counterbore bridging is mask-based. Preserve the supported
+                                // Infinium: Partial counterbore bridging is mask-based. Preserve the supported
                                 // remainder and use simplified BridgeDetector coverage to derive the
                                 // bridgeable counterbore span. The span is grown from supported material,
                                 // shrunk back, stripped from the remaining normal surface, and expanded back.
@@ -2184,7 +2184,7 @@ void PerimeterGenerator::process_no_bridge(Surfaces& all_surfaces, coord_t perim
     }
 }
 
-// ORCA:
+// INFINIUM:
 // Inner Outer Inner wall ordering mode perimeter order optimisation functions
 /**
  * @brief Finds all perimeters touching a given set of reference lines, given as indexes.
@@ -2340,7 +2340,7 @@ void bringContoursToFront(std::vector<PerimeterGeneratorArachneExtrusion>& order
         return (extrusion.extrusion->is_contour() && extrusion.extrusion->inset_idx==0);
     });
 }
-// ORCA:
+// INFINIUM:
 // Inner Outer Inner wall ordering mode perimeter order optimisation functions ended
 
 
@@ -2379,7 +2379,7 @@ void PerimeterGenerator::process_arachne()
     process_no_bridge(all_surfaces, perimeter_spacing, ext_perimeter_width);
     // BBS: don't simplify too much which influence arc fitting when export gcode if arc_fitting is enabled
     double surface_simplify_resolution = (print_config->enable_arc_fitting && !this->has_fuzzy_skin) ? 0.2 * m_scaled_resolution : m_scaled_resolution;
-    // ORCA: neither one-wall option has a surface to act on without the shell behind it, see
+    // INFINIUM: neither one-wall option has a surface to act on without the shell behind it, see
     // has_top_shell_layers() / has_bottom_shell_layers(). Gated here so every use below - including the
     // topmost and first layers - sees the same answer.
     const bool only_one_wall_top         = this->config->only_one_wall_top && has_top_shell_layers(*this->config);
@@ -2399,13 +2399,13 @@ void PerimeterGenerator::process_arachne()
         if (is_bottom_layer && only_one_wall_first_layer)
             loop_number = 0;
 
-        // Orca: set the topmost layer to be one wall according to the config
+        // Infinium: set the topmost layer to be one wall according to the config
         const bool is_topmost_layer = (this->upper_slices == nullptr) ? true : false;
         if (is_topmost_layer && loop_number > 0 && only_one_wall_top)
             loop_number = 0;
         
         auto apply_precise_outer_wall = config->precise_outer_wall && config->wall_sequence == WallSequence::InnerOuter;
-        // Orca: properly adjust offset for the outer wall if precise_outer_wall is enabled.
+        // Infinium: properly adjust offset for the outer wall if precise_outer_wall is enabled.
         ExPolygons last = offset_ex(surface.expolygon.simplify_p(surface_simplify_resolution),
                        apply_precise_outer_wall? -float(ext_perimeter_width - ext_perimeter_spacing )
                                                  : -float(ext_perimeter_width / 2. - ext_perimeter_spacing / 2.));
@@ -2467,10 +2467,10 @@ void PerimeterGenerator::process_arachne()
                 }
 
                 // Filter out areas that are too thin and expand top surface polygons a bit to hide the wall line.
-                // ORCA: skip if the top surface area is smaller than "min_width_top_surface"
+                // INFINIUM: skip if the top surface area is smaller than "min_width_top_surface"
                 const float top_surface_min_width = std::max<float>(float(ext_perimeter_spacing) / 4.f + scaled<float>(0.00001), float(scale_(config->min_width_top_surface.get_abs_value(unscale_(perimeter_width)))) / 4.f);
                 // Shrink the polygon to remove the small areas, then expand it back out plus a maragin to hide the wall line a little.
-                // ORCA: Expand the polygon with half the perimeter width in addition to the contracted amount,
+                // INFINIUM: Expand the polygon with half the perimeter width in addition to the contracted amount,
                 // not the full perimeter width as PS does, to enable thin lettering to print on the top surface without nozzle collisions
                 // due to thin lines being generated
                 top_expolygons = offset2_ex(top_expolygons, -top_surface_min_width, top_surface_min_width + float(perimeter_width * 0.85));
@@ -2478,7 +2478,7 @@ void PerimeterGenerator::process_arachne()
                 // Get final top ExPolygons (bridges were excluded above, so they stay walled).
                 top_expolygons = intersection_ex(top_expolygons, infill_contour);
 
-                // ORCA: onion the real region (inside the outer wall) so the remaining walls follow the actual
+                // INFINIUM: onion the real region (inside the outer wall) so the remaining walls follow the actual
                 // geometry, then cut away the parts over the top surface. Re-onioning the non-top complement
                 // instead - the fallback when there is no top fill - walls the top/non-top interface and rings
                 // top-surface islands with inner walls that don't exist when the feature is disabled.

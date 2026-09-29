@@ -536,7 +536,7 @@ nlohmann::json PluginConfig::capabilities_payload(const std::vector<PluginCapabi
 }
 
 // Config is sent as a JSON value, not text: the default editor pretty-prints it into its textarea,
-// and a custom UI receives it as-is through window.orca.
+// and a custom UI receives it as-is through window.infinium.
 nlohmann::json PluginConfig::get_config_response(const PluginCapabilityId& id)
 {
     nlohmann::json response;

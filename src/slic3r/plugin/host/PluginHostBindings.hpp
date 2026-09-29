@@ -2,7 +2,7 @@
 
 #include <pybind11/pybind11.h>
 
-// Internal to plugin/host/: the per-domain registrars of the `orca.host`
+// Internal to plugin/host/: the per-domain registrars of the `infinium.host`
 // surface, one per translation unit, called by PluginHost::RegisterBindings.
 namespace Slic3r::host_bindings {
 

@@ -29,7 +29,7 @@ namespace Slic3r {
  * - Ratings and reviews
  *
  * Implementations:
- * - InfiniumCloudServiceAgent: Native implementation for Orca Cloud (includes OAuth PKCE)
+ * - InfiniumCloudServiceAgent: Native implementation for Infinium Cloud (includes OAuth PKCE)
  * - BBLCloudServiceAgent: Wrapper around Bambu Lab's proprietary DLL
  *
  * Token Sharing Pattern:

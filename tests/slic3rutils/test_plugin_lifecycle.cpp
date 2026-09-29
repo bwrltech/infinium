@@ -645,7 +645,7 @@ TEST_CASE("The startup auto-load list only contains packages whose sidecar enabl
 
     ScopedDataDir data_dir_guard("lifecycle-autoload");
 
-    // No sidecar at all: never installed through Orca, so it carries no auto-load intent.
+    // No sidecar at all: never installed through Infinium, so it carries no auto-load intent.
     write_plugin(data_dir_guard, "Bare_Plugin", ECHO_PLUGIN_SOURCE);
 
     // Sidecar with enabled = true: auto-loads.

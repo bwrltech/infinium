@@ -104,7 +104,7 @@ void wgtDeviceNozzleRackUprade::CreateGui()
             wxPanel* separator = new wxPanel(this);
             separator->SetMaxSize(wxSize(-1, FromDIP(1)));
             separator->SetMinSize(wxSize(-1, FromDIP(1)));
-            separator->SetBackgroundColour(wxColour(238, 238, 238)); // Orca: grey300 as a literal, no equivalent colour macro in Orca
+            separator->SetBackgroundColour(wxColour(238, 238, 238)); // Infinium: grey300 as a literal, no equivalent colour macro in Infinium
             main_sizer->Add(separator, 0, wxEXPAND | wxLEFT | wxRIGHT, FromDIP(12));
         }
     }
@@ -290,7 +290,7 @@ void wgtDeviceNozzleRackHotendUpdate::CreateGui()
     m_status_bitmap->Bind(wxEVT_LEFT_UP, &wgtDeviceNozzleRackHotendUpdate::OnStatusIconClick, this);
 
     std::vector<std::string> list{"refresh_nozzle_1", "refresh_nozzle_2", "refresh_nozzle_3", "refresh_nozzle_4"};
-    // Orca: AnimaIcon has no per-instance size argument (it fixes the size internally), so none is passed.
+    // Infinium: AnimaIcon has no per-instance size argument (it fixes the size internally), so none is passed.
     m_refreshing_icon = new AnimaIcon(this, wxID_ANY, list, "refresh_nozzle", 100);
     m_refreshing_icon->Show(false);
 
@@ -621,7 +621,7 @@ void wgtDeviceNozzleRackHotendUpdate::UpdateInfo(const DevNozzle& nozzle)
         m_used_time->Show(true);
         m_status_label->Show(true);
         m_status_bitmap->Show(true);
-        m_status_label->SetForegroundColour(wxColour("#0D6E63")); // Orca: accent green
+        m_status_label->SetForegroundColour(wxColour("#0D6E63")); // Infinium: accent green
         m_status_label->SetLabel(_L("Refresh"));
         m_status_bitmap->SetBitmap(m_refresh_icon->bmp());
         m_status_bitmap->Refresh();

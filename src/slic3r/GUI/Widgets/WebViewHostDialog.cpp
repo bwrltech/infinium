@@ -21,7 +21,7 @@ namespace {
 // CSS "#rrggbb" for a wxColour (portable accessor used throughout the codebase).
 std::string css_color(const wxColour& c) { return c.GetAsString(wxC2S_HTML_SYNTAX).ToStdString(); }
 
-// "dark"/"light" for the live app theme — the value of both data-orca-theme and color-scheme.
+// "dark"/"light" for the live app theme — the value of both data-infinium-theme and color-scheme.
 std::string host_theme_name() { return wxGetApp().dark_mode() ? "dark" : "light"; }
 
 // The host theme "contract": CSS custom properties filled from the LIVE app theme,
@@ -58,7 +58,7 @@ std::string host_theme_vars_css()
 }
 
 // JS to re-theme an already-loaded document live (no reload): replace the injected
-// style's contents and update data-orca-theme. Everything downstream (theme.css
+// style's contents and update data-infinium-theme. Everything downstream (theme.css
 // tokens, plugin element defaults, page layout) re-cascades from these values.
 std::string host_theme_apply_js()
 {
@@ -75,7 +75,7 @@ if(document.documentElement)
 
 } // namespace
 
-// Document-start user script: injects the contract <style>, stamps data-orca-theme before
+// Document-start user script: injects the contract <style>, stamps data-infinium-theme before
 // first paint, and raises a JS flag so the legacy globalapi.js dark.css poll stands down for
 // host-themed pages. The WebView2 timing guard lives in document_start_injector().
 std::string WebViewHostDialog::theme_user_script()
@@ -281,7 +281,7 @@ void WebViewHostDialog::apply_theme_live()
     if (!m_browser)
         return;
     // Update the already-loaded document in place (no reload, no flash) by rewriting the
-    // injected :root variables + data-orca-theme; the whole cascade re-flows from these.
+    // injected :root variables + data-infinium-theme; the whole cascade re-flows from these.
     // The document-start script keeps the creation-time theme for any later reload, and
     // these dialogs are not reloaded on a theme toggle (see WebView::RecreateAll).
     run_script(wxString::FromUTF8(host_theme_apply_js()));

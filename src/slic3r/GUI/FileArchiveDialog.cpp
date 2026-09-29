@@ -364,7 +364,7 @@ void FileArchiveDialog::on_none_button()
     this->Refresh();
 }
 
-//Orca: Apply buttons style
+//Infinium: Apply buttons style
 wxBoxSizer* FileArchiveDialog::create_btn_sizer()
 {
     auto btn_sizer = new wxBoxSizer(wxHORIZONTAL);

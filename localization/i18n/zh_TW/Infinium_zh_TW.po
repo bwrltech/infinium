@@ -1264,7 +1264,7 @@ msgid "Operation"
 msgstr "操作"
 
 #. TRN EmbossOperation
-#. ORCA
+#. INFINIUM
 msgid "Join"
 msgstr "合併"
 
@@ -2579,8 +2579,8 @@ msgstr "環面"
 msgid "Infinium Cube"
 msgstr "Infinium 立方體"
 
-msgid "OrcaSliced Combo"
-msgstr "OrcaSliced 複合模型"
+msgid "InfiniumSliced Combo"
+msgstr "InfiniumSliced 複合模型"
 
 # AI Translated
 msgid "Infinium Badge"
@@ -6530,8 +6530,8 @@ msgid "Select profile to load:"
 msgstr "選擇要載入的設定檔："
 
 # AI Translated
-msgid "Config files (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
-msgstr "設定檔 (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
+msgid "Config files (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
+msgstr "設定檔 (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
 
 #, c-format, boost-format
 msgid "There is %d config imported. (Only non-system and compatible configs)"
@@ -19258,10 +19258,10 @@ msgid "DNS Server:"
 msgstr "DNS 伺服器："
 
 msgid "Test Infinium Slicer (GitHub)"
-msgstr "測試 OrcaSlicer(GitHub)"
+msgstr "測試 Infinium(GitHub)"
 
 msgid "Test Infinium Slicer (GitHub):"
-msgstr "測試 OrcaSlicer(GitHub):"
+msgstr "測試 Infinium(GitHub):"
 
 msgid "Test bing.com"
 msgstr "測試 Bing.com"
@@ -19561,11 +19561,11 @@ msgstr "\n\nInfinium 偵測到您的使用者預設同步功能尚未啟用，�
 msgid "Printer Setting"
 msgstr "列印裝置設定"
 
-msgid "Printer config bundle(.orca_printer)"
-msgstr "列印裝置設定檔 (.orca_printer)"
+msgid "Printer config bundle(.infinium_printer)"
+msgstr "列印裝置設定檔 (.infinium_printer)"
 
-msgid "Filament bundle(.orca_filament)"
-msgstr "線材設定檔 (.orca_filament)"
+msgid "Filament bundle(.infinium_filament)"
+msgstr "線材設定檔 (.infinium_filament)"
 
 msgid "Printer presets(.zip)"
 msgstr "列印裝置預設設定檔 (.zip)"
@@ -21459,8 +21459,8 @@ msgstr ""
 "避免翹曲\n"
 "您知道嗎？當列印容易翹曲的材料（如 ABS）時，適當提高熱床溫度可以降低翹曲的機率。"
 
-#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart OrcaSlicer."
-#~ msgstr "原生 Wayland 即時檢視需要 GStreamer GTK 視訊接收器。請為 GStreamer 安裝 gtksink 外掛程式，然後重新啟動 OrcaSlicer。"
+#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart Infinium."
+#~ msgstr "原生 Wayland 即時檢視需要 GStreamer GTK 視訊接收器。請為 GStreamer 安裝 gtksink 外掛程式，然後重新啟動 Infinium。"
 
 #~ msgid "Failed to initialize the native Wayland GStreamer video sink. Please check your GStreamer GTK plugin installation."
 #~ msgstr "無法初始化原生 Wayland GStreamer 視訊接收器。請檢查您的 GStreamer GTK 外掛程式安裝。"
@@ -21471,14 +21471,14 @@ msgstr ""
 #~ msgid "BambuSource has not correctly been registered for media playing! Press Yes to re-register it. You will be promoted twice"
 #~ msgstr "「BambuSource 未正確註冊為媒體播放模組！請點選『是』進行重新註冊，過程中會有兩次提示"
 
-#~ msgid "Missing BambuSource component registered for media playing! Please re-install OrcaSlicer or seek community help."
-#~ msgstr "缺少用於媒體播放的已註冊 BambuSource 元件！請重新安裝 OrcaSlicer 或尋求社群協助。"
+#~ msgid "Missing BambuSource component registered for media playing! Please re-install Infinium or seek community help."
+#~ msgstr "缺少用於媒體播放的已註冊 BambuSource 元件！請重新安裝 Infinium 或尋求社群協助。"
 
 #~ msgid "Using a BambuSource from a different install, video play may not work correctly! Press Yes to fix it."
 #~ msgstr "BambuSource 來自其他安裝版本，可能導致影片播放異常！請點選『是』進行修復。"
 
-#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Orca Slicer?)"
-#~ msgstr "您的系統缺少 GStreamer 的 H.264 編解碼器，這是播放影片所必需的。（請嘗試安裝 gstreamer1.0-plugins-bad 或 gstreamer1.0-libav 套件，然後重新啟動 Orca Slicer。）"
+#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Infinium?)"
+#~ msgstr "您的系統缺少 GStreamer 的 H.264 編解碼器，這是播放影片所必需的。（請嘗試安裝 gstreamer1.0-plugins-bad 或 gstreamer1.0-libav 套件，然後重新啟動 Infinium。）"
 
 # AI Translated
 #~ msgid "N"
@@ -21589,8 +21589,8 @@ msgstr ""
 #~ msgstr "目前韌體最多支援 16 種線材。您可以在準備頁面將材料數量減少到 16 種或更少，或者嘗試更新韌體。如果更新後仍然受限，請等待後續韌體支援。"
 
 # TODO: Review, changed by lang refactor. PR 14254
-#~ msgid "Click OK to update the Network plug-in the next time Orca Slicer launches."
-#~ msgstr "按下『確定』後，下次啟動 Orca Slicer 時會更新網路外掛程式。"
+#~ msgid "Click OK to update the Network plug-in the next time Infinium launches."
+#~ msgstr "按下『確定』後，下次啟動 Infinium 時會更新網路外掛程式。"
 
 # TODO: Review, changed by lang refactor. PR 14254
 #, boost-format
@@ -22065,8 +22065,8 @@ msgstr ""
 #~ msgid "Object/Part Setting"
 #~ msgstr "物件/零件 設定"
 
-#~ msgid "OrcaSlicer is based on BambuStudio, PrusaSlicer, and SuperSlicer."
-#~ msgstr "Orca Slicer 是基於 BambuStudio, PrusaSlicer, 與 SuperSlicer 的開發。"
+#~ msgid "Infinium is based on BambuStudio, PrusaSlicer, and SuperSlicer."
+#~ msgstr "Infinium 是基於 BambuStudio, PrusaSlicer, 與 SuperSlicer 的開發。"
 
 #~ msgid "BambuStudio is originally based on PrusaSlicer by PrusaResearch."
 #~ msgstr "BambuStudio 最初是基於 PrusaResearch 的 PrusaSlicer。"
@@ -22095,14 +22095,14 @@ msgstr ""
 #~ msgid "Flow ratio test - Pass 2"
 #~ msgstr "流量比例測試 - 通過 2"
 
-#~ msgid "Orca YOLO flowratio calibration, 0.01 step"
-#~ msgstr "Orca YOLO 流量比例校正，0.01 步"
+#~ msgid "Infinium YOLO flowratio calibration, 0.01 step"
+#~ msgstr "Infinium YOLO 流量比例校正，0.01 步"
 
 #~ msgid "YOLO (perfectionist version)"
 #~ msgstr "YOLO (完美主義者模式)"
 
-#~ msgid "Orca YOLO flowratio calibration, 0.005 step"
-#~ msgstr "Orca YOLO 流量比例校正，0.005 步"
+#~ msgid "Infinium YOLO flowratio calibration, 0.005 step"
+#~ msgstr "Infinium YOLO 流量比例校正，0.005 步"
 
 #~ msgid "Retraction test"
 #~ msgstr "回抽測試"
@@ -22141,8 +22141,8 @@ msgstr ""
 #~ msgid "Right nozzle: %smm"
 #~ msgstr "右噴嘴：%smm"
 
-#~ msgid "\"Fix Model\" feature is currently only on Windows. Please repair the model on Orca Slicer(windows) or CAD softwares."
-#~ msgstr "「模型修復」功能目前僅適用於 Windows。請在 Orca Slicer（Windows）或 CAD 軟體中修復模型。"
+#~ msgid "\"Fix Model\" feature is currently only on Windows. Please repair the model on Infinium(windows) or CAD softwares."
+#~ msgstr "「模型修復」功能目前僅適用於 Windows。請在 Infinium（Windows）或 CAD 軟體中修復模型。"
 
 #~ msgid "This stops the transmission of data to Bambu's cloud services. Users who don't use BBL machines or use LAN mode only can safely turn on this function."
 #~ msgstr "這會停止資料傳輸到 Bambu 的雲端服務。使用者如果不使用 Bambu 列印裝置或僅使用區域網路模式，可以安全地啟用此功能。"

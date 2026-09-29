@@ -1034,9 +1034,9 @@ namespace client
         {
             if (! ctx->skipping()) {
                 if (index < 0)
-                    index = 0; // Orca: fallback to first element if index < 0, this matches the behavior of BambuStudio
+                    index = 0; // Infinium: fallback to first element if index < 0, this matches the behavior of BambuStudio
                 if (!opt.opt->is_vector())
-                    index = -1; // Orca: ignore the index if variable is scalar, this matches the behavior of BambuStudio
+                    index = -1; // Infinium: ignore the index if variable is scalar, this matches the behavior of BambuStudio
                 output = opt;
                 output.index = index;
             } else

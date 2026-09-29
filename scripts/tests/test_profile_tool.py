@@ -135,7 +135,7 @@ class TestNormalize(TreeCase):
         self.assertEqual(self.t.read("V", "process/B.json")["type"], "process")
 
     def test_the_machine_folder_splits_on_the_preset_name(self):
-        # Orca keeps machine models in machine/ next to the nozzle variants that
+        # Infinium keeps machine models in machine/ next to the nozzle variants that
         # are machines; only the name tells them apart.
         self.t.write("V", "machine/M.json", {"name": "V Printer"})
         self.t.write("V", "machine/N.json", {"name": "V Printer 0.4 nozzle"})

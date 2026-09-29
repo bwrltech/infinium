@@ -32,7 +32,7 @@ static void append_and_translate(ExPolygons &dst, const ExPolygons &src, const P
     for (; dst_idx < dst.size(); ++dst_idx)
         dst[dst_idx].translate(instance_shift);
 }
-// Orca: Translate the brim area into print coordinates and store it per instance.
+// Infinium: Translate the brim area into print coordinates and store it per instance.
 static void append_and_translate(const ExPolygons& src, const PrintInstance& instance,
     size_t instance_idx, std::map<ObjectInstanceID, ExPolygons>& brimAreaMap) {
     ExPolygons srcShifted = src;
@@ -50,7 +50,7 @@ static void append_and_translate(Polygons &dst, const Polygons &src, const Print
         dst[dst_idx].translate(instance_shift);
 }
 
-//ORCA: Brim can follow the post-EFC outline when enabled.
+//INFINIUM: Brim can follow the post-EFC outline when enabled.
 static bool use_brim_efc_outline(const PrintObject &object)
 {
     return object.config().brim_use_efc_outline.value
@@ -59,7 +59,7 @@ static bool use_brim_efc_outline(const PrintObject &object)
         && object.config().raft_layers.value == 0;
 }
 
-//ORCA: Helper for projecting painted ears to the EFC outline.
+//INFINIUM: Helper for projecting painted ears to the EFC outline.
 static bool closest_point_on_expolygons(const ExPolygons &polygons, const Point &from, Point &closest_out)
 {
     double min_dist2 = std::numeric_limits<double>::max();
@@ -82,7 +82,7 @@ static bool closest_point_on_expolygons(const ExPolygons &polygons, const Point 
     return found;
 }
 
-//ORCA: Helper for matching painted ears to their original island before EFC projection.
+//INFINIUM: Helper for matching painted ears to their original island before EFC projection.
 static int find_containing_expolygon_index(const ExPolygons &polygons, const Point &from)
 {
     for (size_t idx = 0; idx < polygons.size(); ++idx) {
@@ -92,7 +92,7 @@ static int find_containing_expolygon_index(const ExPolygons &polygons, const Poi
     return -1;
 }
 
-//ORCA: Keep painted ear projection on the matching island when using EFC outline.
+//INFINIUM: Keep painted ear projection on the matching island when using EFC outline.
 static bool closest_point_on_matching_island(const ExPolygons &raw_outline, const ExPolygons &efc_outline, const Point &from, Point &closest_out)
 {
     const int island_idx = find_containing_expolygon_index(raw_outline, from);
@@ -104,7 +104,7 @@ static bool closest_point_on_matching_island(const ExPolygons &raw_outline, cons
     return closest_point_on_expolygons(efc_outline, from, closest_out);
 }
 
-//ORCA: Use post-processed first-layer slices (including EFC) for brim outline.
+//INFINIUM: Use post-processed first-layer slices (including EFC) for brim outline.
 // Returns ExPolygons of the bottom layer after all first-layer modifiers
 // (including elephant foot compensation, if enabled) have been applied.
 static ExPolygons get_print_object_bottom_layer_expolygons(const PrintObject &print_object)
@@ -356,11 +356,11 @@ static ExPolygons make_brim_ears(const PrintObject* object)
     if (brim_ear_points.size() <= 0) {
         return mouse_ears_ex;
     }
-    //ORCA: Painted ears follow the EFC-adjusted outline when enabled, while
+    //INFINIUM: Painted ears follow the EFC-adjusted outline when enabled, while
     // preserving their position along the selected outline segment.
     const bool use_efc_outline = use_brim_efc_outline(*object);
     const ExPolygons &raw_outline = object->layers().front()->lslices;
-    //ORCA: Lazily computed EFC-adjusted bottom outline.
+    //INFINIUM: Lazily computed EFC-adjusted bottom outline.
     //Stored separately so we can avoid recomputation unless EFC projection is used.
     ExPolygons efc_outline_storage;
     const ExPolygons* efc_outline = nullptr;
@@ -384,17 +384,17 @@ static ExPolygons make_brim_ears(const PrintObject* object)
         int32_t pt_x = scale_(pos.x());
         int32_t pt_y = scale_(pos.y());
 
-        //ORCA: Project painted ears to the EFC-adjusted outline when enabled.
+        //INFINIUM: Project painted ears to the EFC-adjusted outline when enabled.
         if (use_efc_outline) {
             if (efc_outline == nullptr) {
-                //ORCA: Compute the EFC-adjusted outline lazily for painted ear projection.
+                //INFINIUM: Compute the EFC-adjusted outline lazily for painted ear projection.
                 efc_outline_storage = get_print_object_bottom_layer_expolygons(*object);
                 efc_outline = &efc_outline_storage;
             }
 
             if (!efc_outline->empty()) {
                 Point closest_point;
-                //ORCA: Project within the matching island to avoid drifting to another island.
+                //INFINIUM: Project within the matching island to avoid drifting to another island.
                 if (closest_point_on_matching_island(
                         raw_outline,
                         *efc_outline,
@@ -452,11 +452,11 @@ static ExPolygons outer_inner_brim_area(const Print& print,
             const bool         has_outer_brim = brim_type == btOuterOnly || brim_type == btOuterAndInner || brim_type == btAutoBrim || use_auto_brim_ears || use_brim_ears;
             coord_t            ear_detection_length = scale_(object->config().brim_ears_detection_length.value);
             coordf_t           brim_ears_max_angle = object->config().brim_ears_max_angle.value;
-            //ORCA: Select brim base slices from EFC-compensated outline when enabled.
+            //INFINIUM: Select brim base slices from EFC-compensated outline when enabled.
             const bool         use_efc_outline = use_brim_efc_outline(*object);
             ExPolygons         brim_slices_storage;
             const ExPolygons*  brim_slices = nullptr;
-            //ORCA: Select EFC-adjusted bottom outline when enabled.
+            //INFINIUM: Select EFC-adjusted bottom outline when enabled.
             if (use_efc_outline)
                 brim_slices_storage = get_print_object_bottom_layer_expolygons(*object);
             brim_slices = use_efc_outline ? &brim_slices_storage : &object->layers().front()->lslices;
@@ -497,7 +497,7 @@ static ExPolygons outer_inner_brim_area(const Print& print,
                     ExPolygons volume_group_slices_efc;
                     const ExPolygons* volume_group_slices = &volumeGroup.slices;
                     if (use_efc_outline) {
-                        //ORCA: When using EFC outline, restrict per-volume-group slices to the
+                        //INFINIUM: When using EFC outline, restrict per-volume-group slices to the
                         // EFC-adjusted bottom footprint to keep brim width heuristics consistent.
                         volume_group_slices_efc = intersection_ex(*brim_slices, volumeGroup.slices);
                         volume_group_slices = &volume_group_slices_efc;
@@ -613,7 +613,7 @@ static ExPolygons outer_inner_brim_area(const Print& print,
 
     int  extruder_nums = print.config().nozzle_diameter.values.size();
     std::vector<Polygons> extruder_unprintable_area = print.get_extruder_printable_polygons();
-    // Orca: if per-extruder print area is not specified, use the whole bed as printable area for all extruders
+    // Infinium: if per-extruder print area is not specified, use the whole bed as printable area for all extruders
     if (extruder_unprintable_area.empty()) {
         extruder_unprintable_area.resize(extruder_nums, Polygons{Model::getBedPolygon()});
     }
@@ -881,7 +881,7 @@ void make_brim(const Print& print, PrintTryCancel try_cancel, Polygons& islands_
     for (const ObjectID printObjID : print.print_object_ids()) {
         BoundingBox bbx;
         PrintObject* object = const_cast<PrintObject*>(print.get_object(printObjID));
-        //ORCA: Use EFC-compensated outline for brim bounding box when enabled.
+        //INFINIUM: Use EFC-compensated outline for brim bounding box when enabled.
         const ExPolygons brim_slices = use_brim_efc_outline(*object) ?
             get_print_object_bottom_layer_expolygons(*object) : object->layers().front()->lslices;
         for (const ExPolygon& ex_poly : brim_slices)
@@ -912,7 +912,7 @@ void make_brim(const Print& print, PrintTryCancel try_cancel, Polygons& islands_
     for (size_t iia = 0; iia < islands_area.size(); ++iia)
         islands_area[iia].translate(plate_shift);
 
-    // Orca: keep translated brim footprints for skirt grouping.
+    // Infinium: keep translated brim footprints for skirt grouping.
     auto translate_area_map = [plate_shift](const auto& src) {
         auto dst = src;
         for (auto& [_, areas] : dst)
@@ -923,7 +923,7 @@ void make_brim(const Print& print, PrintTryCancel try_cancel, Polygons& islands_
     if (objectBrimAreasByInstanceOut != nullptr)
         *objectBrimAreasByInstanceOut = translate_area_map(brimAreaMap);
 
-    // Orca: Generate brims per object instance. If Combine brims is enabled,
+    // Infinium: Generate brims per object instance. If Combine brims is enabled,
     // Print::_make_skirt() will join the touching ones.
     for (auto iter = brimAreaMap.begin(); iter != brimAreaMap.end(); ++iter) {
         if (!iter->second.empty()) {

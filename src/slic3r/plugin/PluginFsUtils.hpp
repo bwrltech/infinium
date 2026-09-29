@@ -19,7 +19,7 @@ namespace Slic3r {
 extern const char* const INSTALL_STATE_FILE;
 
 // JSON <-> Python conversion shared by the plugin bindings. The caller must hold the GIL.
-// Plugin config and orca.host.ui payloads both cross the boundary as plain JSON-compatible
+// Plugin config and infinium.host.ui payloads both cross the boundary as plain JSON-compatible
 // values, so both go through these.
 
 inline pybind11::object json_to_py(const nlohmann::json& j)

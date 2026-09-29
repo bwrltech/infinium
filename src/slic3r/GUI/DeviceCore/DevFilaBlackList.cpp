@@ -88,7 +88,7 @@ void check_filaments(const DevFilaBlacklist::CheckFilamentInfo& check_info, DevF
     std::string tag_vendor = check_info.fila_vendor;
     std::string tag_calib_mode = check_info.calib_mode;
 
-    // Orca: the print-send and calibration consumers do not populate fila_name; recover it from the
+    // Infinium: the print-send and calibration consumers do not populate fila_name; recover it from the
     // selected AMS slot so name / name_suffix rules keep matching.
     if (tag_name.empty())
     {
@@ -306,7 +306,7 @@ void check_filaments(const DevFilaBlacklist::CheckFilamentInfo& check_info, DevF
 // (0 printable / 1 error / 2 critical warning / 3 warning), bowden-extruder message variants and
 // toolhead display names for the "%s extruder" name.
 //
-// Orca: several deliberate divergences preserve H2D dual-extruder behaviour when the compatibility
+// Infinium: several deliberate divergences preserve H2D dual-extruder behaviour when the compatibility
 // key is absent (default 0 = printable):
 //   - The extruder is resolved from the ams_id rather than a threaded check_info.extruder_id with an
 //     early-return: extruder_id is only threaded on the print-send consumer, so falling back on

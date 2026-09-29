@@ -34,10 +34,10 @@
 #define L_RAW_B_STR _L("Row B")
 
 static wxColour s_gray_clr("#B0B0B0");
-static wxColour s_hgreen_clr("#0D6E63"); // Orca: accent green
+static wxColour s_hgreen_clr("#0D6E63"); // Infinium: accent green
 static wxColour s_red_clr("#D01B1B");
 
-// Orca: StateColor lacks these grey constants, so mirror the values here.
+// Infinium: StateColor lacks these grey constants, so mirror the values here.
 static const wxColour WGT_GREY200 = wxColour(248, 248, 248);
 static const wxColour WGT_GREY300 = wxColour(238, 238, 238);
 
@@ -71,7 +71,7 @@ static wxBitmap SetNozzleBmpColor(const wxBitmap& bmp, const std::string& color_
     return wxBitmap(img, -1, bmp.GetScaleFactor());
 }
 
-// Orca: StateColor has no gray button style, so define one file-local. This panel is its only
+// Infinium: StateColor has no gray button style, so define one file-local. This panel is its only
 // consumer, so keeping it here avoids touching the shared StateColor widget.
 static StateColor s_button_style_gray()
 {

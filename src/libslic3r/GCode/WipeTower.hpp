@@ -164,7 +164,7 @@ public:
 			}
 			return e_length;
 		}
-		// Orca: set by WipeTower2 (non-BBL tower) to force a travel to the tower even when the
+		// Infinium: set by WipeTower2 (non-BBL tower) to force a travel to the tower even when the
 		// previous position is unknown; read by WipeTowerIntegration::append_tcr2 (GCode.cpp).
 		bool force_travel = false;
 	};
@@ -226,7 +226,7 @@ public:
     void set_extruder(size_t idx, const PrintConfig& config);
 
     void set_shared_print_bed(const Polygons &bed) { m_shared_print_bed = bed; }
-    // Orca: has_filament_switcher is not a static PrintConfig member here, so it is pushed in from
+    // Infinium: has_filament_switcher is not a static PrintConfig member here, so it is pushed in from
     // Print via a setter rather than read in the ctor. Device-set only.
     void set_has_filament_switcher(bool v) { m_has_filament_switcher = v; }
 	// Appends into internal structure m_plan containing info about the future wipe tower
@@ -444,7 +444,7 @@ public:
     void update_all_layer_depth(float wipe_tower_depth);
     void set_nozzle_last_layer_id();
     void set_first_layer_flow_ratio(const float flow_ratio);
-    // Orca: default/initial-layer/travel acceleration are object-scope options here (PrintConfig
+    // Infinium: default/initial-layer/travel acceleration are object-scope options here (PrintConfig
     // members in BBS), so Print pushes the resolved per-variant columns in via this setter.
     void set_accelerations(const std::vector<double> &normal, const std::vector<double> &first_layer_normal,
                            const std::vector<double> &travel, const std::vector<double> &first_layer_travel);

@@ -99,7 +99,7 @@ TEST_CASE("Single-nozzle grouping: every filament maps to its extruder nozzle", 
     SECTION("dual extruder => nozzle id equals the classic extruder grouping")
     {
         auto nozzle_list = single_nozzle_per_extruder(2);
-        // filament -> extruder map (the map Orca's reorder already computes).
+        // filament -> extruder map (the map Infinium's reorder already computes).
         std::vector<int>          filament_map   = {0, 1, 0, 1};
         std::vector<unsigned int> used_filaments = {0, 1, 2, 3};
 

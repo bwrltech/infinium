@@ -103,7 +103,7 @@ inline bool is_bridge(ExtrusionRole role)
         || role == erOverhangPerimeter;
 }
 
-// Orca
+// Infinium
 inline bool is_support(ExtrusionRole role)
 {
     return role == erSupportMaterial
@@ -150,7 +150,7 @@ public:
     virtual double length() const = 0;
     virtual double total_volume() const = 0;
     
-    // Orca: Used for inner/outer/inner mode - classic perimeter generator
+    // Infinium: Used for inner/outer/inner mode - classic perimeter generator
     int inset_idx = -1;
 
     static std::string role_to_string(ExtrusionRole role);

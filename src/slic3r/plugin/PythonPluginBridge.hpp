@@ -25,7 +25,7 @@ public:
     // Mark the beginning of a plugin registration capture for the provided key (usually file path).
     void begin_plugin_capture(const std::string& plugin_key);
 
-    // Finalize capture: the plugin class was recorded by the @orca.plugin decorator during
+    // Finalize capture: the plugin class was recorded by the @infinium.plugin decorator during
     // import; run register_capabilities() (which registers each capability class), then
     // instantiate every registered capability and cache its get_name().
     // Returns one CapturedCapability per capability, or an empty vector on failure

@@ -299,7 +299,7 @@ void AMSMaterialsSetting::create_panel_kn(wxWindow* parent)
     m_ratio_text->SetForegroundColour(wxColour(50, 58, 61));
     m_ratio_text->SetFont(Label::Head_14);
 
-    // Orca: link to the Orca Slicer pressure-advance wiki (region-agnostic).
+    // Infinium: link to the Infinium pressure-advance wiki (region-agnostic).
     wxString link_url = "https://www.infinium.com/wiki/pressure_advance_calib";
     m_wiki_ctrl = new HyperLink(parent, _L("Wiki Guide"), link_url);
     cali_title_sizer->Add(m_ratio_text, 0, wxALIGN_CENTER_VERTICAL);
@@ -450,7 +450,7 @@ void AMSMaterialsSetting::update_filament_editing(bool is_printing)
         m_tip_readonly->Show(is_printing);
     }
 
-    if (m_view_only) { // Orca: view-only (2D laser/cut) — lock every edit control and hide apply/reset
+    if (m_view_only) { // Infinium: view-only (2D laser/cut) — lock every edit control and hide apply/reset
         m_comboBox_filament->Enable(false);
         m_comboBox_cali_result->Enable(false);
         m_input_k_val->Enable(false);
@@ -461,7 +461,7 @@ void AMSMaterialsSetting::update_filament_editing(bool is_printing)
 }
 
 void AMSMaterialsSetting::on_select_reset(wxCommandEvent& event) {
-    if (m_view_only) return; // Orca: view-only never commits
+    if (m_view_only) return; // Infinium: view-only never commits
     MessageDialog msg_dlg(nullptr, _L("Are you sure you want to clear the filament information?"), wxEmptyString, wxICON_WARNING | wxOK | wxCANCEL);
     auto result = msg_dlg.ShowModal();
     if (result != wxID_OK)
@@ -563,7 +563,7 @@ sCheckFilamentInfo(PresetBundle*      preset_bundle,
     if (!preset_bundle || !obj)
         return result;
 
-    // Orca: there is no lookup struct that also carries setting_id, so resolve the (root) preset by
+    // Infinium: there is no lookup struct that also carries setting_id, so resolve the (root) preset by
     // scanning the filaments collection for a matching filament_id.
     Preset* fila_preset = nullptr;
     for (auto it = preset_bundle->filaments.begin(); it != preset_bundle->filaments.end(); ++it) {
@@ -629,7 +629,7 @@ void AMSMaterialsSetting::on_select_ok(wxCommandEvent &event)
     if (!obj)
         return;
 
-    if (m_view_only) return; // Orca: view-only never commits
+    if (m_view_only) return; // Infinium: view-only never commits
 
     //get filament id
     ams_filament_id = "";
@@ -683,7 +683,7 @@ void AMSMaterialsSetting::on_select_ok(wxCommandEvent &event)
     }
 
 
-    // Orca: log the tray payload this dialog hands the printer, so the filament_id resolved from the
+    // Infinium: log the tray payload this dialog hands the printer, so the filament_id resolved from the
     // dropdown selection can be checked against the tray_info_idx the AMS actually receives. A
     // BBL-tagged (RFID) tray is read-only here, so nothing is published for it.
     BOOST_LOG_TRIVIAL(info) << "ams_materials_setting: " << (m_is_third ? "sending" : "NOT sending (BBL RFID tray, read-only)")
@@ -861,7 +861,7 @@ void AMSMaterialsSetting::on_picker_color(wxCommandEvent& event)
 
 void AMSMaterialsSetting::on_clr_picker(wxMouseEvent &event)
 {
-    if (m_view_only) return; // Orca: view-only disables color editing
+    if (m_view_only) return; // Infinium: view-only disables color editing
     if(!m_is_third)
         return;
 
@@ -915,7 +915,7 @@ void AMSMaterialsSetting::update_widgets()
 bool AMSMaterialsSetting::Show(bool show)
 {
     if (show) {
-        m_button_confirm->Rescale(); // ORCA re applies size
+        m_button_confirm->Rescale(); // INFINIUM re applies size
         m_input_nozzle_max->GetTextCtrl()->SetSize(wxSize(-1, FromDIP(20)));
         m_input_nozzle_min->GetTextCtrl()->SetSize(wxSize(-1, FromDIP(20)));
         //m_clr_picker->set_color(m_clr_picker->GetParent()->GetBackgroundColour());
@@ -1298,7 +1298,7 @@ void AMSMaterialsSetting::on_select_filament(wxCommandEvent &evt)
     if ( !this->obj || m_filament_selection < 0) {
         m_input_k_val->Enable(false);
         m_input_n_val->Enable(false);
-        m_button_confirm->Disable(); // ORCA No need to change style
+        m_button_confirm->Disable(); // INFINIUM No need to change style
         m_comboBox_cali_result->Clear();
         m_comboBox_cali_result->SetValue(wxEmptyString);
         m_input_k_val->GetTextCtrl()->SetValue(wxEmptyString);
@@ -1307,7 +1307,7 @@ void AMSMaterialsSetting::on_select_filament(wxCommandEvent &evt)
         return;
     }
     else {
-        m_button_confirm->Enable(true);  // ORCA No need to change style
+        m_button_confirm->Enable(true);  // INFINIUM No need to change style
     }
 
     //filament id
@@ -1457,9 +1457,9 @@ void AMSMaterialsSetting::on_dpi_changed(const wxRect &suggested_rect)
     degree->msw_rescale();
     bitmap_max_degree->SetBitmap(degree->bmp());
     bitmap_min_degree->SetBitmap(degree->bmp());
-    m_button_reset->Rescale(); // ORCA
-    m_button_confirm->Rescale(); // ORCA
-    m_button_close->Rescale(); // ORCA
+    m_button_reset->Rescale(); // INFINIUM
+    m_button_confirm->Rescale(); // INFINIUM
+    m_button_close->Rescale(); // INFINIUM
     this->Refresh();
 }
 

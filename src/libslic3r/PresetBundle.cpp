@@ -106,7 +106,7 @@ static std::vector<std::string> s_project_options {
 // assertions in tests/libslic3r/test_preset_bundle_loading.cpp guard both directions.
 static std::vector<std::string> s_project_options_published{"wipe_tower_x", "wipe_tower_y", "wipe_tower_rotation_angle"};
 
-//Orca: add custom as default
+//Infinium: add custom as default
 const char *PresetBundle::INFINIUM_DEFAULT_BUNDLE = "Custom";
 const char *PresetBundle::INFINIUM_DEFAULT_PRINTER_MODEL = "MyKlipper 0.4 nozzle";
 const char *PresetBundle::INFINIUM_DEFAULT_PRINTER_VARIANT = "0.4";
@@ -181,7 +181,7 @@ DynamicPrintConfig PresetBundle::construct_full_config(
         extruder_volume_type_count = out.get_extruder_nozzle_volume_count(extruder_count, nozzle_volume_types);
 
         if ((extruder_count > 1) || different_extruder) {
-            // Orca: keep processing variant_1 before variant_2 here; variant_2 slots are resolved
+            // Infinium: keep processing variant_1 before variant_2 here; variant_2 slots are resolved
             // against the printer id/variant lists as rewritten by the variant_1 pass, and the
             // composed values depend on that order. Note the order is load-bearing, not correct
             // in general: the variant_2 pass reads the original full-width arrays through indices
@@ -1597,7 +1597,9 @@ PresetsConfigSubstitutions PresetBundle::import_presets(std::vector<std::string>
             import_json_presets(substitutions, file, override_confirm, rule, overwrite, result);
         }
         // Determine if it is a preset bundle
-        if (boost::iends_with(file, ".infinium_printer") || boost::iends_with(file, ".infinium_bundle") || boost::iends_with(file, ".infinium_filament") || boost::iends_with(file, ".zip")) {
+        if (boost::iends_with(file, ".infinium_printer") || boost::iends_with(file, ".infinium_bundle") || boost::iends_with(file, ".infinium_filament") || boost::iends_with(file, ".zip") ||
+            // legacy extensions from before the Infinium rename
+            boost::iends_with(file, ".orca_printer") || boost::iends_with(file, ".orca_bundle") || boost::iends_with(file, ".orca_filament")) {
             boost::system::error_code ec;
             // create user folder
             fs::path user_folder(data_dir() + "/" + PRESET_USER_DIR);
@@ -1906,7 +1908,7 @@ void PresetBundle::check_and_fix_user_presets_syncinfo(const std::string& user_i
     process_collection(this->printers);
 }
 
-//Orca: Import subscribed bundle presets (load and save to disk in one operation)
+//Infinium: Import subscribed bundle presets (load and save to disk in one operation)
 PresetsConfigSubstitutions PresetBundle::update_subscribed_presets(
     AppConfig& config,
     const std::map<std::string, std::map<std::string, std::string>>& bundle_presets,
@@ -2177,7 +2179,7 @@ bool PresetBundle::save_preset_to_bundle_dir(Preset& preset, PresetCollection* c
             if (!parent_preset) {
                 BOOST_LOG_TRIVIAL(error) << __FUNCTION__ << " cannot find parent preset for " << preset.name << ", inherits " << inherits;
             } else {
-                // Orca: take the saved diff against the resolved parent (renamed / library-matched).
+                // Infinium: take the saved diff against the resolved parent (renamed / library-matched).
                 Preset::normalize_inherits(preset.config, parent_preset);
                 if (preset.base_id.empty())
                     preset.base_id = parent_preset->setting_id;
@@ -3008,7 +3010,7 @@ static void load_mixed_filament_settings(DynamicPrintConfig &project_config, App
 void PresetBundle::update_selections(AppConfig &config)
 {
     std::string initial_printer_profile_name    = printers.get_selected_preset_name();
-    // Orca: load from infinium_presets
+    // Infinium: load from infinium_presets
     std::string initial_print_profile_name        = config.get_printer_setting(initial_printer_profile_name, PRESET_PRINT_NAME);
     std::string initial_filament_profile_name     = config.get_printer_setting(initial_printer_profile_name, PRESET_FILAMENT_NAME);
 
@@ -3098,7 +3100,7 @@ void PresetBundle::update_selections(AppConfig &config)
 
     std::string first_visible_filament_name;
     for (auto & fp : filament_presets) {
-        // Orca: also match the INFINIUM_DEFAULT_FILAMENT_PLACEHOLDER placeholder. update_compatible_internal
+        // Infinium: also match the INFINIUM_DEFAULT_FILAMENT_PLACEHOLDER placeholder. update_compatible_internal
         // iterates from m_num_default_presets, so the placeholder's is_compatible flag
         // stays true and the not-found/visible/compatible predicate alone would miss it.
         if (auto it = filaments.find_preset_internal(fp); fp == INFINIUM_DEFAULT_FILAMENT_PLACEHOLDER || it == filaments.end() || !it->is_visible || !it->is_compatible) {
@@ -3149,7 +3151,7 @@ void PresetBundle::load_selections(AppConfig &config, const PresetPreferences& p
     }
     CNumericLocalesSetter locales_setter;
 
-    // Orca: load from infinium_presets
+    // Infinium: load from infinium_presets
     // const auto os_presets = config.get_machine_settings(initial_printer_profile_name);
     std::string initial_print_profile_name        = config.get_printer_setting(initial_printer_profile_name, PRESET_PRINT_NAME);
     std::string initial_filament_profile_name     = config.get_printer_setting(initial_printer_profile_name, PRESET_FILAMENT_NAME);
@@ -3278,7 +3280,7 @@ void PresetBundle::load_selections(AppConfig &config, const PresetPreferences& p
 
     std::string first_visible_filament_name;
     for (auto & fp : filament_presets) {
-        // Orca: also match the INFINIUM_DEFAULT_FILAMENT_PLACEHOLDER placeholder — see update_selections.
+        // Infinium: also match the INFINIUM_DEFAULT_FILAMENT_PLACEHOLDER placeholder — see update_selections.
         if (auto it = filaments.find_preset_internal(fp); fp == INFINIUM_DEFAULT_FILAMENT_PLACEHOLDER || it == filaments.end() || !it->is_visible || !it->is_compatible) {
             if (first_visible_filament_name.empty())
                 first_visible_filament_name = filaments.first_compatible().name;
@@ -3302,7 +3304,7 @@ void PresetBundle::load_selections(AppConfig &config, const PresetPreferences& p
     if (use_default_nozzle_volume_type) {
         project_config.option<ConfigOptionEnumsGeneric>("nozzle_volume_type")->values = current_printer.config.option<ConfigOptionEnumsGeneric>("default_nozzle_volume_type")->values;
     } else {
-        // Orca: make sure `nozzle_volume_type` not shorter than `default_nozzle_volume_type`, otherwise we got array out of bound access
+        // Infinium: make sure `nozzle_volume_type` not shorter than `default_nozzle_volume_type`, otherwise we got array out of bound access
         // later in `Tab::switch_excluder`
         auto& opt = project_config.option<ConfigOptionEnumsGeneric>("nozzle_volume_type")->values;
         const auto& opt_default = current_printer.config.option<ConfigOptionEnumsGeneric>("default_nozzle_volume_type")->values;
@@ -3600,7 +3602,7 @@ std::vector<size_t> PresetBundle::physical_filament_config_indices() const
 }
 
 
-// Orca: the AMS lookups below resolve a tray's filament_id to the FIRST compatible base
+// Infinium: the AMS lookups below resolve a tray's filament_id to the FIRST compatible base
 // preset. When several presets match the same id for the selected printer the pick is
 // arbitrary (a profile bug - see the validator's check_duplicate_filament_subtypes), so
 // scan past a successful match and warn about the runners-up. Behavior is unchanged.
@@ -3723,7 +3725,7 @@ unsigned int PresetBundle::sync_ams_list(std::vector<std::pair<DynamicPrintConfi
                 }
                 ams_multi_color_filment.push_back(filament_multi_color);
             } else if (is_placeholder) {
-                // Orca: push placeholders to keep index alignment with ams_infos
+                // Infinium: push placeholders to keep index alignment with ams_infos
                 ams_filament_presets.push_back("");
                 ams_filament_colors.push_back("");
                 ams_filament_color_types.push_back("");
@@ -4068,7 +4070,7 @@ unsigned int PresetBundle::sync_ams_list(std::vector<std::pair<DynamicPrintConfi
         bool has_placeholders = std::any_of(ams_infos.begin(), ams_infos.end(),
                                              [](const AmsInfo& a) { return a.is_placeholder; });
         if (has_placeholders) {
-            // Orca: merge — keep existing filaments for empty slots
+            // Infinium: merge — keep existing filaments for empty slots
             auto exist_colors       = filament_color->values;
             auto exist_color_types  = filament_color_type->values;
             auto exist_presets      = this->filament_presets;
@@ -4256,7 +4258,7 @@ std::vector<std::vector<DynamicPrintConfig>> PresetBundle::get_extruder_filament
     return filament_infos;
 }
 
-// ORCA TODO: currently, this function assumes the printer name follows the pattern of "<printer_model> <nozzle_diameter>", e.g.
+// INFINIUM TODO: currently, this function assumes the printer name follows the pattern of "<printer_model> <nozzle_diameter>", e.g.
 // printer_type: "Bambu Lab X2D", nozzle_diameter_str: "0.4 nozzle" => printer_name: "Bambu Lab X2D 0.4 nozzle". If the printer name does
 // not follow this pattern, the function may not work correctly.
 std::set<std::string> PresetBundle::get_printer_names_by_printer_type_and_nozzle(const std::string &printer_type, std::string nozzle_diameter_str, bool system_only)
@@ -4392,7 +4394,7 @@ Preset *PresetBundle::get_similar_printer_preset(std::string printer_model, std:
 {
     if (printer_model.empty())
         printer_model = printers.get_selected_preset().config.opt_string("printer_model");
-    if (printer_model.empty()) // ORCA ensure a compatible model exist. fixes switches to blank preset if preset has no inherited value
+    if (printer_model.empty()) // INFINIUM ensure a compatible model exist. fixes switches to blank preset if preset has no inherited value
         return nullptr;
     auto printer_variant_old = printers.get_selected_preset().config.opt_string("printer_variant");
     std::map<std::string, Preset*> printer_presets;
@@ -4404,7 +4406,7 @@ Preset *PresetBundle::get_similar_printer_preset(std::string printer_model, std:
     }
     if (printer_presets.empty())
         return nullptr;
-    auto prefer_printer = printers.get_selected_preset().alias; //.name ORCA use alias instead "name" for calling system presets. otherwise nozzle combo will not change printer presets if they custom named
+    auto prefer_printer = printers.get_selected_preset().alias; //.name INFINIUM use alias instead "name" for calling system presets. otherwise nozzle combo will not change printer presets if they custom named
 
     if (!printer_variant.empty())
         boost::replace_all(prefer_printer, printer_variant_old, printer_variant);
@@ -4646,7 +4648,7 @@ DynamicPrintConfig PresetBundle::full_fff_config(bool apply_extruder, std::optio
         extruder_volume_type_count = out.get_extruder_nozzle_volume_count(extruder_count, nozzle_volume_types);
 
         if ((extruder_count > 1) || different_extruder) {
-            // Orca: keep processing variant_1 before variant_2 here; variant_2 slots are resolved
+            // Infinium: keep processing variant_1 before variant_2 here; variant_2 slots are resolved
             // against the printer id/variant lists as rewritten by the variant_1 pass, and the
             // composed values depend on that order. Note the order is load-bearing, not correct
             // in general: the variant_2 pass reads the original full-width arrays through indices
@@ -5205,7 +5207,7 @@ void PresetBundle::load_config_file_config(const std::string &name_or_path, bool
             filament_self_indice[index] = index + 1;
     }
     std::vector<int> filament_self_indice = std::move(config.option<ConfigOptionInts>("filament_self_index")->values);
-    // ORCA: Initialize filament_extruder_variant for backward compatibility with old 3mf files
+    // INFINIUM: Initialize filament_extruder_variant for backward compatibility with old 3mf files
     // that don't have this option saved or have it with default single-element value
     ConfigOptionStrings* filament_extruder_variant_opt = config.option<ConfigOptionStrings>("filament_extruder_variant");
     if (!filament_extruder_variant_opt || filament_extruder_variant_opt->size() < num_filaments) {
@@ -5808,7 +5810,7 @@ void PresetBundle::load_config_file_config(const std::string &name_or_path, bool
                 // Exact-name resolution of each published slot's preset through the collection's
                 // own name machinery: find_preset2 follows renamed_from (vendor profile renames)
                 // and canonical bundle names, and auto-matches removed vendor-generic profiles
-                // to the Orca Filament Library. First entry per slot wins (mirrors the loops'
+                // to the Infinium Filament Library. First entry per slot wins (mirrors the loops'
                 // break-on-first behavior); an empty value means "no resolution" and the string
                 // tiers (raw name / trimmed bare name / alias) below take over.
                 std::map<int, std::string> exact_name_by_slot;
@@ -6594,7 +6596,7 @@ void PresetBundle::load_config_file_config(const std::string &name_or_path, bool
     BOOST_LOG_TRIVIAL(debug) << __FUNCTION__ << boost::format(": finished");
 }
 
-// Orca: load one source-form preset entry — parsed from its JSON subfile just
+// Infinium: load one source-form preset entry — parsed from its JSON subfile just
 // now, or deserialized from the vendor's cache; the code is shared so a
 // cache-loaded bundle cannot come out different from a JSON-loaded one.
 // Resolves `inherits` against the presets loaded before this one
@@ -6854,7 +6856,7 @@ std::pair<PresetsConfigSubstitutions, size_t> PresetBundle::load_vendor_configs_
         // Reset this bundle, delete user profile files if SaveImported.
         this->reset(flags.has(LoadConfigBundleAttribute::SaveImported));
 
-    // Orca: only a whole-vendor load has a cache — the vendor-only and filament-only
+    // Infinium: only a whole-vendor load has a cache — the vendor-only and filament-only
     // scans want a slice of one. Validation reads the JSONs whatever is cached.
     const boost::filesystem::path dir_path(dir);
     const bool cacheable = allow_cache && flags.has(LoadConfigBundleAttribute::LoadSystem) && ! flags.has(LoadConfigBundleAttribute::LoadFilamentOnly);
@@ -7164,7 +7166,7 @@ std::pair<PresetsConfigSubstitutions, size_t> PresetBundle::load_vendor_configs_
 
     std::map<std::string, DynamicPrintConfig> configs;
     std::map<std::string, std::string> filament_id_maps;
-    // Orca: whether to (re)write the vendor's cache after this parse, leaving it
+    // Infinium: whether to (re)write the vendor's cache after this parse, leaving it
     // in step with the profile so the next run reads it instead. It is written
     // where the vendor was looked for, even when the profile came from resources,
     // and stamped with the version that profile claims — a profile without one
@@ -7202,7 +7204,7 @@ std::pair<PresetsConfigSubstitutions, size_t> PresetBundle::load_vendor_configs_
         }
     };
 
-    // The section order below — process, filaments (with the ORCA-lib map copy),
+    // The section order below — process, filaments (with the INFINIUM-lib map copy),
     // printers — is mirrored by load_vendor_cache's install loops; keep the two
     // in lockstep.
     //3.1) paste the process
@@ -7250,7 +7252,7 @@ void PresetBundle::update_multi_material_filament_presets(size_t to_delete_filam
     if (printers.get_edited_preset().printer_technology() != ptFFF)
         return;
 
-    // Orca: when the number of existing filament presets is less than the number of extruders, we will append new filament presets with the
+    // Infinium: when the number of existing filament presets is less than the number of extruders, we will append new filament presets with the
     // same value as the last existing one.
     //
     // Verify and select the filament presets.
@@ -7300,7 +7302,7 @@ void PresetBundle::update_multi_material_filament_presets(size_t to_delete_filam
                     unsigned int old_i = i >= to_delete_filament_id ? i + 1 : i;
                     unsigned int old_j = j >= to_delete_filament_id ? j + 1 : j;
                     for (size_t nozzle_id = 0; nozzle_id < nozzle_nums; ++nozzle_id) {
-                        // Orca: only copy from old_matrix when the old layout actually has data
+                        // Infinium: only copy from old_matrix when the old layout actually has data
                         // for this nozzle slot; otherwise initialize from the per-filament
                         // flush volumes the same way the (i,j) out-of-range branch does.
                         if (nozzle_id < old_nozzle_nums) {
@@ -7599,11 +7601,11 @@ bool PresetBundle::has_errors(bool check_duplicate_filament_subtypes) const
         return true;
 
     bool has_errors = false;
-    // Orca: check if all filament presets have compatible_printers setting
+    // Infinium: check if all filament presets have compatible_printers setting
     for (auto& preset : filaments) {
         if (!preset.is_system)
             continue;
-        // It's per design that the Orca Filament Library can have the empty compatible_printers.
+        // It's per design that the Infinium Filament Library can have the empty compatible_printers.
         if(preset.vendor->name == PresetBundle::INFINIUM_FILAMENT_LIBRARY)
             continue;
         auto* compatible_printers = dynamic_cast<const ConfigOptionStrings*>(preset.config.option("compatible_printers"));
@@ -7622,7 +7624,7 @@ bool PresetBundle::has_errors(bool check_duplicate_filament_subtypes) const
     return has_errors;
 }
 
-// Orca: turn a preset file path into an absolute file:// URI for log messages.
+// Infinium: turn a preset file path into an absolute file:// URI for log messages.
 // Printed unquoted on its own line, this is the one format clickable in both the
 // VS Code integrated terminal (Cmd/Ctrl+click) and macOS Terminal.app
 // (Cmd+double-click); quotes or literal spaces break link detection in both, so
@@ -7649,7 +7651,7 @@ static std::string preset_file_uri(const std::string &file)
     return uri;
 }
 
-// Orca: validator-only. Flag any system preset whose inherits / compatible_printers /
+// Infinium: validator-only. Flag any system preset whose inherits / compatible_printers /
 // compatible_prints references a name that no longer resolves. Uses find_preset (exact match, then
 // the renamed_from map - no fuzzy find_preset2, no alias resolution), so:
 //   nullptr           -> the referenced preset was deleted/renamed away (name is dangling),
@@ -7711,7 +7713,7 @@ bool PresetBundle::check_preset_references() const
     return found;
 }
 
-// Orca: a filament is matched from the AMS by (filament_id + printer compatibility).
+// Infinium: a filament is matched from the AMS by (filament_id + printer compatibility).
 // For any one printer, at most one instantiated filament preset with a given
 // filament_id may be compatible - otherwise the AMS match is ambiguous and the
 // runtime silently picks whichever loads first. This validator-only check flags
@@ -7723,7 +7725,7 @@ bool PresetBundle::check_duplicate_filament_subtypes() const
     // printer against its own vendor's filaments. A vendor's compatible_printers
     // only names that vendor's printers, so same-vendor scoping is correctness
     // preserving and avoids an O(all printers x all filaments) sweep. The one
-    // exception is the Orca Filament Library: its presets have empty
+    // exception is the Infinium Filament Library: its presets have empty
     // compatible_printers (= compatible with every printer, minus the alias-shadowing
     // exclusions that is_compatible_with_printer checks via m_excluded_from), so they
     // are tested against every vendor's printers as well.
@@ -7764,7 +7766,7 @@ bool PresetBundle::check_duplicate_filament_subtypes() const
             found_duplicates = true;
             // List each conflicting preset with a clickable file:// URI on its own
             // line, so the profile author can jump straight to the files to fix.
-            // A preset from another bundle (the Orca Filament Library) is tagged with
+            // A preset from another bundle (the Infinium Filament Library) is tagged with
             // its vendor so the source bundle is obvious.
             std::string presets;
             for (const Preset *p : entry.second) {
@@ -7797,7 +7799,7 @@ bool PresetBundle::check_duplicate_filament_subtypes() const
     return found_duplicates;
 }
 
-// Orca: BundleMetadata method implementations
+// Infinium: BundleMetadata method implementations
 bool BundleMetadata::load_from_json(const std::string& path)
 {
     try {

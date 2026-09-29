@@ -29,17 +29,17 @@ void WipeInwardSupport::append(const ExtrusionEntity &entity)
         inner_lines.insert(inner_lines.end(), lines.begin(), lines.end());
 }
 
-// Orca: miter limit ratio. Matches DefaultMiterLimit from ClipperUtils.hpp.
+// Infinium: miter limit ratio. Matches DefaultMiterLimit from ClipperUtils.hpp.
 // When the miter join extends more than miter_limit * offset_dist from the
 // original vertex, the miter is replaced by a bevel join.
 static constexpr double miter_limit = 3.0;
 
-// Orca: threshold for detecting near-reversal (backtracking spike).
+// Infinium: threshold for detecting near-reversal (backtracking spike).
 // Normalized dot product below this means the segments point in nearly
 // opposite directions (angle > ~172°). Offsetting such a path is unsafe.
 static constexpr double reversal_dot_threshold = -0.99;
 
-// Orca: candidates pointing more than 60 degrees away from the selected inner
+// Infinium: candidates pointing more than 60 degrees away from the selected inner
 // wall are too tangent to distinguish the material side reliably at a cusp.
 static constexpr double min_support_alignment = 0.5;
 
@@ -83,7 +83,7 @@ Point sample_path_at_distance(const ExtrusionPaths &paths, bool forward, double 
     return result;
 }
 
-// Orca: consecutive duplicates carry no path length and can be removed safely.
+// Infinium: consecutive duplicates carry no path length and can be removed safely.
 // A reversal, however, is real travelled distance: removing its vertex would
 // replace a long backtracking wipe with a short, unrelated shortcut.
 static bool prepare_source(Points &pts)
@@ -109,7 +109,7 @@ static bool build_offset_polyline(const Points &original, int dir, double offset
     if (original.size() < 2)
         return false;
 
-    // Orca: collapse all consecutive duplicates first, then reject any
+    // Infinium: collapse all consecutive duplicates first, then reject any
     // backtracking in the cleaned path instead of replacing travelled distance
     // with a shortcut.
     Points source = original;
@@ -118,7 +118,7 @@ static bool build_offset_polyline(const Points &original, int dir, double offset
 
     const size_t n = source.size();
 
-    // Orca: compute the perpendicular offset for segment i->i+1 as an infinite Line.
+    // Infinium: compute the perpendicular offset for segment i->i+1 as an infinite Line.
     auto offset_segment = [dir, offset_dist](const Point &a, const Point &b) -> Line {
         Vec2d  v = (b - a).cast<double>();
         double len = v.norm();
@@ -133,11 +133,11 @@ static bool build_offset_polyline(const Points &original, int dir, double offset
     result.reserve(n);
     first_join_index = 0;
 
-    // Orca: the first point is perpendicular to the first segment.
+    // Infinium: the first point is perpendicular to the first segment.
     Line l_prev = offset_segment(source[0], source[1]);
     result.push_back(l_prev.a);
 
-    // Orca: use the analytic intersection of adjacent offset segments for a
+    // Infinium: use the analytic intersection of adjacent offset segments for a
     // miter join. Intersecting the already rounded Line endpoints amplifies
     // coordinate quantization when the source segments are nearly parallel.
     for (size_t i = 1; i + 1 < n; ++i) {
@@ -172,7 +172,7 @@ static bool build_offset_polyline(const Points &original, int dir, double offset
         l_prev = l_next;
     }
 
-    // Orca: the last point is perpendicular to the last segment.
+    // Infinium: the last point is perpendicular to the last segment.
     result.push_back(l_prev.b);
 
     return true;
@@ -188,7 +188,7 @@ static bool starts_by_backtracking(const Polyline &path, Point actual_start)
 {
     if (path.points.size() < 3)
         return false;
-    // Orca: points[0] is only a storage sentinel; use the nozzle position for
+    // Infinium: points[0] is only a storage sentinel; use the nozzle position for
     // the executable connector, particularly after a wipe_on_loops pre-move.
     const Vec2d connector = (path.points[1] - actual_start).cast<double>();
     const Vec2d outgoing = (path.points[2] - path.points[1]).cast<double>();
@@ -197,7 +197,7 @@ static bool starts_by_backtracking(const Polyline &path, Point actual_start)
     return connector.dot(outgoing) < -4. * SCALED_EPSILON * outgoing.norm();
 }
 
-// Orca: sample the outgoing perimeter without copying or clipping its full loop.
+// Infinium: sample the outgoing perimeter without copying or clipping its full loop.
 static Point sample_polyline_at_distance(const Polyline &polyline, double target)
 {
     assert(! polyline.points.empty());
@@ -215,7 +215,7 @@ static Point sample_polyline_at_distance(const Polyline &polyline, double target
     return result;
 }
 
-// Orca: convert an executable path into Wipe::wipe()'s stored representation.
+// Infinium: convert an executable path into Wipe::wipe()'s stored representation.
 // The first point is a dummy replaced by the actual nozzle position, while the
 // remaining points are clipped to the configured wipe distance.
 static bool store_wipe_path(Polyline &destination, Point seam_start,
@@ -268,7 +268,7 @@ bool offset_wipe_path(Polyline &polyline, Point seam_start, Point seam_end, Poin
         Points wrapped_source;
         wrapped_source.reserve(source.points.size() + 1);
         if (seam_start == seam_end) {
-            // Orca: the stored loop is open at seam_start even when the seam gap is
+            // Infinium: the stored loop is open at seam_start even when the seam gap is
             // zero. Prepend the closing edge so build_offset_polyline() creates
             // the proper join between that edge and the first outgoing edge,
             // instead of leaving the first offset point on the closing wall.
@@ -276,10 +276,10 @@ bool offset_wipe_path(Polyline &polyline, Point seam_start, Point seam_end, Poin
             while (closing_index > 0 && original.points[closing_index - 1] == seam_start)
                 --closing_index;
             if (closing_index == 0)
-                return false; // Orca: the entire path is a single point.
+                return false; // Infinium: the entire path is a single point.
             wrapped_source.push_back(original.points[closing_index - 1]);
         } else {
-            // Orca: use the unextruded seam-gap edge to determine the incoming
+            // Infinium: use the unextruded seam-gap edge to determine the incoming
             // direction at the seam. Its offset is construction geometry only;
             // wiping along it would create a Z-shaped detour before the outgoing
             // perimeter offset.
@@ -292,7 +292,7 @@ bool offset_wipe_path(Polyline &polyline, Point seam_start, Point seam_end, Poin
         if (! build_offset_polyline(wrapped_source, dir, offset_dist, offset_points, first_join_index) ||
             first_join_index == 0 || first_join_index >= offset_points.size())
             return false;
-        // Orca: discard the offset of the prepended edge and, for a bevel, its
+        // Infinium: discard the offset of the prepended edge and, for a bevel, its
         // incoming endpoint. The executable wipe starts at the seam join and
         // then follows only the already printed outgoing perimeter.
         offset_points.erase(offset_points.begin(), offset_points.begin() + first_join_index);
@@ -326,7 +326,7 @@ bool offset_wipe_path(Polyline &polyline, Point seam_start, Point seam_end, Poin
 
         if (seam_start != seam_end && wipe_start == seam_end &&
             starts_by_backtracking(actual_path, wipe_start)) {
-            // Orca: a wide seam gap or a sharp cusp may put the first miter
+            // Infinium: a wide seam gap or a sharp cusp may put the first miter
             // behind its outgoing edge. Reject this offset candidate so the
             // caller can try the opposite side or the translated fallback.
             return false;
@@ -335,7 +335,7 @@ bool offset_wipe_path(Polyline &polyline, Point seam_start, Point seam_end, Poin
         const double actual_length = actual_path.length();
         const bool source_exhausted = original_length - source_length <= SCALED_EPSILON;
         if (actual_length + SCALED_EPSILON < max_wipe_length && ! source_exhausted) {
-            // Orca: offset joins may shorten the path at every corner. Grow the
+            // Infinium: offset joins may shorten the path at every corner. Grow the
             // source until the executable offset path, not a heuristic source
             // margin, reaches the configured wipe distance.
             const double deficit = max_wipe_length - actual_length;
@@ -347,7 +347,7 @@ bool offset_wipe_path(Polyline &polyline, Point seam_start, Point seam_end, Poin
             continue;
         }
 
-        // Orca: unlike an extruded offset, a wipe may safely cross or retrace the
+        // Infinium: unlike an extruded offset, a wipe may safely cross or retrace the
         // just-printed perimeter. The caller validates the complete executable
         // path against current and earlier printed perimeter geometry.
         return store_wipe_path(polyline, seam_start, std::move(actual_path), max_wipe_length);
@@ -371,7 +371,7 @@ static bool translated_wipe_path(Polyline &polyline, Point seam_start, Point sea
             actual_path.points.push_back(translated);
     };
 
-    // Orca: translate the seam join directly. Translating seam_end and then
+    // Infinium: translate the seam join directly. Translating seam_end and then
     // following the unextruded gap back to seam_start makes the wipe double
     // back whenever a gap ends near a sharp corner.
     append_translated(seam_start);
@@ -380,7 +380,7 @@ static bool translated_wipe_path(Polyline &polyline, Point seam_start, Point sea
 
     if (seam_start != seam_end && wipe_start == seam_end &&
         starts_by_backtracking(actual_path, wipe_start)) {
-        // Orca: at a wide gap next to a cusp, the translated seam join may
+        // Infinium: at a wide gap next to a cusp, the translated seam join may
         // lie behind the outgoing edge. Prefer a shorter local inward move
         // at the actual extrusion end over a longer lightning-shaped wipe.
         actual_path.points.resize(1);
@@ -425,7 +425,7 @@ std::optional<double> wipe_path_support_score(
     if (polyline.points.size() < 2 || target_distancer.get_lines().empty() || max_distance <= 0)
         return std::nullopt;
 
-    // Orca: require a local neighbour, not merely an earlier perimeter elsewhere in
+    // Infinium: require a local neighbour, not merely an earlier perimeter elsewhere in
     // the region. At a convex corner, an inner wall's miter is farther from the
     // external seam than its normal wall spacing, so allow the same bounded miter
     // reach as the offset construction without accepting a remote island.
@@ -435,7 +435,7 @@ std::optional<double> wipe_path_support_score(
 
     Point previous = wipe_start;
     for (size_t i = 1; i < polyline.points.size(); ++i) {
-        // Orca: a tightly curved inward path may cross back over the current wall.
+        // Infinium: a tightly curved inward path may cross back over the current wall.
         // This is safe for a non-extruding wipe as long as the complete path
         // remains over current or earlier printed perimeter geometry.
         // Allow the same coordinate-rounding tolerance at every point, including
@@ -446,7 +446,7 @@ std::optional<double> wipe_path_support_score(
         previous = polyline.points[i];
     }
 
-    // Orca: decide direction at the seam. Scoring the complete path may select
+    // Infinium: decide direction at the seam. Scoring the complete path may select
     // the wrong initial side when two contours converge and the later prefix
     // happens to run closer to unrelated support.
     return target_distancer.distance_from_lines<false>(polyline.points[1]);
@@ -460,7 +460,7 @@ static bool initial_connector_is_clear(
     if (polyline.points.size() < 2 || polyline.points[1] == wipe_start)
         return false;
 
-    // Orca: without a seam gap, the connector necessarily starts at the wall
+    // Infinium: without a seam gap, the connector necessarily starts at the wall
     // and a self-touching cusp may share that same endpoint on several edges.
     if (seam_start == wipe_start)
         return true;
@@ -473,7 +473,7 @@ static bool initial_connector_is_clear(
     }
 
     Point closest;
-    // Orca: integer offset joins may miss the exact seam-start coordinate by
+    // Infinium: integer offset joins may miss the exact seam-start coordinate by
     // a few microns. Treat a close pass through that point as retracing the
     // external wall, but keep the unavoidable contact at the actual start.
     if (connector.distance_to_squared(seam_start, &closest) <= contact_tolerance * contact_tolerance &&
@@ -491,7 +491,7 @@ static std::optional<Vec2d> support_offset_at_start(
     if (source.points.size() < 2)
         return std::nullopt;
 
-    // Orca: a nonzero gap may put the seam beside the wrong branch of a cusp.
+    // Infinium: a nonzero gap may put the seam beside the wrong branch of a cusp.
     // Sample farther along the path to identify its actual neighbouring wall.
     const Point support_query = disambiguate_branch ?
         sample_polyline_at_distance(source, 2. * max_support_distance) : source.first_point();
@@ -500,7 +500,7 @@ static std::optional<Vec2d> support_offset_at_start(
     Vec2d sampled_offset = std::get<2>(nearest_result) - support_query.cast<double>();
 
     if (disambiguate_branch) {
-        // Orca: an endpoint projection also contains distance along the support
+        // Infinium: an endpoint projection also contains distance along the support
         // segment. Remove that tangent component before comparing wall sides.
         const Vec2d support_edge = (nearest_line.b - nearest_line.a).cast<double>();
         if (support_edge.norm() > SCALED_EPSILON) {
@@ -514,7 +514,7 @@ static std::optional<Vec2d> support_offset_at_start(
     if (! disambiguate_branch)
         return sampled_offset;
 
-    // Orca: find the local point on the same material-side branch. Using the
+    // Infinium: find the local point on the same material-side branch. Using the
     // sampled point itself would add the distance already travelled along the
     // perimeter and turn a normal transition into a long diagonal move.
     const Vec2d sampled_direction = sampled_offset.normalized();
@@ -546,7 +546,7 @@ static double executable_path_length(const Polyline &stored_path, Point wipe_sta
     if (stored_path.points.size() < 2)
         return 0.;
 
-    // Orca: points[0] is the storage sentinel, so measure the first segment
+    // Infinium: points[0] is the storage sentinel, so measure the first segment
     // from the actual nozzle position and the remaining stored segments normally.
     double length = (stored_path.points[1] - wipe_start).cast<double>().norm();
     for (size_t index = 2; index < stored_path.points.size(); ++index)
@@ -560,7 +560,7 @@ static Lines material_side_support_lines(const Polyline &path, Point seam, int p
     if (path.points.size() < 4 || path.first_point() != path.last_point())
         return {};
 
-    // Orca: the bisector of the incoming and outgoing material-side normals is
+    // Infinium: the bisector of the incoming and outgoing material-side normals is
     // a local side test that remains valid for globally self-touching Arachne
     // contours. Ignore repeated seam points when obtaining both tangents.
     const auto outgoing_it = std::find_if(
@@ -603,7 +603,7 @@ bool wipe_path_stays_on_material_side(
     if (initial_offset.norm() <= SCALED_EPSILON ||
         initial_offset.normalized().dot(support_direction.normalized()) < min_support_alignment)
         return false;
-    // Orca: after the connector has left the extrusion endpoint, an inward
+    // Infinium: after the connector has left the extrusion endpoint, an inward
     // offset must retain most of its requested clearance from the current
     // external wall. Otherwise a tight turn may send an initially correct path
     // back onto that wall, or make the opposite-side candidate look supported.
@@ -681,7 +681,7 @@ bool offset_wipe_path_toward_support(Polyline &polyline, Point seam_start, Point
     Lines material_support_lines;
     const Lines *candidate_support_lines = &target_perimeter_lines;
     if (seam_start == seam_end) {
-        // Orca: another contour may have a geometrically closer inner wall on
+        // Infinium: another contour may have a geometrically closer inner wall on
         // this loop's air side. Restrict zero-gap support using the local seam
         // normals before choosing the nearest wall.
         material_support_lines = material_side_support_lines(
@@ -704,7 +704,7 @@ bool offset_wipe_path_toward_support(Polyline &polyline, Point seam_start, Point
         return false;
     const Vec2d support_direction = toward_support / local_support_distance;
 
-    // Orca: every candidate is validated against the same generated geometry.
+    // Infinium: every candidate is validated against the same generated geometry.
     // Build these AABB trees once per loop instead of rebuilding them for each
     // preferred, alternate, translated, direct, or reversed candidate.
     Lines all_support_lines = printed_perimeter_lines;
@@ -712,14 +712,14 @@ bool offset_wipe_path_toward_support(Polyline &polyline, Point seam_start, Point
     AABBTreeLines::LinesDistancer<Line> all_support_distancer(std::move(all_support_lines));
     AABBTreeLines::LinesDistancer<Line> current_perimeter_distancer(current_perimeter_lines);
 
-    // Orca: allow only the contact needed to leave the extrusion endpoint. A
+    // Infinium: allow only the contact needed to leave the extrusion endpoint. A
     // connector that meets the current wall again is a seam-gap retrace, even
     // if the rest of the non-extruding wipe remains over printed material.
     const double contact_tolerance = wipe_tolerance(effective_offset);
 
     struct Candidate {
         Polyline path;
-        // Orca: support score chooses the material-side path; length is used
+        // Infinium: support score chooses the material-side path; length is used
         // only to replace a corner-truncated path with the reverse fallback.
         double support_score;
         double path_length;
@@ -733,7 +733,7 @@ bool offset_wipe_path_toward_support(Polyline &polyline, Point seam_start, Point
                                         const Vec2d &candidate_support_direction,
                                         double candidate_offset,
                                         bool require_clearance = true) -> std::optional<Candidate> {
-        // Orca: backtracking indicates a wrong join only across a nonzero gap.
+        // Infinium: backtracking indicates a wrong join only across a nonzero gap.
         // A closed zero-gap offset may initially turn back at its miter while
         // still remaining on the supported material side of the perimeter.
         const bool backtracks_across_gap = seam_start != seam_end && starts_by_backtracking(path, wipe_start);
@@ -768,7 +768,7 @@ bool offset_wipe_path_toward_support(Polyline &polyline, Point seam_start, Point
     std::optional<Candidate> preferred = offset_candidate(preferred_dir);
     std::optional<Candidate> alternate = offset_candidate(-preferred_dir);
 
-    // Orca: forward and reverse fallbacks share the same clamping, translation,
+    // Infinium: forward and reverse fallbacks share the same clamping, translation,
     // connector tolerance, and complete-path validation.
     const auto translated_candidate = [&](Polyline source, Point source_start, Point source_end,
                                           const Vec2d &candidate_support_offset) -> std::optional<Candidate> {
@@ -788,7 +788,7 @@ bool offset_wipe_path_toward_support(Polyline &polyline, Point seam_start, Point
 
     std::optional<Candidate> translated = translated_candidate(polyline, seam_start, seam_end, toward_support);
 
-    // Orca: if every full-length construction folds back onto the external
+    // Infinium: if every full-length construction folds back onto the external
     // wall, retain a short direct inward move instead of accepting an outward
     // candidate or falling back to the standard wipe along the outer wall.
     const auto direct_candidate = [&](Point origin, const Vec2d &candidate_support_offset) -> std::optional<Candidate> {
@@ -815,7 +815,7 @@ bool offset_wipe_path_toward_support(Polyline &polyline, Point seam_start, Point
     const double length_margin = wipe_tolerance(max_wipe_length);
     std::optional<Candidate> reversed;
     if (seam_start != seam_end && polyline.last_point() == seam_end) {
-        // Orca: when a large gap straddles a sharp corner, connecting the
+        // Infinium: when a large gap straddles a sharp corner, connecting the
         // extrusion end to the forward offset may either reverse or leave only
         // a short local move. The already printed incoming wall is equally safe:
         // follow it backwards and determine its own material-side support.
@@ -845,7 +845,7 @@ bool offset_wipe_path_toward_support(Polyline &polyline, Point seam_start, Point
         }
     }
 
-    // Orca: conventional offsets at a narrow cusp may form a bevel across the
+    // Infinium: conventional offsets at a narrow cusp may form a bevel across the
     // cusp. Candidates pointing away from the actual inner wall are rejected
     // during validation; among the remaining paths, prefer the one whose first
     // point is materially closer to that wall.
@@ -862,7 +862,7 @@ bool offset_wipe_path_toward_support(Polyline &polyline, Point seam_start, Point
     if (! selected)
         selected = std::move(alternate);
 
-    // Orca: prefer a complete reverse wipe over a forward fallback that had to
+    // Infinium: prefer a complete reverse wipe over a forward fallback that had to
     // stop at the corner. Equal-length paths keep the normal forward behavior.
     if (reversed && (! selected ||
         (reversed->path_length > selected->path_length + length_margin &&
@@ -883,7 +883,7 @@ std::optional<Point> wipe_on_loops_destination(const ExtrusionPaths &paths, doub
     if (paths.empty() || nozzle_diam_scaled <= 0)
         return std::nullopt;
 
-    // Orca: clamp sample distance to L/4 so forward/backward samples cannot meet.
+    // Infinium: clamp sample distance to L/4 so forward/backward samples cannot meet.
     double total_length = 0.;
     for (const ExtrusionPath &path : paths)
         total_length += path.length();
@@ -894,7 +894,7 @@ std::optional<Point> wipe_on_loops_destination(const ExtrusionPaths &paths, doub
 
     const Point seam_start = paths.front().first_point();
 
-    // Orca: skip the inward move for degenerate geometry.
+    // Infinium: skip the inward move for degenerate geometry.
     if (a == b || a == seam_start || b == seam_start)
         return std::nullopt;
 
@@ -904,7 +904,7 @@ std::optional<Point> wipe_on_loops_destination(const ExtrusionPaths &paths, doub
 
     double angle = seam_start.ccw_angle(a, b) / 3;
 
-    // Orca: reject degenerate angles near 0 or 2π.
+    // Infinium: reject degenerate angles near 0 or 2π.
     static constexpr double angle_epsilon = 0.01;
     if (angle < angle_epsilon || angle > 2 * PI / 3 - angle_epsilon)
         return std::nullopt;

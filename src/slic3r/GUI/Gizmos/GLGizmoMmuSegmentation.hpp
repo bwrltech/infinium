@@ -119,7 +119,7 @@ protected:
     // from Plater so the extruder swatches draw the same fade the editor previews. Plain
     // filament slots keep an empty ramp.
     std::vector<std::vector<wxColour>> m_gradient_ramps;
-    // ORCA: Cache used filaments to filter UI
+    // INFINIUM: Cache used filaments to filter UI
     std::set<size_t>                  m_used_filaments;      // Set of used filament indices (cached)
 
     static const constexpr float      CursorRadiusMin = 0.1f; // cannot be zero
@@ -139,7 +139,7 @@ private:
 
     void init_model_triangle_selectors();
 
-    // ORCA
+    // INFINIUM
     bool draw_color_button(int idx, const char* id_str, const ColorRGBA& color, ColorRGBA& map_color, bool active, float scale);
     // Gradient ramp of a filament slot, or nullptr when the slot is a plain single color
     // filament. A non-null result is never empty.
@@ -155,7 +155,7 @@ private:
     // Filament remapping methods
     void remap_filament_assignments();
     void render_filament_remap_ui(float window_width, float max_tooltip_width, float scale);
-    // ORCA: Helper to update the cache of used filaments
+    // INFINIUM: Helper to update the cache of used filaments
     void update_used_filaments();
 
     // This map holds all translated description texts, so they can be easily referenced during layout calculations

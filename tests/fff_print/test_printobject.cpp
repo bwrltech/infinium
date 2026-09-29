@@ -78,7 +78,7 @@ SCENARIO("Object layer heights", "[PrintObject]") {
             }
         }
         WHEN("layer height exceeds the nozzle diameter") {
-            // Orca does not clamp an over-large layer height to the nozzle; it
+            // Infinium does not clamp an over-large layer height to the nozzle; it
             // rejects the slice during flow computation. Pin that behavior.
             THEN("Slicing is rejected") {
                 Slic3r::Print print;
@@ -140,7 +140,7 @@ TEST_CASE("Initial layer height is honored", "[PrintObject]")
 
 static TriangleMesh internal_bridge_step()
 {
-    // Orca: The smaller tower leaves a shoulder whose solid skin needs internal bridges
+    // Infinium: The smaller tower leaves a shoulder whose solid skin needs internal bridges
     // over the sparse infill in the base, without relying on an external model file.
     TriangleMesh mesh = make_cube(30, 24, 3);
     TriangleMesh tower = make_cube(14, 10, 1);
@@ -171,7 +171,7 @@ static DynamicPrintConfig internal_bridge_config(const std::string &pattern, int
 TEST_CASE("Internal bridge angles follow the lower infill layer and model rotation", "[PrintObject][InternalBridge][Regression]")
 {
     const std::string pattern = GENERATE("hilbertcurve", "octagramspiral");
-    // Orca: Cover both a central line (odd counts) and offset pairs (even counts).
+    // Infinium: Cover both a central line (odd counts) and offset pairs (even counts).
     const int multiline = GENERATE(1, 2, 3);
     CAPTURE(multiline);
     const double rotation = GENERATE(23., -123.);
@@ -189,7 +189,7 @@ TEST_CASE("Internal bridge angles follow the lower infill layer and model rotati
     const PrintObject &object = *print.objects().front();
     size_t bridges = 0;
     for (size_t i = 1; i < object.layer_count(); ++i) {
-        // Orca: The support is one layer below the bridge. Check the template and model
+        // Infinium: The support is one layer below the bridge. Check the template and model
         // rotation together, including normalization when the resulting angle is negative.
         double expected = std::fmod(cycle[(i - 1) % cycle.size()] + 90. + rotation, 180.);
         if (expected < 0.) expected += 180.;
@@ -205,7 +205,7 @@ TEST_CASE("Internal bridge angles follow the lower infill layer and model rotati
 
 TEST_CASE("Turning infill does not replace the anchors of another region", "[PrintObject][InternalBridge][Regression]")
 {
-    // Orca: Keep the right-hand region fixed while changing the left-hand pattern in the
+    // Infinium: Keep the right-hand region fixed while changing the left-hand pattern in the
     // same object. Its bridge areas must be independent of a previous candidate's anchors.
     const int multiline = GENERATE(1, 2, 3);
     CAPTURE(multiline);
@@ -261,7 +261,7 @@ TEST_CASE("Rounded internal bridges end on printed support", "[PrintObject][Inte
     init_print({mesh}, print, model, config, nullptr, false);
     print.process();
 
-    // Orca: Check final extrusion endpoints after polygon cleanup and fill generation.
+    // Infinium: Check final extrusion endpoints after polygon cleanup and fill generation.
     // A correct bridge angle and correct sparse anchors alone do not guarantee contact.
     const PrintObject &object = *print.objects().front();
     size_t checked = 0;
@@ -283,7 +283,7 @@ TEST_CASE("Rounded internal bridges end on printed support", "[PrintObject][Inte
                 const auto *path = dynamic_cast<const ExtrusionPath *>(entity);
                 REQUIRE(path != nullptr);
                 for (const Line &line : path->polyline.to_polyline().lines()) {
-                    // Orca: Sample span ends, excluding short connectors and wall overlap.
+                    // Infinium: Sample span ends, excluding short connectors and wall overlap.
                     if (line.length() < scale_(std::max(0.7, 3. * path->width)))
                         continue;
                     for (const Point &point : {line.a, line.b}) {
@@ -316,7 +316,7 @@ TEST_CASE("Enabling separated infill recomputes body origins", "[PrintObject][In
         init_print({mesh}, print, model, config, nullptr, false);
         print.process();
         if (reslice) {
-            // Orca: Enabling centering after a completed slice must rebuild the body
+            // Infinium: Enabling centering after a completed slice must rebuild the body
             // origins now shared by bridge preparation and printed infill.
             config.set_deserialize_strict({{"separated_infills", true}});
             print.apply(model, config);
@@ -364,7 +364,7 @@ TEST_CASE("Surface centering survives changes to separated infill settings", "[P
                                    {"layer_height", 0.2},
                                    {"initial_layer_print_height", 0.2}});
 
-    // Orca: Two disconnected bodies exercise per-body centering. The offset tower also
+    // Infinium: Two disconnected bodies exercise per-body centering. The offset tower also
     // makes each-surface and each-model centering differ on the top surfaces.
     TriangleMesh mesh = make_cube(30, 24, 2);
     TriangleMesh tower = make_cube(12, 10, 1);
@@ -374,7 +374,7 @@ TEST_CASE("Surface centering survives changes to separated infill settings", "[P
     second.translate(50, 0, 0);
     mesh.merge(second);
 
-    // Orca: Equal footprints can hide reordered or reversed paths. Retain their point
+    // Infinium: Equal footprints can hide reordered or reversed paths. Retain their point
     // sequences and ordering protection to cover the directional surface behavior too.
     struct SurfaceFillSnapshot {
         std::map<bool, std::vector<Points>> paths;
@@ -392,7 +392,7 @@ TEST_CASE("Surface centering survives changes to separated infill settings", "[P
                     const auto *path = dynamic_cast<const ExtrusionPath *>(&entity);
                     REQUIRE(path != nullptr);
                     auto &snapshot = result[{i, entity.role()}];
-                    // Orca: The centered test model has one body on either side of X=0.
+                    // Infinium: The centered test model has one body on either side of X=0.
                     // Their traversal order may vary; preserve path order within each body.
                     Points points = path->polyline.to_polyline().points;
                     REQUIRE_FALSE(points.empty());
@@ -413,7 +413,7 @@ TEST_CASE("Surface centering survives changes to separated infill settings", "[P
     const auto initial = surface_fills(print);
     config.set_deserialize_strict({{"center_of_surface_pattern", final_center}, {"separated_infills", separated}});
     print.apply(model, config);
-    // Orca: Preparation owns the body origins, and its invalidation must also force
+    // Infinium: Preparation owns the body origins, and its invalidation must also force
     // regeneration of top/bottom extrusion paths, even when sparse infill is unchanged.
     CHECK_FALSE(print.objects().front()->is_step_done(posPrepareInfill));
     CHECK_FALSE(print.objects().front()->is_step_done(posInfill));
@@ -450,7 +450,7 @@ TEST_CASE("Surface centering survives changes to separated infill settings", "[P
     }
     CHECK(roles.count(erTopSolidInfill) == 1);
     CHECK(roles.count(erBottomSurface) == 1);
-    // Orca: Guard against a vacuous comparison: changing surface centering must change
+    // Infinium: Guard against a vacuous comparison: changing surface centering must change
     // the printed pattern, while toggling separated sparse infill must leave it alone.
     CHECK(changed_paths == change_center);
 }
@@ -464,7 +464,7 @@ TEST_CASE("Separated infill keeps fragmented and nested bodies independent", "[P
         box.translate(x, y, 0);
         mesh.merge(box);
     };
-    // Orca: Many small islands exercise spatial pruning and the tree's original
+    // Infinium: Many small islands exercise spatial pruning and the tree's original
     // island indices. A pillar inside a frame also overlaps its bounding box,
     // but must remain a separate body because it lies entirely inside the hole.
     for (size_t x = 0; x < grid_size; ++ x)
@@ -486,7 +486,7 @@ TEST_CASE("Separated infill keeps fragmented and nested bodies independent", "[P
     Print print;
     Model model;
     init_print({mesh}, print, model, config, nullptr, false);
-    // Orca: Prepare body bounds through the public pipeline, then inspect the object read-only.
+    // Infinium: Prepare body bounds through the public pipeline, then inspect the object read-only.
     print.process();
     const PrintObject &object = *print.objects().front();
     REQUIRE(object.layer_count() > 1);
@@ -509,7 +509,7 @@ TEST_CASE("Body centering survives islands merging and splitting between layers"
 {
     const bool separated = GENERATE(false, true);
     CAPTURE(separated);
-    // Orca: Four posts join through horizontal then vertical rails, creating a
+    // Infinium: Four posts join through horizontal then vertical rails, creating a
     // cycle of overlaps before splitting into four islands again. This exercises
     // redundant connections and indexing either adjacent layer. A fifth post
     // stays separate at every height.
@@ -544,7 +544,7 @@ TEST_CASE("Body centering survives islands merging and splitting between layers"
     Print print;
     Model model;
     init_print({mesh}, print, model, config, nullptr, false);
-    // Orca: Prepare body bounds through the public pipeline, then inspect the object read-only.
+    // Infinium: Prepare body bounds through the public pipeline, then inspect the object read-only.
     print.process();
     const PrintObject &object = *print.objects().front();
     REQUIRE(object.layer_count() == 5);

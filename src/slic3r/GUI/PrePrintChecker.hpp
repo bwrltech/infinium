@@ -109,7 +109,7 @@ enum PrintDialogStatus : unsigned int {
     PrintStatusFilaSwitcherSlicingNotMatch,
     PrintStatusRackNozzleNumUnmeetWarning,
     PrintStatusHasUnreliableNozzleWarning,
-    // Orca: a nozzle diameter that differs from the one the printer remembers is a warning,
+    // Infinium: a nozzle diameter that differs from the one the printer remembers is a warning,
     // not an error, so non-standard nozzles can still be printed with.
     PrintStatusNozzleDiameterMismatch,
     PrintStatusPrinterWarningEnd,
@@ -163,9 +163,9 @@ public:
     void clear();
     /*auto merge*/
     void add(PrintDialogStatus state, wxString msg, wxString tip, const wxString& wiki_url);
-    // Orca: minimal callback-link render path instead of the full style-bitmask machinery.
+    // Infinium: minimal callback-link render path instead of the full style-bitmask machinery.
     void add_with_link(PrintDialogStatus state, wxString msg, wxString link_label, std::function<void()> link_callback);
-    // Orca: render msg with an acknowledgement checkbox beneath it, for an overridable warning that
+    // Infinium: render msg with an acknowledgement checkbox beneath it, for an overridable warning that
     // the user must tick before proceeding (checkbox_callback reports the new state).
     void add_with_checkbox(PrintDialogStatus state, wxString msg, wxString checkbox_label, bool checked, std::function<void(bool)> checkbox_callback);
     static ::std::string get_print_status_info(PrintDialogStatus status);

@@ -60,7 +60,7 @@ void SidePopup::Popup(wxWindow* focus)
 
 #ifdef __APPLE__
          pos.x = pos.x - FromDIP(20);
-         // Orca #12936: since the wxWidgets 3.3 upgrade the transient popup is dismissed the
+         // Infinium #12936: since the wxWidgets 3.3 upgrade the transient popup is dismissed the
          // instant the cursor enters the gap between the button and the menu, making
          // "Print -> Export" unselectable. Anchor the menu flush against the button (slight
          // overlap) so there is no dead-zone for the cursor to cross.

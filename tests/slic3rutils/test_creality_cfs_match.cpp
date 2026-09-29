@@ -24,7 +24,7 @@ struct FilamentSpec
     const char *name;
     const char *filament_id;
     const char *filament_type;
-    bool        is_library = false;   // belongs to the Orca Filament Library, not the printer vendor
+    bool        is_library = false;   // belongs to the Infinium Filament Library, not the printer vendor
     bool        is_system  = true;
 };
 
@@ -80,7 +80,7 @@ std::string match(const std::vector<FilamentSpec> &specs, const std::string &spo
 
 } // namespace
 
-// Orca: a CFS spool that names no recognised product must map to the vendor's plain generic. The
+// Infinium: a CFS spool that names no recognised product must map to the vendor's plain generic. The
 // subtype variants ("High Speed", "Matte", "Silk") score just as well on vendor alone, and since
 // each is its own product with its own filament_id, letting one of them win sends the printer the
 // id of a filament the user does not have loaded.
@@ -89,7 +89,7 @@ TEST_CASE("An unbranded CFS spool maps to the vendor's plain generic, not a subt
     CHECK(match(k2_stock_nozzle, "Creality", "", "PLA") == "PLA-GENERIC");
 }
 
-// Orca: the vendor bonus reads the preset's owning VendorProfile. "Generic PETG @K2-all" does not
+// Infinium: the vendor bonus reads the preset's owning VendorProfile. "Generic PETG @K2-all" does not
 // repeat "Creality" anywhere in its name, so a name based vendor test scored nothing for it and the
 // spool fell through to the collection wide first-of-type - an unrelated third party PETG.
 TEST_CASE("A CFS spool matches its vendor's presets even when the name omits the vendor", "[CFS][Creality]")
@@ -102,7 +102,7 @@ TEST_CASE("A branded CFS spool still beats the generic", "[CFS][Creality]")
     CHECK(match(k2_stock_nozzle, "Creality", "Hyper PLA", "PLA") == "PLA-HYPER");
 }
 
-// Orca: the specificity penalty must not stop a spool that genuinely asks for a subtype from
+// Infinium: the specificity penalty must not stop a spool that genuinely asks for a subtype from
 // getting it - only unclaimed qualifiers are penalised.
 TEST_CASE("A CFS spool that names a subtype gets that subtype", "[CFS][Creality]")
 {
@@ -110,7 +110,7 @@ TEST_CASE("A CFS spool that names a subtype gets that subtype", "[CFS][Creality]
     CHECK(match(k2_stock_nozzle, "Creality", "Generic PLA Matte", "PLA") == "PLA-MATTE");
 }
 
-// Orca: a third party spool matches no preset by brand or vendor, so it falls back to the first
+// Infinium: a third party spool matches no preset by brand or vendor, so it falls back to the first
 // visible preset of the same type rather than returning nothing. Which one that is depends on the
 // collection's ordering, so only the type is pinned here - what matters is that a PLA spool never
 // comes back empty and never comes back as another material.
@@ -125,7 +125,7 @@ TEST_CASE("A CFS spool from an unknown vendor falls back to a preset of the same
 }
 
 
-// Orca: Creality's bundle also ships third party filaments ("eSUN PLA+ @K2 Plus-all"). Those carry
+// Infinium: Creality's bundle also ships third party filaments ("eSUN PLA+ @K2 Plus-all"). Those carry
 // Creality's VendorProfile but name their real brand, so the vendor bonus has to accept a name
 // match as well as a profile match - otherwise an eSUN spool stops matching its own preset.
 TEST_CASE("A third party spool matches its preset inside the printer vendor's bundle", "[CFS][Creality]")

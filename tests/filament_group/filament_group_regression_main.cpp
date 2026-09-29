@@ -1,13 +1,13 @@
 // H2C/A2L FilamentGroup golden regression harness.
 //
 // Notes:
-//   * Orca: links Catch2::Catch2WithMain and uses the v3 convenience include <catch2/catch_all.hpp>.
+//   * Infinium: links Catch2::Catch2WithMain and uses the v3 convenience include <catch2/catch_all.hpp>.
 //   * All three golden families (config_a one-nozzle-per-extruder, config_b/config_c nozzle-centric)
 //     are evaluated against the goldens. The nozzle-centric FilamentGroup engine and solver layer run
 //     the same algorithm the goldens were generated with, scored via the nozzle-aware reorder
 //     (fg_test_evaluator.hpp) at a 3% one-directional tolerance.
 //   * The hidden [update-golden] utility is intentionally omitted: the goldens are the reference
-//     and must not be rewritten from Orca output.
+//     and must not be rewritten from Infinium output.
 
 #include <catch2/catch_all.hpp>
 

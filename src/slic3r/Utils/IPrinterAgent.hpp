@@ -23,8 +23,8 @@ class ICloudServiceAgent;
  * implementation, used for discovery and selection purposes.
  */
 struct AgentInfo {
-    std::string id;         ///< Unique identifier for the agent, e.g. "orca", "bbl"
-    std::string name;       ///< Human-readable agent name, e.g. "Orca", "Bambu Lab"
+    std::string id;         ///< Unique identifier for the agent, e.g. "infinium", "bbl"
+    std::string name;       ///< Human-readable agent name, e.g. "Infinium", "Bambu Lab"
     std::string version;    ///< Agent version string, e.g. "1.0.0"
     std::string description; ///< Brief description of the agent's capabilities, e.g. "Infinium printer agent"
 };
@@ -294,8 +294,8 @@ public:
     /**
      * Translate one filament id across the printer boundary.
      *
-     * Orca content-addresses every system filament; a printer, its AMS and its vendor cloud
-     * know only that vendor's own catalog ids. An agent whose printers already speak Orca's
+     * Infinium content-addresses every system filament; a printer, its AMS and its vendor cloud
+     * know only that vendor's own catalog ids. An agent whose printers already speak Infinium's
      * ids leaves them alone, and so does an id with no mapping.
      */
     virtual std::string to_infinium_filament_id(const std::string& printer_filament_id) const { return printer_filament_id; }

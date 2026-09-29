@@ -2095,7 +2095,7 @@ void MoonrakerPrinterAgent::perform_connection_async(const std::string& dev_id, 
         MoonrakerDeviceInfo fetched_info;
         if (!fetch_device_info(base_url, api_key, fetched_info, error_msg)) {
             BOOST_LOG_TRIVIAL(error) << "MoonrakerPrinterAgent: Failed to fetch server info: " << error_msg;
-            // Orca todo: revist here, for now don't send error, this is set current MachineObject to null
+            // Infinium todo: revist here, for now don't send error, this is set current MachineObject to null
             // dispatch_local_connect(ConnectStatusFailed, dev_id, "server_info_failed");
             return;
         }
@@ -2111,7 +2111,7 @@ void MoonrakerPrinterAgent::perform_connection_async(const std::string& dev_id, 
             device_info.klippy_state = fetched_info.klippy_state;
         }
 
-// Orca todo: disable websocket for now, as we don't use MonitorPanel for Moonraker printers yet
+// Infinium todo: disable websocket for now, as we don't use MonitorPanel for Moonraker printers yet
 #if 0
         // Query initial status
         nlohmann::json initial_status;
@@ -2143,7 +2143,7 @@ void MoonrakerPrinterAgent::perform_connection_async(const std::string& dev_id, 
         dispatch_printer_connected(dev_id);
         BOOST_LOG_TRIVIAL(info) << "MoonrakerPrinterAgent: connect_printer completed - dev_id=" << dev_id;
     } else if (result != BAMBU_NETWORK_SUCCESS && result != BAMBU_NETWORK_ERR_CANCELED) {
-        // Orca todo: revist here, for now don't send error, this is set current MachineObject to null
+        // Infinium todo: revist here, for now don't send error, this is set current MachineObject to null
         // dispatch_local_connect(ConnectStatusFailed, dev_id, error_msg);
     }
 }

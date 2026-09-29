@@ -1301,7 +1301,7 @@ msgid "Operation"
 msgstr "Operacija"
 
 #. TRN EmbossOperation
-#. ORCA
+#. INFINIUM
 msgid "Join"
 msgstr "Sujungti"
 
@@ -2611,8 +2611,8 @@ msgstr "Toras"
 msgid "Infinium Cube"
 msgstr "Infinium kubas"
 
-msgid "OrcaSliced Combo"
-msgstr "„OrcaSliced“ rinkinys"
+msgid "InfiniumSliced Combo"
+msgstr "„InfiniumSliced“ rinkinys"
 
 msgid "Infinium Badge"
 msgstr "„Infinium“ ženklelis"
@@ -6563,8 +6563,8 @@ msgid "Select profile to load:"
 msgstr "Pasirinkite įkeliamą profilį:"
 
 # AI Translated
-msgid "Config files (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
-msgstr "Konfigūracijos failai (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
+msgid "Config files (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
+msgstr "Konfigūracijos failai (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
 
 #, c-format, boost-format
 msgid "There is %d config imported. (Only non-system and compatible configs)"
@@ -19339,10 +19339,10 @@ msgid "DNS Server:"
 msgstr "DNS serveris:"
 
 msgid "Test Infinium Slicer (GitHub)"
-msgstr "Išbandyti OrcaSlicer(GitHub)"
+msgstr "Išbandyti Infinium(GitHub)"
 
 msgid "Test Infinium Slicer (GitHub):"
-msgstr "Išbandyti OrcaSlicer(GitHub):"
+msgstr "Išbandyti Infinium(GitHub):"
 
 msgid "Test bing.com"
 msgstr "Išbandyti Bing.com"
@@ -19644,11 +19644,11 @@ msgstr "\n\n„Infinium“ pastebėjo, kad jūsų naudotojo profilių sinchroniz
 msgid "Printer Setting"
 msgstr "Spausdintuvo profilis"
 
-msgid "Printer config bundle(.orca_printer)"
-msgstr "Spausdintuvo konfigūracijos paketas(.orca_printer)"
+msgid "Printer config bundle(.infinium_printer)"
+msgstr "Spausdintuvo konfigūracijos paketas(.infinium_printer)"
 
-msgid "Filament bundle(.orca_filament)"
-msgstr "Gijų paketas(.orca_filament)"
+msgid "Filament bundle(.infinium_filament)"
+msgstr "Gijų paketas(.infinium_filament)"
 
 msgid "Printer presets(.zip)"
 msgstr "Spausdintuvo profiliai (.zip)"
@@ -21480,8 +21480,8 @@ msgstr ""
 "Venkite deformacijų (warping)\n"
 "Ar žinojote, kad spausdinant medžiagas, kurios yra linkusios trauktis ir riestis (pvz., ABS), tinkamas kaitinamojo pagrindo temperatūros padidinimas gali sumažinti deformacijų (warping) tikimybę?"
 
-#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart OrcaSlicer."
-#~ msgstr "Tiesioginei „Native Wayland“ peržiūrai reikalingas „GStreamer GTK“ vaizdo sinchronizatorius (video sink). Įdiekite „GStreamer“ skirtą „gtksink“ papildinį, tada iš naujo paleiskite „OrcaSlicer“."
+#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart Infinium."
+#~ msgstr "Tiesioginei „Native Wayland“ peržiūrai reikalingas „GStreamer GTK“ vaizdo sinchronizatorius (video sink). Įdiekite „GStreamer“ skirtą „gtksink“ papildinį, tada iš naujo paleiskite „Infinium“."
 
 #~ msgid "Failed to initialize the native Wayland GStreamer video sink. Please check your GStreamer GTK plugin installation."
 #~ msgstr "Nepavyko inicijuoti „native Wayland GStreamer“ vaizdo sinchronizatoriaus (video sink). Patikrinkite „GStreamer GTK“ papildinio įdiegimą."
@@ -21492,14 +21492,14 @@ msgstr ""
 #~ msgid "BambuSource has not correctly been registered for media playing! Press Yes to re-register it. You will be promoted twice"
 #~ msgstr "„BambuSource“ neteisingai užregistruotas medijos atkūrimui! Paspauskite „Taip“, kad jį perregistruotumėte. Jums reikės patvirtinti du kartus."
 
-#~ msgid "Missing BambuSource component registered for media playing! Please re-install OrcaSlicer or seek community help."
-#~ msgstr "Trūksta BambuSource komponento, užregistruoto medijos atkūrimui! Iš naujo įdiekite OrcaSlicer arba kreipkitės pagalbos į bendruomenę."
+#~ msgid "Missing BambuSource component registered for media playing! Please re-install Infinium or seek community help."
+#~ msgstr "Trūksta BambuSource komponento, užregistruoto medijos atkūrimui! Iš naujo įdiekite Infinium arba kreipkitės pagalbos į bendruomenę."
 
 #~ msgid "Using a BambuSource from a different install, video play may not work correctly! Press Yes to fix it."
 #~ msgstr "Naudojant \"BambuSource\" iš kito diegimo šaltinio, vaizdo įrašų atkūrimas gali būti neteisingas! Paspauskite Taip, kad tai ištaisytumėte."
 
-#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Orca Slicer?)"
-#~ msgstr "Jūsų sistemoje nėra \"GStreamer\" H.264 kodekų, reikalingų vaizdo įrašams atkurti. (Pabandykite įdiegti gstreamer1.0-plugins-bad arba gstreamer1.0-libav paketus, tada iš naujo paleiskite \"Orca Slicer\")"
+#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Infinium?)"
+#~ msgstr "Jūsų sistemoje nėra \"GStreamer\" H.264 kodekų, reikalingų vaizdo įrašams atkurti. (Pabandykite įdiegti gstreamer1.0-plugins-bad arba gstreamer1.0-libav paketus, tada iš naujo paleiskite \"Infinium\")"
 
 # AI Translated
 #~ msgid "N"
@@ -21608,8 +21608,8 @@ msgstr ""
 #~ msgid "The current firmware supports a maximum of 16 materials. You can either reduce the number of materials to 16 or fewer on the Preparation Page, or try updating the firmware. If you are still restricted after the update, please wait for subsequent firmware support."
 #~ msgstr "Dabartinė programinė įranga palaiko ne daugiau kaip 16 medžiagų. Galite paruošimo puslapyje sumažinti medžiagų skaičių iki 16 ar mažiau arba pabandyti atnaujinti programinę įrangą. Jei po atnaujinimo apribojimas išlieka, palaukite vėlesnių programinės įrangos atnaujinimų."
 
-#~ msgid "Click OK to update the Network plug-in the next time Orca Slicer launches."
-#~ msgstr "Spustelėkite Gerai, kad kitą kartą paleidus \"Orca-Flashforge\" būtų atnaujintas tinklo papildinys."
+#~ msgid "Click OK to update the Network plug-in the next time Infinium launches."
+#~ msgstr "Spustelėkite Gerai, kad kitą kartą paleidus \"Infinium-Flashforge\" būtų atnaujintas tinklo papildinys."
 
 #, boost-format
 #~ msgid "Failed to calculate line width of %1%. Cannot get value of “%2%”."
@@ -22038,8 +22038,8 @@ msgstr ""
 #~ msgid "The AMS will automatically read the information of inserted filament on start-up. It will take about 1 minute. The reading process will roll the filament spools."
 #~ msgstr "Paleidimo metu AMS automatiškai nuskaitys įdėtos gijos informaciją. Tai užtruks apie 1 minutę. Nuskaitymo proceso metu bus pasukamos gijos ritės."
 
-#~ msgid "Failed to install the plug-in. The plug-in file may be in use. Please restart OrcaSlicer and try again. Also check whether it is blocked or deleted by anti-virus software."
-#~ msgstr "Nepavyko įdiegti papildinio. Papildinio failas gali būti naudojamas. Paleiskite „OrcaSlicer“ iš naujo ir bandykite dar kartą. Taip pat patikrinkite, ar jo neužblokavo arba neištrynė antivirusinė programa."
+#~ msgid "Failed to install the plug-in. The plug-in file may be in use. Please restart Infinium and try again. Also check whether it is blocked or deleted by anti-virus software."
+#~ msgstr "Nepavyko įdiegti papildinio. Papildinio failas gali būti naudojamas. Paleiskite „Infinium“ iš naujo ir bandykite dar kartą. Taip pat patikrinkite, ar jo neužblokavo arba neištrynė antivirusinė programa."
 
 #~ msgid "A error occurred. Maybe memory of system is not enough or it's a bug of the program"
 #~ msgstr "Įvyko klaida. Sistemoje galėjo pritrūkti atminties arba įvyko programos klaida"
@@ -22396,14 +22396,14 @@ msgstr ""
 #~ msgid "Enable network plug-in"
 #~ msgstr "Įjungti tinklo papildinį"
 
-#~ msgid "If enabled, sets OrcaSlicer as default application to open 3MF files."
-#~ msgstr "Jei įjungta, „OrcaSlicer“ nustatoma kaip numatytoji programa 3MF failams atidaryti."
+#~ msgid "If enabled, sets Infinium as default application to open 3MF files."
+#~ msgstr "Jei įjungta, „Infinium“ nustatoma kaip numatytoji programa 3MF failams atidaryti."
 
-#~ msgid "If enabled, sets OrcaSlicer as default application to open STL files."
-#~ msgstr "Jei įjungta, „OrcaSlicer“ nustatoma kaip numatytoji programa STL failams atidaryti."
+#~ msgid "If enabled, sets Infinium as default application to open STL files."
+#~ msgstr "Jei įjungta, „Infinium“ nustatoma kaip numatytoji programa STL failams atidaryti."
 
-#~ msgid "If enabled, sets OrcaSlicer as default application to open STEP files."
-#~ msgstr "Jei įjungta, „OrcaSlicer“ nustatoma kaip numatytoji programa STEP failams atidaryti."
+#~ msgid "If enabled, sets Infinium as default application to open STEP files."
+#~ msgstr "Jei įjungta, „Infinium“ nustatoma kaip numatytoji programa STEP failams atidaryti."
 
 #~ msgid "(Experimental) Keep painted feature after mesh change"
 #~ msgstr "(Eksperimentinis) Išsaugoti nudažytas ypatybes pakeitus tinklelio modelį"
@@ -22453,8 +22453,8 @@ msgstr ""
 #~ msgid "Cannot send the print task when the upgrade is in progress"
 #~ msgstr "Negalima nusiųsti spausdinimo užduočių programinės įrangos atnaujinimo metu"
 
-#~ msgid "The printer is required to be in the same LAN as Orca Slicer."
-#~ msgstr "Spausdintuvas privalo būti tame pačiame vietiniame tinkle (LAN) kaip ir „OrcaSlicer“."
+#~ msgid "The printer is required to be in the same LAN as Infinium."
+#~ msgstr "Spausdintuvas privalo būti tame pačiame vietiniame tinkle (LAN) kaip ir „Infinium“."
 
 #~ msgid "Slice ok."
 #~ msgstr "Sluoksniavimas baigtas."
@@ -22569,14 +22569,14 @@ msgstr ""
 #~ msgid "Movement step set to 1 mm"
 #~ msgstr "Judėjimo žingsnis nustatytas į 1 mm"
 
-#~ msgid "Click OK to update the Network plug-in when Orca Slicer launches next time."
-#~ msgstr "Spustelėkite OK, kad kitą kartą paleidus \"Orca Slicer\" būtų atnaujintas tinklo papildinys."
+#~ msgid "Click OK to update the Network plug-in when Infinium launches next time."
+#~ msgstr "Spustelėkite OK, kad kitą kartą paleidus \"Infinium\" būtų atnaujintas tinklo papildinys."
 
 #~ msgid "An important update was detected and needs to be run before printing can continue. Do you want to update now? You can also update later from 'Upgrade firmware'."
 #~ msgstr "Aptiktas svarbus atnaujinimas, kurį būtina įdiegti prieš tęsiant spausdinimą. Ar norite atnaujinti dabar? Atnaujinti galėsite ir vėliau, pasirinkę „Atnaujinti programinę aparatinę įrangą“."
 
-#~ msgid "The firmware version is abnormal. Repairing and updating are required before printing. Do you want to update now? You can also update later on printer or update next time starting Orca."
-#~ msgstr "Aptikta neįprasta programinės aparatinės įrangos versija. Prieš spausdinant reikalingas jos atkūrimas ir atnaujinimas. Ar norite atnaujinti dabar? Tai atlikti galėsite ir vėliau pačiame spausdintuve arba kitą kartą paleidę „Orca“."
+#~ msgid "The firmware version is abnormal. Repairing and updating are required before printing. Do you want to update now? You can also update later on printer or update next time starting Infinium."
+#~ msgstr "Aptikta neįprasta programinės aparatinės įrangos versija. Prieš spausdinant reikalingas jos atkūrimas ir atnaujinimas. Ar norite atnaujinti dabar? Tai atlikti galėsite ir vėliau pačiame spausdintuve arba kitą kartą paleidę „Infinium“."
 
 #~ msgid "Need to check the unsaved changes before configuration updates."
 #~ msgstr "Prieš atnaujinant konfigūraciją reikia patikrinti neišsaugotus pakeitimus."

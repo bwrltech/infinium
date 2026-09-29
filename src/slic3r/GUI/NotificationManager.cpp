@@ -113,7 +113,7 @@ namespace {
 #endif
 	}
 
-	// Orca: Resolve the type of a validation option based on its key
+	// Infinium: Resolve the type of a validation option based on its key
 	Preset::Type resolve_validation_option_type(const std::string& opt_key)
 	{
 		if (opt_key.empty())
@@ -162,8 +162,8 @@ NotificationManager::PopNotification::PopNotification(const NotificationData &n,
 	, m_evt_handler         (evt_handler)
 	, m_notification_start  (GLCanvas3D::timestamp_now())
 {
-    m_ErrorColor  = ImGuiWrapper::to_ImVec4(decode_color_to_float_array("#E14747")); // ORCA
-    m_WarnColor   = ImGuiWrapper::to_ImVec4(decode_color_to_float_array("#F59B16")); // ORCA
+    m_ErrorColor  = ImGuiWrapper::to_ImVec4(decode_color_to_float_array("#E14747")); // INFINIUM
+    m_WarnColor   = ImGuiWrapper::to_ImVec4(decode_color_to_float_array("#F59B16")); // INFINIUM
     m_NormalColor = ImVec4(0, 0.588, 0.533, 1);
 
 	m_CurrentColor = m_NormalColor;   //Default
@@ -336,7 +336,7 @@ void NotificationManager::PopNotification::render(GLCanvas3D& canvas, float init
         m_minimize_b_visible = false;
         if (m_multiline && m_lines_count > 3)
 			render_minimize_button(imgui, win_pos.x, win_pos.y);
-        render_close_button(imgui, win_size.x, win_size.y, win_pos.x, win_pos.y); // ORCA draw it after minimize button since its position related to minimize button
+        render_close_button(imgui, win_size.x, win_size.y, win_pos.x, win_pos.y); // INFINIUM draw it after minimize button since its position related to minimize button
 	}
 
 	const bool gcode_window_visible = canvas.get_canvas_type() == GLCanvas3D::ECanvasType::CanvasPreview && wxGetApp().show_gcode_window();
@@ -406,12 +406,12 @@ void NotificationManager::PopNotification::bbl_render_block_notification(GLCanva
 
 	use_bbl_theme();
     if (m_data.level == NotificationLevel::SeriousWarningNotificationLevel) 
-	{   // ORCA match and ensure color usage
+	{   // INFINIUM match and ensure color usage
         push_style_color(ImGuiCol_Border,   m_WarnColor, true, m_current_fade_opacity);
         push_style_color(ImGuiCol_WindowBg, m_WarnColor, true, m_current_fade_opacity);
 	}
     if (m_data.level == NotificationLevel::ErrorNotificationLevel) 
-    {   // ORCA match and ensure color usage
+    {   // INFINIUM match and ensure color usage
         push_style_color(ImGuiCol_Border,   m_ErrorColor, true, m_current_fade_opacity);
         push_style_color(ImGuiCol_WindowBg, m_ErrorColor, true, m_current_fade_opacity);
     }
@@ -1398,14 +1398,14 @@ void NotificationManager::URLDownloadNotification::render_close_button_inner(ImG
 
 
 	std::string button_text;
-    // Orca: Change based on dark mode
+    // Infinium: Change based on dark mode
 	button_text = m_is_dark ? ImGui::CloseNotifDarkButton : ImGui::CloseNotifButton;
 
 	if (ImGui::IsMouseHoveringRect(ImVec2(win_pos.x - win_size.x / 10.f, win_pos.y),
 		ImVec2(win_pos.x, win_pos.y + win_size.y - (m_minimize_b_visible ? 2 * m_line_height : 0)),
 		true))
 	{
-        // Orca: Change based on dark mode
+        // Infinium: Change based on dark mode
 		button_text = m_is_dark ? ImGui::CloseNotifHoverDarkButton : ImGui::CloseNotifHoverButton;
 	}
 	ImVec2 button_pic_size = ImGui::CalcTextSize(button_text.c_str());
@@ -1445,14 +1445,14 @@ void NotificationManager::URLDownloadNotification::render_pause_button_inner(ImG
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(.0f, .0f, .0f, .0f));
 
 	std::wstring button_text;
-    // Orca: Change based on dark mode
+    // Infinium: Change based on dark mode
 	button_text = m_is_dark ? (m_download_paused ? ImGui::PlayDarkButton : ImGui::PauseDarkButton) : (m_download_paused ? ImGui::PlayButton : ImGui::PauseButton);
 
 	if (ImGui::IsMouseHoveringRect(ImVec2(win_pos.x - m_line_height * 5.f, win_pos.y),
 		ImVec2(win_pos.x - m_line_height * 2.5f, win_pos.y + win_size.y),
 		true))
 	{
-        // Orca: Change based on dark mode
+        // Infinium: Change based on dark mode
 		button_text = m_is_dark ? (m_download_paused ? ImGui::PlayHoverDarkButton : ImGui::PauseHoverDarkButton) : (m_download_paused ? ImGui::PlayHoverButton : ImGui::PauseHoverButton);
 	}
 
@@ -1486,14 +1486,14 @@ void NotificationManager::URLDownloadNotification::render_open_button_inner(ImGu
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(.0f, .0f, .0f, .0f));
 
 	std::wstring button_text;
-    // Orca: Change based on dark mode
+    // Infinium: Change based on dark mode
 	button_text = m_is_dark ? ImGui::OpenDarkButton : ImGui::OpenButton;
 
 	if (ImGui::IsMouseHoveringRect(ImVec2(win_pos.x - m_line_height * 5.f, win_pos.y),
 		ImVec2(win_pos.x - m_line_height * 2.5f, win_pos.y + win_size.y),
 		true))
 	{
-        // Orca: Change based on dark mode
+        // Infinium: Change based on dark mode
 		button_text = m_is_dark ? ImGui::OpenHoverDarkButton : ImGui::OpenHoverButton;
 	}
 
@@ -1900,7 +1900,7 @@ void NotificationManager::push_validate_error_notification(StringObjectException
 {
     auto po = dynamic_cast<PrintObjectBase const *>(error.object);
     auto mo = po ? po->model_object() : dynamic_cast<ModelObject const *>(error.object);
-    //ORCA: Update to handle ModelInstance selection for validation errors with fallback
+    //INFINIUM: Update to handle ModelInstance selection for validation errors with fallback
     /*
 	std::function<bool(wxEvtHandler*)> callback;
 	if (mo || !error.opt_key.empty()) {
@@ -2349,7 +2349,7 @@ void NotificationManager::SharedProfilesNotification::render_text(ImGuiWrapper& 
 	    render_hypertext(imgui, x_offset, hyper_y, m_hypertext);
 
 		// Invisible button
-		ImGui::SetCursorPosX(x_offset); // ORCA render on new line to prevent long translations from being cut off
+		ImGui::SetCursorPosX(x_offset); // INFINIUM render on new line to prevent long translations from being cut off
 		ImGui::SetCursorPosY(dont_show_y);
 		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(.0f, .0f, .0f, .0f));
 		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(.0f, .0f, .0f, .0f));
@@ -3135,19 +3135,19 @@ void NotificationManager::render_notifications(GLCanvas3D &canvas, float overlay
 
 	sort_notifications();
 
-	float bottom_up_last_y = bottom_margin; // ORCA dont scale margins
+	float bottom_up_last_y = bottom_margin; // INFINIUM dont scale margins
 
 	int i = 0;
 	for (const auto& notification : m_pop_notifications) {
         if (notification->get_data().level == NotificationLevel::ErrorNotificationLevel || notification->get_data().level == NotificationLevel::SeriousWarningNotificationLevel) {
-            notification->bbl_render_block_notification(canvas, bottom_up_last_y, m_move_from_overlay && !m_in_preview, overlay_width * m_scale, right_margin);  // ORCA dont scale margins
+            notification->bbl_render_block_notification(canvas, bottom_up_last_y, m_move_from_overlay && !m_in_preview, overlay_width * m_scale, right_margin);  // INFINIUM dont scale margins
             if (notification->get_state() != PopNotification::EState::Finished) 
 				bottom_up_last_y = notification->get_top() + GAP_WIDTH;
 		}
 		else {
 			if (notification->get_state() != PopNotification::EState::Hidden && notification->get_state() != PopNotification::EState::Finished) {
 				i++;
-				notification->render(canvas, bottom_up_last_y, m_move_from_overlay && !m_in_preview, overlay_width * m_scale, right_margin); // ORCA dont scale margins
+				notification->render(canvas, bottom_up_last_y, m_move_from_overlay && !m_in_preview, overlay_width * m_scale, right_margin); // INFINIUM dont scale margins
 				if (notification->get_state() != PopNotification::EState::Finished)
 					bottom_up_last_y = notification->get_top() + GAP_WIDTH;
 			}

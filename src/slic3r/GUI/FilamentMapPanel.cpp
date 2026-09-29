@@ -11,7 +11,7 @@
 namespace Slic3r { namespace GUI {
 
 static const wxColour BgNormalColor  = wxColour("#FFFFFF");
-static const wxColour BgSelectColor  = wxColour("#E5F0EE"); // ORCA
+static const wxColour BgSelectColor  = wxColour("#E5F0EE"); // INFINIUM
 static const wxColour BgDisableColor = wxColour("#CECECE");
 
 static const wxColour BorderNormalColor   = wxColour("#CECECE");
@@ -25,7 +25,7 @@ static const wxColour TextErrorColor = wxColour("#E14747");
 
 wxDEFINE_EVENT(wxEVT_INVALID_MANUAL_MAP, wxCommandEvent);
 
-// Orca: whether the edited printer has an extruder that can physically carry several nozzles
+// Infinium: whether the edited printer has an extruder that can physically carry several nozzles
 // (only such extruders track a per-volume-type nozzle inventory worth validating against).
 static bool printer_has_multi_nozzle_extruder()
 {
@@ -46,7 +46,7 @@ void FilamentMapManualPanel::OnTimer(wxTimerEvent &)
     auto             nozzle_volume_values = proj_config.option<ConfigOptionEnumsGeneric>("nozzle_volume_type")->values;
     std::vector<int> filament_map        = GetFilamentMaps();
     std::vector<int> filament_volume_map = GetFilamentVolumeMaps();
-    // Orca: only multi-nozzle extruders carry a meaningful nozzle inventory; validating a plain
+    // Infinium: only multi-nozzle extruders carry a meaningful nozzle inventory; validating a plain
     // dual-extruder printer against it would flag every grouping whenever the stats are stale.
     if (printer_has_multi_nozzle_extruder()) {
         for (size_t eid = 0; eid < nozzle_volume_values.size(); ++eid) {
@@ -191,7 +191,7 @@ std::vector<int> FilamentMapManualPanel::GetFilamentVolumeMaps() const
 
         if (std::find(left_filaments.begin(), left_filaments.end(), filament_id) != left_filaments.end()) {
             if (nozzle_volume_values.size() > 0) {
-                // Orca: never emit the Hybrid marker as a per-filament value; on a Hybrid
+                // Infinium: never emit the Hybrid marker as a per-filament value; on a Hybrid
                 // extruder each filament prints with a concrete flow, defaulting to Standard.
                 volume_map[i] = nozzle_volume_values[0] == static_cast<int>(NozzleVolumeType::nvtHybrid) ?
                                     static_cast<int>(NozzleVolumeType::nvtStandard) :
@@ -412,7 +412,7 @@ void FilamentMapManualPanel::UpdateNozzleCountDisplay()
 {
     auto preset_bundle = wxGetApp().preset_bundle;
 
-    // Orca: nozzle counts are only tracked (and only meaningful) for multi-nozzle extruders;
+    // Infinium: nozzle counts are only tracked (and only meaningful) for multi-nozzle extruders;
     // plain dual-extruder printers keep their unadorned zone titles.
     if (!printer_has_multi_nozzle_extruder()) {
         m_left_panel->UpdateLabel(_L("Left Nozzle"));

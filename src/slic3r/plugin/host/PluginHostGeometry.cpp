@@ -46,7 +46,7 @@ Polygon parse_polygon(py::handle h, const char* who)
     return poly;
 }
 
-// Accept a bound orca.host.Polygon (copied) or an (N,2) int64 ndarray. Used by the ExPolygon
+// Accept a bound infinium.host.Polygon (copied) or an (N,2) int64 ndarray. Used by the ExPolygon
 // binding, whose constructor/contour-setter/set_holes must accept the Polygon it itself hands
 // out (e.g. `ExPolygon(some_polygon_ref)`) in addition to the ndarray-only parse_polygon() path.
 Polygon as_polygon(py::handle h, const char* who)
@@ -60,7 +60,7 @@ Polygon as_polygon(py::handle h, const char* who)
 void host_bindings::register_geometry(py::module_& host)
 {
     // ------------------------------------------------------------------
-    // Geometry value types of the `orca.host` surface. All use pybind's
+    // Geometry value types of the `infinium.host` surface. All use pybind's
     // default holder, so plugins can construct and own instances. When
     // obtained from the live slicing graph they are non-owning references
     // instead — see the lifetime rule in PluginHostSlicing.cpp.

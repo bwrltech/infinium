@@ -196,7 +196,7 @@ std::unique_ptr<NetworkAgent> create_agent_from_config(const std::string& log_di
     if (!app_config)
         return std::make_unique<NetworkAgent>(nullptr, nullptr);
 
-    // Always create Orca cloud agent as the primary provider
+    // Always create Infinium cloud agent as the primary provider
     auto cloud_agent = NetworkAgentFactory::create_cloud_agent(INFINIUM_CLOUD_PROVIDER, log_dir);
     if (!cloud_agent) {
         BOOST_LOG_TRIVIAL(error) << "Failed to create cloud agent";
@@ -205,7 +205,7 @@ std::unique_ptr<NetworkAgent> create_agent_from_config(const std::string& log_di
     auto agent = std::make_unique<NetworkAgent>(std::move(cloud_agent), nullptr);
 
     if (agent) {
-        // create orca cloud agent first
+        // create infinium cloud agent first
         auto* infinium_cloud = dynamic_cast<InfiniumCloudServiceAgent*>(agent->get_cloud_agent().get());
         if (infinium_cloud) {
             infinium_cloud->configure_urls(app_config);

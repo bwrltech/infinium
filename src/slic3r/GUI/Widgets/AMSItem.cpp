@@ -65,7 +65,7 @@ bool AMSinfo::parse_ams_info(MachineObject *obj, DevAms *ams, bool remain_flag, 
     this->ams_type = AMSModel(ams->GetAmsType());
 
     nozzle_id = ams->GetExtruderId();
-    switch_pos = ams->GetSwitcherPos(); // Orca: carry the switch inlet for inlet-aware panel placement
+    switch_pos = ams->GetSwitcherPos(); // Infinium: carry the switch inlet for inlet-aware panel placement
     cans.clear();
     for (int i = 0; i < ams->GetTrays().size(); i++) {
         auto    it = ams->GetTrays().find(std::to_string(i));
@@ -234,8 +234,8 @@ int AMSinfo::get_humidity_display_idx() const
     return 1;
 }
 
-// Orca: inlet-aware panel routing. REF placed AMS by switch inlet (POS_IN_A/B) via a tray-level binding
-// that Orca's pull-mode fila model does not carry; the AMS-level DevAms::GetSwitcherPos() does, and it is
+// Infinium: inlet-aware panel routing. REF placed AMS by switch inlet (POS_IN_A/B) via a tray-level binding
+// that Infinium's pull-mode fila model does not carry; the AMS-level DevAms::GetSwitcherPos() does, and it is
 // stashed in switch_pos. When a Filament Track Switch is installed the device pins nozzle_id to MAIN for
 // command consumers, so placement follows the inlet here instead (POS_IN_B -> main/right, POS_IN_A ->
 // deputy/left). switch_pos is empty on switch-less machines and for ext spools (no tray-level inlet in the
@@ -755,7 +755,7 @@ void AMSExtImage::doRender(wxDC& dc)
 }
 
 
-// Orca: SwitcherImage — routing glyph drawn when a Filament Track Switch is installed.
+// Infinium: SwitcherImage — routing glyph drawn when a Filament Track Switch is installed.
 void SwitcherImage::paintEvent(wxPaintEvent &evt)
 {
     wxPaintDC dc(this);
@@ -2808,7 +2808,7 @@ void AMSPreview::doRender(wxDC &dc)
     //single slot
     else if (m_amsinfo.cans.size() == 1) {
         auto iter = m_amsinfo.cans[0];
-        // ORCA dont add additional background. four tray already doesnt use one
+        // INFINIUM dont add additional background. four tray already doesnt use one
         //dc.SetPen(wxPen(*wxTRANSPARENT_PEN));
         //dc.SetBrush(StateColor::darkModeColorFor(AMS_CONTROL_DEF_BLOCK_BK_COLOUR));
         //wxSize rec_size = wxSize(FromDIP(16), FromDIP(24));
@@ -3649,7 +3649,7 @@ void AmsItem::doRender(wxDC& dc)
     }
 }
 
-// Orca: toggle the road segment below the item (m_panel_road). Used to drop the external-spool
+// Infinium: toggle the road segment below the item (m_panel_road). Used to drop the external-spool
 // road when a Filament Track Switch is installed. No-op (returns false) when already in state.
 bool AmsItem::ShowRoad(bool show)
 {
@@ -4072,7 +4072,7 @@ wxString FeedDirectionDialog::calcTrayName(MachineObject* obj, const std::string
     int slot_id_int = std::stoi(slotID);
     int tray_id     = 0;
 
-    // Orca: DevAms::AmsType is the local enum (AMS / AMS_LITE / N3F / N3S); it has no EXT_SPOOL
+    // Infinium: DevAms::AmsType is the local enum (AMS / AMS_LITE / N3F / N3S); it has no EXT_SPOOL
     // member, and external/virtual spools are not real DevAms objects (GetAmsById returns nullptr
     // above), so the EXT_SPOOL branch from upstream is unnecessary here.
     if (ams->GetAmsType() == DevAms::AMS || ams->GetAmsType() == DevAms::AMS_LITE || ams->GetAmsType() == DevAms::N3F) {

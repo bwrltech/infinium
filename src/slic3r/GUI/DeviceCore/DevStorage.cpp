@@ -50,7 +50,7 @@ DevStorage::SdcardState Slic3r::DevStorage::set_sdcard_state(int state)
 
 bool DevStorage::is_timelapse_storage_low(const std::string& storage) const
 {
-    const int THRESHOLD_KB = 20480; // Orca: 20MB (20480 KB; corrected mislabeled comment)
+    const int THRESHOLD_KB = 20480; // Infinium: 20MB (20480 KB; corrected mislabeled comment)
     if (storage == "internal")
         return tl_internal_free_kb >= 0 && tl_internal_free_kb < THRESHOLD_KB;
     else

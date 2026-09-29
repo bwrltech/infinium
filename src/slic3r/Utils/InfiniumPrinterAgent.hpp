@@ -13,7 +13,7 @@ namespace Slic3r {
  * InfiniumPrinterAgent - Stub implementation for printer operations.
  *
  * All printer-related operations are currently stubs that return success.
- * Actual printer connectivity requires the BBL SDK or future Orca implementation.
+ * Actual printer connectivity requires the BBL SDK or future Infinium implementation.
  */
 class InfiniumPrinterAgent : public IPrinterAgent {
 public:

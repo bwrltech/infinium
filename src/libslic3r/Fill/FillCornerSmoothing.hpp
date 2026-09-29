@@ -13,7 +13,7 @@
 
 namespace Slic3r {
 
-// Orca: NaN or infinite factors disable the smoothing, everything else is clamped to <0, 1>.
+// Infinium: NaN or infinite factors disable the smoothing, everything else is clamped to <0, 1>.
 inline double sanitize_smooth_factor(double smooth_factor)
 {
     return std::isfinite(smooth_factor) ? std::clamp(smooth_factor, 0., 1.) : 0.;
@@ -24,7 +24,7 @@ inline double sanitize_smooth_factor(double smooth_factor)
 // turn, so a path that is not clipped to the fill region afterwards needs this to stay inside it.
 using CornerFilter = std::function<bool(const Vec2d &from, const Vec2d &to)>;
 
-// Orca: Replaces the sharp vertices of an infill path with curves that join the adjoining straight
+// Infinium: Replaces the sharp vertices of an infill path with curves that join the adjoining straight
 // legs with a continuous curvature, so the toolhead does not have to stop in every corner.
 // Points are pushed one by one, because the plane path fills produce their path on the fly, and
 // every point of the smoothed path is handed over to the caller supplied emit callback.

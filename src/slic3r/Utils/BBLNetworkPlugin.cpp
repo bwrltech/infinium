@@ -202,7 +202,7 @@ int BBLNetworkPlugin::initialize(bool using_backup, const std::string& version)
 
 int BBLNetworkPlugin::unload()
 {
-    // Orca: destroy the plugin agent while its creating DLL is still loaded, so the void* handle
+    // Infinium: destroy the plugin agent while its creating DLL is still loaded, so the void* handle
     // never dangles into freed memory. A stale m_agent surviving the unload makes create_agent()
     // short-circuit on has_agent() after a hot reload, and the next call into the freshly loaded
     // DLL dereferences the old-DLL handle -> access violation.

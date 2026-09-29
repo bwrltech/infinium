@@ -82,7 +82,7 @@ struct FillParams
     // For Gyroid: when true, use the parameterized "optimized" variant.
     bool        gyroid_optimized { false };
 
-    // Orca: corner smoothing factor in the range [0, 1].
+    // Infinium: corner smoothing factor in the range [0, 1].
     double      smooth_factor { 0. };
 
     // For Lateral lattice
@@ -103,7 +103,7 @@ struct FillParams
     bool            dont_sort{ false }; // do not sort the lines, just simply connect them
     bool            can_reverse{true};
 
-    // Orca: forced print order of surface fill loops/fragments for center-based patterns
+    // Infinium: forced print order of surface fill loops/fragments for center-based patterns
     // (Concentric, Archimedean Chords, Octagram Spiral). Default keeps shortest-path ordering.
     SurfaceFillOrder fill_order { SurfaceFillOrder::Default };
 
@@ -131,7 +131,7 @@ public:
     // in radians, ccw, 0 = East
     float       angle;
 
-    // Orca: Fill direction is fixed absolute angle if SurfaceFillParams.fixed_angle or config.ironing_angle_fixed
+    // Infinium: Fill direction is fixed absolute angle if SurfaceFillParams.fixed_angle or config.ironing_angle_fixed
     bool        fixed_angle{false};
     // In scaled coordinates. Maximum lenght of a perimeter segment connecting two infill lines.
     // Used by the FillRectilinear2, FillGrid2, FillTriangles, FillStars and FillCubic.
@@ -146,7 +146,7 @@ public:
     FillAdaptive::Octree* adapt_fill_octree = nullptr;
 
     // PrintConfig and PrintObjectConfig are used by infills that use Arachne (Concentric and FillEnsuring).
-    // Orca: also used by gap fill function.
+    // Infinium: also used by gap fill function.
     const PrintConfig       *print_config        = nullptr;
     const PrintObjectConfig *print_object_config = nullptr;
 
@@ -220,7 +220,7 @@ protected:
 
     virtual std::pair<float, Point> _infill_direction(const Surface *surface) const;
     
-    // Orca: Dedicated function to calculate gap fill lines for the provided surface, according to the print object parameters
+    // Infinium: Dedicated function to calculate gap fill lines for the provided surface, according to the print object parameters
     // and append them to the out ExtrusionEntityCollection.
     void _create_gap_fill(const Surface* surface, const FillParams& params, ExtrusionEntityCollection* out);
 

@@ -11,7 +11,7 @@ namespace Slic3r {
 //Previous definitions
 class MachineObject;
 
-// Orca: firmware-type enum consumed by DeviceManager/UpgradePanel; no reference-side equivalent yet
+// Infinium: firmware-type enum consumed by DeviceManager/UpgradePanel; no reference-side equivalent yet
 enum PrinterFirmwareType
 {
     FIRMWARE_TYPE_ENGINEER = 0,

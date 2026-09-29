@@ -250,14 +250,14 @@ wxDEFINE_EVENT(EVT_DEL_FILAMENT, SimpleEvent);
 wxDEFINE_EVENT(EVT_ADD_CUSTOM_FILAMENT, ColorEvent);
 wxDEFINE_EVENT(EVT_NOTICE_CHILDE_SIZE_CHANGED, SimpleEvent);
 wxDEFINE_EVENT(EVT_NOTICE_FULL_SCREEN_CHANGED, IntEvent);
-#define PRINTER_THUMBNAIL_SIZE (wxSize(40, 40)) // ORCA
-#define PRINTER_PANEL_SIZE (    wxSize(70, 60)) // ORCA
-#define PRINTER_PANEL_RADIUS (6) // ORCA
+#define PRINTER_THUMBNAIL_SIZE (wxSize(40, 40)) // INFINIUM
+#define PRINTER_PANEL_SIZE (    wxSize(70, 60)) // INFINIUM
+#define PRINTER_PANEL_RADIUS (6) // INFINIUM
 #define BTN_SYNC_SIZE (wxSize(FromDIP(96), FromDIP(98)))
 
 static string get_diameter_string(float diameter)
 {
-    std::ostringstream stream; // ORCA ensure 0.25 returned as 0.25. previous code returned as 0.2 because of std::setprecision(1)
+    std::ostringstream stream; // INFINIUM ensure 0.25 returned as 0.25. previous code returned as 0.2 because of std::setprecision(1)
     stream << std::fixed << std::setprecision(2) << diameter;  // Use 2 decimals to capture 0.25 / 0.15 reliably
     std::string s = stream.str();
     if (s.find('.') != std::string::npos) {   // Remove trailing zeros, but keep at least one decimal if needed
@@ -736,7 +736,7 @@ struct Sidebar::priv
 
     // Mixed-color filament section. Sits directly under the physical filament list in
     // scrolled_sizer. BBS hosts the equivalent widgets inside an m_filament_area_wrapper
-    // that Orca's sidebar has no counterpart for, so these are parented to p->scrolled.
+    // that Infinium's sidebar has no counterpart for, so these are parented to p->scrolled.
     wxPanel*          m_btn_add_mixed_filament{nullptr};  // "+ Add Mixed Filament" full-width button
     wxPanel*          m_panel_mixed_title{nullptr};       // title row: "Mixed Filament" + add/del buttons
     wxStaticText*     m_text_mixed_title{nullptr};
@@ -810,7 +810,7 @@ struct Sidebar::priv
     bool fila_switch_warning_shown = false;
     // Show/hide and reposition the switcher status icon; caches the last state to avoid churn.
     void update_extruder_separator_icon(bool show, bool ready);
-    // Orca: BBS resets the switcher UI from DeviceManager::OnSelectedMachineChanged, which Orca lacks.
+    // Infinium: BBS resets the switcher UI from DeviceManager::OnSelectedMachineChanged, which Infinium lacks.
     // Track the last-synced device id here so update_sync_status can detect a machine change.
     std::string last_sync_dev_id;
 
@@ -890,10 +890,10 @@ void Sidebar::priv::layout_printer(bool isBBL, bool isDual)
     //btn_sync_printer->Show(isBBL);
     m_printer_bbl_sync->Show(isBBL);
 
-    // ORCA show plate type combo box only when its supported
+    // INFINIUM show plate type combo box only when its supported
     PresetBundle &preset_bundle = *wxGetApp().preset_bundle;
     const auto& cfg = preset_bundle.printers.get_edited_preset().config;
-    // Orca: we use preset_bundle.is_bbl_vendor() instead of isBBL to determine if the plate type combo box should be shown
+    // Infinium: we use preset_bundle.is_bbl_vendor() instead of isBBL to determine if the plate type combo box should be shown
     // ref: https://github.com/Infinium/Infinium/pull/11610#discussion_r2607411847
     panel_printer_bed->Show(preset_bundle.is_bbl_vendor() || cfg.opt_bool("support_multi_bed_types"));
 
@@ -902,7 +902,7 @@ void Sidebar::priv::layout_printer(bool isBBL, bool isDual)
     // NEEDFIX requires AMS check or any type of ???
     // Single nozzle & non ams
     if (!isDual) {
-        // Orca: for printer without flow variant, we do not show flow combo
+        // Infinium: for printer without flow variant, we do not show flow combo
         int extruder_count = 0;
         const bool has_flow_variant = cfg.support_different_extruders(extruder_count);
 
@@ -913,7 +913,7 @@ void Sidebar::priv::layout_printer(bool isBBL, bool isDual)
         extruder_single_sizer->Show(false);
     }
 
-    // ORCA ensure printer section is visible after changing printer from printer selection dialog
+    // INFINIUM ensure printer section is visible after changing printer from printer selection dialog
     // this will inform user on printer change when printer section is collapsed
     if (m_panel_printer_content){
         bool isShown = m_panel_printer_content->IsShown();
@@ -1091,7 +1091,7 @@ std::vector<int> get_min_flush_volumes(const DynamicPrintConfig &full_config, si
 
 struct DynamicFilamentList : DynamicList
 {
-    // Orca: support and wipe-tower keys are consumed by the engine without per-layer mixed
+    // Infinium: support and wipe-tower keys are consumed by the engine without per-layer mixed
     // resolution (see ConfigManipulation::update_print_fff_config), so their dropdowns list
     // physical slots only; the per-feature *_filament_id keys keep every slot. BBS uses one
     // physical-only list for all of its keys.
@@ -1253,7 +1253,7 @@ public:
 
         Bind(wxEVT_PAINT, [this](wxPaintEvent& evt) {
                 wxPaintDC dc(this);
-                dc.SetPen(StateColor::darkModeColorFor(wxColour("#DBDBDB"))); // ORCA match popup border color
+                dc.SetPen(StateColor::darkModeColorFor(wxColour("#DBDBDB"))); // INFINIUM match popup border color
                 dc.SetBrush(*wxTRANSPARENT_BRUSH);
                 dc.DrawRoundedRectangle(0, 0, GetSize().x, GetSize().y, 0);
             });
@@ -1312,7 +1312,7 @@ ExtruderGroup::ExtruderGroup(wxWindow * parent, int index, wxString const &title
     SetFont(Label::Body_10);
     SetForegroundColour(wxColour("#CECECE"));
     SetBorderColor(wxColour("#EEEEEE"));
-    SetCornerRadius(FromDIP(PRINTER_PANEL_RADIUS)); // ORCA match radius with other boxes
+    SetCornerRadius(FromDIP(PRINTER_PANEL_RADIUS)); // INFINIUM match radius with other boxes
     ShowBadge(true);
 
     // The title lives in an interactive row inside the card (with the nozzle-count badge and its edit
@@ -1564,7 +1564,7 @@ bool Sidebar::priv::switch_diameter(bool single)
         }
     }
     
-    // ORCA: Check if the selected diameter matches the current nozzle diameter in the config
+    // INFINIUM: Check if the selected diameter matches the current nozzle diameter in the config
     Preset& printer_preset = wxGetApp().preset_bundle->printers.get_edited_preset();
     auto* nozzle_diameter = dynamic_cast<const ConfigOptionFloats*>(printer_preset.config.option("nozzle_diameter"));
     if (nozzle_diameter && nozzle_diameter->size() > 0) {
@@ -1577,7 +1577,7 @@ bool Sidebar::priv::switch_diameter(bool single)
     
     auto preset          = wxGetApp().preset_bundle->get_similar_printer_preset({}, diameter.ToStdString());
     if (preset == nullptr) {
-        // ORCA add a text. this appears when user tries to change nozzle value but config doesnt have a inherited or compatible preset
+        // INFINIUM add a text. this appears when user tries to change nozzle value but config doesnt have a inherited or compatible preset
         MessageDialog dlg(this->plater, _L("Configuration incompatible"), _L("Warning"), wxICON_WARNING | wxOK);
         dlg.ShowModal();
         return false;
@@ -1905,7 +1905,7 @@ void Sidebar::priv::show_fila_switch_msg(bool ready)
                               "Please calibrate it on the printer and synchronize before use.");
 
     long style = ready ? (wxICON_INFORMATION | wxOK) : (wxICON_WARNING | wxOK);
-    // Orca: drop the vendor "Learn more" tracking link; there is no Orca help page for the switch yet.
+    // Infinium: drop the vendor "Learn more" tracking link; there is no Infinium help page for the switch yet.
     MessageDialog dlg(static_cast<wxWindow *>(wxGetApp().mainframe), msg, _L("Tips"), style);
     dlg.CenterOnParent();
     dlg.ShowModal();
@@ -1951,7 +1951,7 @@ void Sidebar::priv::update_extruder_separator_icon(bool show, bool ready)
     }
 
     if (show && left_extruder && left_extruder->hsizer_ams && left_extruder->sizer) {
-        // Orca: center the icon over the seam between the two extruder cards, vertically aligned with
+        // Infinium: center the icon over the seam between the two extruder cards, vertically aligned with
         // the AMS row. left_extruder and the icon share m_panel_printer_content as parent, so
         // left_extruder->GetPosition() and the icon position live in the same coordinate space.
         wxPoint left_box_pos  = left_extruder->GetPosition();
@@ -2165,7 +2165,7 @@ void Sidebar::priv::update_sync_status(const MachineObject *obj)
     auto clear_all_sync_status = [this]() {
         panel_printer_preset->ShowBadge(false);
         panel_printer_bed->ShowBadge(false);
-        panel_nozzle_dia->ShowBadge(false); // ORCA add support for nozzle sync
+        panel_nozzle_dia->ShowBadge(false); // INFINIUM add support for nozzle sync
         left_extruder->ShowBadge(false);
         left_extruder->sync_ams(nullptr, {}, {});
         right_extruder->ShowBadge(false);
@@ -2183,8 +2183,8 @@ void Sidebar::priv::update_sync_status(const MachineObject *obj)
         return;
     }
 
-    // Orca: replaces BBS's reset_fila_switch hook on DeviceManager::OnSelectedMachineChanged (absent
-    // in Orca). Selection/MQTT updates all funnel through here, so a change of the selected device id
+    // Infinium: replaces BBS's reset_fila_switch hook on DeviceManager::OnSelectedMachineChanged (absent
+    // in Infinium). Selection/MQTT updates all funnel through here, so a change of the selected device id
     // resets the switcher icon and the once-per-session not-ready warning for the new printer.
     const std::string cur_dev_id = obj->get_dev_id();
     if (cur_dev_id != last_sync_dev_id) {
@@ -2235,7 +2235,7 @@ void Sidebar::priv::update_sync_status(const MachineObject *obj)
     auto is_same_nozzle_info = [obj](const ExtruderInfo &left, const ExtruderInfo &right) {
         bool is_same_nozzle_type = true;
         if (obj->is_nozzle_flow_type_supported())
-            is_same_nozzle_type = true;//left.nozzle_volue_type == right.nozzle_volue_type; // TODO: Orca hack
+            is_same_nozzle_type = true;//left.nozzle_volue_type == right.nozzle_volue_type; // TODO: Infinium hack
         return abs(left.diameter - right.diameter) < EPSILON && is_same_nozzle_type;
     };
 
@@ -2337,13 +2337,13 @@ void Sidebar::priv::update_sync_status(const MachineObject *obj)
     if (extruder_nums == 1) {
         if (is_same_nozzle_info(extruder_infos[0], machine_extruder_infos[0])) {
             single_extruder->ShowBadge(true);
-            panel_nozzle_dia->ShowBadge(true); // ORCA add support for nozzle sync
+            panel_nozzle_dia->ShowBadge(true); // INFINIUM add support for nozzle sync
             single_extruder->sync_ams(obj, machine_extruder_infos[0].ams_v4, machine_extruder_infos[0].ams_v1);
             extruder_synced[0] = true;
         }
         else {
             single_extruder->ShowBadge(false);
-            panel_nozzle_dia->ShowBadge(false); // ORCA add support for nozzle sync
+            panel_nozzle_dia->ShowBadge(false); // INFINIUM add support for nozzle sync
             single_extruder->sync_ams(obj, {}, {});
         }
     }
@@ -2471,7 +2471,7 @@ Sidebar::Sidebar(Plater *parent)
             //wizard_t->run(ConfigWizard::RR_USER, ConfigWizard::SP_CUSTOM);
             });
 
-        // ORCA use connect button on titlebar
+        // INFINIUM use connect button on titlebar
         p->m_printer_connect = new ScalableButton(p->m_panel_printer_title, wxID_ANY, "monitor_signal_strong");
         p->m_printer_connect->SetToolTip(_L("Connection"));
         p->m_printer_connect->Bind(wxEVT_BUTTON, [this](wxCommandEvent &e) {
@@ -2479,7 +2479,7 @@ Sidebar::Sidebar(Plater *parent)
             dlg.ShowModal();
         });
 
-        // ORCA use sync button on titlebar
+        // INFINIUM use sync button on titlebar
         p->m_printer_bbl_sync = new ScalableButton(p->m_panel_printer_title, wxID_ANY, "printer_sync_not");
         p->m_printer_bbl_sync->SetToolTip(_L("Synchronize nozzle information and the number of AMS"));
         p->m_printer_bbl_sync->Bind(wxEVT_BUTTON, [this](wxCommandEvent &e) {
@@ -2515,7 +2515,7 @@ Sidebar::Sidebar(Plater *parent)
         p->m_panel_printer_title->Bind(wxEVT_LEFT_UP, [this] (auto & e) {
             if (!p || !p->combo_printer || !p->m_text_printer_settings || !p->m_panel_printer_content || !m_scrolled_sizer)
                 return;
-            // ORCA Show printer name on title when its folded to inform user without expanding it again
+            // INFINIUM Show printer name on title when its folded to inform user without expanding it again
             bool     isShown = p->m_panel_printer_content->IsShown();
             wxString title   = _L("Printer") + wxString(!isShown ? "" : ("  |  " + p->combo_printer->GetValue()));
             p->m_text_printer_settings->SetLabel(title);
@@ -2523,8 +2523,8 @@ Sidebar::Sidebar(Plater *parent)
             p->m_panel_printer_separator->Show(isShown);
             m_scrolled_sizer->Layout();
         });
-        // ORCA add bottom border for seperation wile sections folded
-        p->m_panel_printer_separator = new wxPanel(p->scrolled, wxID_ANY, wxDefaultPosition, wxSize(-1, FromDIP(2))); // ORCA staticline class not works without string
+        // INFINIUM add bottom border for seperation wile sections folded
+        p->m_panel_printer_separator = new wxPanel(p->scrolled, wxID_ANY, wxDefaultPosition, wxSize(-1, FromDIP(2))); // INFINIUM staticline class not works without string
         p->m_panel_printer_separator->SetBackgroundColour("#FFFFFF");
         scrolled_sizer->Add(p->m_panel_printer_separator, 0, wxEXPAND);
 
@@ -2549,7 +2549,7 @@ Sidebar::Sidebar(Plater *parent)
         p->panel_printer_preset->Bind(wxEVT_LEFT_DOWN, [this](auto & evt) {
             p->combo_printer->wxEvtHandler::ProcessEvent(evt);
         });
-        // ORCA Hide Cover automatically if there is not enough space
+        // INFINIUM Hide Cover automatically if there is not enough space
         p->panel_printer_preset->Bind(wxEVT_SIZE, [this](auto & e) {
             auto current_width = e.GetSize().GetWidth();
             auto narrow_width  = FromDIP(235);
@@ -2572,9 +2572,9 @@ Sidebar::Sidebar(Plater *parent)
             p->editing_filament = -1;
             if (p->combo_printer->switch_to_tab())
                 p->editing_filament = 0;
-            // ORCA: FIX crash on wxGTK, directly modifying UI (self->Hide() / parent->Layout()) inside a button event can crash because callbacks are not re-entrant, leaving widgets in an inconsistent state
+            // INFINIUM: FIX crash on wxGTK, directly modifying UI (self->Hide() / parent->Layout()) inside a button event can crash because callbacks are not re-entrant, leaving widgets in an inconsistent state
             wxGetApp().CallAfter([this, panel_color, printer_preset_hovered]() {
-                // ORCA clicking edit button not triggers wxEVT_KILL_FOCUS wxEVT_LEAVE_WINDOW make changes manually to prevent stucked colors when opening printer settings
+                // INFINIUM clicking edit button not triggers wxEVT_KILL_FOCUS wxEVT_LEAVE_WINDOW make changes manually to prevent stucked colors when opening printer settings
                 if (!p || !p->panel_printer_preset || !p->btn_edit_printer)
                     return;
 				p->panel_printer_preset->SetBorderColor(panel_color.bd_normal);
@@ -2593,7 +2593,7 @@ Sidebar::Sidebar(Plater *parent)
         p->combo_printer = new PlaterPresetComboBox(p->panel_printer_preset, Preset::TYPE_PRINTER);
         p->combo_printer->SetBorderWidth(0);
         p->combo_printer->SetMaxSize(wxSize(-1, FromDIP(30))); // limiting height makes badge visible
-        // ORCA paint whole combobox on focus
+        // INFINIUM paint whole combobox on focus
         auto printer_focus_bg = [this, panel_color](bool focused){
             auto bg_color = StateColor::darkModeColorFor(focused ? panel_color.bg_focus : panel_color.bg_normal);
             p->panel_printer_preset->SetBackgroundColor(bg_color);
@@ -2605,7 +2605,7 @@ Sidebar::Sidebar(Plater *parent)
         p->combo_printer->Bind(wxEVT_SET_FOCUS,  [printer_focus_bg](auto& e) {printer_focus_bg(true ); e.Skip();});
         p->combo_printer->Bind(wxEVT_KILL_FOCUS, [printer_focus_bg](auto& e) {printer_focus_bg(false); e.Skip();});
 
-        /* ORCA This part moved to titlebar
+        /* INFINIUM This part moved to titlebar
         p->btn_connect_printer = new ScalableButton(p->panel_printer_preset, wxID_ANY, "monitor_signal_strong");
         p->btn_connect_printer->SetBackgroundColour(wxColour(255, 255, 255));
         p->btn_connect_printer->SetToolTip(_L("Connection"));
@@ -2615,7 +2615,7 @@ Sidebar::Sidebar(Plater *parent)
                 dlg.ShowModal();
             });
         */
-        // ORCA use Show/Hide to gain text area instead using blank icon. also manages hover effect for border
+        // INFINIUM use Show/Hide to gain text area instead using blank icon. also manages hover effect for border
         for (wxWindow *w : std::initializer_list<wxWindow *>{p->panel_printer_preset, p->btn_edit_printer, p->image_printer, p->combo_printer}) {
             w->Bind(wxEVT_ENTER_WINDOW, [this, w, panel_color, printer_preset_hovered](wxMouseEvent &e) {
                 printer_preset_hovered->insert(w);
@@ -2645,7 +2645,7 @@ Sidebar::Sidebar(Plater *parent)
             }
         });
 
-        // ORCA unified Nozzle diameter selection
+        // INFINIUM unified Nozzle diameter selection
         p->panel_nozzle_dia = new StaticBox(p->m_panel_printer_content);
         p->panel_nozzle_dia->SetCornerRadius(FromDIP(PRINTER_PANEL_RADIUS));
         p->panel_nozzle_dia->SetBorderColor(panel_color.bd_normal);
@@ -2671,7 +2671,7 @@ Sidebar::Sidebar(Plater *parent)
             wxPostEvent(evt_combo, evt);
             e.Skip();
         });
-        // ORCA paint whole combobox on focus
+        // INFINIUM paint whole combobox on focus
         auto nozzle_focus_bg = [this, panel_color](bool focused){
             auto bg_color = StateColor::darkModeColorFor(focused ? panel_color.bg_focus : panel_color.bg_normal);
             p->panel_nozzle_dia->SetBackgroundColor(bg_color);
@@ -2737,8 +2737,8 @@ Sidebar::Sidebar(Plater *parent)
         p->combo_printer_bed = new ComboBox(p->panel_printer_bed, wxID_ANY, wxString(""), wxDefaultPosition, wxDefaultSize, 0, nullptr, wxCB_READONLY);
         p->combo_printer_bed->SetBorderWidth(0);
         p->combo_printer_bed->GetDropDown().SetUseContentWidth(true);
-        p->combo_printer_bed->SetMinSize(FromDIP(wxSize(18,-1))); // ORCA show only arrow
-        p->combo_printer_bed->SetMaxSize(FromDIP(wxSize(18,-1))); // ORCA show only arrow
+        p->combo_printer_bed->SetMinSize(FromDIP(wxSize(18,-1))); // INFINIUM show only arrow
+        p->combo_printer_bed->SetMaxSize(FromDIP(wxSize(18,-1))); // INFINIUM show only arrow
         reset_bed_type_combox_choices(true);
 
         p->combo_printer_bed->Bind(wxEVT_COMBOBOX, [this](auto &e) {
@@ -2747,7 +2747,7 @@ Sidebar::Sidebar(Plater *parent)
             e.Skip();
         });
 
-        // ORCA paint whole combobox on focus
+        // INFINIUM paint whole combobox on focus
         auto bed_focus_bg = [this, panel_color](bool focused){
             auto bg_color = StateColor::darkModeColorFor(focused ? panel_color.bg_focus : panel_color.bg_normal);
             p->panel_printer_bed->SetBackgroundColor(bg_color);
@@ -2807,7 +2807,7 @@ Sidebar::Sidebar(Plater *parent)
         BedType bed_type = (BedType)bed_type_value;
         project_config.set_key_value("curr_bed_type", new ConfigOptionEnum<BedType>(bed_type));
 
-        /* ORCA THIS PART MOVED TO TITLEBAR
+        /* INFINIUM THIS PART MOVED TO TITLEBAR
         // Sync printer information
         btn_sync = new Button(p->m_panel_printer_content, _L("Sync info"), "printer_sync", 0, 32);
         //btn_sync->SetFont(Label::Body_8);
@@ -2848,7 +2848,7 @@ Sidebar::Sidebar(Plater *parent)
         p->left_extruder->SetOnHoverClick([]() { GUI::manuallySetNozzleCount(0); });
         p->right_extruder->SetOnHoverClick([]() { GUI::manuallySetNozzleCount(1); });
         p->single_extruder->SetEditEnabled(false);
-        // Orca: keep the floating switcher icon aligned with the left extruder's AMS row when the
+        // Infinium: keep the floating switcher icon aligned with the left extruder's AMS row when the
         // extruder card is resized (the overlay is absolutely positioned, not managed by a sizer).
         p->left_extruder->Bind(wxEVT_SIZE, [this](wxSizeEvent &evt) {
             if (p->extruder_separator_icon && p->extruder_separator_icon->IsShown()) {
@@ -2885,7 +2885,7 @@ Sidebar::Sidebar(Plater *parent)
 
     {
 
-    // Orca: Sidebar - Filament titlebar UI
+    // Infinium: Sidebar - Filament titlebar UI
     // add filament title
     p->m_panel_filament_title = new StaticBox(p->scrolled, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL | wxBORDER_NONE);
     p->m_panel_filament_title->SetBackgroundColor(title_bg);
@@ -2893,7 +2893,7 @@ Sidebar::Sidebar(Plater *parent)
     p->m_panel_filament_title->Bind(wxEVT_LEFT_UP, [this](wxMouseEvent &e) {
         if (!p || !p->m_filament_area_wrapper || !m_scrolled_sizer || !p->m_bpButton_set_filament || !p->m_purge_mode_btn || !p->m_flushing_volume_btn || !p->m_bpButton_add_filament || !ams_btn)
             return;
-        // ORCA exclude area of del button from titlebar collapse/expand feature to fix undesired collapse when user spams del filament button
+        // INFINIUM exclude area of del button from titlebar collapse/expand feature to fix undesired collapse when user spams del filament button
         // also block fold/unfold feature when user clicks to spacing between icons
         int exclude_pt = p->m_bpButton_set_filament->GetPosition().x; // maximum fixed item
         if      (p->m_purge_mode_btn->IsShown())        exclude_pt = p->m_purge_mode_btn->GetPosition().x;
@@ -2925,8 +2925,8 @@ Sidebar::Sidebar(Plater *parent)
     p->m_panel_filament_title->SetSizer( bSizer39 );
     p->m_panel_filament_title->Layout();
     scrolled_sizer->Add(p->m_panel_filament_title, 0, wxEXPAND | wxALL, 0);
-    // ORCA add bottom border for seperation wile sections folded
-    p->m_panel_filament_separator = new wxPanel(p->scrolled, wxID_ANY, wxDefaultPosition, wxSize(-1, FromDIP(2))); // ORCA staticline class not works without string
+    // INFINIUM add bottom border for seperation wile sections folded
+    p->m_panel_filament_separator = new wxPanel(p->scrolled, wxID_ANY, wxDefaultPosition, wxSize(-1, FromDIP(2))); // INFINIUM staticline class not works without string
     p->m_panel_filament_separator->SetBackgroundColour("#FFFFFF");
     scrolled_sizer->Add(p->m_panel_filament_separator, 0, wxEXPAND);
 
@@ -2966,7 +2966,7 @@ Sidebar::Sidebar(Plater *parent)
         }));
 
     bSizer39->Add(p->m_flushing_volume_btn, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(4));
-    bSizer39->Hide(p->m_flushing_volume_btn); // ORCA Ensure button is hidden on launch while 1 filament exist
+    bSizer39->Hide(p->m_flushing_volume_btn); // INFINIUM Ensure button is hidden on launch while 1 filament exist
 
     ScalableButton* add_btn = new ScalableButton(p->m_panel_filament_title, wxID_ANY, "add_filament");
     add_btn->SetToolTip(_L("Add one filament"));
@@ -2976,7 +2976,7 @@ Sidebar::Sidebar(Plater *parent)
     });
     p->m_bpButton_add_filament = add_btn;
 
-    // ORCA Moved add button after delete button to prevent add button position change when remove icon automatically hidden
+    // INFINIUM Moved add button after delete button to prevent add button position change when remove icon automatically hidden
 
     ScalableButton* del_btn = new ScalableButton(p->m_panel_filament_title, wxID_ANY, "delete_filament");
     del_btn->SetToolTip(_L("Remove last filament"));
@@ -2987,12 +2987,12 @@ Sidebar::Sidebar(Plater *parent)
     p->m_bpButton_del_filament = del_btn;
 
     bSizer39->Add(del_btn, 0, wxALIGN_CENTER | wxLEFT, FromDIP(SidebarProps::IconSpacing()));
-    bSizer39->Add(add_btn, 0, wxALIGN_CENTER | wxLEFT, FromDIP(SidebarProps::IconSpacing())); // ORCA Moved add button after delete button to prevent add button position change when remove icon automatically hidden
+    bSizer39->Add(add_btn, 0, wxALIGN_CENTER | wxLEFT, FromDIP(SidebarProps::IconSpacing())); // INFINIUM Moved add button after delete button to prevent add button position change when remove icon automatically hidden
 
-    bSizer39->Hide(p->m_bpButton_del_filament); // ORCA Ensure button is hidden on launch while 1 filament exist
+    bSizer39->Hide(p->m_bpButton_del_filament); // INFINIUM Ensure button is hidden on launch while 1 filament exist
 
     ams_btn = new ScalableButton(p->m_panel_filament_title, wxID_ANY, "ams_fila_sync", wxEmptyString, wxDefaultSize, wxDefaultPosition,
-                                                 wxBU_EXACTFIT | wxNO_BORDER, false, 16); // ORCA match icon size with other icons as 16x16
+                                                 wxBU_EXACTFIT | wxNO_BORDER, false, 16); // INFINIUM match icon size with other icons as 16x16
     ams_btn->SetToolTip(_L("Synchronize filament list from AMS"));
     ams_btn->Bind(wxEVT_BUTTON, [this](wxCommandEvent &e) {
         sync_ams_list();
@@ -3032,7 +3032,7 @@ Sidebar::Sidebar(Plater *parent)
     //wxBoxSizer* bSizer_filament_content;
     //bSizer_filament_content = new wxBoxSizer( wxHORIZONTAL );
 
-    // Orca: Sidebar - Filament content UI: setup filament selection combos panel layout
+    // Infinium: Sidebar - Filament content UI: setup filament selection combos panel layout
     // Creates a two-column grid layout for filament selection dropdowns within the scrollable panel
     p->sizer_filaments = new wxBoxSizer(wxHORIZONTAL);
     p->sizer_filaments->Add(new wxBoxSizer(wxVERTICAL), 1, wxEXPAND);
@@ -3049,7 +3049,7 @@ Sidebar::Sidebar(Plater *parent)
     p->m_panel_filament_content->SetSizer(sizer_filaments2);
     p->m_panel_filament_content->Layout();
     
-    update_filaments_area_height(); // ORCA
+    update_filaments_area_height(); // INFINIUM
 
     wrapper_sizer->Add(p->m_panel_filament_content, 0, wxEXPAND);
 
@@ -3172,7 +3172,7 @@ Sidebar::Sidebar(Plater *parent)
 
     p->m_filament_area_wrapper->SetSizer(wrapper_sizer);
     p->m_filament_area_wrapper->Layout();
-    scrolled_sizer->Add(p->m_filament_area_wrapper, 0, wxEXPAND | wxTOP | wxBOTTOM, FromDIP(SidebarProps::ContentMarginV())); // ORCA use vertical margin on parent otherwise it shows scrollbar even on 1 filament
+    scrolled_sizer->Add(p->m_filament_area_wrapper, 0, wxEXPAND | wxTOP | wxBOTTOM, FromDIP(SidebarProps::ContentMarginV())); // INFINIUM use vertical margin on parent otherwise it shows scrollbar even on 1 filament
     // ---- End filament area ----
     }
 
@@ -3193,13 +3193,13 @@ Sidebar::Sidebar(Plater *parent)
     //add project content
     p->sizer_params = new wxBoxSizer(wxVERTICAL);
 
-    // ORCA: Update search box to modern style
+    // INFINIUM: Update search box to modern style
     p->m_search_bar = new StaticBox(p->scrolled);
     p->m_search_bar->SetCornerRadius(0);
     p->m_search_bar->SetBorderColor(wxColour("#CECECE"));
 
     p->m_search_item = new TextInput(p->m_search_bar, wxEmptyString, wxEmptyString, "", wxDefaultPosition, wxDefaultSize, 0 | wxBORDER_NONE);
-    p->m_search_item->SetIcon(*BitmapCache().load_svg("search", FromDIP(16), FromDIP(16))); // ORCA: Add search icon to search box
+    p->m_search_item->SetIcon(*BitmapCache().load_svg("search", FromDIP(16), FromDIP(16))); // INFINIUM: Add search icon to search box
 
     wxTextCtrl* text_ctrl = p->m_search_item->GetTextCtrl();
     text_ctrl->SetHint(_L("Search plate, object and part."));
@@ -3339,7 +3339,7 @@ void Sidebar::init_filament_combo(PlaterPresetComboBox **combo, const int filame
 
     (*combo)->clr_picker->SetLabel(wxString::Format("%d", filament_idx + 1));
     combo_and_btn_sizer->Add((*combo)->clr_picker, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(SidebarProps::ElementSpacing()) - FromDIP(2)); // ElementSpacing - 2 (from combo box))
-    combo_and_btn_sizer->Add(*combo, 1, wxALL | wxEXPAND, FromDIP(2))->SetMinSize({-1, 30 * wxGetApp().em_unit() / 10}); // ORCA ensure height matches with PlaterPresetComboBox
+    combo_and_btn_sizer->Add(*combo, 1, wxALL | wxEXPAND, FromDIP(2))->SetMinSize({-1, 30 * wxGetApp().em_unit() / 10}); // INFINIUM ensure height matches with PlaterPresetComboBox
 
     /* BBS hide del_btn
     ScalableButton* del_btn = new ScalableButton(p->m_panel_filament_content, wxID_ANY, "delete_filament");
@@ -3442,17 +3442,17 @@ void Sidebar::update_all_preset_comboboxes()
         p_mainframe->set_print_button_to_default(MainFrame::PrintSelectType::ePrintPlate);
     } else {
         //p->btn_connect_printer->Show();
-        // ORCA: hide the physical-printer connection button when printer agents are enabled
+        // INFINIUM: hide the physical-printer connection button when printer agents are enabled
         p->m_printer_connect->Show(!use_printer_agents);
 
-        // ORCA: show/hide sync-ams button based on filament sync mode
+        // INFINIUM: show/hide sync-ams button based on filament sync mode
         auto agent = wxGetApp().getAgent();
         if (agent && agent->get_filament_sync_mode() != FilamentSyncMode::none)
             p->m_bpButton_ams_filament->Show();
         else
             p->m_bpButton_ams_filament->Hide();
 
-        // Orca: with "Support 3MF as gcode" (use_3mf) the local export is a .gcode.3mf bundle, so when no
+        // Infinium: with "Support 3MF as gcode" (use_3mf) the local export is a .gcode.3mf bundle, so when no
         // printer host/IP is configured the default action is "Export plate sliced file" (mirrors the
         // print dropdown) instead of "Export G-code file".
         auto print_btn_type = cfg.opt_bool("use_3mf") ? MainFrame::PrintSelectType::eExportSlicedFile
@@ -3460,7 +3460,7 @@ void Sidebar::update_all_preset_comboboxes()
         wxString url = from_u8(PrintHost::get_print_host_webui(&cfg));
         wxString apikey;
         if(url.empty())
-            url = wxString::Format("file://%s/web/orca/missing_connection.html", from_u8(resources_dir()));
+            url = wxString::Format("file://%s/web/infinium/missing_connection.html", from_u8(resources_dir()));
         else {
             const auto host_type = cfg.option<ConfigOptionEnum<PrintHostType>>("host_type")->value;
             if (cfg.has("printhost_apikey") && (host_type != htSimplyPrint))
@@ -3494,7 +3494,7 @@ void Sidebar::update_all_preset_comboboxes()
 
     if (is_bbl_vendor || cfg.opt_bool("support_multi_bed_types")) {
         p->combo_printer_bed->Enable();
-        // Orca: don't update bed type if loading project
+        // Infinium: don't update bed type if loading project
         if (!p->plater->is_loading_project()) {
             bool has_changed = reset_bed_type_combox_choices();
             bool flag         = m_begin_sync_printer_status && !has_changed;
@@ -3523,7 +3523,7 @@ void Sidebar::update_all_preset_comboboxes()
         p->combo_printer_bed->Disable();
     }
 
-    // ORCA Hide plate selector if not supported by printer
+    // INFINIUM Hide plate selector if not supported by printer
     p->panel_printer_bed->Show(is_bbl_vendor || cfg.opt_bool("support_multi_bed_types"));
 
     // Update the print choosers to only contain the compatible presets, update the dirty flags.
@@ -3677,13 +3677,13 @@ void Sidebar::update_presets(Preset::Type preset_type)
         auto update_extruder_diameter = [&diameters, &nozzle_diameter](int extruder_index,ExtruderGroup & extruder) {
             extruder.combo_diameter->Clear();
             int select = -1;
-            // ORCA get the actual nozzle diameter from printer config
+            // INFINIUM get the actual nozzle diameter from printer config
             auto nozzle_dia = get_diameter_string(nozzle_diameter->values[extruder_index]);
-            // ORCA try to add nozzle diameter from config if list is empty. fixes blank nozzle combo box when preset has no alias
+            // INFINIUM try to add nozzle diameter from config if list is empty. fixes blank nozzle combo box when preset has no alias
             if(diameters[0].empty() && !nozzle_dia.empty()){
                 diameters[0] = nozzle_dia;
             }
-            // Orca: Check if the actual nozzle diameter exists in the list, if not add it as a custom option
+            // Infinium: Check if the actual nozzle diameter exists in the list, if not add it as a custom option
             if (std::find(diameters.begin(), diameters.end(), nozzle_dia) == diameters.end() && !nozzle_dia.empty()) {
                 diameters.push_back(nozzle_dia);
             }
@@ -3715,13 +3715,13 @@ void Sidebar::update_presets(Preset::Type preset_type)
             //if (!p->is_switching_diameter)
                 update_extruder_diameter(0, *p->single_extruder);
 
-            // ORCA sync unified nozzle combo box
+            // INFINIUM sync unified nozzle combo box
             p->combo_nozzle_dia->Clear();
             for (size_t i = 0; i < diameters.size(); ++i)
                 p->combo_nozzle_dia->Append(diameters[i], {});
             p->combo_nozzle_dia->SetSelection((*p->single_extruder).combo_diameter->GetSelection());
             
-            // ORCA update nozzle type
+            // INFINIUM update nozzle type
             const auto& full_config = wxGetApp().preset_bundle->full_config();
             wxString nozzle_type = "-";
             const ConfigOptionEnumsGenericNullable* cfg_nozzle_type = full_config.option<ConfigOptionEnumsGenericNullable>("nozzle_type");
@@ -3881,7 +3881,7 @@ void Sidebar::change_top_border_for_mode_sizer(bool increase_border)
 
 
 // ---- Mixed-color filament sidebar support ----
-// The mixed rows get their own scroll area, capped by Orca's filaments_area_preferred_count
+// The mixed rows get their own scroll area, capped by Infinium's filaments_area_preferred_count
 // row budget rather than BBS's fixed 3-row / 12-filament limit.
 void Sidebar::recalc_filament_scroll_sizes()
 {
@@ -4345,9 +4345,9 @@ void Sidebar::update_mixed_filament_list()
                 else
                     delete sub_menu;
 
-                menu.AppendSeparator(); // ORCA use seperator for reducing accidental clicks to delete
+                menu.AppendSeparator(); // INFINIUM use seperator for reducing accidental clicks to delete
 
-                // ORCA use delete item on end of menu to prevent accidental clicks. clicking to submenus(merge) already not allowed by OS
+                // INFINIUM use delete item on end of menu to prevent accidental clicks. clicking to submenus(merge) already not allowed by OS
                 auto* del_item = menu.Append(wxID_ANY, _L("Delete"));
                 menu.Bind(wxEVT_MENU, [this, panel_idx](wxCommandEvent&) {
                     delete_mixed_filament_at(panel_idx);
@@ -5005,9 +5005,9 @@ void Sidebar::decompose_filament_color(int filament_idx)
 }
 
 void Sidebar::update_filaments_area_height()
-// ORCA
+// INFINIUM
 {
-    // ORCA use a height with user preference
+    // INFINIUM use a height with user preference
     auto left_sizer          = p->sizer_filaments->GetItem((size_t) 0)->GetSizer();
     auto combo_sizer         = left_sizer->GetItem((size_t) 0)->GetSizer();
     int  preferred_rows      = std::ceil(0.5 * std::stoi(wxGetApp().app_config->get("filaments_area_preferred_count")));
@@ -5024,7 +5024,7 @@ void Sidebar::update_filaments_area_height()
 }
 
 void Sidebar::update_filaments_counter(bool force_layout)
-// ORCA
+// INFINIUM
 {
     int  current_count       = p->combos_filament.size();
     int  preferred_count     = std::stoi(wxGetApp().app_config->get("filaments_area_preferred_count"));
@@ -5068,12 +5068,12 @@ void Sidebar::msw_rescale()
     p->panel_printer_bed->SetMinSize(FromDIP(PRINTER_PANEL_SIZE));
     p->panel_printer_bed->SetCornerRadius(FromDIP(PRINTER_PANEL_RADIUS));
     p->combo_printer_bed->Rescale();
-    p->combo_printer_bed->SetMinSize(FromDIP(wxSize(18,-1))); // ORCA show only arrow
-    p->combo_printer_bed->SetMaxSize(FromDIP(wxSize(18,-1))); // ORCA show only arrow
+    p->combo_printer_bed->SetMinSize(FromDIP(wxSize(18,-1))); // INFINIUM show only arrow
+    p->combo_printer_bed->SetMaxSize(FromDIP(wxSize(18,-1))); // INFINIUM show only arrow
     bool isDual     = static_cast<wxBoxSizer *>(p->panel_printer_preset->GetSizer())->GetOrientation() == wxVERTICAL;
     auto image_path = get_cur_select_bed_image();
     p->image_printer_bed->SetBitmap(create_scaled_bitmap(image_path, this, PRINTER_THUMBNAIL_SIZE.GetHeight()));
-    if (p->big_bed_image_popup){ // ORCA force rebuild frame. current wxwidget version not supports wxBITMAP_SCALE_FILL flag on wxStaticBitmap
+    if (p->big_bed_image_popup){ // INFINIUM force rebuild frame. current wxwidget version not supports wxBITMAP_SCALE_FILL flag on wxStaticBitmap
                                  // also     wxImage scaledImage = bit_map.ConvertToImage(); scaledImage.Rescale(FromDIP(m_image_px), FromDIP(m_image_px), wxIMAGE_QUALITY_HIGH);
                                  // didnt worked as expected and it requires use on set_bitmap. so that will try to scale everytime
         p->big_bed_image_popup->Destroy();
@@ -5087,7 +5087,7 @@ void Sidebar::msw_rescale()
     p->m_bpButton_set_filament->msw_rescale();
     p->m_purge_mode_btn->Rescale();
     p->m_flushing_volume_btn->Rescale();
-    set_flushing_volume_warning(is_flush_config_modified()); // ORCA reapply appearance
+    set_flushing_volume_warning(is_flush_config_modified()); // INFINIUM reapply appearance
 
     //BBS
     p->left_extruder->Rescale();
@@ -5113,7 +5113,7 @@ void Sidebar::msw_rescale()
         combo->msw_rescale();
 
     p->m_panel_filament_content->Layout();
-    update_filaments_area_height(); // ORCA resize after combos scaled
+    update_filaments_area_height(); // INFINIUM resize after combos scaled
 
     // BBS
     //p->frequently_changed_parameters->msw_rescale();
@@ -5173,7 +5173,7 @@ void Sidebar::sys_color_changed()
     p->m_bpButton_set_filament->msw_rescale();
     p->m_purge_mode_btn->Rescale();
     p->m_flushing_volume_btn->Rescale();
-    set_flushing_volume_warning(is_flush_config_modified()); // ORCA reapply appearance
+    set_flushing_volume_warning(is_flush_config_modified()); // INFINIUM reapply appearance
 
     // BBS
 #if 0
@@ -5195,7 +5195,7 @@ void Sidebar::sys_color_changed()
     for (PlaterPresetComboBox* combo : p->combos_filament)
         combo->sys_color_changed();
 
-    if (p->big_bed_image_popup) // ORCA
+    if (p->big_bed_image_popup) // INFINIUM
         p->big_bed_image_popup->sys_color_changed();
 
     p->btn_edit_printer->msw_rescale();
@@ -5311,9 +5311,9 @@ void Sidebar::on_filament_count_change(size_t num_filaments)
     // remove unused choices if any
     remove_unused_filament_combos(num_physical);
 
-    show_SEMM_buttons(); // ORCA
+    show_SEMM_buttons(); // INFINIUM
 
-    update_filaments_area_height();  // ORCA
+    update_filaments_area_height();  // INFINIUM
     recalc_filament_scroll_sizes();
     update_mixed_filament_list();
 
@@ -5360,14 +5360,14 @@ void Sidebar::on_filaments_delete(size_t filament_id)
             }
         }
 
-        show_SEMM_buttons(); // ORCA
+        show_SEMM_buttons(); // INFINIUM
 
         for (size_t idx = filament_id ; idx < p->combos_filament.size(); ++idx) {
             p->combos_filament[idx]->update();
         }
     }
 
-    update_filaments_area_height(); // ORCA
+    update_filaments_area_height(); // INFINIUM
     recalc_filament_scroll_sizes();
     update_mixed_filament_list();
 
@@ -5384,10 +5384,10 @@ void Sidebar::add_filament() {
 
     auto filament_list = p->m_panel_filament_content;
     if(!filament_list->IsShown()){
-        filament_list->Show(); // ORCA show list if its folded
+        filament_list->Show(); // INFINIUM show list if its folded
         m_scrolled_sizer->Layout();
     }
-    filament_list->Scroll(-1, INT_MAX); // ORCA scroll to end of list on changes to inform user about filament count
+    filament_list->Scroll(-1, INT_MAX); // INFINIUM scroll to end of list on changes to inform user about filament count
 }
 
 void Sidebar::delete_filament(size_t filament_id, int replace_filament_id) {
@@ -5441,11 +5441,11 @@ void Sidebar::delete_filament(size_t filament_id, int replace_filament_id) {
 
     auto filament_list = p->m_panel_filament_content;
     if(!filament_list->IsShown()){
-        filament_list->Show(); // ORCA show list if its folded
+        filament_list->Show(); // INFINIUM show list if its folded
         m_scrolled_sizer->Layout();
     }
 
-    filament_list->Scroll(-1, INT_MAX); // ORCA scroll to end of list on changes to inform user about filament count
+    filament_list->Scroll(-1, INT_MAX); // INFINIUM scroll to end of list on changes to inform user about filament count
 }
 
 void Sidebar::change_filament(size_t from_id, size_t to_id)
@@ -5599,7 +5599,7 @@ bool Sidebar::is_new_project_in_gcode3mf()
 
 void Sidebar::on_bed_type_change(BedType bed_type)
 {
-    // Orca: Map BedType to the current combo list (some printers filter types).
+    // Infinium: Map BedType to the current combo list (some printers filter types).
 
     if (p->combo_printer_bed == nullptr)
         return;
@@ -5954,7 +5954,7 @@ void Sidebar::sync_ams_list(bool is_from_big_sync_btn)
     for (auto& c : p->combos_filament)
         c->update();
     // Expand filament list
-    update_filaments_area_height(); // ORCA
+    update_filaments_area_height(); // INFINIUM
 
     // BBS:Synchronized consumables information
     // auto calculation of flushing volumes
@@ -5994,7 +5994,7 @@ void Sidebar::sync_ams_list(bool is_from_big_sync_btn)
     { // badge ams filament
         clear_combos_filament_badge();
         if (sync_result.direct_sync) {
-            // Orca: PresetBundle::sync_ams_list rebuilds combos_filament
+            // Infinium: PresetBundle::sync_ams_list rebuilds combos_filament
             // 1:1 from the AMS trays that produce a combo (loaded trays + placeholders; non-placeholder
             // empty trays are skipped), so every resulting combo is AMS-sourced and gets a badge. The
             // previous per-tray index walked the full filament_ams_list (including the skipped empties),
@@ -6074,7 +6074,7 @@ bool Sidebar::should_show_SEMM_buttons()
 
 void Sidebar::show_SEMM_buttons()
 {
-    // ORCA
+    // INFINIUM
     if (!p || p->combos_filament.empty() || !p->m_bpButton_add_filament || !p->m_bpButton_del_filament || !p->m_flushing_volume_btn)
         return;
     
@@ -6434,7 +6434,7 @@ void Sidebar::update_printer_thumbnail()
     if (printer_thumbnails.find(printer_type) != printer_thumbnails.end()) // Use known cache first
         p->image_printer->SetBitmap(create_scaled_bitmap(printer_thumbnails[printer_type], this, PRINTER_THUMBNAIL_SIZE.GetHeight()));
     else {
-        /* ORCA this part check images folder for BBL covers but not checks file existence and causes crash on Linux
+        /* INFINIUM this part check images folder for BBL covers but not checks file existence and causes crash on Linux
         *       BBL covers already exist on profile folder so no need to use this section
         try {
             // No cache, try dedicated printer preview
@@ -6445,7 +6445,7 @@ void Sidebar::update_printer_thumbnail()
         } catch (...) {}
         */
 
-        // Orca: try to use the printer model cover as the thumbnail
+        // Infinium: try to use the printer model cover as the thumbnail
         const auto model_name = selected_preset.config.opt_string("printer_model");
         std::string cover_file = model_name + "_cover.png";
         for (auto vendor_profile : preset_bundle->vendors) {
@@ -7455,7 +7455,7 @@ Plater::priv::priv(Plater *q, MainFrame *main_frame)
 
     update();
 
-    // Orca: Make sidebar dockable
+    // Infinium: Make sidebar dockable
     m_aui_mgr.AddPane(sidebar, wxAuiPaneInfo()
                                    .Name("sidebar")
                                    .Left()
@@ -7997,7 +7997,7 @@ wxColour Plater::get_next_color_for_filament()
     static int curr_color_filamenet = 0;
     // refs to https://www.ebaomonthly.com/window/photo/lesson/colorList.htm
     wxColour colors[FILAMENT_SYSTEM_COLORS_NUM] = {
-        // ORCA updated all color palette
+        // INFINIUM updated all color palette
         wxColour("#00C1AE"),
         wxColour("#F4E2C1"),
         wxColour("#ED1C24"),
@@ -8738,7 +8738,7 @@ std::vector<size_t> Plater::priv::load_files(const std::vector<fs::path>& input_
                         }
                     }
 
-                    // ORCA: legacy feature-filament default migration (1 -> 0) is now handled
+                    // INFINIUM: legacy feature-filament default migration (1 -> 0) is now handled
                     // uniformly in PrintConfigDef::handle_legacy() via the old->new key rename
                     // (wall_filament -> wall_filament_id, etc.), which also covers saved presets.
 
@@ -8952,7 +8952,7 @@ std::vector<size_t> Plater::priv::load_files(const std::vector<fs::path>& input_
                             if (wipe_tower_y_opt)
                                 file_wipe_tower_y = *wipe_tower_y_opt;
 
-                            // Convert the printer's filament ids to Orca ids before loading.
+                            // Convert the printer's filament ids to Infinium ids before loading.
                             if (auto* agent = wxGetApp().getAgent()) {
                                 if (auto* ids = config.opt<ConfigOptionStrings>("filament_ids"))
                                     for (std::string& id : ids->values)
@@ -10517,7 +10517,7 @@ void Plater::priv::process_validation_warning(StringObjectException const &warni
         std::string text = warning.string;
         auto po = dynamic_cast<PrintObjectBase const *>(warning.object);
         auto mo = po ? po->model_object() : dynamic_cast<ModelObject const *>(warning.object);
-        //ORCA: Update process_validation_warning to handle ModelInstance selection and include fallback
+        //INFINIUM: Update process_validation_warning to handle ModelInstance selection and include fallback
         auto mi = dynamic_cast<ModelInstance const *>(warning.object);
 
         auto action_fn = (mo || mi || !warning.opt_key.empty()) ? [id = mo ? mo->id() : (mi ? mi->id() : 0),
@@ -11557,7 +11557,7 @@ void Plater::priv::reload_from_disk()
                     if (old_volume->source.volume_idx < int(obj->volumes.size())) {
                         const std::string &new_input_file = obj->volumes[old_volume->source.volume_idx]->source.input_file;
                         const std::string &old_input_file = old_volume->source.input_file;
-                        // Orca: match on the exact source path first, then fall back to filename-only so reload
+                        // Infinium: match on the exact source path first, then fall back to filename-only so reload
                         // still matches when the project stored a bare filename and the file was found next to
                         // the project (same-folder fallback) or picked via the locate dialog (#12992).
                         if (new_input_file == old_input_file ||
@@ -12292,7 +12292,7 @@ void Plater::priv::on_select_preset(wxCommandEvent &evt)
         }
     }
 
-    // ORCA: Always refresh the selected filament combo so its color swatch (clr_picker)
+    // INFINIUM: Always refresh the selected filament combo so its color swatch (clr_picker)
     // matches the chosen preset. update_ams_color() (in OnSelect) updates the project
     // filament color when the preset defines one; this repaints the swatch to match.
     if (preset_type == Preset::TYPE_FILAMENT)
@@ -13241,7 +13241,7 @@ void Plater::priv::on_change_color_mode(SimpleEvent& evt) {
 void Plater::priv::apply_color_mode()
 {
     const bool is_dark         = wxGetApp().dark_mode();
-    wxColour   infinium_color      = wxColour(59, 68, 70);//wxColour(ColorRGBA::ORCA().r_uchar(), ColorRGBA::ORCA().g_uchar(), ColorRGBA::ORCA().b_uchar());
+    wxColour   infinium_color      = wxColour(59, 68, 70);//wxColour(ColorRGBA::INFINIUM().r_uchar(), ColorRGBA::INFINIUM().g_uchar(), ColorRGBA::INFINIUM().b_uchar());
     infinium_color                 = is_dark ? StateColor::darkModeColorFor(infinium_color) : StateColor::lightModeColorFor(infinium_color);
     wxColour sash_color = is_dark ? wxColour(38, 46, 48) : wxColour(206, 206, 206);
     m_aui_mgr.GetArtProvider()->SetColour(wxAUI_DOCKART_INACTIVE_CAPTION_COLOUR, sash_color);
@@ -14114,7 +14114,7 @@ void Plater::priv::set_bed_shape(const Pointfs       &shape,
                                  const std::string   &custom_model,
                                  bool                 force_as_custom)
 {
-    //Orca: reduce resolution for large bed printer
+    //Infinium: reduce resolution for large bed printer
     BoundingBoxf bed_size = get_extents(shape);
     if (bed_size.size().maxCoeff() <= LARGE_BED_THRESHOLD)
         SCALING_FACTOR = SCALING_FACTOR_INTERNAL;
@@ -15468,7 +15468,7 @@ void Plater::import_model_id(wxString download_info)
     /* prepare project and profile */
     boost::thread import_thread = Slic3r::create_thread([&percent, &cont, &retry_count, &msg, &target_path, &download_ok, download_url, &filename] {
 
-        // Orca: NetworkAgent is not needed and only prevents this from running
+        // Infinium: NetworkAgent is not needed and only prevents this from running
 //        NetworkAgent* m_agent = Slic3r::GUI::wxGetApp().getAgent();
 //        if (!m_agent) return;
 
@@ -15624,7 +15624,7 @@ void Plater::import_model_id(wxString download_info)
     if (download_ok) {
         BOOST_LOG_TRIVIAL(trace) << "import_model_id: target_path = " << target_path.string();
         /* load project */
-        // Orca: If download is a zip file, treat it as if file has been drag and dropped on the plater
+        // Infinium: If download is a zip file, treat it as if file has been drag and dropped on the plater
         if (target_path.extension() == ".zip")
             { wxArrayString arr; arr.Add(from_path(target_path)); this->load_files(arr); }
         else
@@ -15788,13 +15788,13 @@ void Plater::_calib_pa_pattern(const Calib_Params& params)
     set_config_values<bool, ConfigOptionBools>(printer_config, "retract_when_changing_layer", false);
     printer_config->set_key_value("resonance_avoidance", new ConfigOptionBool(false));
 
-    //Orca: find acceleration to use in the test
+    //Infinium: find acceleration to use in the test
     auto accel = print_config.get_abs_value_at("outer_wall_acceleration", params.extruder_id); // get the outer wall acceleration
     if (accel == 0) // if outer wall accel isnt defined, fall back to inner wall accel
         accel = print_config.get_abs_value_at("inner_wall_acceleration", params.extruder_id);
     if (accel == 0) // if inner wall accel is not defined fall back to default accel
         accel = print_config.get_abs_value_at("default_acceleration", params.extruder_id);
-    // Orca: Set all accelerations except first layer, as the first layer accel doesnt affect the PA test since accel
+    // Infinium: Set all accelerations except first layer, as the first layer accel doesnt affect the PA test since accel
     // is set to the travel accel before printing the pattern.
     if (accels.empty()) {
         accels.assign({accel});
@@ -15808,7 +15808,7 @@ void Plater::_calib_pa_pattern(const Calib_Params& params)
     set_config_values<double, ConfigOptionFloatsNullable>(&print_config, "outer_wall_acceleration", accel);
     print_config.set_key_value( "print_sequence", new ConfigOptionEnum(PrintSequence::ByLayer));
     
-    //Orca: find jerk value to use in the test
+    //Infinium: find jerk value to use in the test
     if(!has_junction_deviation(printer_config) && print_config.get_abs_value_at("default_jerk", params.extruder_id) > 0){ // we have set a jerk value
         auto jerk = print_config.get_abs_value_at("outer_wall_jerk", params.extruder_id); // get outer wall jerk
         if (jerk == 0) // if outer wall jerk is not defined, get inner wall jerk
@@ -15816,7 +15816,7 @@ void Plater::_calib_pa_pattern(const Calib_Params& params)
         if (jerk == 0) // if inner wall jerk is not defined, get the default jerk
             jerk = print_config.get_abs_value_at("default_jerk", params.extruder_id);
         
-        //Orca: Set jerk values. Again first layer jerk should not matter as it is reset to the travel jerk before the
+        //Infinium: Set jerk values. Again first layer jerk should not matter as it is reset to the travel jerk before the
         // first PA pattern is printed.
         set_config_values<double, ConfigOptionFloatsNullable>(&print_config, "default_jerk", jerk);
         set_config_values<double, ConfigOptionFloatsNullable>(&print_config, "outer_wall_jerk", jerk);
@@ -15853,7 +15853,7 @@ void Plater::_calib_pa_pattern(const Calib_Params& params)
 
     print_config.set_key_value("enable_wrapping_detection", new ConfigOptionBool(false));
 
-    // Orca: Set the outer wall speed to the optimal speed for the test, cap it with max volumetric speed
+    // Infinium: Set the outer wall speed to the optimal speed for the test, cap it with max volumetric speed
     if (speeds.empty()) {
         // TODO: per-variant cap
         double speed = CalibPressureAdvance::find_optimal_PA_speed(
@@ -16098,7 +16098,7 @@ void Plater::_calib_pa_select_added_objects() {
 
 // Adjust settings for flowrate calibration
 // For linear mode, pass 1 means normal version while pass 2 mean "for perfectionists" version
-// ORCA: Add pattern parameter
+// INFINIUM: Add pattern parameter
 void adjust_settings_for_flowrate_calib(ModelObjectPtrs& objects, bool linear, int pass, InfillPattern pattern)
 {
     auto print_config = &wxGetApp().preset_bundle->prints.get_edited_preset().config;
@@ -16157,7 +16157,7 @@ void adjust_settings_for_flowrate_calib(ModelObjectPtrs& objects, bool linear, i
         _obj->config.set_key_value("sparse_infill_pattern", new ConfigOptionEnum<InfillPattern>(ipRectilinear));
         _obj->config.set_key_value("top_surface_line_width", new ConfigOptionFloatOrPercent(nozzle_diameter * 1.2f, false));
         _obj->config.set_key_value("internal_solid_infill_line_width", new ConfigOptionFloatOrPercent(nozzle_diameter * 1.2f, false));
-        // ORCA: use the pattern parameter
+        // INFINIUM: use the pattern parameter
         _obj->config.set_key_value("top_surface_pattern", new ConfigOptionEnum<InfillPattern>(pattern));
         _obj->config.set_key_value("top_solid_infill_flow_ratio", new ConfigOptionFloat(1.0f));
         _obj->config.set_key_value("infill_direction", new ConfigOptionFloat(45));
@@ -16171,7 +16171,7 @@ void adjust_settings_for_flowrate_calib(ModelObjectPtrs& objects, bool linear, i
         _obj->config.set_key_value("seam_slope_type", new ConfigOptionEnum<SeamScarfType>(SeamScarfType::None));
         _obj->config.set_key_value("gap_fill_target", new ConfigOptionEnum<GapFillTarget>(GapFillTarget::gftNowhere));
         print_config->set_key_value("max_volumetric_extrusion_rate_slope", new ConfigOptionFloat(0));
-        // ORCA: request the calibration's special toolpath order (chords first, center spiral
+        // INFINIUM: request the calibration's special toolpath order (chords first, center spiral
         // last and inside-out) so opposing directions collide into the tactile lip the test
         // reads. The special order only applies while the fill order is Default, so reset the
         // profile's fill order on the calibration objects; changing the setting on the object
@@ -16185,7 +16185,7 @@ void adjust_settings_for_flowrate_calib(ModelObjectPtrs& objects, bool linear, i
         obj_name = obj_name.substr(9);
         if (obj_name[0] == 'm')
             obj_name[0] = '-';
-        // Orca: force set locale to C to avoid parsing error
+        // Infinium: force set locale to C to avoid parsing error
         const std::string _loc = std::setlocale(LC_NUMERIC, nullptr);
         std::setlocale(LC_NUMERIC,"C");
         auto              modifier  = 1.0f;
@@ -16217,7 +16217,7 @@ void adjust_settings_for_flowrate_calib(ModelObjectPtrs& objects, bool linear, i
     wxGetApp().get_tab(Preset::TYPE_PRINTER)->reload_config();
 }
 
-// ORCA: Add pattern parameter
+// INFINIUM: Add pattern parameter
 void Plater::calib_flowrate(bool is_linear, int pass, InfillPattern pattern) {
     if (pass != 1 && pass != 2)
         return;
@@ -16237,10 +16237,10 @@ void Plater::calib_flowrate(bool is_linear, int pass, InfillPattern pattern) {
     if (is_linear) {
         if (pass == 1)
             add_model(false,
-                      (boost::filesystem::path(Slic3r::resources_dir()) / "calib" / "filament_flow" / "Orca-LinearFlow.3mf").string());
+                      (boost::filesystem::path(Slic3r::resources_dir()) / "calib" / "filament_flow" / "Infinium-LinearFlow.3mf").string());
         else
             add_model(false,
-                      (boost::filesystem::path(Slic3r::resources_dir()) / "calib" / "filament_flow" / "Orca-LinearFlow_fine.3mf").string());
+                      (boost::filesystem::path(Slic3r::resources_dir()) / "calib" / "filament_flow" / "Infinium-LinearFlow_fine.3mf").string());
     } else {
         if (pass == 1)
             add_model(false,
@@ -16250,7 +16250,7 @@ void Plater::calib_flowrate(bool is_linear, int pass, InfillPattern pattern) {
                       (boost::filesystem::path(Slic3r::resources_dir()) / "calib" / "filament_flow" / "flowrate-test-pass2.3mf").string());
     }
 
-    // ORCA: pass the pattern
+    // INFINIUM: pass the pattern
     adjust_settings_for_flowrate_calib(model().objects, is_linear, pass, pattern);
     wxGetApp().get_tab(Preset::TYPE_PRINTER)->reload_config();
     auto printer_config = &wxGetApp().preset_bundle->printers.get_edited_preset().config;
@@ -16899,7 +16899,7 @@ void Plater::load_gcode(const wxString& filename)
         set_project_filename(filename);
     }
 
-    // Orca: Fix crash when loading gcode file multiple times
+    // Infinium: Fix crash when loading gcode file multiple times
     if (m_only_gcode) {
         p->view3D->get_canvas3d()->remove_raycasters_for_picking(SceneRaycaster::EType::Bed);
     }
@@ -17207,7 +17207,7 @@ ProjectDropDialog::ProjectDropDialog(const std::string &filename)
 
     m_sizer_main->AddSpacer(FromDIP(15));
 
-    // ORCA use file name on new line to create room for longer names
+    // INFINIUM use file name on new line to create room for longer names
     m_fname_title = new wxStaticText(this, wxID_ANY, _L("Please select an action"), wxDefaultPosition, wxDefaultSize, 0);
     m_fname_title->SetFont(::Label::Body_14);
     m_fname_title->SetForegroundColour(wxColour("#363636"));
@@ -17238,7 +17238,7 @@ ProjectDropDialog::ProjectDropDialog(const std::string &filename)
     m_sizer_main->AddSpacer(FromDIP(10));
 
     // wxBoxSizer *m_sizer_bottom = new wxBoxSizer(wxHORIZONTAL);
-    // Orca: hide the "Don't show again" checkbox, people keeps accidentally checked this then forgot
+    // Infinium: hide the "Don't show again" checkbox, people keeps accidentally checked this then forgot
     // wxBoxSizer *m_sizer_left = new wxBoxSizer(wxHORIZONTAL);
     //
     // auto dont_show_again = create_remember_checkbox(_L("Remember my choice."), this, _L("This option can be changed later in preferences, under 'Load Behaviour'."));
@@ -17410,7 +17410,7 @@ bool Plater::load_files(const wxArrayString& filenames)
         }
     }
 
-    // Orca: Iters through given paths and imports files from zip then remove zip from paths
+    // Infinium: Iters through given paths and imports files from zip then remove zip from paths
     // returns true if zip files were found
     auto handle_zips = [this](vector<fs::path>& paths) { // NOLINT(*-no-recursion) - Recursion is intended and should be managed properly
         bool res = false;
@@ -19251,7 +19251,7 @@ void Plater::reslice()
         return;
     }
 
-    // Orca: regenerate CalibPressureAdvancePattern custom G-code to apply changes
+    // Infinium: regenerate CalibPressureAdvancePattern custom G-code to apply changes
     if (model().calib_pa_pattern) {
         _calib_pa_pattern_gen_gcode();
     }
@@ -19490,12 +19490,12 @@ void Plater::send_gcode_legacy(int plate_idx, Export3mfProgressFn proFn)
     if (upload_job.empty())
         return;
 
-    // Orca: the use_3mf printer option makes us send a .gcode.3mf to the printer
+    // Infinium: the use_3mf printer option makes us send a .gcode.3mf to the printer
     const auto* use_3mf_opt = physical_printer_config->option<ConfigOptionBool>("use_3mf");
     const bool  use_3mf     = use_3mf_opt != nullptr && use_3mf_opt->value;
 
     upload_job.upload_data.use_3mf = use_3mf;
-    // Orca: the concrete plate to export/send (PLATE_CURRENT_IDX resolves to the current plate).
+    // Infinium: the concrete plate to export/send (PLATE_CURRENT_IDX resolves to the current plate).
     const int resolved_plate_idx = plate_idx == PLATE_CURRENT_IDX ? get_partplate_list().get_curr_plate_index() : plate_idx;
 
     // Obtain default output path
@@ -19518,7 +19518,7 @@ void Plater::send_gcode_legacy(int plate_idx, Export3mfProgressFn proFn)
     }
     default_output_file = fs::path(Slic3r::fold_utf8_to_ascii(default_output_file.string()));
     if (use_3mf) {
-        // Orca: a gcode-in-3mf bundle is named ".gcode.3mf" (matching "Export plate sliced file")
+        // Infinium: a gcode-in-3mf bundle is named ".gcode.3mf" (matching "Export plate sliced file")
         default_output_file.replace_extension(".gcode.3mf");
     }
 
@@ -19651,7 +19651,7 @@ void Plater::send_gcode_legacy(int plate_idx, Export3mfProgressFn proFn)
         upload_job.upload_data.group       = pDlg->group();
         upload_job.upload_data.storage     = pDlg->storage();
         upload_job.upload_data.extended_info = pDlg->extendedInfo();
-        // Orca: gcode inside a .gcode.3mf is index-coded (Metadata/plate_<N>.gcode) and a bundle may
+        // Infinium: gcode inside a .gcode.3mf is index-coded (Metadata/plate_<N>.gcode) and a bundle may
         // carry several of them, so the upload must name which plate to print via a 1-based plateindex.
         // Even a single-plate bundle needs it, since its gcode entry is still indexed. The host upload
         // forwards the field and servers that don't use it ignore it. "All plates" points at the
@@ -20134,7 +20134,7 @@ void Plater::on_config_change(const DynamicPrintConfig &config)
             bed_shape_changed = true;
             update_scheduled = true;
         }
-        // Orca: update when *_filament changed
+        // Infinium: update when *_filament changed
         else if (opt_key == "support_interface_filament" || opt_key == "support_filament" ||
                  opt_key == "outer_wall_filament_id" || opt_key == "inner_wall_filament_id" ||
                  opt_key == "sparse_infill_filament_id" || opt_key == "internal_solid_filament_id" ||
@@ -22035,7 +22035,7 @@ void Plater::post_process_string_object_exception(StringObjectException &err)
             int extruder_id = atoi(err.params[2].c_str()) - 1;
             if (extruder_id < preset_bundle->filament_presets.size()) {
                 std::string filament_name = preset_bundle->filament_presets[extruder_id];
-                // ORCA: Prefer the selected preset's alias/name and trim any @Printer suffix for display.
+                // INFINIUM: Prefer the selected preset's alias/name and trim any @Printer suffix for display.
                 for (auto filament_it = preset_bundle->filaments.begin(); filament_it != preset_bundle->filaments.end(); filament_it++) {
                     if (filament_it->name == filament_name) {
                         if (!filament_it->alias.empty()) {

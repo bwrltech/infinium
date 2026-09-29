@@ -1656,7 +1656,7 @@ FlowRateCalibrationDialog::FlowRateCalibrationDialog(wxWindow* parent, wxWindowI
     auto pattern_sizer = new wxBoxSizer(wxHORIZONTAL);
     auto pattern_text  = new wxStaticText(this, wxID_ANY, pattern_str, wxDefaultPosition, st_size, wxALIGN_LEFT);
 
-    // ORCA: Use ComboBox with icons instead of RadioGroup
+    // INFINIUM: Use ComboBox with icons instead of RadioGroup
     m_rbPattern = new ComboBox(this, wxID_ANY, wxEmptyString, wxDefaultPosition, ti_size, 0, nullptr, wxCB_READONLY);
     
     boost::filesystem::path image_path(Slic3r::resources_dir());
@@ -1676,7 +1676,7 @@ FlowRateCalibrationDialog::FlowRateCalibrationDialog(wxWindow* parent, wxWindowI
     add_pattern_item("archimedeanchords", _L("Archimedean Chords"));
     add_pattern_item("monotonic", _L("Monotonic"));
     m_rbPattern->SetSelection(0); // Default to Archimedean Chords
-    // ORCA: explicit set value to ensure display on Windows
+    // INFINIUM: explicit set value to ensure display on Windows
     m_rbPattern->SetValue(m_rbPattern->GetString(0));
     m_rbPattern->GetDropDown().SetUseContentWidth(true);
 

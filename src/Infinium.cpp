@@ -1545,7 +1545,7 @@ int CLI::run(int argc, char **argv)
     std::vector<std::string> upward_compatible_printers, new_print_compatible_printers, current_print_compatible_printers, current_different_settings;
     std::vector<std::string> current_filaments_name, current_filaments_system_name, current_inherits_group, current_extruder_variants, new_extruder_variants, current_print_extruder_variants, new_printer_extruder_variants;
     DynamicPrintConfig load_process_config, load_machine_config;
-    //ORCA: full configs of the "current" (3MF-embedded) process/printer presets, kept so that
+    //INFINIUM: full configs of the "current" (3MF-embedded) process/printer presets, kept so that
     //      compatible_printers_condition can be evaluated for them below. Previously only the
     //      literal compatible_printers list was extracted.
     DynamicPrintConfig current_process_full_config, current_printer_full_config;
@@ -1779,7 +1779,7 @@ int CLI::run(int argc, char **argv)
                         BOOST_LOG_TRIVIAL(info) << boost::format("old 3mf version %1%, need to set enable_wrapping_detection to false")%file_version.to_string();
                     }
 
-                    // ORCA: legacy feature-filament default migration (1 -> 0) is now handled
+                    // INFINIUM: legacy feature-filament default migration (1 -> 0) is now handled
                     // uniformly in PrintConfigDef::handle_legacy() via the old->new key rename
                     // (wall_filament -> wall_filament_id, etc.), which covers presets too.
 
@@ -2131,7 +2131,7 @@ int CLI::run(int argc, char **argv)
                                              error, allow_source_manifest);
     };
 
-    //ORCA: list the keys a user preset overrides relative to its system parent, for the
+    //INFINIUM: list the keys a user preset overrides relative to its system parent, for the
     //      `different_settings_to_system` column of an exported 3MF. Without it the CLI
     //      writes an empty column, so re-opening a CLI-exported project in the GUI shows
     //      spurious "unsaved changes" and can revert inherited process/filament/machine
@@ -2164,7 +2164,7 @@ int CLI::run(int argc, char **argv)
             return std::string();
         }
         std::vector<std::string> keys = resolved.diff(parent->config);
-        //ORCA: preset metadata, not user-tunable settings. compatible_printers /
+        //INFINIUM: preset metadata, not user-tunable settings. compatible_printers /
         //      compatible_prints have their own tracking columns and would double-count.
         keys.erase(std::remove_if(keys.begin(), keys.end(), [](const std::string &k) {
                        return k == "inherits" || k == "compatible_printers" || k == "compatible_prints"
@@ -2765,7 +2765,7 @@ int CLI::run(int argc, char **argv)
                     flush_and_exit(ret);
                 }
                 upward_compatible_printers = config.option<ConfigOptionStrings>("upward_compatible_machine", true)->values;
-                //ORCA: keep the full config so compatible_printers_condition can be evaluated against it below
+                //INFINIUM: keep the full config so compatible_printers_condition can be evaluated against it below
                 current_printer_full_config = std::move(config);
             }
         }
@@ -2789,7 +2789,7 @@ int CLI::run(int argc, char **argv)
                     flush_and_exit(ret);
                 }
                 current_print_compatible_printers  = config.option<ConfigOptionStrings>("compatible_printers", true)->values;
-                //ORCA: keep the full config so compatible_printers_condition can be evaluated against it below
+                //INFINIUM: keep the full config so compatible_printers_condition can be evaluated against it below
                 current_process_full_config = std::move(config);
             }
         }
@@ -2809,7 +2809,7 @@ int CLI::run(int argc, char **argv)
     for (int index = 0; index < upward_compatible_printers.size(); index++) {
         BOOST_LOG_TRIVIAL(info) << boost::format("index %1%, upward_compatible_printers %2%")%index %upward_compatible_printers[index];
     }
-    //ORCA: Replace the four manual equality-loop checks below with is_compatible_with_printer(), the
+    //INFINIUM: Replace the four manual equality-loop checks below with is_compatible_with_printer(), the
     //      same helper the GUI uses, which also evaluates compatible_printers_condition. Process
     //      profiles that declare compatibility via condition only -- leaving compatible_printers
     //      empty -- were always reported incompatible by the literal-name match, so a CLI slice with
@@ -2823,7 +2823,7 @@ int CLI::run(int argc, char **argv)
         return is_compatible_with_printer(process_cfg, Preset::TYPE_PRINT, printer_cfg, printer_name);
     };
 
-    //ORCA: a 3MF's project config does not carry compatible_printers / compatible_printers_condition.
+    //INFINIUM: a 3MF's project config does not carry compatible_printers / compatible_printers_condition.
     //      PresetBundle::construct_full_config() erases both and re-emits them as
     //      print_compatible_printers and compatible_machine_expression_group; they are renamed back
     //      only on the PresetBundle load path, which the CLI does not take. Feeding the project config
@@ -2863,7 +2863,7 @@ int CLI::run(int argc, char **argv)
             //cli_process_compat_config above). Without this a 3MF built from a condition-only process
             //is rejected when re-sliced with the very printer it was made for.
             {
-                //ORCA: profiles/BBL/{process,machine}_full/ are gitignored and not generated in-tree,
+                //INFINIUM: profiles/BBL/{process,machine}_full/ are gitignored and not generated in-tree,
                 //      so current_*_full_config is always empty and this fallback is the only live path.
                 const DynamicPrintConfig process_cfg = current_process_full_config.empty()
                                                            ? cli_process_compat_config(m_print_config)
@@ -3113,7 +3113,7 @@ int CLI::run(int argc, char **argv)
             }
         }
         else {
-            //ORCA: was a //todo — compute the user's overrides instead of writing an empty column.
+            //INFINIUM: was a //todo — compute the user's overrides instead of writing an empty column.
             different_settings[filament_count+1] = new_printer_config_is_system
                 ? std::string()
                 : cli_different_settings(load_machine_config, new_printer_system_name, Preset::TYPE_PRINTER);
@@ -3258,7 +3258,7 @@ int CLI::run(int argc, char **argv)
             print_compatible_printers = std::move(current_print_compatible_printers);
         }
         else {
-            //ORCA: was a //todo. Prefer a value the loaded JSON already carried, otherwise
+            //INFINIUM: was a //todo. Prefer a value the loaded JSON already carried, otherwise
             //      compute the overrides against the system parent.
             if (!different_process_setting.empty())
                 different_settings[0] = different_process_setting;
@@ -3452,7 +3452,7 @@ int CLI::run(int argc, char **argv)
             int filament_index = load_filaments_index[index];
             std::vector<std::string> different_keys;
 
-            //ORCA: diff before load_default_gcodes_to_config, the way the process and machine
+            //INFINIUM: diff before load_default_gcodes_to_config, the way the process and machine
             //      slots above already do. That call materialises absent gcode keys via
             //      option(..., true), and DynamicConfig::diff only compares keys present in
             //      both configs -- so a gcode key the leaf did not carry would go from "not
@@ -3473,7 +3473,7 @@ int CLI::run(int argc, char **argv)
                 opt_filament_settings->set_at(filament_name_setting, filament_index-1, 0);
                 config.erase("filament_settings_id");
 
-                //ORCA: was a //todo — same treatment as process/machine above.
+                //INFINIUM: was a //todo — same treatment as process/machine above.
                 different_settings[filament_index] = filament_different_settings;
                 inherits_group[filament_index] = load_filaments_inherit[index];
             }
@@ -3934,7 +3934,7 @@ int CLI::run(int argc, char **argv)
         }
     }
 
-    //ORCA: settings passed on the command line (--sparse-infill-density 25% ...) override the loaded
+    //INFINIUM: settings passed on the command line (--sparse-infill-density 25% ...) override the loaded
     //      presets right here, so they belong in different_settings_to_system just as a preset
     //      override does. Without them re-opening the exported project in the GUI shows nothing
     //      modified and reverts those values to the system presets'.
@@ -3995,7 +3995,7 @@ int CLI::run(int argc, char **argv)
                     return false;
             return true;
         };
-        //ORCA: always true after the resize to filament_count + 2 above, and nothing in between can
+        //INFINIUM: always true after the resize to filament_count + 2 above, and nothing in between can
         //      shrink the column vector -- different_settings_to_system is not a CLI option. Kept as
         //      a check rather than an assert: release builds compile asserts out, so an assert would
         //      protect nothing, while a build with _GLIBCXX_ASSERTIONS would abort on columns[0].
@@ -6529,7 +6529,7 @@ int CLI::run(int argc, char **argv)
                                         std::any_of(max_nozzle_counts_opt->values.begin(), max_nozzle_counts_opt->values.end(),
                                                     [](int v) { return v > 1 && v != ConfigOptionIntsNullable::nil_value(); });
                                     if (support_multi_nozzle && (mode == fmmManual || mode == fmmNozzleManual) && (plate_to_slice != 0)) {
-                                        // Orca: the grouping result is reconstructed purely from the passed maps in
+                                        // Infinium: the grouping result is reconstructed purely from the passed maps in
                                         // nozzle-manual mode, so all of them must be present (there are no separate
                                         // per-nozzle CLI parameters to rebuild them from).
                                         if (mode == FilamentMapMode::fmmNozzleManual &&
@@ -6824,7 +6824,7 @@ int CLI::run(int argc, char **argv)
                                     // Read the engine's final grouping back onto the plate so an exported
                                     // project (--export-3mf / gcode.3mf) carries the concrete maps in its
                                     // plate settings, matching what a GUI slice persists.
-                                    // Orca: deliberately gated to multi-extruder printers so single-extruder
+                                    // Infinium: deliberately gated to multi-extruder printers so single-extruder
                                     // exports keep their plate settings unchanged.
                                     if (new_extruder_count > 1) {
                                         FilamentMapMode current_map_mode = print_fff->config().filament_map_mode.value;
@@ -7088,7 +7088,7 @@ int CLI::run(int argc, char **argv)
         const bool is_bbl_printer = printer_model_option && printer_model_option->value.compare(0, 9, "Bambu Lab") == 0;
         // No wxApp on the CLI path, so there is no live agent to ask; the translator is stateless
         // over a lazily loaded map, so one instance serves every plate and filament below.
-        // ORCA TODO: this assumes Bambu's is the only agent with a catalog of its own. Once another
+        // INFINIUM TODO: this assumes Bambu's is the only agent with a catalog of its own. Once another
         // agent carries one, resolve the agent from the selected printer the way
         // GUI_App::resolve_printer_agent_id does, rather than hard-coding BBLPrinterAgent here.
         const BBLPrinterAgent bbl_agent;
@@ -7866,7 +7866,7 @@ bool CLI::setup(int argc, char **argv)
     // The resources are packed to 'resources'
     // Path from Slic3r binary to resources:
     boost::filesystem::path path_resources = boost::filesystem::canonical(path_to_binary).parent_path().parent_path() / "resources";
-    //Orca: for build systems that support multiple configurations, the binary may be in a subdirectory like "bin/Release" or "bin/Debug".
+    //Infinium: for build systems that support multiple configurations, the binary may be in a subdirectory like "bin/Release" or "bin/Debug".
     if( !boost::filesystem::exists(path_resources)) {
         // If the resources directory does not exist, try to use the resources directory
         path_resources = boost::filesystem::canonical(path_to_binary).parent_path().parent_path().parent_path() / "resources";
@@ -7889,7 +7889,7 @@ bool CLI::setup(int argc, char **argv)
         return false;
     }
 
-    // Orca: resolve here, while the process is still in the directory the user invoked it from.
+    // Infinium: resolve here, while the process is still in the directory the user invoked it from.
     // GUI_App's constructor moves the working directory to <data_dir>/log, long before the GUI
     // opens these files in post_init(), and a relative path would then resolve against that.
     for (std::string &input_file : m_input_files)

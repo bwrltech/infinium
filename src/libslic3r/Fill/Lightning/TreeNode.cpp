@@ -351,7 +351,7 @@ void Node::convertToPolylines(Polylines &output, const coord_t line_overlap) con
 {
     Polylines result;
     result.emplace_back();
-    // Orca: the layers are filled in parallel, so they would consume a shared generator in a
+    // Infinium: the layers are filled in parallel, so they would consume a shared generator in a
     // different order every run, and a model would not slice the same way twice. Each tree seeds
     // its own from where it is rooted; one constant seed would start them all on the same pick.
     std::mt19937_64 rng { uint64_t(PointHash{}(m_p)) };

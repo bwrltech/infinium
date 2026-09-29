@@ -1248,7 +1248,7 @@ msgid "Operation"
 msgstr "Операция:"
 
 #. TRN EmbossOperation
-#. ORCA
+#. INFINIUM
 msgid "Join"
 msgstr "Создание"
 
@@ -2578,7 +2578,7 @@ msgstr "Тороид"
 msgid "Infinium Cube"
 msgstr "Куб Infinium"
 
-msgid "OrcaSliced Combo"
+msgid "InfiniumSliced Combo"
 msgstr "Нарезанная Infinium"
 
 msgid "Infinium Badge"
@@ -6626,8 +6626,8 @@ msgstr "Результат экспорта"
 msgid "Select profile to load:"
 msgstr "Выберите профиль для загрузки:"
 
-msgid "Config files (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
-msgstr "Файлы настроек (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
+msgid "Config files (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
+msgstr "Файлы настроек (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
 
 #, c-format, boost-format
 msgid "There is %d config imported. (Only non-system and compatible configs)"
@@ -8076,7 +8076,7 @@ msgstr "Этот проект был создан в Infinium Slicer 2.3.1-alpha
 msgid "Would you like Infinium Slicer to automatically fix this by clearing the rotation template settings?"
 msgstr "Сбросить настройки поворота шаблона заполнения?"
 
-# Подставляется номер версии файла, "Orca Slicer", установленная версия
+# Подставляется номер версии файла, "Infinium", установленная версия
 #, c-format, boost-format
 msgid "The 3MF file version %s is newer than %s's version %s, found the following unrecognized keys:"
 msgstr "Этот файл 3MF был сохранён в более новой версии Infinium Slicer %s (сейчас установлен %s %s). Обнаружены следующие нераспознанные ключи:"
@@ -20303,7 +20303,7 @@ msgstr ""
 "Обратите внимание, что на качество печати существенно влияют температура сопла,\n"
 "температура стола и максимальный объёмный расход. Подбирайте их с осторожностью."
 
-# Orca has detected that – вообще можно не переводить
+# Infinium has detected that – вообще можно не переводить
 msgid "\n\nInfinium has detected that your user presets synchronization function is not enabled, which may result in unsuccessful Filament settings on the Device page.\nClick \"Sync user presets\" to enable the synchronization function."
 msgstr ""
 "\n"
@@ -20314,11 +20314,11 @@ msgstr ""
 msgid "Printer Setting"
 msgstr "Настроить принтер"
 
-msgid "Printer config bundle(.orca_printer)"
-msgstr "Пакет профилей принтера (.orca_printer)"
+msgid "Printer config bundle(.infinium_printer)"
+msgstr "Пакет профилей принтера (.infinium_printer)"
 
-msgid "Filament bundle(.orca_filament)"
-msgstr "Пакет профилей материалов (.orca_filament)"
+msgid "Filament bundle(.infinium_filament)"
+msgstr "Пакет профилей материалов (.infinium_filament)"
 
 msgid "Printer presets(.zip)"
 msgstr "Профили принтеров (.zip)"
@@ -21669,7 +21669,7 @@ msgstr "Не удалось выполнить интеграцию с окру�
 
 # Это же вообще легаси времён отдельного просмотрщика PrusaSlicer Gcodeviewer? Он был выпилен ещё из Bambu Studio, если не ошибаюсь
 msgid "Performing desktop integration failed - could not create Gcodeviewer desktop file. Infinium Slicer desktop file was probably created successfully."
-msgstr "Не удалось выполнить интеграцию с окружением: ошибка создания .desktop для просмотрщика Gcode. Однако .desktop для OrcaSlicer, вероятно, был создан успешно."
+msgstr "Не удалось выполнить интеграцию с окружением: ошибка создания .desktop для просмотрщика Gcode. Однако .desktop для Infinium, вероятно, был создан успешно."
 
 # Downloader – интеграция с окружением рабочего стола для открытия ссылок в браузере.
 msgid "Performing downloader desktop integration failed - boost::filesystem::canonical did not return appimage path."
@@ -22140,8 +22140,8 @@ msgstr ""
 "Предотвращение коробления материала\n"
 "Знаете ли вы, что при печати материалами, склонными к короблению, таких как ABS, повышение температуры подогреваемого стола может снизить эту вероятность?"
 
-#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart OrcaSlicer."
-#~ msgstr "Для нативного отображения трансляции в Wayland требуется gtksink (плагин для GStreamer). Установите необходимый пакет плагинов и перезапустите OrcaSlicer."
+#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart Infinium."
+#~ msgstr "Для нативного отображения трансляции в Wayland требуется gtksink (плагин для GStreamer). Установите необходимый пакет плагинов и перезапустите Infinium."
 
 #~ msgid "Failed to initialize the native Wayland GStreamer video sink. Please check your GStreamer GTK plugin installation."
 #~ msgstr "Не удалось запустить нативную трансляцию GSteramer через Wayland. Проверьте наличие установленного пакета плагинов GStreamer."
@@ -22152,14 +22152,14 @@ msgstr ""
 #~ msgid "BambuSource has not correctly been registered for media playing! Press Yes to re-register it. You will be promoted twice"
 #~ msgstr "Компонент BambuSource неправильно зарегистрирован для воспроизведения медиафайлов! Нажмите «Да», чтобы повторно зарегистрировать его"
 
-#~ msgid "Missing BambuSource component registered for media playing! Please re-install OrcaSlicer or seek community help."
-#~ msgstr "Отсутствует компонент BambuSource для воспроизведения медиа. Переустановите OrcaSlicer или обратитесь за помощью к сообществу."
+#~ msgid "Missing BambuSource component registered for media playing! Please re-install Infinium or seek community help."
+#~ msgstr "Отсутствует компонент BambuSource для воспроизведения медиа. Переустановите Infinium или обратитесь за помощью к сообществу."
 
 #~ msgid "Using a BambuSource from a different install, video play may not work correctly! Press Yes to fix it."
 #~ msgstr "При использовании компонентов BambuSource из другого инсталлятора, воспроизведение видео может работать некорректно! Нажмите «Да», чтобы исправить это."
 
-#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Orca Slicer?)"
-#~ msgstr "В вашей системе отсутствуют кодеки H.264 для GStreamer, которые необходимы для воспроизведения видео (попробуйте установить пакеты gstreamer1.0-plugins-bad или gstreamer1.0-libav, а затем перезапустить Orca Slicer)."
+#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Infinium?)"
+#~ msgstr "В вашей системе отсутствуют кодеки H.264 для GStreamer, которые необходимы для воспроизведения видео (попробуйте установить пакеты gstreamer1.0-plugins-bad или gstreamer1.0-libav, а затем перезапустить Infinium)."
 
 #~ msgid "N"
 #~ msgstr "Н"
@@ -22249,8 +22249,8 @@ msgstr ""
 #~ msgid "The current firmware supports a maximum of 16 materials. You can either reduce the number of materials to 16 or fewer on the Preparation Page, or try updating the firmware. If you are still restricted after the update, please wait for subsequent firmware support."
 #~ msgstr "Текущая прошивка поддерживает не более 16 материалов. Попробуйте уменьшить их количество в настройках печати или обновить прошивку. Если обновление не помогло – ожидайте обновлений с расширением поддержки."
 
-#~ msgid "Click OK to update the Network plug-in the next time Orca Slicer launches."
-#~ msgstr "Нажмите OK, чтобы обновить сетевой плагин при следующем запуске OrcaSlicer."
+#~ msgid "Click OK to update the Network plug-in the next time Infinium launches."
+#~ msgstr "Нажмите OK, чтобы обновить сетевой плагин при следующем запуске Infinium."
 
 #, boost-format
 #~ msgid "Failed to calculate line width of %1%. Cannot get value of “%2%”."
@@ -22665,8 +22665,8 @@ msgstr ""
 #~ msgid "Object/Part Setting"
 #~ msgstr "Настройки моделей/частей"
 
-#~ msgid "OrcaSlicer is based on BambuStudio, PrusaSlicer, and SuperSlicer."
-#~ msgstr "OrcaSlicer основан на проектах BambuStudio, PrusaSlicer и SuperSlicer."
+#~ msgid "Infinium is based on BambuStudio, PrusaSlicer, and SuperSlicer."
+#~ msgstr "Infinium основан на проектах BambuStudio, PrusaSlicer и SuperSlicer."
 
 #~ msgid "BambuStudio is originally based on PrusaSlicer by PrusaResearch."
 #~ msgstr "Bambu Studio основана на PrusaSlicer от компании PrusaResearch."
@@ -22704,13 +22704,13 @@ msgstr ""
 #~ msgid "Flow ratio test - Pass 2"
 #~ msgstr "Тест коэффициента потока - 2-ой проход"
 
-#~ msgid "Orca YOLO flowratio calibration, 0.01 step"
+#~ msgid "Infinium YOLO flowratio calibration, 0.01 step"
 #~ msgstr "Калибровка коэффициента потока YOLO (шаг 0.01)"
 
 #~ msgid "YOLO (perfectionist version)"
 #~ msgstr "Точная экспресс-калибровка (YOLO, шаг 0.005, для перфекционистов)"
 
-#~ msgid "Orca YOLO flowratio calibration, 0.005 step"
+#~ msgid "Infinium YOLO flowratio calibration, 0.005 step"
 #~ msgstr "Калибровка коэффициента потока YOLO (шаг 0.005)"
 
 #~ msgid "Retraction test"
@@ -22747,8 +22747,8 @@ msgstr ""
 #~ msgid "Right nozzle: %smm"
 #~ msgstr "Правый экструдер: %s мм"
 
-#~ msgid "\"Fix Model\" feature is currently only on Windows. Please repair the model on Orca Slicer(windows) or CAD softwares."
-#~ msgstr "Функция «Починить модель» в настоящее время доступна только в OS Windows. Для восстановления модели воспользуйтесь OrcaSlicer в Windows или сторонней САПР."
+#~ msgid "\"Fix Model\" feature is currently only on Windows. Please repair the model on Infinium(windows) or CAD softwares."
+#~ msgstr "Функция «Починить модель» в настоящее время доступна только в OS Windows. Для восстановления модели воспользуйтесь Infinium в Windows или сторонней САПР."
 
 #~ msgid "This stops the transmission of data to Bambu's cloud services. Users who don't use BBL machines or use LAN mode only can safely turn on this function."
 #~ msgstr "Это остановит передачу данных в облачные сервисы Bambu. Пользователи, которые не используют принтеры BBL или используют режим «Только LAN», могут безопасно включить эту функцию."
@@ -22946,11 +22946,11 @@ msgstr ""
 #~ msgid ""
 #~ "Bambu Lab has implemented a signature verification check in their network plugin that restricts third-party software from communicating with your printer.\n"
 #~ "\n"
-#~ "As a result, some printing functions are unavailable in OrcaSlicer."
+#~ "As a result, some printing functions are unavailable in Infinium."
 #~ msgstr ""
 #~ "Компания Bambu Lab внедрила проверку подлинности в свой сетевой плагин, которая ограничивает возможности связи с принтером у любого стороннего ПО.\n"
 #~ "\n"
-#~ "Из-за этого некоторые функции печати недоступны через OrcaSlicer."
+#~ "Из-за этого некоторые функции печати недоступны через Infinium."
 
 #~ msgid "Filament remapping finished."
 #~ msgstr "Перераспределение филамента завершено."
@@ -23255,8 +23255,8 @@ msgstr ""
 #~ msgid "Resync"
 #~ msgstr "Всё"
 
-#~ msgid "There are some unknown filaments mapped to generic preset. Please update Orca Slicer or restart Orca Slicer to check if there is an update to system presets."
-#~ msgstr "Имеется несколько неизвестных материалов, сопоставленных с общим профилем. Обновите или перезапустите Orca Slicer, чтобы проверить наличие обновлений системных профилей."
+#~ msgid "There are some unknown filaments mapped to generic preset. Please update Infinium or restart Infinium to check if there is an update to system presets."
+#~ msgstr "Имеется несколько неизвестных материалов, сопоставленных с общим профилем. Обновите или перезапустите Infinium, чтобы проверить наличие обновлений системных профилей."
 
 #~ msgid ""
 #~ "Are you sure you want to store original SVGs with their local paths into the 3MF file?\n"
@@ -23274,8 +23274,8 @@ msgstr ""
 #~ msgid "Login Region"
 #~ msgstr "Регион входа"
 
-#~ msgid "Use legacy network plugin (Takes effect after restarting Orca)"
-#~ msgstr "Использовать устаревший сетевой плагин (изменение вступит в силу после перезапуска Orca Slicer)"
+#~ msgid "Use legacy network plugin (Takes effect after restarting Infinium)"
+#~ msgstr "Использовать устаревший сетевой плагин (изменение вступит в силу после перезапуска Infinium)"
 
 #~ msgid "Default Page"
 #~ msgstr "Страница по умолчанию"
@@ -23301,8 +23301,8 @@ msgstr ""
 #~ msgid "Show the step mesh parameter setting dialog."
 #~ msgstr "Показывать диалоговое окно настройки сетки при импорте STEP файла."
 
-#~ msgid "Multi-device Management (Take effect after restarting Orca Slicer)."
-#~ msgstr "Управление несколькими устройствами (вступает в силу после перезапуска Orca Slicer)."
+#~ msgid "Multi-device Management (Take effect after restarting Infinium)."
+#~ msgstr "Управление несколькими устройствами (вступает в силу после перезапуска Infinium)."
 
 #~ msgid "Auto arrange plate after object cloning"
 #~ msgstr "Авторасстановка моделей на печатной пластине при клонировании"
@@ -23316,8 +23316,8 @@ msgstr ""
 #~ msgid "System Sync"
 #~ msgstr "Синхронизация системных данных"
 
-#~ msgid "Associate URLs to OrcaSlicer"
-#~ msgstr "Ассоциировать URL-адреса с OrcaSlicer"
+#~ msgid "Associate URLs to Infinium"
+#~ msgstr "Ассоциировать URL-адреса с Infinium"
 
 # нее влезает Поведение при открытии
 #~ msgid "Load Behaviour"
@@ -23452,8 +23452,8 @@ msgstr ""
 #~ msgid "Auto-Calc"
 #~ msgstr "Авторасчёт"
 
-#~ msgid "Orca would re-calculate your flushing volumes every time the filaments color changed. You could disable the auto-calculate in Orca Slicer > Preferences"
-#~ msgstr "Orca будет пересчитывать объёмы очистки каждый раз при изменении цвета филаментов. Вы можете отключить автоматический расчёт в разделе Orca Slicer > Параметры"
+#~ msgid "Infinium would re-calculate your flushing volumes every time the filaments color changed. You could disable the auto-calculate in Infinium > Preferences"
+#~ msgstr "Infinium будет пересчитывать объёмы очистки каждый раз при изменении цвета филаментов. Вы можете отключить автоматический расчёт в разделе Infinium > Параметры"
 
 #~ msgid "unloaded"
 #~ msgstr "выгрузку"
@@ -23476,8 +23476,8 @@ msgstr ""
 #~ msgid "Resume Printing (problem solved)"
 #~ msgstr "Возобновить печать (проблема решена)"
 
-#~ msgid "Step 1. Please confirm Orca Slicer and your printer are in the same LAN."
-#~ msgstr "1) Пожалуйста, убедитесь, что Orca Slicer и ваш принтер находятся в одной локальной сети."
+#~ msgid "Step 1. Please confirm Infinium and your printer are in the same LAN."
+#~ msgstr "1) Пожалуйста, убедитесь, что Infinium и ваш принтер находятся в одной локальной сети."
 
 #~ msgid "Step 2. If the IP and Access Code below are different from the actual values on your printer, please correct them."
 #~ msgstr "2) Если указанные ниже IP-адрес и код доступа отличаются от фактических значений вашего принтера, исправьте их."

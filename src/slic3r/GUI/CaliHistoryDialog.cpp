@@ -37,7 +37,7 @@ enum CaliColumnType : int {
     Cali_Type_Count
 };
 
-// Orca: derive nozzle-volume support from the machine preset's nozzle_volume array
+// Infinium: derive nozzle-volume support from the machine preset's nozzle_volume array
 // rather than a live device-capability query, to avoid flipping the Nozzle-Flow column
 // visibility on shipping printers (H2D/X1/P1/A1).
 bool support_nozzle_volume(const MachineObject* obj)
@@ -891,7 +891,7 @@ int NewCalibrationHistoryDialog::get_nozzle_combo_id_code() const
 
 void NewCalibrationHistoryDialog::on_select_nozzle_pos(wxCommandEvent &event)
 {
-    // Mirror the picked hotend's flow onto the (Orca index-based) nozzle-type combo.
+    // Mirror the picked hotend's flow onto the (Infinium index-based) nozzle-type combo.
     if (!curr_obj || !m_comboBox_nozzle_id || !m_comboBox_nozzle_type || !curr_obj->GetNozzleSystem())
         return;
 

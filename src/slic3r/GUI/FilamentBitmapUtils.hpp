@@ -10,7 +10,7 @@
 #include <array>
 #include <vector>
 
-// Orca: forward-declare so the header is self-contained outside libslic3r_gui's
+// Infinium: forward-declare so the header is self-contained outside libslic3r_gui's
 // force-included pch (the GUI test suite includes it directly).
 namespace Slic3r { class DynamicPrintConfig; struct GradientCurve; }
 

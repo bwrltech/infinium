@@ -44,9 +44,9 @@
 #include "Widgets/ComboBox.hpp"
 #include "Widgets/ScrolledWindow.hpp"
 #include "Widgets/PopupWindow.hpp"
-#include "Widgets/HyperLink.hpp" // ORCA
+#include "Widgets/HyperLink.hpp" // INFINIUM
 #include "DeviceTab/uiAMSBestPositionPopup.hpp"  // AMS best-position popup
-#include "DeviceCore/DevFilaSwitch.h"            // Orca: DevFilaSwitch::SwitchPos for best-position helpers
+#include "DeviceCore/DevFilaSwitch.h"            // Infinium: DevFilaSwitch::SwitchPos for best-position helpers
 #include <optional>
 #include <wx/simplebook.h>
 #include <wx/hashmap.h>
@@ -103,7 +103,7 @@ enum class ConfigNozzleIdx : int
 };
 
 
-// Orca: MaterialHash is keyed by material/extruder index and is iterated in key order in
+// Infinium: MaterialHash is keyed by material/extruder index and is iterated in key order in
 // several places (e.g. the AMS override preview), so it must be an ordered container.
 // std::unordered_map (what WX_DECLARE_HASH_MAP expands to under wxUSE_STD_CONTAINERS=1)
 // iterates in an unspecified, implementation-dependent order, which scrambled that preview.
@@ -393,7 +393,7 @@ protected:
     Label*                              m_st_txt_error_desc{nullptr};
     Label*                              m_st_txt_extra_info{nullptr};
     Label*                              m_ams_backup_tip{nullptr};
-    HyperLink*                          m_link_network_state{ nullptr }; // ORCA
+    HyperLink*                          m_link_network_state{ nullptr }; // INFINIUM
     wxSimplebook*                       m_rename_switch_panel{nullptr};
     wxSimplebook*                       m_simplebook{nullptr};
     wxStaticText*                       m_rename_text{nullptr};
@@ -550,7 +550,7 @@ public:
     // Compare the slicing file's nozzle requirements (validity, flow, diameter) against the
     // printer; the rack extruder is checked against its whole inventory (mounted + rack).
     bool CheckErrorExtruderNozzleWithSlicing(MachineObject* obj_);//return true if no errors
-    // Orca: a nozzle diameter differing from the one the printer remembers is a non-blocking
+    // Infinium: a nozzle diameter differing from the one the printer remembers is a non-blocking
     // warning shown in the message board with an acknowledgement checkbox; Send stays disabled
     // until the user ticks it. m_nozzle_diameter_mismatch_msg is the current mismatch text (empty
     // when there is none), m_nozzle_diameter_ack_msg the text the user acknowledged; Send is

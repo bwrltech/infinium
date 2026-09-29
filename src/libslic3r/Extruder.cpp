@@ -180,7 +180,7 @@ double Extruder::retract_before_wipe() const
     return std::clamp(m_config->retract_before_wipe.get_at(m_config_index) * 0.01, 0., 1.);
 }
 
-// Orca:
+// Infinium:
 // Return a "retract_after_wipe" percentage as a factor clamped to <0, 1>
 double Extruder::retract_after_wipe() const
 {
@@ -230,7 +230,7 @@ double Extruder::retract_restart_extra_toolchange() const
 
 double Extruder::travel_slope() const
 {
-    // Orca: deliberately keyed by the physical extruder, not the filament column — this read
+    // Infinium: deliberately keyed by the physical extruder, not the filament column — this read
     // predates the per-variant merge and switching it would change existing multi-extruder output.
     return m_config->travel_slope.get_at(extruder_id()) * PI / 180;
 }

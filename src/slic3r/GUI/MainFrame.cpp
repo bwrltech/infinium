@@ -486,7 +486,7 @@ DPIFrame(NULL, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, BORDERLESS_FRAME_
 #endif
         wxQueueEvent(wxGetApp().plater(), new SimpleEvent(EVT_NOTICE_CHILDE_SIZE_CHANGED));
 
-        fit_tab_labels(); // ORCA on resize
+        fit_tab_labels(); // INFINIUM on resize
     });
 
     //BBS
@@ -729,7 +729,7 @@ DPIFrame(NULL, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, BORDERLESS_FRAME_
         if (evt.CmdDown() && evt.GetKeyCode() == 'P')
 #endif
         {
-            // Orca: Use GUI_App::open_preferences instead of direct call so windows associations are updated on exit
+            // Infinium: Use GUI_App::open_preferences instead of direct call so windows associations are updated on exit
             wxGetApp().open_preferences();
             plater()->get_current_canvas3D()->force_set_focus();
             return;
@@ -797,7 +797,7 @@ void MainFrame::bind_diff_dialog()
 
 #ifdef __WXMSW__
 
-// Orca: Fix maximized window overlaps taskbar when taskbar auto hide is enabled (#8085)
+// Infinium: Fix maximized window overlaps taskbar when taskbar auto hide is enabled (#8085)
 // Adopted from https://gist.github.com/MortenChristiansen/6463580
 static void AdjustWorkingAreaForAutoHide(const HWND hWnd, MINMAXINFO* mmi)
 {
@@ -1273,7 +1273,7 @@ void MainFrame::init_tabpanel() {
                 wxPostEvent(m_plater, SimpleEvent(EVT_GLVIEWTOOLBAR_PREVIEW));
                 m_param_panel->OnActivate();
             }
-            fit_tab_labels(); // ORCA on switching prepare / preview
+            fit_tab_labels(); // INFINIUM on switching prepare / preview
         }
         //else if (panel == m_param_panel)
         //    m_param_panel->OnActivate();
@@ -1444,7 +1444,7 @@ void MainFrame::show_device(bool should_use_native) {
         wxGetApp().UpdateDarkUIWin(this);
 #endif // _MSW_DARK_MODE
 
-        fit_tab_labels(); // ORCA on printer change
+        fit_tab_labels(); // INFINIUM on printer change
         m_plugin_pages.relayout(); // re-sync plugin tabs against the native tabs just mutated above
 
         return;
@@ -1452,7 +1452,7 @@ void MainFrame::show_device(bool should_use_native) {
 
     if (should_use_native) {
         if (m_tabpanel->FindPage(m_monitor) != wxNOT_FOUND) {
-            fit_tab_labels(); // ORCA on printer change - same button layout
+            fit_tab_labels(); // INFINIUM on printer change - same button layout
             return;
         }
         // Remove printer view
@@ -1496,7 +1496,7 @@ void MainFrame::show_device(bool should_use_native) {
 
     } else {
         if (m_tabpanel->FindPage(m_printer_view) != wxNOT_FOUND) {
-            fit_tab_labels(); // ORCA on printer change - same button layout
+            fit_tab_labels(); // INFINIUM on printer change - same button layout
             return;
         }
         if ((idx = m_tabpanel->FindPage(m_calibration)) != wxNOT_FOUND) {
@@ -1524,7 +1524,7 @@ void MainFrame::show_device(bool should_use_native) {
         m_tabpanel->InsertPage(m_tabpanel->PositionAfter({TAB_ID_PREVIEW}), TAB_ID_MONITOR, m_printer_view,
                                _L("Device"), "tab_monitor_active");
     }
-    fit_tab_labels(); // ORCA on printer change
+    fit_tab_labels(); // INFINIUM on printer change
     m_plugin_pages.relayout(); // re-sync plugin tabs against the native tabs just mutated above
 }
 
@@ -2077,7 +2077,7 @@ wxBoxSizer* MainFrame::create_side_tools()
                 m_slice_enable = get_enable_slice_status();
                 m_slice_btn->Enable(m_slice_enable);
                 this->Layout();
-                fit_tab_labels(); // ORCA on label change
+                fit_tab_labels(); // INFINIUM on label change
                 if(m_slice_option_pop_up)
                     m_slice_option_pop_up->Dismiss();
                 });
@@ -2088,7 +2088,7 @@ wxBoxSizer* MainFrame::create_side_tools()
                 m_slice_enable = get_enable_slice_status();
                 m_slice_btn->Enable(m_slice_enable);
                 this->Layout();
-                fit_tab_labels(); // ORCA on label change
+                fit_tab_labels(); // INFINIUM on label change
                 if(m_slice_option_pop_up)
                     m_slice_option_pop_up->Dismiss();
                 });
@@ -2114,7 +2114,7 @@ wxBoxSizer* MainFrame::create_side_tools()
                     m_print_enable = get_enable_print_status();
                     m_print_btn->Enable(m_print_enable);
                     this->Layout();
-                    fit_tab_labels(); // ORCA on label change
+                    fit_tab_labels(); // INFINIUM on label change
                     p->Dismiss();
                     });
 
@@ -2127,13 +2127,13 @@ wxBoxSizer* MainFrame::create_side_tools()
                     m_print_enable = get_enable_print_status();
                     m_print_btn->Enable(m_print_enable);
                     this->Layout();
-                    fit_tab_labels(); // ORCA on label change
+                    fit_tab_labels(); // INFINIUM on label change
                     p->Dismiss();
                     });
 
                 p->append_button(send_gcode_btn);
 
-                // Orca: when the printer accepts a .gcode.3mf (the "Support 3MF as gcode" option),
+                // Infinium: when the printer accepts a .gcode.3mf (the "Support 3MF as gcode" option),
                 // also offer exporting the sliced .gcode.3mf bundle
                 const auto& printer_config = wxGetApp().preset_bundle->printers.get_edited_preset().config;
                 const auto* use_3mf_opt    = printer_config.option<ConfigOptionBool>("use_3mf");
@@ -2146,7 +2146,7 @@ wxBoxSizer* MainFrame::create_side_tools()
                         m_print_enable = get_enable_print_status();
                         m_print_btn->Enable(m_print_enable);
                         this->Layout();
-                        fit_tab_labels(); // ORCA on label change
+                        fit_tab_labels(); // INFINIUM on label change
                         p->Dismiss();
                         });
                     p->append_button(export_sliced_file_btn);
@@ -2155,7 +2155,7 @@ wxBoxSizer* MainFrame::create_side_tools()
                 p->append_button(export_gcode_btn);
             }
             else {
-                //Orca Slicer Buttons
+                //Infinium Buttons
                 SideButton* print_plate_btn = new SideButton(p, _L("Print plate"), "");
                 print_plate_btn->SetCornerRadius(0);
 
@@ -2174,7 +2174,7 @@ wxBoxSizer* MainFrame::create_side_tools()
                     m_print_enable = get_enable_print_status();
                     m_print_btn->Enable(m_print_enable);
                     this->Layout();
-                    fit_tab_labels(); // ORCA on label change
+                    fit_tab_labels(); // INFINIUM on label change
                     p->Dismiss();
                     });
 
@@ -2186,7 +2186,7 @@ wxBoxSizer* MainFrame::create_side_tools()
                     m_print_enable = get_enable_print_status();
                     m_print_btn->Enable(m_print_enable);
                     this->Layout();
-                    fit_tab_labels(); // ORCA on label change
+                    fit_tab_labels(); // INFINIUM on label change
                     p->Dismiss();
                     });
 
@@ -2196,7 +2196,7 @@ wxBoxSizer* MainFrame::create_side_tools()
                     m_print_enable = get_enable_print_status();
                     m_print_btn->Enable(m_print_enable);
                     this->Layout();
-                    fit_tab_labels(); // ORCA on label change
+                    fit_tab_labels(); // INFINIUM on label change
                     p->Dismiss();
                     });
 
@@ -2208,7 +2208,7 @@ wxBoxSizer* MainFrame::create_side_tools()
                     m_print_enable = get_enable_print_status();
                     m_print_btn->Enable(m_print_enable);
                     this->Layout();
-                    fit_tab_labels(); // ORCA on label change
+                    fit_tab_labels(); // INFINIUM on label change
                     p->Dismiss();
                     });
 
@@ -2218,7 +2218,7 @@ wxBoxSizer* MainFrame::create_side_tools()
                     m_print_enable = get_enable_print_status();
                     m_print_btn->Enable(m_print_enable);
                     this->Layout();
-                    fit_tab_labels(); // ORCA on label change
+                    fit_tab_labels(); // INFINIUM on label change
                     p->Dismiss();
                     });
 
@@ -2228,7 +2228,7 @@ wxBoxSizer* MainFrame::create_side_tools()
                     m_print_enable = get_enable_print_status();
                     m_print_btn->Enable(m_print_enable);
                     this->Layout();
-                    fit_tab_labels(); // ORCA on label change
+                    fit_tab_labels(); // INFINIUM on label change
                     p->Dismiss();
                     });
 
@@ -2267,7 +2267,7 @@ wxBoxSizer* MainFrame::create_side_tools()
                         m_print_enable = get_enable_print_status();
                         m_print_btn->Enable(m_print_enable);
                         this->Layout();
-                        fit_tab_labels(); // ORCA on label change
+                        fit_tab_labels(); // INFINIUM on label change
                         p->Dismiss();
                     });
                     p->append_button(print_multi_machine_btn);
@@ -2282,7 +2282,7 @@ wxBoxSizer* MainFrame::create_side_tools()
                     m_print_enable = get_enable_print_status();
                     m_print_btn->Enable(m_print_enable);
                     this->Layout();
-                    fit_tab_labels(); // ORCA on label change
+                    fit_tab_labels(); // INFINIUM on label change
                     p->Dismiss();
                 });
                 p->append_button(export_gcode_btn);
@@ -2606,7 +2606,7 @@ void MainFrame::on_dpi_changed(const wxRect& suggested_rect)
 
     this->Maximize(is_maximized);
 
-    fit_tab_labels(); // ORCA
+    fit_tab_labels(); // INFINIUM
 }
 
 void MainFrame::on_sys_color_changed()
@@ -3304,7 +3304,7 @@ void MainFrame::init_menubar_as_editor()
     append_menu_item(
         m_topbar->GetTopMenu(), wxID_ANY, _L("Preferences") + "\t" + ctrl + "P", "",
         [](wxCommandEvent &) {
-            // Orca: Use GUI_App::open_preferences instead of direct call so windows associations are updated on exit
+            // Infinium: Use GUI_App::open_preferences instead of direct call so windows associations are updated on exit
             wxGetApp().open_preferences();
         },
         "", nullptr, []() { return true; }, this);
@@ -3315,7 +3315,7 @@ void MainFrame::init_menubar_as_editor()
         append_menu_item(
         top_menu, wxID_ANY, _L("Preset Bundle") + "\t", "",
         [this](wxCommandEvent &) {
-            // Orca: Use GUI_App::open_preferences instead of direct call so windows associations are updated on exit
+            // Infinium: Use GUI_App::open_preferences instead of direct call so windows associations are updated on exit
             wxGetApp().open_presetbundledialog();
             plater()->get_current_canvas3D()->force_set_focus();
         },
@@ -3522,7 +3522,7 @@ void MainFrame::init_menubar_as_editor()
         [this]() {return m_plater->is_view3D_shown();; }, this);
 
     // Flowrate (with submenu)
-    // ORCA: Flow rate (Wizard Dialog)
+    // INFINIUM: Flow rate (Wizard Dialog)
     append_menu_item(calib_menu, wxID_ANY, _L("Flow ratio"), _L("Flow Rate Calibration"),
         [this](wxCommandEvent&) {
             if (!m_plater) return;
@@ -3785,7 +3785,7 @@ void MainFrame::load_config_file()
  //       return;
     wxFileDialog dlg(this, _L("Select profile to load:"),
         !m_last_config.IsEmpty() ? get_dir_name(m_last_config) : wxGetApp().app_config->get_last_dir(),
-        "config.json", _L("Config files (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"), wxFD_OPEN | wxFD_MULTIPLE | wxFD_FILE_MUST_EXIST);
+        "config.json", _L("Config files (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament") + ";*.orca_printer;*.orca_bundle;*.orca_filament", wxFD_OPEN | wxFD_MULTIPLE | wxFD_FILE_MUST_EXIST);
      wxArrayString files;
     if (dlg.ShowModal() != wxID_OK)
         return;

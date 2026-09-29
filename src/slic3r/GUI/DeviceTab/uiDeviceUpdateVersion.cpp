@@ -10,7 +10,7 @@
 #include "slic3r/GUI/I18N.hpp"
 #include "slic3r/GUI/GUI_App.hpp"
 #include "slic3r/GUI/wxExtensions.hpp"
-#include "slic3r/GUI/Widgets/Label.hpp" // Orca: explicit Label include
+#include "slic3r/GUI/Widgets/Label.hpp" // Infinium: explicit Label include
 
 #include <wx/stattext.h>
 
@@ -107,7 +107,7 @@ void uiDeviceUpdateVersion::CreateWidgets()
 
     // Updating
     wxSizer* main_sizer = new wxBoxSizer(wxVERTICAL);
-    main_sizer->AddSpacer(FromDIP(40)); // Orca: top spacing above the firmware-info grid
+    main_sizer->AddSpacer(FromDIP(40)); // Infinium: top spacing above the firmware-info grid
     main_sizer->Add(grid_sizer, 0, wxALIGN_LEFT, FromDIP(5));
 
     SetSizer(main_sizer);

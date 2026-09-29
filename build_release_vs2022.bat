@@ -64,7 +64,7 @@ cmake --build . --config %build_type% --target deps -- -m
 if "%1"=="deps" exit /b 0
 
 :slicer
-echo "building Orca Slicer..."
+echo "building Infinium..."
 cd %WP%
 mkdir %build_dir%
 cd %build_dir%

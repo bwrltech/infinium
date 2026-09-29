@@ -20,7 +20,7 @@ protected:
 		ExPolygon                      expolygon,
 		Polylines                     &polylines_out) override;
 
-	// Orca: solid surfaces are filled with Arachne's variable width walls, which widen to take up
+	// Infinium: solid surfaces are filled with Arachne's variable width walls, which widen to take up
 	// whatever the fixed width loops above would have left over as gaps.
 	void _fill_surface_single(
 		const FillParams              &params,

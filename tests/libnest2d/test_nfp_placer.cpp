@@ -4,7 +4,7 @@
 
 using namespace libnest2d;
 
-// NfpPlacer is the No-Fit-Polygon placement engine that Orca's arranger drives
+// NfpPlacer is the No-Fit-Polygon placement engine that Infinium's arranger drives
 // (via _Nester/FirstFitSelection in Arrange.cpp). These exercise the placer
 // directly: pack()/accept() are the core geometric placement primitives.
 namespace {

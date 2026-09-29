@@ -463,8 +463,8 @@ bool ExtruderSwithingStatus::has_content_shown() const
 
 void ExtruderSwithingStatus::msw_rescale()
 {
-    m_button_quit->Rescale(); // ORCA
-    m_button_retry->Rescale(); // ORCA
+    m_button_quit->Rescale(); // INFINIUM
+    m_button_retry->Rescale(); // INFINIUM
     Layout();
 }
 
@@ -607,7 +607,7 @@ void PrintingTaskPanel::create_panel(wxWindow* parent)
                           std::pair<wxColour, int>(wxColour(255, 255, 255), StateColor::Hovered), std::pair<wxColour, int>(wxColour(255, 255, 255), StateColor::Enabled),
                           std::pair<wxColour, int>(wxColour(255, 255, 255), StateColor::Normal));
 
-    m_button_partskip = new Button(progress_lr_panel, wxEmptyString, "print_control_partskip_disable", 0, 16, wxID_ANY); // ORCA match icon size
+    m_button_partskip = new Button(progress_lr_panel, wxEmptyString, "print_control_partskip_disable", 0, 16, wxID_ANY); // INFINIUM match icon size
     m_button_partskip->Enable(false);
     m_button_partskip->Hide();
     m_button_partskip->SetBackgroundColor(white_bg);
@@ -790,7 +790,7 @@ void PrintingTaskPanel::create_panel(wxWindow* parent)
     printingstage_vertical_sizer->Add(m_printing_stage_underline, 0, wxEXPAND, 0);
     m_printing_stage_panel->SetSizer(printingstage_vertical_sizer);
 
-    // Orca: display the end time of the print
+    // Infinium: display the end time of the print
     m_staticText_progress_end = new wxStaticText(penel_finish_time, wxID_ANY, _L("N/A"), wxDefaultPosition, wxDefaultSize, 0);
     m_staticText_progress_end->Wrap(-1);
     m_staticText_progress_end->SetFont(
@@ -1916,7 +1916,7 @@ wxPanel *StatusBasePanel::create_bed_control(wxWindow *parent)
     StateColor z_1_ctrl_bg(std::pair<wxColour, int>(BUTTON_PRESS_COL, StateColor::Pressed), std::pair<wxColour, int>(BUTTON_NORMAL2_COL, StateColor::Normal));
     StateColor z_1_ctrl_bd(std::pair<wxColour, int>(BUTTON_HOVER_COL, StateColor::Hovered), std::pair<wxColour, int>(BUTTON_NORMAL2_COL, StateColor::Normal));
 
-    m_bpButton_z_10 = new Button(panel, wxString("10"), "monitor_bed_up", 0, 15); // Orca Dont scale icon size 
+    m_bpButton_z_10 = new Button(panel, wxString("10"), "monitor_bed_up", 0, 15); // Infinium Dont scale icon size 
     m_bpButton_z_10->SetFont(::Label::Body_12);
     m_bpButton_z_10->SetBorderWidth(0);
     m_bpButton_z_10->SetBackgroundColor(z_10_ctrl_bg);
@@ -1925,7 +1925,7 @@ wxPanel *StatusBasePanel::create_bed_control(wxWindow *parent)
     m_bpButton_z_10->SetMinSize(Z_BUTTON_SIZE);
     m_bpButton_z_10->SetSize(Z_BUTTON_SIZE);
     m_bpButton_z_10->SetCornerRadius(0);
-    m_bpButton_z_1 = new Button(panel, wxString(" 1"), "monitor_bed_up", 0, 15); // Orca Dont scale icon size 
+    m_bpButton_z_1 = new Button(panel, wxString(" 1"), "monitor_bed_up", 0, 15); // Infinium Dont scale icon size 
     m_bpButton_z_1->SetFont(::Label::Body_12);
     m_bpButton_z_1->SetBorderWidth(0);
     m_bpButton_z_1->SetBackgroundColor(z_1_ctrl_bg);
@@ -1941,7 +1941,7 @@ wxPanel *StatusBasePanel::create_bed_control(wxWindow *parent)
     if (wxGetApp().app_config->get("language") == "de_DE") m_staticText_z_tip->SetFont(::Label::Body_11);
     m_staticText_z_tip->Wrap(-1);
     m_staticText_z_tip->SetForegroundColour(TEXT_LIGHT_FONT_COL);
-    m_bpButton_z_down_1 = new Button(panel, wxString(" 1"), "monitor_bed_down", 0, 15); // Orca Dont scale icon size 
+    m_bpButton_z_down_1 = new Button(panel, wxString(" 1"), "monitor_bed_down", 0, 15); // Infinium Dont scale icon size 
     m_bpButton_z_down_1->SetFont(::Label::Body_12);
     m_bpButton_z_down_1->SetBorderWidth(0);
     m_bpButton_z_down_1->SetBackgroundColor(z_1_ctrl_bg);
@@ -1950,7 +1950,7 @@ wxPanel *StatusBasePanel::create_bed_control(wxWindow *parent)
     m_bpButton_z_down_1->SetSize(Z_BUTTON_SIZE);
     m_bpButton_z_down_1->SetTextColor(StateColor(std::make_pair(DISCONNECT_TEXT_COL, (int) StateColor::Disabled), std::make_pair(NORMAL_TEXT_COL, (int) StateColor::Normal)));
 
-    m_bpButton_z_down_10 = new Button(panel, wxString("10"), "monitor_bed_down", 0, 15); // Orca Dont scale icon size 
+    m_bpButton_z_down_10 = new Button(panel, wxString("10"), "monitor_bed_down", 0, 15); // Infinium Dont scale icon size 
     m_bpButton_z_down_10->SetFont(::Label::Body_12);
     m_bpButton_z_down_10->SetBorderWidth(0);
     m_bpButton_z_down_10->SetBackgroundColor(z_10_ctrl_bg);
@@ -1989,7 +1989,7 @@ wxBoxSizer *StatusBasePanel::create_extruder_control(wxWindow *parent)
     m_nozzle_btn_panel = new SwitchBoard(panel, _L_CONTEXT("Left", "Nozzle position"), _L_CONTEXT("Right", "Nozzle position"), wxSize(FromDIP(126), FromDIP(26)));
     m_nozzle_btn_panel->SetAutoDisableWhenSwitch();
 
-    m_bpButton_e_10 = new Button(panel, "", "monitor_extruder_up", 0, 22); // Orca Dont scale icon size 
+    m_bpButton_e_10 = new Button(panel, "", "monitor_extruder_up", 0, 22); // Infinium Dont scale icon size 
     m_bpButton_e_10->SetBorderWidth(2);
     m_bpButton_e_10->SetBackgroundColor(e_ctrl_bg);
     m_bpButton_e_10->SetBorderColor(e_ctrl_bd);
@@ -2005,7 +2005,7 @@ wxBoxSizer *StatusBasePanel::create_extruder_control(wxWindow *parent)
     }
     m_extruder_book->SetSelection(0);
 
-    m_bpButton_e_down_10 = new Button(panel, "", "monitor_extruder_down", 0, 22); // Orca Dont scale icon size 
+    m_bpButton_e_down_10 = new Button(panel, "", "monitor_extruder_down", 0, 22); // Infinium Dont scale icon size 
     m_bpButton_e_down_10->SetBorderWidth(2);
     m_bpButton_e_down_10->SetBackgroundColor(e_ctrl_bg);
     m_bpButton_e_down_10->SetBorderColor(e_ctrl_bd);
@@ -2138,7 +2138,7 @@ wxBoxSizer* StatusBasePanel::create_filament_group(wxWindow* parent)
         if (obj) { obj->command_ams_control("resume"); }
     });
 
-    // Orca: filament-change Stop button (aborts an in-progress filament change)
+    // Infinium: filament-change Stop button (aborts an in-progress filament change)
     m_fila_change_abort = new Button(m_filament_load_box, _L("Stop"));
     m_fila_change_abort->SetStyle(ButtonStyle::Regular, ButtonType::Choice);
     m_fila_change_abort->Hide();
@@ -3542,11 +3542,11 @@ void StatusPanel::update_ams_control_state(std::string ams_id, std::string slot_
             load_error_info = _L("Choose an AMS slot then press \"Load\" or \"Unload\" button to automatically load or unload filament.");
             unload_error_info = _L("Choose an AMS slot then press \"Load\" or \"Unload\" button to automatically load or unload filament.");
         } else if (obj->GetFilaSwitch()->IsInstalled() && devPrinterUtil::IsVirtualSlot(ams_id)) {
-            // Orca: with a Filament Track Switch installed the external spool cannot be routed, so both actions are blocked.
+            // Infinium: with a Filament Track Switch installed the external spool cannot be routed, so both actions are blocked.
             load_error_info  = _L("\"Load\" or \"Unload\" is not supported for external spool while using Filament Track Switch.");
             unload_error_info = load_error_info;
         } else if (obj->GetFilaSwitch()->IsInstalled() && !obj->GetFilaSwitch()->IsReady()) {
-            // Orca: an un-calibrated Filament Track Switch cannot route filament to either extruder, so block both actions.
+            // Infinium: an un-calibrated Filament Track Switch cannot route filament to either extruder, so block both actions.
             load_error_info  = _L("The Filament Track Switch has not been setup. Please setup on printer.");
             unload_error_info = load_error_info;
         } else if (ams_id == std::to_string(VIRTUAL_TRAY_MAIN_ID) || ams_id == std::to_string(VIRTUAL_TRAY_DEPUTY_ID)) {
@@ -3558,7 +3558,7 @@ void StatusPanel::update_ams_control_state(std::string ams_id, std::string slot_
             }
         } else {
             for (auto ext : obj->GetExtderSystem()->GetExtruders()) {
-                // Orca: with a Filament Track Switch installed a slot is not bound to a single extruder, so skip the "already loaded" identity check.
+                // Infinium: with a Filament Track Switch installed a slot is not bound to a single extruder, so skip the "already loaded" identity check.
                 if (obj->GetFilaSwitch()->IsInstalled()) { continue; }
                 if (ext.GetSlotNow().ams_id == ams_id && ext.GetSlotNow().slot_id == slot_id)
                 {
@@ -4517,7 +4517,7 @@ void StatusPanel::on_filament_edit(wxCommandEvent &event)
 
     if (obj) {
         m_filament_setting_dlg->obj = obj;
-        // Orca: 2D mode (laser/cut) only allows viewing filament info, not editing
+        // Infinium: 2D mode (laser/cut) only allows viewing filament info, not editing
         m_filament_setting_dlg->m_view_only = !obj->is_fdm_type();
 
         int ams_id = event.GetInt();
@@ -4587,7 +4587,7 @@ void StatusPanel::on_ext_spool_edit(wxCommandEvent &event)
 
     if (obj) {
         m_filament_setting_dlg->obj = obj;
-        // Orca: 2D mode (laser/cut) only allows viewing filament info, not editing
+        // Infinium: 2D mode (laser/cut) only allows viewing filament info, not editing
         m_filament_setting_dlg->m_view_only = !obj->is_fdm_type();
 
         int ams_id                     = event.GetInt();
@@ -4734,7 +4734,7 @@ void StatusPanel::on_ams_selected(wxCommandEvent &event)
 
 void StatusPanel::on_ams_guide(wxCommandEvent& event)
 {
-    // Orca: neutral wiki link (vendor URLs removed)
+    // Infinium: neutral wiki link (vendor URLs removed)
     wxString ams_wiki_url = "https://www.infinium.com/wiki/";
 
     wxLaunchDefaultBrowser(ams_wiki_url);
@@ -4954,7 +4954,7 @@ void StatusPanel::on_camera_enter(wxMouseEvent& event)
         m_camera_popup->Bind(EVT_VCAMERA_SWITCH, &StatusPanel::on_switch_vcamera, this);
         m_camera_popup->Bind(EVT_SDCARD_ABSENT_HINT, [this](wxCommandEvent &e) {
             if (sdcard_hint_dlg == nullptr) {
-                sdcard_hint_dlg = new SecondaryCheckDialog(this->GetParent(), wxID_ANY, _L("Warning"), SecondaryCheckDialog::VisibleButtons::ONLY_CONFIRM); // ORCA VisibleButtons instead ButtonStyle 
+                sdcard_hint_dlg = new SecondaryCheckDialog(this->GetParent(), wxID_ANY, _L("Warning"), SecondaryCheckDialog::VisibleButtons::ONLY_CONFIRM); // INFINIUM VisibleButtons instead ButtonStyle 
                 sdcard_hint_dlg->update_text(_L("Can't start this without storage."));
             }
             sdcard_hint_dlg->on_show();
@@ -5541,7 +5541,7 @@ void StatusPanel::update_filament_loading_panel(MachineObject* obj)
         ams_loading_state = false;
     }
 
-    // Orca: show the Stop button when the printer supports aborting a filament change (flag3 bit-13 or printer config)
+    // Infinium: show the Stop button when the printer supports aborting a filament change (flag3 bit-13 or printer config)
     m_fila_change_abort->Show(ams_loading_state &&
         (obj->is_support_fila_change_abort || DevPrinterConfigUtil::support_ams_fila_change_abort(obj->printer_type)));
     show_filament_load_group(ams_loading_state);

@@ -132,7 +132,7 @@ TEST_CASE("Stored wipe path retains its length after a loop pre-move at a curved
         LinesDistancer<Line>(support), offset).has_value());
 }
 
-// Orca: helpers for constructing the extrusion geometry used by wipe tests.
+// Infinium: helpers for constructing the extrusion geometry used by wipe tests.
 
 static ExtrusionPath make_path(const std::vector<Point> &pts, ExtrusionRole role = erExternalPerimeter,
                                float width = 0.4f, float height = 0.2f)
@@ -213,7 +213,7 @@ static ExtrusionPaths make_loop_paths(const std::vector<Point> &contour_pts, flo
     return paths;
 }
 
-// Orca: sample_path_at_distance coverage.
+// Infinium: sample_path_at_distance coverage.
 
 TEST_CASE("sample_path_at_distance forward returns start for zero target", "[WipePath]")
 {
@@ -283,7 +283,7 @@ TEST_CASE("Stored wipe path leaves source crossings to support validation", "[Wi
     const coord_t s = scale_(1.0);
     Polyline path{Point(10 * s, 0), Point(100 * s, 0), Point(coord_t(13.4 * s), coord_t(50 * s))};
 
-    // Orca: crossing the just-printed wall is harmless for a non-extruding wipe.
+    // Infinium: crossing the just-printed wall is harmless for a non-extruding wipe.
     // The caller decides whether the result is supported by printed geometry.
     REQUIRE(offset_wipe_path(path, Point(10 * s, 0), Point(0, 0), Point(0, 0), +1, 5 * s, 1000 * s));
 }
@@ -323,7 +323,7 @@ TEST_CASE("Stored wipe path continues after an inward pre-move", "[WipePath][Reg
 
     REQUIRE(offset_wipe_path(path, seam_start, seam_end, wipe_start, +1, s, 5 * s));
     REQUIRE(path.points.size() >= 3);
-    path.points.front() = wipe_start; // Orca: reproduce Wipe::wipe()'s executable representation.
+    path.points.front() = wipe_start; // Infinium: reproduce Wipe::wipe()'s executable representation.
     CHECK_THAT(path.length(), Catch::Matchers::WithinAbs(5. * s, 2.));
 }
 
@@ -336,7 +336,7 @@ TEST_CASE("Stored wipe path does not retrace a translated seam gap", "[WipePath]
     const Polyline original = path;
     const Lines support{Line(Point(-10 * s, s), Point(10 * s, s))};
 
-    // Orca: the exact reversal at seam_start forces the translated fallback.
+    // Infinium: the exact reversal at seam_start forces the translated fallback.
     // The seam gap supplies its incoming direction but must not become an
     // inward-outward-inward detour in the executable path.
     REQUIRE(offset_wipe_path_toward_support(
@@ -376,7 +376,7 @@ TEST_CASE("Stored wipe path grows its source until the offset reaches the reques
     Polyline path{Point(0, 0), Point(100 * s, 0), Point(100 * s, 100 * s), Point(0, 100 * s)};
     const double wipe_length = 250 * s;
 
-    // Orca: two inward corners shorten this offset by more than 2 * offset_dist.
+    // Infinium: two inward corners shorten this offset by more than 2 * offset_dist.
     REQUIRE(offset_wipe_path(path, Point(0, 0), Point(0, 0), Point(0, 0),
                              +1, 10 * s, wipe_length));
     REQUIRE_THAT(path.length(), Catch::Matchers::WithinAbs(wipe_length, 2));
@@ -439,7 +439,7 @@ TEST_CASE("Stored wipe path tolerates quantized contact at its actual start", "[
                   Point(100 * s, 100 * s + quantization), Point(0, 100 * s + quantization),
                   Point(0, quantization)};
 
-    // Orca: the executable transition starts within the geometry epsilon of the
+    // Infinium: the executable transition starts within the geometry epsilon of the
     // source endpoint. Treat this as the allowed start contact, while contacts
     // farther along the transition remain unsafe.
     REQUIRE(offset_wipe_path(path, Point(0, quantization), Point(0, quantization),
@@ -479,7 +479,7 @@ TEST_CASE("Stored wipe path checks the first segment from its actual start", "[W
         Line(Point(10 * s, -s), Point(10 * s, s))
     };
 
-    // Orca: both endpoints are supported, but the middle of the executable segment
+    // Infinium: both endpoints are supported, but the middle of the executable segment
     // from wipe_start is not. The dummy path[0] must not hide that segment.
     const LinesDistancer<Line> support_distancer(support_near_ends);
     REQUIRE_FALSE(wipe_path_support_score(path, Point(0, 0), support_distancer, support_distancer, 2 * s).has_value());
@@ -636,7 +636,7 @@ TEST_CASE("Stored wipe path leaves a narrow cusp directly after a seam gap", "[W
     CHECK(path.points[1].y() < seam_end.y() - scale_(0.2));
     CHECK(std::abs(path.points[1].x() - seam_end.x()) < scale_(0.05));
 
-    // Orca: the inward connector must not run back through the first extruded
+    // Infinium: the inward connector must not run back through the first extruded
     // point after the gap, which would put the wipe on the external wall.
     const Line connector(seam_end, path.points[1]);
     CHECK(connector.distance_to(original.points[1]) > scale_(0.02));
@@ -717,7 +717,7 @@ TEST_CASE("Stored wipe path prefers support on the material side of a seam gap",
         Line(Point(s / 2, -s / 10), Point(3 * s / 2, -s / 10)),
     };
 
-    // Orca: the lower line is closest at the cusp and the preferred winding
+    // Infinium: the lower line is closest at the cusp and the preferred winding
     // points toward it, but the outgoing wall is adjacent to the upper line.
     REQUIRE(offset_wipe_path_toward_support(
         path, seam_start, seam_end, seam_end, -1, s, 5 * s,
@@ -895,7 +895,7 @@ TEST_CASE("Stored wipe path stays on the inner side of a short external loop", "
         point(55.192, 41.238), point(55.111, 41.176),
     };
     Lines target_support = inner.lines();
-    // Orca: a different contour has a slightly closer inner wall on the air
+    // Infinium: a different contour has a slightly closer inner wall on the air
     // side of this short loop. It must not override the loop's material side.
     target_support.emplace_back(point(55.159, 42.147), point(55.299, 42.011));
 
@@ -904,7 +904,7 @@ TEST_CASE("Stored wipe path stays on the inner side of a short external loop", "
         target_support, target_support, original.lines(), scale_(0.4)));
     REQUIRE(path.points.size() >= 2);
 
-    // Orca: the nearest inner wall is below the seam; accepting the opposite
+    // Infinium: the nearest inner wall is below the seam; accepting the opposite
     // offset would send the wipe into air outside this small contour.
     CHECK(path.points[1].y() < seam.y());
 }
@@ -943,7 +943,7 @@ TEST_CASE("Stored wipe path does not return to the external wall after moving in
         path, seam, seam, seam, +1, offset, scale_(0.8),
         inner.lines(), inner.lines(), original.lines(), scale_(0.4)));
 
-    // Orca: after reaching the inner wall, a full-width inward wipe must not
+    // Infinium: after reaching the inner wall, a full-width inward wipe must not
     // collapse back onto the external perimeter at a tight turn.
     for (size_t index = 1; index < path.points.size(); ++index) {
         double clearance = std::numeric_limits<double>::infinity();
@@ -953,7 +953,7 @@ TEST_CASE("Stored wipe path does not return to the external wall after moving in
     }
 }
 
-// Orca: wipe_on_loops_destination coverage for every orientation.
+// Infinium: wipe_on_loops_destination coverage for every orientation.
 
 TEST_CASE("wipe_on_loops destination is on the material side for every orientation", "[WipePath]")
 {
@@ -993,7 +993,7 @@ TEST_CASE("wipe_on_loops destination is on the material side for every orientati
     if (is_ccw == is_hole)
         material_normal = -material_normal;
 
-    // Orca: contours use their winding's inside; holes use the opposite side.
+    // Infinium: contours use their winding's inside; holes use the opposite side.
     const Vec2d move = destination->cast<double>() - seam_start.cast<double>();
     REQUIRE(move.dot(material_normal) > 0.);
     // Move 20% of the nozzle diameter, turning through one third of the material-side
@@ -1006,7 +1006,7 @@ TEST_CASE("wipe_on_loops destination is on the material side for every orientati
 
 TEST_CASE("wipe_on_loops returns destination for small but nonzero loop", "[WipePath]")
 {
-    // Orca: a 0.5 mm square is tight for a 0.4 mm nozzle but remains valid.
+    // Infinium: a 0.5 mm square is tight for a 0.4 mm nozzle but remains valid.
     const coord_t s = scale_(1.0);
     auto paths = make_loop_paths({Point(0, 0), Point(s / 2, 0), Point(s / 2, s / 2), Point(0, s / 2)});
 

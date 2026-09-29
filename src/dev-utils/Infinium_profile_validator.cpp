@@ -187,7 +187,7 @@ std::string slice_two_color_cube_and_export(DynamicPrintConfig cfg, bool is_bbl)
     // custom *_gcode placeholders expand).
     print.set_status_silent();
     print.process();
-    const fs::path tmp = fs::temp_directory_path() / fs::unique_path("orca-validate-%%%%-%%%%.gcode");
+    const fs::path tmp = fs::temp_directory_path() / fs::unique_path("infinium-validate-%%%%-%%%%.gcode");
     print.export_gcode(tmp.string(), nullptr, nullptr);
     std::ifstream in(tmp.string());
     std::string   out((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
@@ -465,7 +465,7 @@ int main(int argc, char* argv[])
     // std::cout<<"log_level: "<<log_level<<std::endl;
 
     set_data_dir(path);
-    // Orca: the profiles folder lives at <resources>/profiles, so point resources_dir() at that
+    // Infinium: the profiles folder lives at <resources>/profiles, so point resources_dir() at that
     // <resources> parent. Without this, resources_dir() is empty and slice mode's HRC lookup
     // (info/nozzle_info.json) resolves to a non-existent relative path and falls back to a
     // built-in table (logging a spurious parse error and dropping the E3D entry).

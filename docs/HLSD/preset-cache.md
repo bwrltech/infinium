@@ -26,7 +26,7 @@ everything `BBL.json` and the `BBL/` sub-file tree would have produced.
 Per-vendor granularity is what makes the system practical:
 
 - A vendor whose profile is bumped invalidates only its own cache. The other 60-odd
-  vendors keep theirs — even when the bumped vendor is the shared Orca filament
+  vendors keep theirs — even when the bumped vendor is the shared Infinium filament
   library everyone else inherits from.
 - The setup wizard, which loads vendors one at a time, gets the same speedup as
   startup without a second code path.
@@ -160,7 +160,7 @@ cache nothing can invalidate is worse than no cache.
 ## How a vendor is loaded
 
 Vendors load in a fixed order, because filament inheritance crosses exactly one
-boundary: any vendor's filament may inherit from the shared Orca filament library,
+boundary: any vendor's filament may inherit from the shared Infinium filament library,
 and nothing else reaches across vendors. The library therefore goes first, alone;
 every other vendor follows in parallel, resolving against it; and the results are
 merged in a stable order:

@@ -135,7 +135,7 @@ const std::string BBL_LICENSE_TAG                   = "License";
 const std::string BBL_REGION_TAG                    = "Region";
 const std::string BBL_MODIFICATION_TAG              = "ModificationDate";
 const std::string BBL_CREATION_DATE_TAG             = "CreationDate";
-// Orca: BBL current version
+// Infinium: BBL current version
 const std::string BBL_APPLICATION_TAG               = "Application";
 // Infinium version tag
 const std::string ORCASLICER_TAG                    = "Infinium";
@@ -1086,7 +1086,7 @@ void PlateData::parse_filament_info(GCodeProcessorResult *result)
         bool m_load_restore = false;
         std::string m_backup_path;
         std::string m_origin_file;
-        // Semantic version of Orca Slicer, that generated this 3MF.
+        // Semantic version of Infinium, that generated this 3MF.
         boost::optional<Semver> m_bambuslicer_generator_version;
         // Semantic version from the Infinium metadata tag (if present).
         boost::optional<Semver> m_infinium_slicer_version;
@@ -1882,7 +1882,7 @@ void PlateData::parse_filament_info(GCodeProcessorResult *result)
             project->project_country_code = m_contry_code;
         }
 
-        // Orca: skip version check
+        // Infinium: skip version check
         bool dont_load_config = !m_load_config;
         // if (m_bambuslicer_generator_version) {
         //     Semver app_version = *(Semver::parse(SoftFever_VERSION));
@@ -4881,7 +4881,7 @@ void PlateData::parse_filament_info(GCodeProcessorResult *result)
             return true;
         }
 
-        // TODO: Orca: support legacy text info
+        // TODO: Infinium: support legacy text info
         /*
         TextInfo text_info;
         text_info.m_text      = xml_unescape(bbs_get_attribute_value_string(attributes, num_attributes, TEXT_ATTR));
@@ -6938,7 +6938,7 @@ void PlateData::parse_filament_info(GCodeProcessorResult *result)
                 metadata_item_map[BBL_MODEL_NAME_TAG]           = xml_escape(name);
                 metadata_item_map[BBL_ORIGIN_TAG]               = xml_escape(origin);
                 metadata_item_map[BBL_DESIGNER_TAG]             = xml_escape(user_name);
-                metadata_item_map[BBL_DESIGNER_USER_ID_TAG]     = ""; // Orca: PRIVACY: do not store BBL user id in 3mf
+                metadata_item_map[BBL_DESIGNER_USER_ID_TAG]     = ""; // Infinium: PRIVACY: do not store BBL user id in 3mf
                 metadata_item_map[BBL_DESIGNER_COVER_FILE_TAG]  = xml_escape(design_cover);
                 metadata_item_map[BBL_DESCRIPTION_TAG]          = xml_escape(description);
                 metadata_item_map[BBL_COPYRIGHT_NORMATIVE_TAG]  = xml_escape(copyright);
@@ -6950,17 +6950,17 @@ void PlateData::parse_filament_info(GCodeProcessorResult *result)
                     metadata_item_map[BBL_REGION_TAG]   = region_code;
                 }
 
-                // Orca: PRIVACY: do not store creation & modification date in 3mf
+                // Infinium: PRIVACY: do not store creation & modification date in 3mf
                 metadata_item_map[BBL_CREATION_DATE_TAG] = "";
                 metadata_item_map[BBL_MODIFICATION_TAG]  = "";
-                // Orca: Write the BambuStudio compatibility version string using SLIC3R_VERSION.
+                // Infinium: Write the BambuStudio compatibility version string using SLIC3R_VERSION.
                 // A minimal published 3MF writes no slicer tags at all: any tag would route old
                 // receivers onto a geometry-only fallback whose baked-in popup misreports the
                 // file ("old Infinium Slicer version" / "BambuStudio"), while tag-less files classify
                 // as From_Other and import the geometry silently.
                 if (m_minimal_published) {
                     // metadata_item_map is seeded from the input file's metadata_items above, so a
-                    // project opened from a regular Orca/BBS 3MF still carries the slicer-identifying
+                    // project opened from a regular Infinium/BBS 3MF still carries the slicer-identifying
                     // tags it came with. Erase every one of them - not just the two most common -
                     // so a published 3MF is fully tag-less: old receivers classify it as From_Other
                     // and import the geometry silently instead of showing a baked-in "old version"
@@ -7361,10 +7361,10 @@ void PlateData::parse_filament_info(GCodeProcessorResult *result)
                 return false;
             }
 
-            // Orca#7574: always use "model" type to follow the 3MF Core Specification:
+            // Infinium#7574: always use "model" type to follow the 3MF Core Specification:
             // https://github.com/3MFConsortium/spec_core/blob/20c079eef39e45ed223b8443dc9f34cbe32dc2c2/3MF%20Core%20Specification.md#3431-item-element
             // > Note: items MUST NOT reference objects of type "other", either directly or recursively.
-            // This won't break anything because when loading the file Orca (and Bambu) simply does not care about the actual object type at all (as long as it's one of "model" & "other");
+            // This won't break anything because when loading the file Infinium (and Bambu) simply does not care about the actual object type at all (as long as it's one of "model" & "other");
             // But PrusaSlicer requires the type to be "model".
             std::string type = "model";
 
@@ -8299,7 +8299,7 @@ void PlateData::parse_filament_info(GCodeProcessorResult *result)
         return true;
     }
 
-    // Orca: replicates GCode's object-label sanitization (sanitize_instance_name in GCode.cpp), used to
+    // Infinium: replicates GCode's object-label sanitization (sanitize_instance_name in GCode.cpp), used to
     // build the per-instance object name written into slice_info.config so it matches the EXCLUDE_OBJECT /
     // M486 object name embedded in the g-code. Keep this in sync with GCode.cpp.
     static std::string sanitize_object_label(const std::string& name)
@@ -8414,7 +8414,7 @@ void PlateData::parse_filament_info(GCodeProcessorResult *result)
                     stream << "\"/>\n";
                 }
 
-                // Orca: for non-BambuLab printers that label objects in the g-code (Klipper/Marlin/RRF via
+                // Infinium: for non-BambuLab printers that label objects in the g-code (Klipper/Marlin/RRF via
                 // EXCLUDE_OBJECT / M486), write the per-instance g-code object name into slice_info.config
                 // (e.g. "OrcaCube_v2.drc_id_0_copy_0") so the printer can correlate objects between the 3MF
                 // and the g-code. The g-code names objects per plate as
@@ -9654,7 +9654,7 @@ Transform3d create_fix(const std::optional<Transform3d> &prev, const ModelVolume
     // when no change do not calculate transformation only store original fix matrix
 
     // Create transformation used after load actual stored volume
-    // Orca: do not bake volume transformation into meshes
+    // Infinium: do not bake volume transformation into meshes
     // const Transform3d &actual_trmat = volume.get_matrix();
     const Transform3d& actual_trmat = Transform3d::Identity();
 

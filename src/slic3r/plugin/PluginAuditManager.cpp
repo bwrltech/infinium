@@ -969,7 +969,7 @@ void PluginAuditManager::install_hook()
     // Seeded here rather than by each secret's owner because install_hook() runs during lazy
     // interpreter init and therefore provably precedes any plugin bytecode, whereas
     // InfiniumCloudServiceAgent::set_config_dir runs during networking init — neither strictly
-    // precedes the other, and if Orca cloud never initializes an owner-registered token deny
+    // precedes the other, and if Infinium cloud never initializes an owner-registered token deny
     // would never exist at all.  default_denied_filenames() is the single source of that list
     // (see its comment for why all four config names are denied); the tests seed from it too.
     for (const auto& name : default_denied_filenames())

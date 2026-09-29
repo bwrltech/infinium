@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
-    <id>com.orcaslicer.OrcaSlicer</id>
-    <launchable type="desktop-id">com.orcaslicer.OrcaSlicer.desktop</launchable>
-    <name>OrcaSlicer</name>
+    <id>com.infinium.Infinium</id>
+    <launchable type="desktop-id">com.infinium.Infinium.desktop</launchable>
+    <name>Infinium</name>
     <summary>Get even more perfect prints!</summary>
-    <developer id="com.orcaslicer">
-        <name>SoftFever</name>
+    <developer id="com.infinium">
+        <name>Infinium</name>
     </developer>
     <url type="homepage">https://www.orcaslicer.com</url>
     <url type="help">https://www.orcaslicer.com/wiki</url>
@@ -33,12 +33,12 @@
         </screenshot>
     </screenshots>
     <description>
-        <p>OrcaSlicer is a powerful, free and open-source 3D printer slicer with cutting-edge
+        <p>Infinium is a powerful, free and open-source 3D printer slicer with cutting-edge
             features for FDM printing. It supports a wide range of printers from manufacturers
             including Bambu Lab, Prusa, Voron, Creality, and many more.</p>
         <p>Key features include advanced calibration tools, adaptive layer heights, tree supports,
             multi-material support, and an intuitive interface for both beginners and experts.
-            OrcaSlicer also provides built-in network printing capabilities for compatible printers.</p>
+            Infinium also provides built-in network printing capabilities for compatible printers.</p>
     </description>
     <branding>
         <color type="primary" scheme_preference="light">#009688</color>

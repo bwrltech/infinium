@@ -381,7 +381,7 @@ def parse_file_data(filepath):
                                 m_p = re.search(r'M400\s+P(\d+)', gl)
                                 if m_p:
                                     m400_weights[line_num] = float(m_p.group(1)) * 0.001
-                        # Match both Orca and BBS toolchange start comments
+                        # Match both Infinium and BBS toolchange start comments
                         if 'CP TOOLCHANGE START' in gl:
                             tc_block_start = line_num
                         elif 'CP TOOLCHANGE END' in gl:
@@ -389,7 +389,7 @@ def parse_file_data(filepath):
                                 toolchange_zones_raw.append((tc_block_start, line_num))
                                 tc_block_start = None
 
-                        # Match BBS (; NOZZLE_CHANGE_START) and Orca (; Nozzle change start/end)
+                        # Match BBS (; NOZZLE_CHANGE_START) and Infinium (; Nozzle change start/end)
                         if 'NOZZLE_CHANGE_START' in gl or 'Nozzle change start' in gl:
                             nc_start = line_num
                         elif 'NOZZLE_CHANGE_END' in gl or 'Nozzle change end' in gl:
@@ -398,13 +398,13 @@ def parse_file_data(filepath):
                                 nc_start = None
 
                         # Fallback: detect M632 M N / M633 as carousel nozzle change zones
-                        # (Orca doesn't always emit ; Nozzle change start/end around M632/M633)
+                        # (Infinium doesn't always emit ; Nozzle change start/end around M632/M633)
                         if gl.startswith('M632') and ' M ' in gl and nc_start is None:
                             nc_start = line_num
                         elif gl.startswith('M633') and nc_start is not None:
                             tc_zones_raw.append((nc_start, line_num))
                             nc_start = None
-                        # Match both Orca (; CP TOOLCHANGE WIPE) and BBS (; CP_TOOLCHANGE_WIPE)
+                        # Match both Infinium (; CP TOOLCHANGE WIPE) and BBS (; CP_TOOLCHANGE_WIPE)
                         elif 'CP TOOLCHANGE WIPE' in gl or 'CP_TOOLCHANGE_WIPE' in gl:
                             wipe_start = line_num
                         elif '; CP TOOLCHANGE END' in gl:

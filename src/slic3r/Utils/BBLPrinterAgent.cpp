@@ -15,7 +15,7 @@ namespace Slic3r {
 
 namespace {
 
-// Bambu's own catalog ids for every filament this app ships, Bambu's own included, since Orca
+// Bambu's own catalog ids for every filament this app ships, Bambu's own included, since Infinium
 // content-addresses those too. Keyed both ways so each of the four translation entry points
 // below is a single lookup. Loaded once per process, on first use. A missing or malformed file
 // logs once and leaves both maps empty, so every translation degrades to identity. Same shape

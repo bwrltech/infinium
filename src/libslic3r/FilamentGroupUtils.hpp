@@ -32,7 +32,7 @@ namespace Slic3r
             Color color;
             std::string type;
             bool is_support;
-            // How this filament is used across the model. Orca's shipping grouping
+            // How this filament is used across the model. Infinium's shipping grouping
             // algorithm does not read it yet; defaulted so a default-built FilamentInfo
             // is deterministic. The nozzle-centric engine consumes it later.
             FilamentUsageType usage_type = FilamentUsageType::ModelOnly;

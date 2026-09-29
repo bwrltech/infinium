@@ -471,7 +471,7 @@ void UpdateVersionDialog::update_version_info(wxString release_note, wxString ve
     //bbs check whether the web display is used
     bool use_web_link = false;
     url_line          = "";
-    // Orca: not used in Orca Slicer
+    // Infinium: not used in Infinium
     // auto split_array = splitWithStl(release_note.ToStdString(), "###");
     // if (split_array.size() >= 3) {
     //     for (auto i = 0; i < split_array.size(); i++) {
@@ -521,7 +521,7 @@ void UpdateVersionDialog::update_version_info(wxString release_note, wxString ve
     Fit();
 }
 
-SecondaryCheckDialog::SecondaryCheckDialog(wxWindow* parent, wxWindowID id, const wxString& title, enum VisibleButtons btn_style, const wxPoint& pos, const wxSize& size, long style, bool not_show_again_check) // ORCA VisibleButtons instead ButtonStyle 
+SecondaryCheckDialog::SecondaryCheckDialog(wxWindow* parent, wxWindowID id, const wxString& title, enum VisibleButtons btn_style, const wxPoint& pos, const wxSize& size, long style, bool not_show_again_check) // INFINIUM VisibleButtons instead ButtonStyle 
     :DPIFrame(parent, id, title, pos, size, style)
 {
     m_button_style = btn_style;
@@ -728,7 +728,7 @@ void SecondaryCheckDialog::on_hide()
     }
 }
 
-void SecondaryCheckDialog::update_title_style(wxString title, SecondaryCheckDialog::VisibleButtons style, wxWindow* parent) // ORCA VisibleButtons instead ButtonStyle 
+void SecondaryCheckDialog::update_title_style(wxString title, SecondaryCheckDialog::VisibleButtons style, wxWindow* parent) // INFINIUM VisibleButtons instead ButtonStyle 
 {
     if (m_button_style == style && title == GetTitle()) return;
 
@@ -1363,12 +1363,12 @@ void ConfirmBeforeSendDialog::edit_cancel_button_txt(const wxString& txt, bool s
 
 void ConfirmBeforeSendDialog::disable_button_ok()
 {
-    m_button_ok->Disable(); // ORCA enabling / disabling buttons with conditions enough to change its style
+    m_button_ok->Disable(); // INFINIUM enabling / disabling buttons with conditions enough to change its style
 }
 
 void ConfirmBeforeSendDialog::enable_button_ok()
 {
-    m_button_ok->Enable(); // ORCA enabling / disabling buttons with conditions enough to change its style
+    m_button_ok->Enable(); // INFINIUM enabling / disabling buttons with conditions enough to change its style
 }
 
 void ConfirmBeforeSendDialog::rescale()
@@ -1534,7 +1534,7 @@ InputIpAddressDialog::InputIpAddressDialog(wxWindow *parent)
     m_tip4->SetMinSize(wxSize(FromDIP(355), -1));
     m_tip4->SetMaxSize(wxSize(FromDIP(355), -1));
 
-    // ORCA standardized HyperLink
+    // INFINIUM standardized HyperLink
     m_trouble_shoot = new HyperLink(this, _L("How to trouble shooting"));
 
     m_img_help = new wxStaticBitmap(this, wxID_ANY, create_scaled_bitmap("input_access_code_x1_en", this, 198), wxDefaultPosition, wxSize(FromDIP(355), -1), 0);
@@ -1697,7 +1697,7 @@ void InputIpAddressDialog::switch_input_panel(int index)
         m_step_icon_panel3->Show();
         m_tip3->Show();
 
-        // ORCA enabling / disabling buttons with conditions enough to change its style
+        // INFINIUM enabling / disabling buttons with conditions enough to change its style
         m_button_ok->Enable(false);
     }
     current_input_index = index;
@@ -1735,7 +1735,7 @@ void InputIpAddressDialog::set_machine_obj(MachineObject* obj)
 
     auto str_ip = m_input_ip->GetTextCtrl()->GetValue();
     auto str_access_code = m_input_access_code->GetTextCtrl()->GetValue();
-    // ORCA enabling / disabling buttons with conditions enough to change its style
+    // INFINIUM enabling / disabling buttons with conditions enough to change its style
     m_button_ok->Enable(isIp(str_ip.ToStdString()) && str_access_code.Length() == 8);
 
     Layout();
@@ -1812,7 +1812,7 @@ void InputIpAddressDialog::on_ok(wxMouseEvent& evt)
         str_model_id = it->second;
     }
 
-    // ORCA enabling / disabling buttons with conditions enough to change its style
+    // INFINIUM enabling / disabling buttons with conditions enough to change its style
     m_button_manual_setup->Enable(false);
     m_button_ok->Enable(false);
 
@@ -1851,7 +1851,7 @@ void InputIpAddressDialog::on_send_retry()
         return;
     }
 
-    m_button_ok->Enable(false); // ORCA enabling / disabling buttons with conditions enough to change its style
+    m_button_ok->Enable(false); // INFINIUM enabling / disabling buttons with conditions enough to change its style
 
     m_worker->wait_for_idle();
 
@@ -2048,7 +2048,7 @@ void InputIpAddressDialog::on_check_ip_address_failed(wxCommandEvent& evt)
     }
 
     m_button_ok->Enable(true);
-    // ORCA enabling / disabling buttons with conditions enough to change its style
+    // INFINIUM enabling / disabling buttons with conditions enough to change its style
 }
 
 void InputIpAddressDialog::on_text(wxCommandEvent &evt)
@@ -2071,7 +2071,7 @@ void InputIpAddressDialog::on_text(wxCommandEvent &evt)
         }
     }
 
-    // ORCA enabling / disabling buttons with conditions enough to change its style
+    // INFINIUM enabling / disabling buttons with conditions enough to change its style
     bool enable_btns = isIp(str_ip.ToStdString()) && str_access_code.Length() == 8 && invalid_access_code;
     m_button_manual_setup->Enable(enable_btns);
     m_button_ok->Enable(enable_btns);

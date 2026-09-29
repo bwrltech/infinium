@@ -36,7 +36,7 @@ static NozzleVolumeType convert_to_nozzle_type(const std::string &str)
         return NozzleVolumeType::nvtHighFlow;
     else if (str[1] == 'U')
         return NozzleVolumeType::nvtTPUHighFlow;
-    // Orca: no nvtE3DHighFlow in Orca's NozzleVolumeType; map 'B' to Standard
+    // Infinium: no nvtE3DHighFlow in Infinium's NozzleVolumeType; map 'B' to Standard
     else
         return NozzleVolumeType::nvtStandard;
 }
@@ -269,7 +269,7 @@ void DevCalib::ExtrusionCalibGetResultParse(const json &jj)
                     auto ams_id = f.value("ams_id", 0);
                     auto slot_id = f.value("slot_id", 0);
                     if(f.contains("tray_id")){
-                        // Orca: Orca's DevFilaSystem has no GetTrayIdByAmsSlotId; mirror its
+                        // Infinium: Infinium's DevFilaSystem has no GetTrayIdByAmsSlotId; mirror its
                         // semantics via a reverse lookup over GetTrayIndexMap() (correct for
                         // non-4-slot AMS layouts, unlike a fixed ams_id*4+slot_id formula).
                         int mapped_tray_id = -1;

@@ -93,13 +93,13 @@ struct Update
 	//BBS: use changelog string instead of url
 	std::string change_log;
 	std::string descriptions;
-    // Orca: add file filter support
+    // Infinium: add file filter support
     std::function<bool(const std::string)> file_filter;
 
 	bool forced_update;
 	//BBS: add directory support
 	bool is_directory {false};
-	// Orca: a vendor update may be the cache-only form.
+	// Infinium: a vendor update may be the cache-only form.
 	bool is_opc {false};
 
 	Update() {}
@@ -225,7 +225,7 @@ struct PresetUpdater::priv
 
     // Per-vendor update checking
     std::set<std::string> checked_vendors;
-    // Orca (PR #130): changelog text for each vendor, captured in memory during
+    // Infinium (PR #130): changelog text for each vendor, captured in memory during
     // sync_vendor_config()/check_new_vendors() instead of written beside the cache.
     std::unordered_map<std::string, std::string> vendor_changelogs;
     mutable std::mutex vendor_changelogs_mutex;
@@ -367,29 +367,29 @@ bool PresetUpdater::priv::extract_file(const fs::path &source_path, const fs::pa
 				continue;
             }
             else if (stat.m_uncomp_size == 0) {
-                BOOST_LOG_TRIVIAL(warning) << "[Orca Updater]Unzip: invalid size for file "<<stat.m_filename;
+                BOOST_LOG_TRIVIAL(warning) << "[Infinium Updater]Unzip: invalid size for file "<<stat.m_filename;
                 continue;
             }
             try
             {
                 res = mz_zip_reader_extract_to_file(&archive, stat.m_file_index, dest_file.c_str(), 0);
                 if (!res) {
-                    BOOST_LOG_TRIVIAL(error) << "[Orca Updater]extract file "<<stat.m_filename<<" to dest "<<dest_file<<" failed";
+                    BOOST_LOG_TRIVIAL(error) << "[Infinium Updater]extract file "<<stat.m_filename<<" to dest "<<dest_file<<" failed";
                     close_zip_reader(&archive);
                     return res;
                 }
-                BOOST_LOG_TRIVIAL(info) << "[Orca Updater]successfully extract file " << stat.m_file_index << " to "<<dest_file;
+                BOOST_LOG_TRIVIAL(info) << "[Infinium Updater]successfully extract file " << stat.m_file_index << " to "<<dest_file;
             }
             catch (const std::exception& e)
             {
                 // ensure the zip archive is closed and rethrow the exception
                 close_zip_reader(&archive);
-                BOOST_LOG_TRIVIAL(error) << "[Orca Updater]Archive read exception:"<<e.what();
+                BOOST_LOG_TRIVIAL(error) << "[Infinium Updater]Archive read exception:"<<e.what();
                 return false;
             }
         }
         else {
-            BOOST_LOG_TRIVIAL(warning) << "[Orca Updater]Unzip: read file stat failed";
+            BOOST_LOG_TRIVIAL(warning) << "[Infinium Updater]Unzip: read file stat failed";
         }
     }
     close_zip_reader(&archive);
@@ -404,7 +404,7 @@ void PresetUpdater::priv::prune_tmp(const std::string& vendor_id) const
     const fs::path tmp_path = cache_path / (vendor_id + TMP_EXTENSION);
     fs::remove(tmp_path, ec);
     if (ec)
-        BOOST_LOG_TRIVIAL(warning) << "[Orca Updater]failed to remove " << tmp_path.string() << ": " << ec.message();
+        BOOST_LOG_TRIVIAL(warning) << "[Infinium Updater]failed to remove " << tmp_path.string() << ": " << ec.message();
 }
 
 //BBS: refine the Preset Updater logic
@@ -513,7 +513,7 @@ void PresetUpdater::priv::sync_resources(std::string http_url, std::map<std::str
 {
     std::map<std::string, Resource>    resource_list;
 
-    BOOST_LOG_TRIVIAL(info) << boost::format("[Orca Updater]: sync_resources get preferred setting version for app version %1%, url: %2%, current_version_str %3%, check_patch %4%")%SLIC3R_APP_NAME%http_url%current_version_str%check_patch;
+    BOOST_LOG_TRIVIAL(info) << boost::format("[Infinium Updater]: sync_resources get preferred setting version for app version %1%, url: %2%, current_version_str %3%, check_patch %4%")%SLIC3R_APP_NAME%http_url%current_version_str%check_patch;
 
     std::string query_params = "?";
     bool        first        = true;
@@ -531,7 +531,7 @@ void PresetUpdater::priv::sync_resources(std::string http_url, std::map<std::str
     std::string url = http_url;
     url += query_params;
     Slic3r::Http http = Slic3r::Http::get(url);
-    BOOST_LOG_TRIVIAL(info) << boost::format("[Orca Updater]: sync_resources request_url: %1%")%url;
+    BOOST_LOG_TRIVIAL(info) << boost::format("[Infinium Updater]: sync_resources request_url: %1%")%url;
     http.on_progress([this](Slic3r::Http::Progress, bool &cancel_http) {
             if (cancel) {
                 cancel_http = true;
@@ -539,7 +539,7 @@ void PresetUpdater::priv::sync_resources(std::string http_url, std::map<std::str
         })
         .on_complete([&resource_list, resources](std::string body, unsigned) {
             try {
-                BOOST_LOG_TRIVIAL(info) << "[Orca Updater]: request_resources, body=" << body;
+                BOOST_LOG_TRIVIAL(info) << "[Infinium Updater]: request_resources, body=" << body;
 
                 json        j       = json::parse(body);
                 std::string message = j["message"].get<std::string>();
@@ -556,7 +556,7 @@ void PresetUpdater::priv::sync_resources(std::string http_url, std::map<std::str
                             for (auto sub_iter = iter.value().begin(); sub_iter != iter.value().end(); sub_iter++) {
                                 if (boost::iequals(sub_iter.key(), "type")) {
                                     resource = sub_iter.value();
-                                    BOOST_LOG_TRIVIAL(trace) << "[Orca Updater]: get version of settings's type, " << sub_iter.value();
+                                    BOOST_LOG_TRIVIAL(trace) << "[Infinium Updater]: get version of settings's type, " << sub_iter.value();
                                 } else if (boost::iequals(sub_iter.key(), "version")) {
                                     version = sub_iter.value();
                                 } else if (boost::iequals(sub_iter.key(), "description")) {
@@ -568,22 +568,22 @@ void PresetUpdater::priv::sync_resources(std::string http_url, std::map<std::str
                                     force_upgrade = sub_iter.value();
                                 }
                             }
-                            BOOST_LOG_TRIVIAL(info) << "[Orca Updater]: get type " << resource << ", version " << version << ", url " << url<<", force_update "<<force_upgrade;
+                            BOOST_LOG_TRIVIAL(info) << "[Infinium Updater]: get type " << resource << ", version " << version << ", url " << url<<", force_update "<<force_upgrade;
 
                             resource_list.emplace(resource, Resource{version, description, url, force_upgrade});
                         }
                     }
                 } else {
-                    BOOST_LOG_TRIVIAL(error) << "[Orca Updater]: get version of settings failed, body=" << body;
+                    BOOST_LOG_TRIVIAL(error) << "[Infinium Updater]: get version of settings failed, body=" << body;
                 }
             } catch (std::exception &e) {
-                BOOST_LOG_TRIVIAL(error) << (boost::format("[Orca Updater]: get version of settings failed, exception=%1% body=%2%") % e.what() % body).str();
+                BOOST_LOG_TRIVIAL(error) << (boost::format("[Infinium Updater]: get version of settings failed, exception=%1% body=%2%") % e.what() % body).str();
             } catch (...) {
-                BOOST_LOG_TRIVIAL(error) << "[Orca Updater]: get version of settings failed, body=" << body;
+                BOOST_LOG_TRIVIAL(error) << "[Infinium Updater]: get version of settings failed, body=" << body;
             }
         })
         .on_error([&](std::string body, std::string error, unsigned status) {
-            BOOST_LOG_TRIVIAL(error) << boost::format("[Orca Updater]: status=%1%, error=%2%, body=%3%") % status % error % body;
+            BOOST_LOG_TRIVIAL(error) << boost::format("[Infinium Updater]: status=%1%, error=%2%, body=%3%") % status % error % body;
         })
         .perform_sync();
 
@@ -595,7 +595,7 @@ void PresetUpdater::priv::sync_resources(std::string http_url, std::map<std::str
         boost::to_lower(resource_name);
         auto        resource_update = resource_list.find(resource_name);
         if (resource_update == resource_list.end()) {
-            BOOST_LOG_TRIVIAL(info) << "[Orca Updater]Vendor " << resource_name << " can not get setting versions online";
+            BOOST_LOG_TRIVIAL(info) << "[Infinium Updater]Vendor " << resource_name << " can not get setting versions online";
             continue;
         }
         Semver online_version = resource_update->second.version;
@@ -607,7 +607,7 @@ void PresetUpdater::priv::sync_resources(std::string http_url, std::map<std::str
             int current_cc_patch = current_version.patch()/100;
             if (online_cc_patch != current_cc_patch) {
                 version_match = false;
-                BOOST_LOG_TRIVIAL(warning) << boost::format("[Orca Updater]: online patch CC not match: online_cc_patch=%1%, current_cc_patch=%2%") % online_cc_patch % current_cc_patch;
+                BOOST_LOG_TRIVIAL(warning) << boost::format("[Infinium Updater]: online patch CC not match: online_cc_patch=%1%, current_cc_patch=%2%") % online_cc_patch % current_cc_patch;
             }
         }
         if (version_match && (current_version < online_version)) {
@@ -617,9 +617,9 @@ void PresetUpdater::priv::sync_resources(std::string http_url, std::map<std::str
             fs::path cache_path(resource.cache_root);
             std::string online_url      = resource_update->second.url;
             std::string cache_file_path = (fs::temp_directory_path() / (fs::unique_path().string() + TMP_EXTENSION)).string();
-            BOOST_LOG_TRIVIAL(info) << "[Orca Updater]Downloading resource: " << resource_name << ", version " << online_version.to_string();
+            BOOST_LOG_TRIVIAL(info) << "[Infinium Updater]Downloading resource: " << resource_name << ", version " << online_version.to_string();
             if (!get_file(online_url, cache_file_path)) {
-                BOOST_LOG_TRIVIAL(warning) << "[Orca Updater]download resource " << resource_name << " failed, url: " << online_url;
+                BOOST_LOG_TRIVIAL(warning) << "[Infinium Updater]download resource " << resource_name << " failed, url: " << online_url;
                 continue;
             }
             if (cancel) { return; }
@@ -628,24 +628,24 @@ void PresetUpdater::priv::sync_resources(std::string http_url, std::map<std::str
             if (resource.sub_caches.empty()) {
                 if (fs::exists(cache_path)) {
                     fs::remove_all(cache_path);
-                    BOOST_LOG_TRIVIAL(info) << "[Orca Updater]remove cache path " << cache_path.string();
+                    BOOST_LOG_TRIVIAL(info) << "[Infinium Updater]remove cache path " << cache_path.string();
                 }
             } else {
                 for (auto sub : resource.sub_caches) {
                     if (fs::exists(cache_path / sub)) {
                         fs::remove_all(cache_path / sub);
-                        BOOST_LOG_TRIVIAL(info) << "[Orca Updater]remove cache path " << (cache_path / sub).string();
+                        BOOST_LOG_TRIVIAL(info) << "[Infinium Updater]remove cache path " << (cache_path / sub).string();
                     }
                 }
             }
             // extract the file downloaded
-            BOOST_LOG_TRIVIAL(info) << "[Orca Updater]start to unzip the downloaded file " << cache_file_path << " to "<<cache_path;
+            BOOST_LOG_TRIVIAL(info) << "[Infinium Updater]start to unzip the downloaded file " << cache_file_path << " to "<<cache_path;
             fs::create_directories(cache_path);
             if (!extract_file(cache_file_path, cache_path)) {
-                BOOST_LOG_TRIVIAL(warning) << "[Orca Updater]extract resource " << resource_it.first << " failed, path: " << cache_file_path;
+                BOOST_LOG_TRIVIAL(warning) << "[Infinium Updater]extract resource " << resource_it.first << " failed, path: " << cache_file_path;
                 continue;
             }
-            BOOST_LOG_TRIVIAL(info) << "[Orca Updater]finished unzip the downloaded file " << cache_file_path;
+            BOOST_LOG_TRIVIAL(info) << "[Infinium Updater]finished unzip the downloaded file " << cache_file_path;
 
             // save the description to disk
             if (changelog_file.empty())
@@ -672,17 +672,17 @@ void PresetUpdater::priv::sync_resources(std::string http_url, std::map<std::str
             resource_it.second = resource_update->second;
         }
         else {
-            BOOST_LOG_TRIVIAL(warning) << boost::format("[Orca Updater]: online version=%1%, current_version=%2%, no need to download") % online_version.to_string() % current_version.to_string();
+            BOOST_LOG_TRIVIAL(warning) << boost::format("[Infinium Updater]: online version=%1%, current_version=%2%, no need to download") % online_version.to_string() % current_version.to_string();
         }
     }
 }
 
-// Orca: per-vendor config update check
+// Infinium: per-vendor config update check
 void PresetUpdater::priv::sync_vendor_config(const std::string& vendor_id)
 {
     if (!enabled_config_update) return;
 
-    BOOST_LOG_TRIVIAL(info) << "[Orca Updater] checking vendor update for " << vendor_id;
+    BOOST_LOG_TRIVIAL(info) << "[Infinium Updater] checking vendor update for " << vendor_id;
 
     auto check_cancel = [this](Http::Progress, bool &cancel_http) {
         if (cancel || vendor_check_cancel) cancel_http = true;
@@ -693,24 +693,24 @@ void PresetUpdater::priv::sync_vendor_config(const std::string& vendor_id)
         + "?vendor=" + Http::url_encode(vendor_id)
         + "&infinium_version=" + Http::url_encode(SoftFever_VERSION);
 
-    std::string online_version_str; // this represents the PROFILE VERSION, not ORCA VERSION
+    std::string online_version_str; // this represents the PROFILE VERSION, not INFINIUM VERSION
     std::string download_url_str;
     std::string changelog;
 
-    BOOST_LOG_TRIVIAL(info) << "[Orca Updater] fetching vendor update status from " << url;
+    BOOST_LOG_TRIVIAL(info) << "[Infinium Updater] fetching vendor update status from " << url;
 
     Http::get(url)
         .timeout_connect(5)
         .on_progress(check_cancel)
         .on_error([&vendor_id](std::string body, std::string error, unsigned http_status) {
-            BOOST_LOG_TRIVIAL(warning) << "[Orca Updater] vendor check HTTP error for "
+            BOOST_LOG_TRIVIAL(warning) << "[Infinium Updater] vendor check HTTP error for "
                                        << vendor_id << ": " << error;
         })
         .on_complete([&](std::string body, unsigned http_status) {
             if (http_status != 200) return;
             try {
                 json j = json::parse(body);
-                BOOST_LOG_TRIVIAL(info) << "[Orca Updater] url: " << url << " returned:" << body;
+                BOOST_LOG_TRIVIAL(info) << "[Infinium Updater] url: " << url << " returned:" << body;
 
                 if (j.contains("vendor_version") && j.contains("download_url")) {
                     online_version_str = j["vendor_version"].get<std::string>();
@@ -718,14 +718,14 @@ void PresetUpdater::priv::sync_vendor_config(const std::string& vendor_id)
                     changelog        = j.value("changelog", std::string());
                 }
             } catch (const std::exception& e) {
-                BOOST_LOG_TRIVIAL(warning) << "[Orca Updater] vendor check JSON parse failed: " << e.what();
+                BOOST_LOG_TRIVIAL(warning) << "[Infinium Updater] vendor check JSON parse failed: " << e.what();
             }
         })
         .perform_sync();
 
     if (cancel || vendor_check_cancel) return;
     if (online_version_str.empty() || download_url_str.empty()) {
-        BOOST_LOG_TRIVIAL(info) << "[Orca Updater] no update available for vendor " << vendor_id;
+        BOOST_LOG_TRIVIAL(info) << "[Infinium Updater] no update available for vendor " << vendor_id;
         return;
     }
 
@@ -737,14 +737,14 @@ void PresetUpdater::priv::sync_vendor_config(const std::string& vendor_id)
     boost::system::error_code ec;
     fs::remove_all(cache_profile_path / vendor_id, ec);
     fs::remove(cache_profile_path / (vendor_id + ".json"), ec);
-    // Orca: the OPC cache is the vendor's whole installation in one file; clear it too.
+    // Infinium: the OPC cache is the vendor's whole installation in one file; clear it too.
     fs::remove(cache_profile_path / (vendor_id + ".opc"), ec);
     // Best-effort cleanup of the legacy on-disk changelog written by older builds
     // (changelogs are now kept in memory - see vendor_changelogs).
     fs::remove(cache_profile_path / (vendor_id + ".changelog"), ec);
 
     // Download the zip
-    BOOST_LOG_TRIVIAL(info) << "[Orca Updater] downloading update for " << vendor_id
+    BOOST_LOG_TRIVIAL(info) << "[Infinium Updater] downloading update for " << vendor_id
                             << " version " << online_version_str;
     fs::path download_file = cache_path / (vendor_id + TMP_EXTENSION);
     bool download_ok = false;
@@ -753,7 +753,7 @@ void PresetUpdater::priv::sync_vendor_config(const std::string& vendor_id)
         .timeout_connect(5)
         .on_progress(check_cancel)
         .on_error([&vendor_id](std::string body, std::string error, unsigned http_status) {
-            BOOST_LOG_TRIVIAL(warning) << "[Orca Updater] download failed for " << vendor_id << ": " << error;
+            BOOST_LOG_TRIVIAL(warning) << "[Infinium Updater] download failed for " << vendor_id << ": " << error;
         })
         .on_complete([&](std::string body, unsigned http_status) {
             if (http_status != 200) return;
@@ -770,9 +770,9 @@ void PresetUpdater::priv::sync_vendor_config(const std::string& vendor_id)
 
     // Extract vendor profile bundles under ota/profiles. The downloaded zip contains
     // either the vendor json/folder or the vendor cache at its root.
-    BOOST_LOG_TRIVIAL(info) << "[Orca Updater] extracting update for " << vendor_id;
+    BOOST_LOG_TRIVIAL(info) << "[Infinium Updater] extracting update for " << vendor_id;
     if (!extract_file(download_file, cache_profile_path)) {
-        BOOST_LOG_TRIVIAL(warning) << "[Orca Updater] extraction failed for " << vendor_id;
+        BOOST_LOG_TRIVIAL(warning) << "[Infinium Updater] extraction failed for " << vendor_id;
         return;
     }
     fs::remove(download_file, ec);
@@ -787,7 +787,7 @@ void PresetUpdater::priv::sync_vendor_config(const std::string& vendor_id)
     bool is_json_update = fs::is_regular_file(cached_vendor_json) && fs::is_directory(cached_vendor_folder) && !fs::is_empty(cached_vendor_folder);
     bool is_opc_update = fs::is_regular_file(cached_vendor_opc);
     if (!is_json_update && !is_opc_update) {
-        BOOST_LOG_TRIVIAL(warning) << "[Orca Updater] rejected update for " << vendor_id
+        BOOST_LOG_TRIVIAL(warning) << "[Infinium Updater] rejected update for " << vendor_id
                                    << ": expected " << vendor_id << ".json and a non-empty "
                                    << vendor_id << " directory, or OPC update format.";
         fs::remove_all(cached_vendor_folder, ec);
@@ -800,7 +800,7 @@ void PresetUpdater::priv::sync_vendor_config(const std::string& vendor_id)
         vendor_changelogs[vendor_id] = std::move(changelog);
     }
 
-    BOOST_LOG_TRIVIAL(info) << "[Orca Updater] vendor " << vendor_id << " update cached, notifying UI";
+    BOOST_LOG_TRIVIAL(info) << "[Infinium Updater] vendor " << vendor_id << " update cached, notifying UI";
     GUI::wxGetApp().CallAfter([] {
         GUI::wxGetApp().check_config_updates_from_updater();
     });
@@ -832,7 +832,7 @@ void PresetUpdater::priv::sync_tooltip(std::string http_url, std::string languag
         }
     }
     catch (std::exception& e) {
-        BOOST_LOG_TRIVIAL(warning) << format("[Orca Updater] sync_tooltip: %1%", e.what());
+        BOOST_LOG_TRIVIAL(warning) << format("[Infinium Updater] sync_tooltip: %1%", e.what());
     }
 }
 
@@ -897,7 +897,7 @@ void PresetUpdater::priv::sync_plugins(std::string http_url, std::string plugin_
     std::string using_version = curr_version.substr(0, 9) + "00";
     auto cache_plugin_folder = cache_path / "plugins";
 
-    // Orca: drop leftovers from the old flat ota/ cache layout (pre ota/plugins) so the
+    // Infinium: drop leftovers from the old flat ota/ cache layout (pre ota/plugins) so the
     // stale files cannot linger forever after this layout migration.
     {
 #if defined(_MSC_VER) || defined(_WIN32)
@@ -971,7 +971,7 @@ void PresetUpdater::priv::sync_plugins(std::string http_url, std::string plugin_
         sync_resources(http_url, resources, true, plugin_version, "network_plugins.json");
     }
     catch (std::exception& e) {
-        BOOST_LOG_TRIVIAL(warning) << format("[Orca Updater] sync_plugins: %1%", e.what());
+        BOOST_LOG_TRIVIAL(warning) << format("[Infinium Updater] sync_plugins: %1%", e.what());
     }
 #if defined(__WINDOWS__)
     if (GUI::wxGetApp().is_running_on_arm64() && !GUI::wxGetApp().use_legacy_network_plugin()) {
@@ -986,7 +986,7 @@ void PresetUpdater::priv::sync_plugins(std::string http_url, std::string plugin_
 
     bool result = get_cached_plugins_version(cached_version, force_upgrade);
     if (result) {
-        BOOST_LOG_TRIVIAL(info) << format("[Orca Updater] found new plugins: %1%, prompt to update, force_upgrade %2%", cached_version, force_upgrade);
+        BOOST_LOG_TRIVIAL(info) << format("[Infinium Updater] found new plugins: %1%, prompt to update, force_upgrade %2%", cached_version, force_upgrade);
         if (force_upgrade) {
             auto app_config = GUI::wxGetApp().app_config;
             if (!app_config)
@@ -1050,7 +1050,7 @@ void PresetUpdater::priv::sync_printer_config(std::string http_url)
         std::map<std::string, Resource> resources{{"slicer/printer/bbl", {using_version, "", "", false, cache_folder.string()}}};
         sync_resources(http_url, resources, false, cached_version, "printer.json");
     } catch (std::exception &e) {
-        BOOST_LOG_TRIVIAL(warning) << format("[Orca Updater] sync_printer_config: %1%", e.what());
+        BOOST_LOG_TRIVIAL(warning) << format("[Infinium Updater] sync_printer_config: %1%", e.what());
     }
 
     bool result = false;
@@ -1063,7 +1063,7 @@ void PresetUpdater::priv::sync_printer_config(std::string http_url)
         }
     } catch (...) {}
     if (result) {
-        BOOST_LOG_TRIVIAL(info) << format("[Orca Updater] found new printer config: %1%, prompt to update", cached_version);
+        BOOST_LOG_TRIVIAL(info) << format("[Infinium Updater] found new printer config: %1%, prompt to update", cached_version);
         waiting_printer_updates = get_printer_config_updates(true);
         if (waiting_printer_updates.updates.size() > 0) {
             has_waiting_printer_updates = true;
@@ -1088,17 +1088,17 @@ bool PresetUpdater::priv::install_bundles_rsrc(const std::vector<std::string>& b
 }
 
 
-// Orca: copy/update the vendor profiles from resource to system folder
+// Infinium: copy/update the vendor profiles from resource to system folder
 void PresetUpdater::priv::check_installed_vendor_profiles() const
 {
-    BOOST_LOG_TRIVIAL(info) << "[Orca Updater]:Checking whether the profile from resource is newer";
+    BOOST_LOG_TRIVIAL(info) << "[Infinium Updater]:Checking whether the profile from resource is newer";
 
     AppConfig *app_config = GUI::wxGetApp().app_config;
 
     const auto enabled_vendors = app_config->vendors();
 
     std::set<std::string> bundles;
-    // Orca: always install filament library
+    // Infinium: always install filament library
     bundles.insert(PresetBundle::INFINIUM_FILAMENT_LIBRARY);
     // A vendor is named by its profile or, where the build ships preset caches
     // instead of the raw profile JSONs, by its cache alone.
@@ -1110,16 +1110,16 @@ void PresetUpdater::priv::check_installed_vendor_profiles() const
         if (is_vendor_installed(vendor_name)) {
             if (enabled_config_update) {
                 if (is_vendor_enabled) {
-                    // Orca: whichever form of the vendor resources ships at the newer
+                    // Infinium: whichever form of the vendor resources ships at the newer
                     // version is the one installing lays down, and the one to judge
                     // what is installed against.
                     Semver resource_ver = resource_vendor_version(vendor_name);
-                    // Orca: a vendor installed as a preset cache has no profile
+                    // Infinium: a vendor installed as a preset cache has no profile
                     // beside it; the version it was installed at is in the cache.
                     Semver vendor_ver = installed_vendor_version(vendor_name);
 
                     if (vendor_ver < resource_ver) {
-                        BOOST_LOG_TRIVIAL(info) << "[Orca Updater]:found vendor " << vendor_name << " newer version "
+                        BOOST_LOG_TRIVIAL(info) << "[Infinium Updater]:found vendor " << vendor_name << " newer version "
                                                 << resource_ver.to_string() << " from resource, old version " << vendor_ver.to_string();
                         bundles.insert(vendor_name);
                     }
@@ -1163,7 +1163,7 @@ Updates PresetUpdater::priv::get_printer_config_updates(bool update) const
         bool version_match = ((resc_ver.maj() == curr_ver.maj()) && (resc_ver.min() == curr_ver.min()));
 
         if (!version_match || (curr_ver < resc_ver)) {
-            BOOST_LOG_TRIVIAL(info) << "[Orca Updater]:found newer version " << resc_version << " from resource, old version " << curr_version;
+            BOOST_LOG_TRIVIAL(info) << "[Infinium Updater]:found newer version " << resc_version << " from resource, old version " << curr_version;
         } else {
             return {};
         }
@@ -1188,17 +1188,17 @@ Updates PresetUpdater::priv::get_printer_config_updates(bool update) const
 // Generates a list of bundle updates that are to be performed.
 // Version of slic3r that was running the last time and which was read out from PrusaSlicer.ini is provided
 // as a parameter.
-// Orca: OTA profile updates should be loacated in ota/profiles folder
+// Infinium: OTA profile updates should be loacated in ota/profiles folder
 Updates PresetUpdater::priv::get_config_updates(const Semver &old_slic3r_version) const
 {
 	Updates updates;
 
-	BOOST_LOG_TRIVIAL(info) << "[Orca Updater]:Checking for cached configuration updates...";
+	BOOST_LOG_TRIVIAL(info) << "[Infinium Updater]:Checking for cached configuration updates...";
     auto cache_profile_path =  cache_path / "profiles";
     if (!fs::exists(cache_profile_path))
         return updates;
 
-	// Orca (PR #130): vendor changelogs are captured in memory during
+	// Infinium (PR #130): vendor changelogs are captured in memory during
 	// sync_vendor_config()/check_new_vendors(), not written beside the cache.
 	std::unordered_map<std::string, std::string> changelogs;
 	{
@@ -1218,7 +1218,7 @@ Updates PresetUpdater::priv::get_config_updates(const Semver &old_slic3r_version
 		auto filament_in_cache = (cache_profile_path / vendor_name / PRESET_FILAMENT_NAME);
 		auto machine_in_cache = (cache_profile_path / vendor_name / PRESET_PRINTER_NAME);
 
-		// Orca (PR #130): a JSON cache entry is only meaningful next to a non-empty
+		// Infinium (PR #130): a JSON cache entry is only meaningful next to a non-empty
 		// <vendor>/ preset directory; a stray or half-downloaded <vendor>.json is
 		// skipped. An .opc cache is a single self-contained file (validated below),
 		// so this check does not apply to it.
@@ -1226,7 +1226,7 @@ Updates PresetUpdater::priv::get_config_updates(const Semver &old_slic3r_version
 			const auto vendor_folder_in_cache = cache_profile_path / vendor_name;
 			if (!fs::is_regular_file(path) || !fs::is_directory(vendor_folder_in_cache) ||
 			    fs::is_empty(vendor_folder_in_cache)) {
-				BOOST_LOG_TRIVIAL(warning) << "[Orca Updater]:ignoring invalid cached update for "
+				BOOST_LOG_TRIVIAL(warning) << "[Infinium Updater]:ignoring invalid cached update for "
 				                           << vendor_name << ": expected " << vendor_name
 				                           << ".json and a non-empty " << vendor_name << " directory";
 				continue;
@@ -1238,7 +1238,7 @@ Updates PresetUpdater::priv::get_config_updates(const Semver &old_slic3r_version
 			|| fs::exists(print_in_cache)
 			|| fs::exists(filament_in_cache)
 			|| fs::exists(machine_in_cache)) {
-			// Orca: a vendor installed as a preset cache carries its version there.
+			// Infinium: a vendor installed as a preset cache carries its version there.
 			Semver vendor_ver = installed_vendor_version(vendor_name);
 
 			Semver cache_ver;
@@ -1247,7 +1247,7 @@ Updates PresetUpdater::priv::get_config_updates(const Semver &old_slic3r_version
 			if (is_opc_file) {
 				cache_ver = VendorCacheFile::usable_version(file_path, vendor_name);
 				if (!cache_ver.valid()) {
-					BOOST_LOG_TRIVIAL(warning) << "[Orca Updater]:ignoring unreadable vendor cache " << file_path;
+					BOOST_LOG_TRIVIAL(warning) << "[Infinium Updater]:ignoring unreadable vendor cache " << file_path;
 					continue;
 				}
 			}
@@ -1266,12 +1266,12 @@ Updates PresetUpdater::priv::get_config_updates(const Semver &old_slic3r_version
 					cache_ver = *config_version;
 			}
 
-			// Orca (PR #130): changelog for this vendor was captured in memory at sync time.
+			// Infinium (PR #130): changelog for this vendor was captured in memory at sync time.
 			const auto changelog_it = changelogs.find(vendor_name);
 			std::string changelog = changelog_it != changelogs.end() ? changelog_it->second : std::string();
 
 			if (vendor_ver < cache_ver) {
-				BOOST_LOG_TRIVIAL(info) << "[Orca Updater]:need to update settings from " << vendor_ver.to_string()
+				BOOST_LOG_TRIVIAL(info) << "[Infinium Updater]:need to update settings from " << vendor_ver.to_string()
 				                        << " to newer version " << cache_ver.to_string() << ", app version " << SLIC3R_VERSION;
 				Version version;
 				version.config_version = cache_ver;
@@ -1296,7 +1296,7 @@ Updates PresetUpdater::priv::get_config_updates(const Semver &old_slic3r_version
 					    "", "", force_update, true);
 				}
 			} else {
-				BOOST_LOG_TRIVIAL(info) << "[Orca Updater]:cached settings for " << vendor_name
+				BOOST_LOG_TRIVIAL(info) << "[Infinium Updater]:cached settings for " << vendor_name
 				                        << " are not newer than installed version, installed " << vendor_ver.to_string()
 				                        << ", cached " << cache_ver.to_string();
 			}
@@ -1318,7 +1318,7 @@ bool PresetUpdater::priv::perform_updates(Updates &&updates, bool snapshot) cons
         //		_u8L("Continue and install configuration updates?")))
         //		return false;
         //}
-        BOOST_LOG_TRIVIAL(info) << format("[Orca Updater]:Deleting %1% incompatible bundles", updates.incompats.size());
+        BOOST_LOG_TRIVIAL(info) << format("[Infinium Updater]:Deleting %1% incompatible bundles", updates.incompats.size());
 
         for (auto &incompat : updates.incompats) {
             BOOST_LOG_TRIVIAL(info) << '\t' << incompat;
@@ -1332,7 +1332,7 @@ bool PresetUpdater::priv::perform_updates(Updates &&updates, bool snapshot) cons
         //		return false;
         //}
 
-        BOOST_LOG_TRIVIAL(info) << format("[Orca Updater]:Performing %1% updates", updates.updates.size());
+        BOOST_LOG_TRIVIAL(info) << format("[Infinium Updater]:Performing %1% updates", updates.updates.size());
 
         for (const auto &update : updates.updates) {
             BOOST_LOG_TRIVIAL(info) << '\t' << update;
@@ -1410,7 +1410,7 @@ void PresetUpdater::sync(std::string http_url, std::string language, std::string
 			// after the startup printer preset has been restored.
             this->p->sync_plugins(http_url, plugin_version);
             this->p->sync_printer_config(http_url);
-            // Orca (PR #130): the filament library is always installed, so refresh it
+            // Infinium (PR #130): the filament library is always installed, so refresh it
             // from the updater on every startup sync rather than deferring to check_vendor_update().
             this->p->sync_vendor_config(PresetBundle::INFINIUM_FILAMENT_LIBRARY);
 			//if (p->cancel)
@@ -1418,9 +1418,9 @@ void PresetUpdater::sync(std::string http_url, std::string language, std::string
 			//remove the tooltip currently
 			//this->p->sync_tooltip(http_url, language);
 		} catch (const std::exception &e) {
-			BOOST_LOG_TRIVIAL(error) << "[Orca Updater] background sync failed: " << e.what();
+			BOOST_LOG_TRIVIAL(error) << "[Infinium Updater] background sync failed: " << e.what();
 		} catch (...) {
-			BOOST_LOG_TRIVIAL(error) << "[Orca Updater] background sync failed with an unknown exception";
+			BOOST_LOG_TRIVIAL(error) << "[Infinium Updater] background sync failed with an unknown exception";
 		}
 	});
 }
@@ -1438,14 +1438,14 @@ void PresetUpdater::check_vendor_update(const std::string& vendor_id)
             this->p->prune_tmp(vendor_id);
             this->p->sync_vendor_config(vendor_id);
         } catch (const std::exception& e) {
-            BOOST_LOG_TRIVIAL(error) << "[Orca Updater] vendor update failed for " << vendor_id << ": " << e.what();
+            BOOST_LOG_TRIVIAL(error) << "[Infinium Updater] vendor update failed for " << vendor_id << ": " << e.what();
         } catch (...) {
-            BOOST_LOG_TRIVIAL(error) << "[Orca Updater] vendor update failed for " << vendor_id << " with an unknown exception";
+            BOOST_LOG_TRIVIAL(error) << "[Infinium Updater] vendor update failed for " << vendor_id << " with an unknown exception";
         }
     });
 }
 
-// Orca: ask the server which vendors from `system_vendors` have a profile bundle available that
+// Infinium: ask the server which vendors from `system_vendors` have a profile bundle available that
 // isn't installed yet (or is newer than what's installed). Request body maps vendor id -> currently
 // installed profile version (unknown/not-yet-installed vendors report "0.0.0"). Response maps
 // vendor id -> {version, download_url, changelog} for each vendor the server has an update for.
@@ -1470,9 +1470,9 @@ void PresetUpdater::priv::check_new_vendors(const std::set<std::string>& system_
         };
 
         json request_body = json::object();
-        BOOST_LOG_TRIVIAL(info) << "[Orca Updater] checking new vendors for:";
+        BOOST_LOG_TRIVIAL(info) << "[Infinium Updater] checking new vendors for:";
         for (const auto& vendor_id : system_vendors) {
-            // Orca: installed_vendor_version() reads whichever form the vendor is
+            // Infinium: installed_vendor_version() reads whichever form the vendor is
             // installed as - the .json profile or the .opc preset cache stamp -
             // so a cache-only vendor is not reported as version 0.0.0 and then
             // endlessly re-offered by the server.
@@ -1480,8 +1480,8 @@ void PresetUpdater::priv::check_new_vendors(const std::set<std::string>& system_
             request_body[vendor_id] = installed_ver.to_string();
             BOOST_LOG_TRIVIAL(info) << vendor_id << " (installed version " << installed_ver.to_string() << ")";
         }
-        BOOST_LOG_TRIVIAL(info) << "[Orca Updater] new vendor check request url: " << url;
-        BOOST_LOG_TRIVIAL(info) << "[Orca Updater] new vendor check request body: " << request_body.dump(2);
+        BOOST_LOG_TRIVIAL(info) << "[Infinium Updater] new vendor check request url: " << url;
+        BOOST_LOG_TRIVIAL(info) << "[Infinium Updater] new vendor check request body: " << request_body.dump(2);
 
         json response_json;
         bool got_response = false;
@@ -1492,7 +1492,7 @@ void PresetUpdater::priv::check_new_vendors(const std::set<std::string>& system_
         post.on_progress(check_cancel);
         post.header("Content-Type", "application/json");
         post.on_error([](std::string body, std::string error, unsigned http_status) {
-                BOOST_LOG_TRIVIAL(warning) << "[Orca Updater] new vendor check HTTP error: " << error;
+                BOOST_LOG_TRIVIAL(warning) << "[Infinium Updater] new vendor check HTTP error: " << error;
             })
             .on_complete([&response_json, &got_response](std::string body, unsigned http_status) {
                 if (http_status != 200)
@@ -1504,7 +1504,7 @@ void PresetUpdater::priv::check_new_vendors(const std::set<std::string>& system_
                         got_response  = true;
                     }
                 } catch (const std::exception& e) {
-                    BOOST_LOG_TRIVIAL(warning) << "[Orca Updater] new vendor check JSON parse failed: " << e.what();
+                    BOOST_LOG_TRIVIAL(warning) << "[Infinium Updater] new vendor check JSON parse failed: " << e.what();
                 }
             });
 
@@ -1550,7 +1550,7 @@ void PresetUpdater::priv::check_new_vendors(const std::set<std::string>& system_
             return;
         }
 
-        // Orca: the confirmation dialog must run on the UI thread; if confirmed, the actual
+        // Infinium: the confirmation dialog must run on the UI thread; if confirmed, the actual
         // download/install work is dispatched back onto a new background thread from there,
         // same as check_vendor_update() does for a single vendor.
         GUI::wxGetApp().CallAfter([this, candidates, callback]() {
@@ -1560,12 +1560,12 @@ void PresetUpdater::priv::check_new_vendors(const std::set<std::string>& system_
 
             GUI::MsgUpdateConfig dlg(updates_msg);
             if (dlg.ShowModal() != wxID_OK) {
-                BOOST_LOG_TRIVIAL(info) << "[Orca Updater] user declined installing new vendors";
+                BOOST_LOG_TRIVIAL(info) << "[Infinium Updater] user declined installing new vendors";
                 callback({}, true);
                 return;
             }
 
-            // Orca: the actual download runs on a background thread below (so it doesn't block the
+            // Infinium: the actual download runs on a background thread below (so it doesn't block the
             // UI), but that also means nothing visibly happens for the several seconds it can take
             // (longer still if a retry kicks in) — push a notification so it's clear work is
             // ongoing rather than looking hung.
@@ -1600,7 +1600,7 @@ void PresetUpdater::priv::check_new_vendors(const std::set<std::string>& system_
                     const std::string& download_url_str = candidate.download_url;
                     std::string        changelog         = candidate.changelog;
 
-                    BOOST_LOG_TRIVIAL(info) << "[Orca Updater] downloading new vendor " << vendor_id << " version " << candidate.version.to_string();
+                    BOOST_LOG_TRIVIAL(info) << "[Infinium Updater] downloading new vendor " << vendor_id << " version " << candidate.version.to_string();
 
                     // Clear only this vendor's cached data, same as sync_vendor_config().
                     fs::remove_all(cache_profile_path / vendor_id, ec);
@@ -1609,7 +1609,7 @@ void PresetUpdater::priv::check_new_vendors(const std::set<std::string>& system_
                     fs::path download_file = cache_path / (vendor_id + TMP_EXTENSION);
                     bool     download_ok   = false;
 
-                    // Orca: same retry pattern as Plater.cpp's project download — a single-shot
+                    // Infinium: same retry pattern as Plater.cpp's project download — a single-shot
                     // 5s connect timeout against GitHub's redirect chain is prone to transient
                     // failures (DNS/connect hiccups) that succeed a moment later, so retry a few
                     // times before giving up rather than failing the whole vendor on one blip.
@@ -1622,7 +1622,7 @@ void PresetUpdater::priv::check_new_vendors(const std::set<std::string>& system_
                             .timeout_connect(5)
                             .on_progress(check_cancel)
                             .on_error([&vendor_id, &retry_count](std::string body, std::string error, unsigned http_status) {
-                                BOOST_LOG_TRIVIAL(warning) << "[Orca Updater] download failed for new vendor " << vendor_id
+                                BOOST_LOG_TRIVIAL(warning) << "[Infinium Updater] download failed for new vendor " << vendor_id
                                                            << " (attempt " << retry_count << "/" << max_retries << "): " << error;
                             })
                             .on_complete([&](std::string body, unsigned http_status) {
@@ -1647,9 +1647,9 @@ void PresetUpdater::priv::check_new_vendors(const std::set<std::string>& system_
                         continue;
                     }
 
-                    BOOST_LOG_TRIVIAL(info) << "[Orca Updater] extracting new vendor " << vendor_id;
+                    BOOST_LOG_TRIVIAL(info) << "[Infinium Updater] extracting new vendor " << vendor_id;
                     if (!extract_file(download_file, cache_profile_path)) {
-                        BOOST_LOG_TRIVIAL(warning) << "[Orca Updater] extraction failed for new vendor " << vendor_id;
+                        BOOST_LOG_TRIVIAL(warning) << "[Infinium Updater] extraction failed for new vendor " << vendor_id;
                         fs::remove(download_file, ec);
                         failed_vendor_ids.push_back(vendor_id);
                         continue;
@@ -1660,7 +1660,7 @@ void PresetUpdater::priv::check_new_vendors(const std::set<std::string>& system_
                     const fs::path cached_vendor_folder = cache_profile_path / vendor_id;
                     if (!fs::is_regular_file(cached_vendor_json) || !fs::is_directory(cached_vendor_folder) ||
                         fs::is_empty(cached_vendor_folder)) {
-                        BOOST_LOG_TRIVIAL(warning) << "[Orca Updater] rejected new vendor " << vendor_id << ": expected " << vendor_id
+                        BOOST_LOG_TRIVIAL(warning) << "[Infinium Updater] rejected new vendor " << vendor_id << ": expected " << vendor_id
                                                    << ".json and a non-empty " << vendor_id << " directory";
                         fs::remove_all(cached_vendor_folder, ec);
                         fs::remove(cached_vendor_json, ec);
@@ -1677,7 +1677,7 @@ void PresetUpdater::priv::check_new_vendors(const std::set<std::string>& system_
                 }
 
                 if (!new_vendor_ids.empty()) {
-                    // Orca: the user already confirmed via the dialog above, so install right away
+                    // Infinium: the user already confirmed via the dialog above, so install right away
                     // instead of routing through check_config_updates_from_updater(), which only
                     // queues a passive notification (meant for the silent background per-vendor
                     // check) requiring yet another click + confirmation before anything is copied
@@ -1696,16 +1696,16 @@ void PresetUpdater::priv::check_new_vendors(const std::set<std::string>& system_
                                 filtered.updates.push_back(std::move(update));
 
                         if (filtered.updates.empty()) {
-                            BOOST_LOG_TRIVIAL(warning) << "[Orca Updater] new vendors cached but no updates detected";
+                            BOOST_LOG_TRIVIAL(warning) << "[Infinium Updater] new vendors cached but no updates detected";
                             return;
                         }
 
                         if (!perform_updates(std::move(filtered)) || !reload_configs_update_gui()) {
-                            BOOST_LOG_TRIVIAL(warning) << "[Orca Updater] failed to install new vendors";
+                            BOOST_LOG_TRIVIAL(warning) << "[Infinium Updater] failed to install new vendors";
                             return;
                         }
 
-                        BOOST_LOG_TRIVIAL(info) << "[Orca Updater] new vendors installed";
+                        BOOST_LOG_TRIVIAL(info) << "[Infinium Updater] new vendors installed";
                         for (const auto& vendor_id : new_vendor_ids) {
                             Semver cur_ver = GUI::wxGetApp().preset_bundle->get_vendor_profile_version(vendor_id);
                             GUI::wxGetApp().plater()->get_notification_manager()->push_notification(
@@ -1781,7 +1781,7 @@ PresetUpdater::UpdateResult PresetUpdater::config_update(const Semver& old_slic3
         //forced update
         if (force_update)
         {
-            BOOST_LOG_TRIVIAL(info) << format("[Orca Updater]:Force updating will start, size %1% ", updates.updates.size());
+            BOOST_LOG_TRIVIAL(info) << format("[Infinium Updater]:Force updating will start, size %1% ", updates.updates.size());
             std::vector<std::string> bundles;
             for (const auto& update : updates.updates) {
                 if (update.is_directory)
@@ -1790,13 +1790,13 @@ PresetUpdater::UpdateResult PresetUpdater::config_update(const Semver& old_slic3
             }
             bool ret = p->perform_updates(std::move(updates));
             if (!ret) {
-                BOOST_LOG_TRIVIAL(warning) << format("[Orca Updater]:perform_updates failed");
+                BOOST_LOG_TRIVIAL(warning) << format("[Infinium Updater]:perform_updates failed");
                 return R_INCOMPAT_EXIT;
             }
 
             ret = reload_configs_update_gui();
             if (!ret) {
-                BOOST_LOG_TRIVIAL(warning) << format("[Orca Updater]:reload_configs_update_gui failed");
+                BOOST_LOG_TRIVIAL(warning) << format("[Infinium Updater]:reload_configs_update_gui failed");
                 return R_INCOMPAT_EXIT;
             }
             for(auto b : bundles){
@@ -1817,7 +1817,7 @@ PresetUpdater::UpdateResult PresetUpdater::config_update(const Semver& old_slic3
             GUI::wxGetApp().plater()->get_notification_manager()->push_notification(GUI::NotificationType::PresetUpdateAvailable);
         }
         else {
-            BOOST_LOG_TRIVIAL(info) << format("[Orca Updater]:Configuration package available. size %1%, need to confirm...", p->waiting_updates.updates.size());
+            BOOST_LOG_TRIVIAL(info) << format("[Infinium Updater]:Configuration package available. size %1%, need to confirm...", p->waiting_updates.updates.size());
 
             std::vector<GUI::MsgUpdateConfig::Update> updates_msg;
             for (const auto& update : updates.updates) {
@@ -1831,14 +1831,14 @@ PresetUpdater::UpdateResult PresetUpdater::config_update(const Semver& old_slic3
 
             const auto res = dlg.ShowModal();
             if (res == wxID_OK) {
-                BOOST_LOG_TRIVIAL(debug) << "[Orca Updater]:selected yes to update";
+                BOOST_LOG_TRIVIAL(debug) << "[Infinium Updater]:selected yes to update";
                 if (! p->perform_updates(std::move(updates)) ||
                     ! reload_configs_update_gui())
                     return R_ALL_CANCELED;
                 return R_UPDATE_INSTALLED;
             }
             else {
-                BOOST_LOG_TRIVIAL(info) << "[Orca Updater]:selected no for updating";
+                BOOST_LOG_TRIVIAL(info) << "[Infinium Updater]:selected no for updating";
                 if (params == UpdateParams::FORCED_BEFORE_WIZARD && res == wxID_CANCEL)
                     return R_ALL_CANCELED;
                 return R_UPDATE_REJECT;
@@ -1847,7 +1847,7 @@ PresetUpdater::UpdateResult PresetUpdater::config_update(const Semver& old_slic3
 
         // MsgUpdateConfig will show after the notificaation is clicked
     } else {
-        BOOST_LOG_TRIVIAL(info) << "[Orca Updater]:No configuration updates available.";
+        BOOST_LOG_TRIVIAL(info) << "[Infinium Updater]:No configuration updates available.";
     }
 
 	return R_NOOP;

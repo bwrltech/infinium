@@ -135,7 +135,7 @@ struct PrintObjectTrafoAndInstances
 };
 
 // Generate a list of trafos and XY offsets for instances of a ModelObject
-// Orca: Updated to include XYZ filament shrinkage compensation
+// Infinium: Updated to include XYZ filament shrinkage compensation
 static std::vector<PrintObjectTrafoAndInstances> print_objects_from_model_object(const ModelObject &model_object, const Vec3d &shrinkage_compensation)
 {
     std::set<PrintObjectTrafoAndInstances> trafos;
@@ -144,7 +144,7 @@ static std::vector<PrintObjectTrafoAndInstances> print_objects_from_model_object
     int index = 0;
     for (ModelInstance *model_instance : model_object.instances) {
         if (model_instance->is_printable()) {
-            // Orca: Updated with XYZ filament shrinkage compensation
+            // Infinium: Updated with XYZ filament shrinkage compensation
             Geometry::Transformation model_instance_transformation = model_instance->get_transformation();
             trafo.trafo = model_instance_transformation.get_matrix_with_applied_shrinkage_compensation(shrinkage_compensation);
             
@@ -560,7 +560,7 @@ static inline bool model_volume_solid_or_modifier(const ModelVolume &mv)
 
 static inline Transform3f trafo_for_bbox(const Transform3d &object_trafo, const Transform3d &volume_trafo)
 {
-    // Orca: Keep the volume's local XY offset for multipart overlap checks, but remove the object's bed placement.
+    // Infinium: Keep the volume's local XY offset for multipart overlap checks, but remove the object's bed placement.
     Transform3d object_trafo_local = object_trafo;
     object_trafo_local.translation().x() = 0.;
     object_trafo_local.translation().y() = 0.;
@@ -1319,7 +1319,7 @@ Print::ApplyStatus Print::apply(const Model &model, DynamicPrintConfig new_full_
     //BBS: add plate index
     t_config_option_keys print_diff       = print_config_diffs(m_config, new_full_config, filament_overrides, this->m_plate_index, filament_maps,
                                                                 dynamic_slot_indices.empty() ? nullptr : &dynamic_slot_indices);
-    // Orca: filament_map_2 is engine-derived state, never a user input: the rebuild below
+    // Infinium: filament_map_2 is engine-derived state, never a user input: the rebuild below
     // recomputes it from filament_map/filament_volume_map/the variant slots on every apply
     // (all of which are diffed and invalidation-listed on their own), and the grouping
     // write-back overwrites it during process(). The incoming full config only ever carries
@@ -1417,7 +1417,7 @@ Print::ApplyStatus Print::apply(const Model &model, DynamicPrintConfig new_full_
     }
 
     //filament_map_2
-    // Orca: seed with 0-based extruder indices so the copy stays a valid slot map even when the
+    // Infinium: seed with 0-based extruder indices so the copy stays a valid slot map even when the
     // variant options are absent below and the rebuild loop is skipped (unit tests, degenerate
     // presets); the loop overwrites every entry when it runs.
     m_config.filament_map_2.values = filament_maps;
@@ -1430,14 +1430,14 @@ Print::ApplyStatus Print::apply(const Model &model, DynamicPrintConfig new_full_
     {
         ExtruderType extruder_type = (ExtruderType)(opt_extruder_type->get_at(filament_maps[index] - 1));
         NozzleVolumeType nozzle_volume_type = (NozzleVolumeType)(opt_nozzle_volume_type->get_at(filament_maps[index] - 1));
-        // Orca: honour the per-filament volume map only when a producer sized it to the filament
+        // Infinium: honour the per-filament volume map only when a producer sized it to the filament
         // count; mis-sized maps (stale project values, CLI runs until the per-filament synthesis
         // lands there) must not be indexed per filament (see
         // update_values_to_printer_extruders_for_multiple_filaments for the same guard).
         if ((extruder_volume_type_count > extruder_count) && opt_filament_volume_maps
             && opt_filament_volume_maps->values.size() == filament_maps.size())
             nozzle_volume_type = (NozzleVolumeType)(opt_filament_volume_maps->values[index]);
-        // Orca: when the process variant columns cannot be matched (degenerate
+        // Infinium: when the process variant columns cannot be matched (degenerate
         // print_extruder_id), key the override by plain extruder index like the seeding
         // above instead of poisoning the map with -1.
         int slot_index = new_full_config.get_index_for_extruder(filament_maps[index], "print_extruder_id", extruder_type, nozzle_volume_type, "print_extruder_variant");
@@ -1498,7 +1498,7 @@ Print::ApplyStatus Print::apply(const Model &model, DynamicPrintConfig new_full_
         }
     }
     else if (! print_diff.empty()) {
-        // Orca: m_config can diverge from an unchanged full config (e.g. the in-slice retract
+        // Infinium: m_config can diverge from an unchanged full config (e.g. the in-slice retract
         // override recompute writing different values than the apply-time computation). The
         // invalidation above already fired for print_diff, so repair m_config here as well;
         // otherwise the divergence is never corrected and every subsequent apply of the same
@@ -1751,7 +1751,7 @@ Print::ApplyStatus Print::apply(const Model &model, DynamicPrintConfig new_full_
         // Walk over all new model objects and check, whether there are matching PrintObjects.
         for (ModelObject *model_object : m_model.objects) {
             ModelObjectStatus &model_object_status = const_cast<ModelObjectStatus&>(model_object_status_db.reuse(*model_object));
-            // Orca: Updated for XYZ filament shrink compensation
+            // Infinium: Updated for XYZ filament shrink compensation
             model_object_status.print_instances = print_objects_from_model_object(*model_object, this->shrinkage_compensation());
             std::vector<const PrintObjectStatus*> old;
             old.reserve(print_object_status_db.count(*model_object));
@@ -1874,7 +1874,7 @@ Print::ApplyStatus Print::apply(const Model &model, DynamicPrintConfig new_full_
         m_default_object_config.apply_only(new_full_config, new_changed_keys, true);
         // Handle changes to regions config defaults
         m_default_region_config.apply_only(new_full_config, new_changed_keys, true);
-        // Orca: keep the pre-expansion snapshot in sync with this late normalization pass.
+        // Infinium: keep the pre-expansion snapshot in sync with this late normalization pass.
         // The engine map write-back rebuilds m_full_print_config from m_ori_full_print_config
         // after slicing; a stale snapshot would resurrect the un-normalized values (e.g.
         // enable_prime_tower on a single-filament print) in the dumped config and spuriously

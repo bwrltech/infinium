@@ -578,11 +578,11 @@ wxMenu* MenuFactory::append_submenu_add_generic(wxMenu* menu, ModelVolumeType ty
     return sub_menu;
 }
 
-// Orca: add submenu for adding handy models
+// Infinium: add submenu for adding handy models
 wxMenu* MenuFactory::append_submenu_add_handy_model(wxMenu* menu, ModelVolumeType type) {
     auto sub_menu = new wxMenu;
 
-    // Orca: handy models shipped under <resources>/handy_models. Defining everything in one table
+    // Infinium: handy models shipped under <resources>/handy_models. Defining everything in one table
     // keeps the menu label, the files to load and the per-model behavior in a single place and
     // avoids repeating the label strings (and the value-vs-pointer comparison pitfalls that come
     // with that). Labels are wrapped in L() so they are picked up for translation.
@@ -594,16 +594,16 @@ wxMenu* MenuFactory::append_submenu_add_handy_model(wxMenu* menu, ModelVolumeTyp
         bool                     is_stringhell        = false;
     };
     static const std::vector<HandyModel> handy_models = {
-        {L("Infinium Cube"),           {"OrcaCube_v2.drc", "OrcaPlug_v2.drc"},                    true},
-        {L("OrcaSliced Combo"),    {"OrcaSliced.3mf", "OrcaCube_v2.drc", "OrcaPlug_v2.drc"},  true},
-        {L("Infinium Badge"),          {"OrcaBadge.3mf"}},
-        {L("Infinium Tolerance Test"), {"OrcaToleranceTest.drc"}},
+        {L("Infinium Cube"),           {"InfiniumCube_v2.drc", "InfiniumPlug_v2.drc"},                    true},
+        {L("InfiniumSliced Combo"),{"InfiniumSliced.3mf", "InfiniumCube_v2.drc", "InfiniumPlug_v2.drc"},  true},
+        {L("Infinium Badge"),          {"InfiniumBadge.3mf"}},
+        {L("Infinium Tolerance Test"), {"InfiniumToleranceTest.drc"}},
         {L("3DBenchy"),            {"3DBenchy.drc"}},
         {L("Cali Cat"),            {"calicat.drc"}},
         {L("Autodesk FDM Test"),   {"ksr_fdmtest_v4.drc"}},
         {L("Voron Cube"),          {"Voron_Design_Cube_v7.drc"}},
         {L("Stanford Bunny"),      {"Stanford_Bunny.drc"}},
-        {L("Infinium String Hell"),    {"Orca_stringhell.drc"},                                   false, true},
+        {L("Infinium String Hell"),    {"Infinium_stringhell.drc"},                                   false, true},
     };
 
     for (const auto& model : handy_models) {
@@ -851,7 +851,7 @@ wxMenuItem* MenuFactory::append_menu_item_change_type(wxMenu* menu)
             }
             evt.Check(has_type);
 
-            // ORCA Fix crash caused by SVG/TEXT volumes cant be Support Enforcer/Blocker type
+            // INFINIUM Fix crash caused by SVG/TEXT volumes cant be Support Enforcer/Blocker type
             for (auto item : sels) {
                 if (model->GetItemType(item) == itVolume){
                     auto vol_idx = model->GetVolumeIdByItem(item);
@@ -1397,7 +1397,7 @@ void MenuFactory::create_default_menu()
         []() {return true; }, m_parent);
     append_submenu(&m_default_menu, sub_menu_handy, wxID_ANY, _L("Add Handy models"), "", "menu_add_part",
         []() {return true; }, m_parent);
-    append_menu_item(&m_default_menu, wxID_ANY, _L("Add Models"), "", // ORCA: Add Models
+    append_menu_item(&m_default_menu, wxID_ANY, _L("Add Models"), "", // INFINIUM: Add Models
         [](wxCommandEvent&) { plater()->add_file(); }, "menu_add_part", &m_default_menu,
         []() {return wxGetApp().plater()->can_add_model(); }, m_parent);
 
@@ -1647,7 +1647,7 @@ void MenuFactory::create_filament_action_menu(bool init, int active_filament_men
 {
     wxMenu *menu = &m_filament_action_menu;
 
-    // ORCA rebuild menu everytime instead checking existing of every item then deleting
+    // INFINIUM rebuild menu everytime instead checking existing of every item then deleting
     while (menu->GetMenuItemCount() > 0)
         menu->Destroy(menu->FindItemByPosition(0));
 
@@ -1681,15 +1681,15 @@ void MenuFactory::create_filament_action_menu(bool init, int active_filament_men
             plater()->sidebar().decompose_filament_color(kSidebarContextMenuFilamentId); }, "", nullptr,
         []() { return plater()->sidebar().combos_filament().size() >= 2; }, m_parent);
 
-    menu->AppendSeparator(); // ORCA use seperator for reducing accidental clicks to delete
+    menu->AppendSeparator(); // INFINIUM use seperator for reducing accidental clicks to delete
 
-    // ORCA use delete item on end of menu to prevent accidental clicks. clicking to submenus(merge) already not allowed by OS
+    // INFINIUM use delete item on end of menu to prevent accidental clicks. clicking to submenus(merge) already not allowed by OS
     append_menu_item(
         menu, wxID_ANY, _L("Delete"), _L("Delete this filament"), [](wxCommandEvent&) {
             plater()->sidebar().delete_filament(-2); }, "", nullptr,
         []() {
             return plater()->sidebar().combos_filament().size() > 1
-                // Orca: only show delete filament option for SEMM machines unless is BBL
+                // Infinium: only show delete filament option for SEMM machines unless is BBL
                 && Sidebar::should_show_SEMM_buttons();
         }, m_parent);
 }
@@ -1784,7 +1784,7 @@ void MenuFactory::create_plate_menu()
         []() {return true; }, m_parent);
     append_submenu(menu, sub_menu_handy, wxID_ANY, _L("Add Handy models"), "", "menu_add_part",
         []() {return true; }, m_parent);
-    append_menu_item(menu, wxID_ANY, _L("Add Models"), "", // ORCA: Add Models
+    append_menu_item(menu, wxID_ANY, _L("Add Models"), "", // INFINIUM: Add Models
         [](wxCommandEvent&) { plater()->add_file(); }, "menu_add_part", menu,
         []() {return wxGetApp().plater()->can_add_model(); }, m_parent);
 

@@ -579,7 +579,7 @@ void GuideFrame::OnScriptMessage(wxWebViewEvent &evt)
                 wxString strJS = wxString::Format("HandleStudio(%s)", response.dump(-1, ' ', true));
                 wxGetApp().CallAfter([this, strJS] { RunScript(strJS); });
             } else {
-                // Orca: enumerate vendors directly from disk rather than from m_ProfileJson["model"]
+                // Infinium: enumerate vendors directly from disk rather than from m_ProfileJson["model"]
                 // — a vendor with no machine models (e.g. a filament-only bundle, or a test fixture
                 // like "test123" with an empty machine_model_list) never gets a "vendor" entry
                 // pushed into "model" by LoadProfileFamily(), so it would be invisible to the
@@ -595,7 +595,7 @@ void GuideFrame::OnScriptMessage(wxWebViewEvent &evt)
                             system_vendors.insert(entry.path().stem().string());
                     }
                 }
-                // Orca: check_new_vendors() is async (network + confirmation dialog + download
+                // Infinium: check_new_vendors() is async (network + confirmation dialog + download
                 // all happen off the calling thread apart from the dialog itself); guard against
                 // this dialog being closed before the callback fires.
                 wxWeakRef<GuideFrame> weak_this(this);
@@ -605,7 +605,7 @@ void GuideFrame::OnScriptMessage(wxWebViewEvent &evt)
                             if (!weak_this)
                                 return;
 
-                            // Orca: append the newly installed vendor(s) into the in-memory
+                            // Infinium: append the newly installed vendor(s) into the in-memory
                             // profile data (instead of a full LoadProfileData() rescan of every
                             // vendor) and push the refreshed list to the webview, the same way
                             // request_userguide_profile does, so the printer list picks them up
@@ -989,7 +989,7 @@ bool GuideFrame::apply_config(AppConfig *app_config, PresetBundle *preset_bundle
             variant.clear();
         return std::string();
     };
-    // Orca "custom" printers are considered first, then 3rd party.
+    // Infinium "custom" printers are considered first, then 3rd party.
     if (preferred_model = get_preferred_printer_model(PresetBundle::INFINIUM_DEFAULT_BUNDLE, preferred_variant);
         preferred_model.empty()) {
         for (const auto& bundle : enabled_vendors) {
@@ -1011,7 +1011,7 @@ bool GuideFrame::apply_config(AppConfig *app_config, PresetBundle *preset_bundle
     // Not switch filament
     //get_first_added_material_preset(AppConfig::SECTION_FILAMENTS, first_added_filament);
 
-    // ORCA: functionality moved to PresetBundle::apply_vendor_config; keeping for future reference
+    // INFINIUM: functionality moved to PresetBundle::apply_vendor_config; keeping for future reference
     // // For each @System filament, check if a vendor-specific override exists
     // // in the loaded profiles. If so, replace the @System variant with the
     // // override (e.g. replace "Generic ABS @System" with BBL "Generic ABS").

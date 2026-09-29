@@ -978,7 +978,7 @@ def check_preset_name_uniqueness(profiles_dir, vendor):
 def check_filament_compatible_printers(profiles_dir, vendor):
     """Every instantiated filament preset must declare a non-empty compatible_printers.
 
-    Orca resolves compatible_printers from the preset itself; inheriting it is not
+    Infinium resolves compatible_printers from the preset itself; inheriting it is not
     supported on the Profile page. In the InfiniumFilamentLibrary it is optional instead:
     a profile without it is generic and offered on every printer, while one that
     lists printers supersedes the generic profile there.
@@ -1998,7 +1998,7 @@ def _walk_json(directory):
 
 
 def _profile_subdir(profile_type):
-    """The directory a profile type lives in: Orca keeps machine models in machine/."""
+    """The directory a profile type lives in: Infinium keeps machine models in machine/."""
     return "machine" if profile_type == "machine_model" else profile_type
 
 

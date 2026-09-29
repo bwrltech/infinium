@@ -310,7 +310,7 @@ void host_bindings::register_slicing(py::module_& host)
         }, "Support layers as [Layer] (support-specific fields are not exposed).")
         .def("model_object", [](PrintObject& o) -> py::object {
             // The Print's model SNAPSHOT (worker-thread stable), reusing the
-            // orca.host.ModelObject bindings — mesh access for slicing plugins.
+            // infinium.host.ModelObject bindings — mesh access for slicing plugins.
             // o is non-const here, so model_object() already returns a non-const ModelObject*.
             return py::cast(o.model_object(), py::return_value_policy::reference);
         }, "The source orca.host.ModelObject from the Print's own model snapshot.")

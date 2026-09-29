@@ -233,7 +233,7 @@ struct SurfaceFillParams
     coordf_t    	overlap = 0.;
     // Angle as provided by the region config, in radians.
     float       	angle = 0.f;
-    // Orca: fixed_angle
+    // Infinium: fixed_angle
     bool        fixed_angle = false;
     // Is bridging used for this fill? Bridging parameters may be used even if this->flow.bridge() is not set.
     bool 			bridge;
@@ -278,13 +278,13 @@ struct SurfaceFillParams
     // For Gyroid: when true, use the parameterized "optimized" wave.
     bool gyroid_optimized = false;
 
-    // Orca: corner smoothing factor in the range [0, 1].
+    // Infinium: corner smoothing factor in the range [0, 1].
     double      smooth_factor { 0. };
 
     CenterOfSurfacePattern center_of_surface_pattern{CenterOfSurfacePattern::Each_Surface};
     bool                   separated_infills{false};
 
-    // Orca: forced print order of surface fill loops/fragments for center-based patterns.
+    // Infinium: forced print order of surface fill loops/fragments for center-based patterns.
     SurfaceFillOrder fill_order = SurfaceFillOrder::Default;
 
 	bool operator<(const SurfaceFillParams &rhs) const {
@@ -626,7 +626,7 @@ void split_solid_surface(size_t layer_id, const SurfaceFill &fill, ExPolygons &n
         fill.params.pattern == ipRectilinear || fill.params.pattern == ipMonotonic ||
         fill.params.pattern == ipMonotonicLine || fill.params.pattern == ipAlignedRectilinear;
 
-    // ORCA: For non-line patterns, split by a geometric "core" so only thin areas get rerouted.
+    // INFINIUM: For non-line patterns, split by a geometric "core" so only thin areas get rerouted.
     if (!line_based_pattern) {
         const coord_t scaled_spacing = scaled<coord_t>(fill.params.spacing);
 
@@ -948,7 +948,7 @@ std::vector<SurfaceFill> group_fills(const Layer &layer, LockRegionParam &lock_p
                     params.extruder = region_config.bottom_surface_filament_id;
                 else if (params.extrusion_role == erSolidInfill)
                     params.extruder = region_config.internal_solid_filament_id;
-                // Orca: forced fill order applies only to top/bottom surfaces filled with a
+                // Infinium: forced fill order applies only to top/bottom surfaces filled with a
                 // center-based pattern; everything else stays at Default to keep batching together.
                 if (params.pattern == ipConcentric || params.pattern == ipSpiralInset || params.pattern == ipArchimedeanChords || params.pattern == ipOctagramSpiral) {
                     if (params.extrusion_role == erTopSolidInfill)
@@ -956,7 +956,7 @@ std::vector<SurfaceFill> group_fills(const Layer &layer, LockRegionParam &lock_p
                     else if (params.extrusion_role == erBottomSurface)
                         params.fill_order = region_config.bottom_surface_fill_order.value;
                 }
-                // Orca: apply fill multiline only for sparse infill
+                // Infinium: apply fill multiline only for sparse infill
                 params.multiline = params.extrusion_role == erInternalInfill ? int(region_config.fill_multiline) : 1;
 
                 // Pass through gyroid_optimized only when the effective pattern is Gyroid,
@@ -970,7 +970,7 @@ std::vector<SurfaceFill> group_fills(const Layer &layer, LockRegionParam &lock_p
                                                                    region_config.sparse_infill_rotate_template.value);
                     params.fixed_angle = !region_config.sparse_infill_rotate_template.value.empty();
 
-                    // Orca: the smoothing factor only applies to the sparse infill patterns that
+                    // Infinium: the smoothing factor only applies to the sparse infill patterns that
                     // implement it. The fills clamp and validate the value themselves.
                     if (is_smoothable_infill_pattern(params.pattern, params.multiline))
                         params.smooth_factor = 0.01 * region_config.sparse_infill_smooth_factor.value;
@@ -988,7 +988,7 @@ std::vector<SurfaceFill> group_fills(const Layer &layer, LockRegionParam &lock_p
                 }
                 params.bridge_angle = float(surface.bridge_angle);
 
-                // ORCA: Align infill angle to model
+                // INFINIUM: Align infill angle to model
                 float align_offset = 0.f;
                 if (region_config.align_infill_direction_to_model) {
                     auto m = layer.object()->trafo().matrix();
@@ -1000,7 +1000,7 @@ std::vector<SurfaceFill> group_fills(const Layer &layer, LockRegionParam &lock_p
 		        params.bridge = is_bridge || Fill::use_bridge_flow(params.pattern);
                 const bool is_thick_bridge = surface.is_bridge() && (surface.is_internal_bridge() ? object_config.thick_internal_bridges : object_config.thick_bridges);
 				params.flow   = params.bridge ?
-					//Orca: enable thick bridge based on config
+					//Infinium: enable thick bridge based on config
 					layerm.bridging_flow(extrusion_role, is_thick_bridge) :
 					layerm.flow(extrusion_role, (surface.thickness == -1) ? layer.height : surface.thickness);
 
@@ -1234,7 +1234,7 @@ std::vector<SurfaceFill> group_fills(const Layer &layer, LockRegionParam &lock_p
 	return surface_fills;
 }
 
-// Orca: Anchors and printed infill must share the same body origin. Keep the choice
+// Infinium: Anchors and printed infill must share the same body origin. Keep the choice
 // here so per-model surface centering and separated sparse infill cannot drift apart.
 static BoundingBox infill_bounding_box(const Layer &layer, const SurfaceFill &fill, const ExPolygon &expoly, BoundingBox bbox)
 {
@@ -1378,10 +1378,10 @@ void Layer::make_fills(FillAdaptive::Octree* adaptive_fill_octree, FillAdaptive:
         params.pattern              = surface_fill.params.pattern;
         params.fill_order           = surface_fill.params.fill_order;
 
-        // Orca: Checking the filling of a centered surface by drawing for each model parts
+        // Infinium: Checking the filling of a centered surface by drawing for each model parts
         bool is_top_or_bottom = params.extrusion_role == erTopSolidInfill || params.extrusion_role == erBottomSurface;
         if (is_top_or_bottom) {
-            params.center_of_surface_pattern = surface_fill.params.center_of_surface_pattern; // Orca: center of surface pattern
+            params.center_of_surface_pattern = surface_fill.params.center_of_surface_pattern; // Infinium: center of surface pattern
         }
         if( surface_fill.params.pattern == ipLockedZag ) {
 			params.locked_zag = true;
@@ -1406,7 +1406,7 @@ void Layer::make_fills(FillAdaptive::Octree* adaptive_fill_octree, FillAdaptive:
 			params.can_reverse = false;
 		for (ExPolygon& expoly : surface_fill.expolygons) {
 
-            // Orca: Reuse the body origin used for bridge anchoring, resetting it for each surface.
+            // Infinium: Reuse the body origin used for bridge anchoring, resetting it for each surface.
             f->set_bounding_box(infill_bounding_box(*this, surface_fill, expoly, bbox));
 
             f->no_overlap_expolygons = intersection_ex(surface_fill.no_overlap_expolygons, ExPolygons() = {expoly}, ApplySafetyOffset::Yes);
@@ -1427,7 +1427,7 @@ void Layer::make_fills(FillAdaptive::Octree* adaptive_fill_octree, FillAdaptive:
                 params.density = f->print_object_config->internal_bridge_density.get_abs_value(1.0);
                 params.dont_adjust = true;
             }
-            // Orca: Elephant foot compensation for solid layers above bottommost by infill density manipulation.
+            // Infinium: Elephant foot compensation for solid layers above bottommost by infill density manipulation.
             float elefant_density = f->print_object_config->elefant_foot_layers_density.get_abs_value(1.0);
             if (!is_approx(elefant_density, 1.0f) && surface_fill.surface.is_solid_infill()) {
                 size_t elefant_layers = f->print_object_config->elefant_foot_compensation_layers.value;
@@ -1574,13 +1574,13 @@ Polylines Layer::generate_sparse_infill_polylines_for_anchoring(FillAdaptive::Oc
         params.multiline         = surface_fill.params.multiline;
         params.gyroid_optimized          = surface_fill.params.gyroid_optimized;
         params.smooth_factor             = surface_fill.params.smooth_factor;
-        // Orca: Match make_fills() when choosing the origin of plane-path patterns.
+        // Infinium: Match make_fills() when choosing the origin of plane-path patterns.
         // Without the sparse extrusion role, the filler uses each surface's bounds
         // instead of the object's bounds, so bridge anchors shift away from printed infill.
         params.extrusion_role            = surface_fill.params.extrusion_role;
 
         for (ExPolygon &expoly : surface_fill.expolygons) {
-            // Orca: Match the per-body origin of make_fills() before generating physical anchors.
+            // Infinium: Match the per-body origin of make_fills() before generating physical anchors.
             f->set_bounding_box(infill_bounding_box(*this, surface_fill, expoly, bbox));
             // Spacing is modified by the filler to indicate adjustments. Reset it for each expolygon.
             f->spacing                     = surface_fill.params.spacing;
@@ -1690,7 +1690,7 @@ void Layer::make_ironing()
 			if (ironing_params.extruder != -1) {
 				//TODO just_infill is currently not used.
 				ironing_params.just_infill 	= false;
-				// ORCA: Get filament-specific overrides if configured, otherwise use process values
+				// INFINIUM: Get filament-specific overrides if configured, otherwise use process values
 				size_t extruder_idx = ironing_params.extruder - 1;
 				ironing_params.line_spacing = (!config.filament_ironing_spacing.is_nil(extruder_idx)
 					? config.filament_ironing_spacing.get_at(extruder_idx)

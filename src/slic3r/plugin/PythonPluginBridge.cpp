@@ -107,7 +107,7 @@ void PythonPluginBridge::begin_plugin_capture(const std::string& plugin_key)
         g_pending_package.erase(plugin_key);
         g_pending_fs_read_permissions.erase(plugin_key);
     }
-    // From now until finalize/cancel, @orca.plugin and register_capability() calls made by
+    // From now until finalize/cancel, @infinium.plugin and register_capability() calls made by
     // Python code on this thread are attributed to this plugin.
     g_active_plugin_key = plugin_key;
 }
@@ -124,7 +124,7 @@ std::vector<CapturedCapability> PythonPluginBridge::finalize_plugin_capture(cons
     BOOST_LOG_TRIVIAL(info) << "Finalizing Python plugin capture for key " << capture_key;
 
     // Phase 1: run the package class's register_capabilities() while the active key is
-    // still set. That method is expected to call orca.register_capability() once per
+    // still set. That method is expected to call infinium.register_capability() once per
     // capability class, and register_capability() needs g_active_plugin_key to know which
     // pending bucket to append to.
     {
@@ -140,7 +140,7 @@ std::vector<CapturedCapability> PythonPluginBridge::finalize_plugin_capture(cons
         };
 
         try {
-            // The @orca.plugin decorator records the package class during module import.
+            // The @infinium.plugin decorator records the package class during module import.
             // Move it into a local py::object and remove it from the pending map so the
             // registry no longer owns it once finalization starts.
             py::object package_cls;
@@ -252,7 +252,7 @@ std::vector<CapturedCapability> PythonPluginBridge::finalize_plugin_capture(cons
                 return {};
             }
 
-            // This is a registered capability, not the transient orca.base package.
+            // This is a registered capability, not the transient infinium.base package.
             // get_name() is required on capabilities and is cached for preset lookup.
             std::string name = capability_iface->get_name();
 
@@ -391,7 +391,7 @@ void bind_python_api(pybind11::module_& m)
         .def_static("skipped", &ExecutionResult::skipped, py::arg("message") = std::string())
         .def_static("failure", &ExecutionResult::failure, py::arg("status"), py::arg("message"), py::arg("data") = std::string());
 
-    // Config lives at the capability level, not as a global orca.* function: the host reads the
+    // Config lives at the capability level, not as a global infinium.* function: the host reads the
     // owning (plugin_key, capability) straight off the instance the call arrived on, so a
     // capability can only ever address its own config and never has to name itself.
     // Registered on the base, so every capability type (script/gcode/printer-agent) inherits it.
@@ -449,7 +449,7 @@ void bind_python_api(pybind11::module_& m)
             "The plugin key, capability name and version are supplied by the host. Returns False if\n"
             "the string is not valid JSON, or if the config file could not be written.");
 
-    // Expose the package marker base as orca.base. @orca.plugin later verifies that the
+    // Expose the package marker base as infinium.base. @infinium.plugin later verifies that the
     // decorated class derives from this exact pybind-registered C++ type.
     py::class_<PyPluginPackage, PyPluginPackageTrampoline>(m, "base")
         .def(py::init<>())

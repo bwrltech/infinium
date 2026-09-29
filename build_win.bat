@@ -794,8 +794,8 @@ REM worked out the same way in either run.
 :summary
     for %%p in ("!DEP_TREE!") do set "dep_full=%%~fp"
     REM The binary only leaves the build tree when it is installed.
-    set "slicer_exe=%build_dir%\src\%build_type%\orca-slicer.exe"
-    if "%install_slicer%" == "ON" set "slicer_exe=%build_dir%\Infinium\orca-slicer.exe"
+    set "slicer_exe=%build_dir%\src\%build_type%\infinium-slicer.exe"
+    if "%install_slicer%" == "ON" set "slicer_exe=%build_dir%\Infinium\infinium-slicer.exe"
     for %%p in ("!slicer_exe!") do set "slicer_full=%%~fp"
     REM The 2026 generator writes Infinium.slnx, the releases before it
     REM Infinium.sln. A file already there wins, in case an older CMake

@@ -342,7 +342,7 @@ public:
             }
             if (double dist_to_go = slicing_params.object_print_z_min - z; dist_to_go > EPSILON) {
                 // Layers between the raft contacts and bottom of the object.
-                // ORCA: Bias by EPSILON so near-equal gaps do not get an extra split from FP noise.
+                // INFINIUM: Bias by EPSILON so near-equal gaps do not get an extra split from FP noise.
                 auto nsteps = int(ceil((dist_to_go - EPSILON) / slicing_params.max_suport_layer_height));
                 double step = dist_to_go / nsteps;
                 for (int i = 0; i < nsteps; ++ i) {
@@ -619,7 +619,7 @@ inline double first_object_support_layer_z(const SlicingParameters &slicing_para
     return slicing_params.object_print_z_min + slicing_params.first_object_layer_height;
 }
 
-// Orca: Reverse layer_z() for support layers below the first object layer.
+// Infinium: Reverse layer_z() for support layers below the first object layer.
 // config.raft_layers may include raft/contact/intermediate support Zs, so do not collapse them to the first object support layer.
 // Lowest collision layer
 inline LayerIndex layer_idx_ceil(const SlicingParameters &slicing_params, const TreeSupportSettings &config, const double z)
@@ -733,7 +733,7 @@ public:
     {
         assert(support_parameters.has_top_contacts);
         assert(dtt_roof <= support_parameters.num_top_interface_layers);
-        // ORCA: Reserve one top interface layer but only when top base-interface layers exist.
+        // INFINIUM: Reserve one top interface layer but only when top base-interface layers exist.
         // This prevents all interface layers from being classified as base-interface layers
         // and preserves correct top contact and interface behavior.
         size_t interface_threshold = support_parameters.num_top_interface_layers_only();

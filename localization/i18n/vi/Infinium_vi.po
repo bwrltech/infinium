@@ -1340,7 +1340,7 @@ msgid "Operation"
 msgstr "Thao tác"
 
 #. TRN EmbossOperation
-#. ORCA
+#. INFINIUM
 msgid "Join"
 msgstr "Nối"
 
@@ -2726,8 +2726,8 @@ msgid "Infinium Cube"
 msgstr "Infinium Cube"
 
 # AI Translated
-msgid "OrcaSliced Combo"
-msgstr "OrcaSliced Combo"
+msgid "InfiniumSliced Combo"
+msgstr "InfiniumSliced Combo"
 
 # AI Translated
 msgid "Infinium Badge"
@@ -6939,8 +6939,8 @@ msgid "Select profile to load:"
 msgstr "Chọn hồ sơ để tải:"
 
 # AI Translated
-msgid "Config files (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
-msgstr "File cấu hình (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
+msgid "Config files (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
+msgstr "File cấu hình (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
 
 #, c-format, boost-format
 msgid "There is %d config imported. (Only non-system and compatible configs)"
@@ -20776,11 +20776,11 @@ msgstr "\n\nInfinium đã phát hiện rằng chức năng đồng bộ hóa cà
 msgid "Printer Setting"
 msgstr "Cài đặt máy in"
 
-msgid "Printer config bundle(.orca_printer)"
-msgstr "Gói cấu hình máy in(.orca_printer)"
+msgid "Printer config bundle(.infinium_printer)"
+msgstr "Gói cấu hình máy in(.infinium_printer)"
 
-msgid "Filament bundle(.orca_filament)"
-msgstr "Gói filament(.orca_filament)"
+msgid "Filament bundle(.infinium_filament)"
+msgstr "Gói filament(.infinium_filament)"
 
 msgid "Printer presets(.zip)"
 msgstr "Cài đặt sẵn máy in(.zip)"
@@ -22837,8 +22837,8 @@ msgstr ""
 "Bạn có biết rằng khi in vật liệu dễ cong vênh như ABS, tăng nhiệt độ bàn nóng một cách thích hợp có thể giảm xác suất cong vênh không?"
 
 # AI Translated
-#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart OrcaSlicer."
-#~ msgstr "Xem trực tiếp trên Wayland thuần cần GStreamer GTK video sink. Vui lòng cài đặt plugin gtksink cho GStreamer, sau đó khởi động lại OrcaSlicer."
+#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart Infinium."
+#~ msgstr "Xem trực tiếp trên Wayland thuần cần GStreamer GTK video sink. Vui lòng cài đặt plugin gtksink cho GStreamer, sau đó khởi động lại Infinium."
 
 # AI Translated
 #~ msgid "Failed to initialize the native Wayland GStreamer video sink. Please check your GStreamer GTK plugin installation."
@@ -22850,14 +22850,14 @@ msgstr ""
 #~ msgid "BambuSource has not correctly been registered for media playing! Press Yes to re-register it. You will be promoted twice"
 #~ msgstr "BambuSource chưa được đăng ký chính xác để phát media! Nhấn Có để đăng ký lại. Bạn sẽ được nhắc hai lần"
 
-#~ msgid "Missing BambuSource component registered for media playing! Please re-install OrcaSlicer or seek community help."
-#~ msgstr "Thiếu thành phần BambuSource đã đăng ký để phát media! Vui lòng cài đặt lại OrcaSlicer hoặc tìm kiếm sự giúp đỡ từ cộng đồng."
+#~ msgid "Missing BambuSource component registered for media playing! Please re-install Infinium or seek community help."
+#~ msgstr "Thiếu thành phần BambuSource đã đăng ký để phát media! Vui lòng cài đặt lại Infinium hoặc tìm kiếm sự giúp đỡ từ cộng đồng."
 
 #~ msgid "Using a BambuSource from a different install, video play may not work correctly! Press Yes to fix it."
 #~ msgstr "Đang sử dụng BambuSource từ cài đặt khác, phát video có thể không hoạt động đúng! Nhấn Có để sửa nó."
 
-#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Orca Slicer?)"
-#~ msgstr "Hệ thống của bạn thiếu codec H.264 cho GStreamer, cần thiết để phát video. (Hãy thử cài đặt gói gstreamer1.0-plugins-bad hoặc gstreamer1.0-libav, sau đó khởi động lại Orca Slicer?)"
+#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Infinium?)"
+#~ msgstr "Hệ thống của bạn thiếu codec H.264 cho GStreamer, cần thiết để phát video. (Hãy thử cài đặt gói gstreamer1.0-plugins-bad hoặc gstreamer1.0-libav, sau đó khởi động lại Infinium?)"
 
 # AI Translated
 #~ msgid "N"
@@ -22918,8 +22918,8 @@ msgstr ""
 #~ msgstr "Hotend"
 
 # TODO: Review, changed by lang refactor. PR 14254
-#~ msgid "Click OK to update the Network plug-in the next time Orca Slicer launches."
-#~ msgstr "Nhấp OK để cập nhật plug-in mạng khi Orca Slicer khởi động lần sau."
+#~ msgid "Click OK to update the Network plug-in the next time Infinium launches."
+#~ msgstr "Nhấp OK để cập nhật plug-in mạng khi Infinium khởi động lần sau."
 
 # TODO: Review, changed by lang refactor. PR 14254
 #, boost-format
@@ -23275,8 +23275,8 @@ msgstr ""
 #~ msgid "Object/Part Setting"
 #~ msgstr "Cài đặt vật thể/phần"
 
-#~ msgid "OrcaSlicer is based on BambuStudio, PrusaSlicer, and SuperSlicer."
-#~ msgstr "OrcaSlicer dựa trên BambuStudio, PrusaSlicer, và SuperSlicer."
+#~ msgid "Infinium is based on BambuStudio, PrusaSlicer, and SuperSlicer."
+#~ msgstr "Infinium dựa trên BambuStudio, PrusaSlicer, và SuperSlicer."
 
 #~ msgid "BambuStudio is originally based on PrusaSlicer by PrusaResearch."
 #~ msgstr "BambuStudio ban đầu dựa trên PrusaSlicer của PrusaResearch."
@@ -23305,14 +23305,14 @@ msgstr ""
 #~ msgid "Flow ratio test - Pass 2"
 #~ msgstr "Kiểm tra Tỷ lệ lưu lượng - Lần 2"
 
-#~ msgid "Orca YOLO flowratio calibration, 0.01 step"
-#~ msgstr "Hiệu chỉnh Tỷ lệ lưu lượng Orca YOLO, bước 0.01"
+#~ msgid "Infinium YOLO flowratio calibration, 0.01 step"
+#~ msgstr "Hiệu chỉnh Tỷ lệ lưu lượng Infinium YOLO, bước 0.01"
 
 #~ msgid "YOLO (perfectionist version)"
 #~ msgstr "YOLO (phiên bản cầu toàn)"
 
-#~ msgid "Orca YOLO flowratio calibration, 0.005 step"
-#~ msgstr "Hiệu chỉnh Tỷ lệ lưu lượng Orca YOLO, bước 0.005"
+#~ msgid "Infinium YOLO flowratio calibration, 0.005 step"
+#~ msgstr "Hiệu chỉnh Tỷ lệ lưu lượng Infinium YOLO, bước 0.005"
 
 #~ msgid "Retraction test"
 #~ msgstr "Kiểm tra retraction"
@@ -23347,8 +23347,8 @@ msgstr ""
 #~ msgid "Right nozzle: %smm"
 #~ msgstr "Right nozzle: %smm"
 
-#~ msgid "\"Fix Model\" feature is currently only on Windows. Please repair the model on Orca Slicer(windows) or CAD softwares."
-#~ msgstr "Tính năng \"Sửa model\" hiện chỉ có trên Windows. Vui lòng sửa model trên Orca Slicer(windows) hoặc phần mềm CAD."
+#~ msgid "\"Fix Model\" feature is currently only on Windows. Please repair the model on Infinium(windows) or CAD softwares."
+#~ msgstr "Tính năng \"Sửa model\" hiện chỉ có trên Windows. Vui lòng sửa model trên Infinium(windows) hoặc phần mềm CAD."
 
 #~ msgid "This stops the transmission of data to Bambu's cloud services. Users who don't use BBL machines or use LAN mode only can safely turn on this function."
 #~ msgstr "Điều này dừng truyền dữ liệu đến dịch vụ đám mây của Bambu. Người dùng không sử dụng máy BBL hoặc chỉ sử dụng chế độ LAN có thể bật chức năng này một cách an toàn."
@@ -23778,8 +23778,8 @@ msgstr ""
 #~ msgid "Resync"
 #~ msgstr "Đồng bộ lại"
 
-#~ msgid "There are some unknown filaments mapped to generic preset. Please update Orca Slicer or restart Orca Slicer to check if there is an update to system presets."
-#~ msgstr "Có một số filament không xác định được ánh xạ vào preset chung. Vui lòng cập nhật Orca Slicer hoặc khởi động lại Orca Slicer để kiểm tra xem có cập nhật preset hệ thống không."
+#~ msgid "There are some unknown filaments mapped to generic preset. Please update Infinium or restart Infinium to check if there is an update to system presets."
+#~ msgstr "Có một số filament không xác định được ánh xạ vào preset chung. Vui lòng cập nhật Infinium hoặc khởi động lại Infinium để kiểm tra xem có cập nhật preset hệ thống không."
 
 #~ msgid ""
 #~ "Are you sure you want to store original SVGs with their local paths into the 3MF file?\n"
@@ -23797,8 +23797,8 @@ msgstr ""
 #~ msgid "Login Region"
 #~ msgstr "Khu vực đăng nhập"
 
-#~ msgid "Use legacy network plugin (Takes effect after restarting Orca)"
-#~ msgstr "Sử dụng plugin mạng cũ (Có hiệu lực sau khi khởi động lại Orca)"
+#~ msgid "Use legacy network plugin (Takes effect after restarting Infinium)"
+#~ msgstr "Sử dụng plugin mạng cũ (Có hiệu lực sau khi khởi động lại Infinium)"
 
 #~ msgid "Default Page"
 #~ msgstr "Trang mặc định"
@@ -23824,8 +23824,8 @@ msgstr ""
 #~ msgid "Show the step mesh parameter setting dialog."
 #~ msgstr "Hiển thị hộp thoại cài đặt tham số mesh step."
 
-#~ msgid "Multi-device Management (Take effect after restarting Orca Slicer)."
-#~ msgstr "Quản lý nhiều thiết bị (Có hiệu lực sau khi khởi động lại Orca Slicer)."
+#~ msgid "Multi-device Management (Take effect after restarting Infinium)."
+#~ msgstr "Quản lý nhiều thiết bị (Có hiệu lực sau khi khởi động lại Infinium)."
 
 #~ msgid "Auto arrange plate after object cloning"
 #~ msgstr "Tự động sắp xếp bản sau khi nhân bản đối tượng"
@@ -23839,8 +23839,8 @@ msgstr ""
 #~ msgid "System Sync"
 #~ msgstr "Đồng bộ hệ thống"
 
-#~ msgid "Associate URLs to OrcaSlicer"
-#~ msgstr "Liên kết URL với OrcaSlicer"
+#~ msgid "Associate URLs to Infinium"
+#~ msgstr "Liên kết URL với Infinium"
 
 #~ msgid "Load Behaviour"
 #~ msgstr "Hành vi tải"
@@ -23969,8 +23969,8 @@ msgstr ""
 #~ msgid "Auto-Calc"
 #~ msgstr "Tính tự động"
 
-#~ msgid "Orca would re-calculate your flushing volumes every time the filaments color changed. You could disable the auto-calculate in Orca Slicer > Preferences"
-#~ msgstr "Orca sẽ tính lại khối lượng xả của bạn mỗi khi màu filament thay đổi. Bạn có thể tắt tính toán tự động trong Orca Slicer > Tùy chọn"
+#~ msgid "Infinium would re-calculate your flushing volumes every time the filaments color changed. You could disable the auto-calculate in Infinium > Preferences"
+#~ msgstr "Infinium sẽ tính lại khối lượng xả của bạn mỗi khi màu filament thay đổi. Bạn có thể tắt tính toán tự động trong Infinium > Tùy chọn"
 
 #~ msgid "unloaded"
 #~ msgstr "đã tháo"
@@ -23993,8 +23993,8 @@ msgstr ""
 #~ msgid "Resume Printing (problem solved)"
 #~ msgstr "Tiếp tục in (đã giải quyết vấn đề)"
 
-#~ msgid "Step 1. Please confirm Orca Slicer and your printer are in the same LAN."
-#~ msgstr "Bước 1. Vui lòng xác nhận Orca Slicer và máy in của bạn đang trong cùng LAN."
+#~ msgid "Step 1. Please confirm Infinium and your printer are in the same LAN."
+#~ msgstr "Bước 1. Vui lòng xác nhận Infinium và máy in của bạn đang trong cùng LAN."
 
 #~ msgid "Step 2. If the IP and Access Code below are different from the actual values on your printer, please correct them."
 #~ msgstr "Bước 2. Nếu IP và mã truy cập bên dưới khác với giá trị thực tế trên máy in của bạn, vui lòng sửa chúng."

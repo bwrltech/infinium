@@ -2,7 +2,7 @@
 #define _libslic3r_h_
 
 #include "libslic3r_version.h"
-#define SLIC3R_APP_FULL_NAME "Orca Slicer"
+#define SLIC3R_APP_FULL_NAME "Infinium"
 #define GCODEVIEWER_APP_NAME "Infinium G-code Viewer"
 #define GCODEVIEWER_APP_KEY  "InfiniumGcodeViewer"
 #define GCODEVIEWER_BUILD_ID std::string("Infinium G-code Viewer-") + std::string(SLIC3R_VERSION) + std::string("-RC")
@@ -56,20 +56,20 @@ static constexpr double EPSILON = 1e-4;
 // int32_t fits an interval of (-2147.48mm, +2147.48mm)
 // with int64_t we don't have to worry anymore about the size of the int.
 
-// Orca todo: might be better to use 1e-5 for all, namometer resolution is not needed for 3D printing
+// Infinium todo: might be better to use 1e-5 for all, namometer resolution is not needed for 3D printing
 static constexpr double SCALING_FACTOR_INTERNAL = 0.000001;
 static constexpr double SCALING_FACTOR_INTERNAL_LARGE_PRINTER = 0.00001;
 static constexpr double LARGE_BED_THRESHOLD = 2147;
 
-// Orca: maximum number of extruders is 64. For SEMM printers, it defines maximum filament number.
+// Infinium: maximum number of extruders is 64. For SEMM printers, it defines maximum filament number.
 static constexpr size_t MAXIMUM_EXTRUDER_NUMBER = 64;
 
-// Orca: how many filament slots syncing an AMS setup may create. This was derived from
+// Infinium: how many filament slots syncing an AMS setup may create. This was derived from
 // EnforcerBlockerType::ExtruderMax, but that cap now covers 32 paintable filaments, so the AMS
 // limit is pinned here to keep sync behaving as it does for projects without mixed-color filaments.
 static constexpr size_t MAXIMUM_AMS_SYNC_FILAMENT_NUMBER = 16;
 
-// Orca: maximum line width is 5 times the nozzle diameter
+// Infinium: maximum line width is 5 times the nozzle diameter
 static constexpr float MAX_LINE_WIDTH_MULTIPLIER = 5;
 
 extern double SCALING_FACTOR;

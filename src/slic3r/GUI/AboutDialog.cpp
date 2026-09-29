@@ -111,6 +111,7 @@ void CopyrightsDialog::fill_entries()
         { "Open Cascade",                                   "",      "https://www.opencascade.com" },
         { "OpenGL",                                         "",      "https://www.opengl.org" },
         { "PoEdit",                                         "",      "https://poedit.net" },
+        { "OrcaSlicer",                                     "",      "https://github.com/OrcaSlicer/OrcaSlicer" },
         { "PrusaSlicer",                                    "",      "https://www.prusa3d.com" },
         { "Real-Time DXT1/DXT5 C compression library",      "",      "https://github.com/Cyan4973/RygsDXTc" },
         { "SemVer",                                         "",      "https://semver.org" },

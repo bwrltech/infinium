@@ -133,7 +133,7 @@ int InfiniumPrinterAgent::set_user_selected_machine(std::string dev_id)
 // ============================================================================
 AgentInfo InfiniumPrinterAgent::get_agent_info_static()
 {
-    return AgentInfo{INFINIUM_PRINTER_AGENT_ID, "Orca", InfiniumPrinterAgent_VERSION, "Infinium Printer Communication Protocol Agent"};
+    return AgentInfo{INFINIUM_PRINTER_AGENT_ID, "Infinium", InfiniumPrinterAgent_VERSION, "Infinium Printer Communication Protocol Agent"};
 }
 
 // ============================================================================

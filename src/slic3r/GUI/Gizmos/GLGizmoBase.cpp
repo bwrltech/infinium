@@ -231,7 +231,7 @@ void GLGizmoBase::render_cross_mark(const Vec3f &target, bool is_single)
 {
     const float half_length = 4.0f;
 
-    // ORCA: OpenGL Core Profile
+    // INFINIUM: OpenGL Core Profile
 #if !SLIC3R_OPENGL_ES
     if (!OpenGLManager::get_gl_info().is_core_profile())
         glsafe(::glLineWidth(2.0f));
@@ -261,37 +261,37 @@ void GLGizmoBase::render_cross_mark(const Vec3f &target, bool is_single)
         render_line(
             {target(0) - half_length, target(1), target(2)}, 
             {target(0) + half_length, target(1), target(2)},
-            ColorRGBA::X()); // ORCA match axis colors
+            ColorRGBA::X()); // INFINIUM match axis colors
     }
     else {
         render_line(
             {target(0), target(1), target(2)}, 
             {target(0) + half_length, target(1), target(2)},
-            ColorRGBA::X()); // ORCA match axis colors
+            ColorRGBA::X()); // INFINIUM match axis colors
     }
     // draw line for y axis
     if (!is_single) {
         render_line(
             {target(0), target(1) - half_length, target(2)}, 
             {target(0), target(1) + half_length, target(2)},
-            ColorRGBA::Y()); // ORCA match axis colors
+            ColorRGBA::Y()); // INFINIUM match axis colors
     } else {
         render_line(
             {target(0), target(1), target(2)}, 
             {target(0), target(1) + half_length, target(2)},
-            ColorRGBA::Y()); // ORCA match axis colors
+            ColorRGBA::Y()); // INFINIUM match axis colors
     }
     // draw line for z axis
     if (!is_single) {
         render_line(
             {target(0), target(1), target(2) - half_length}, 
             {target(0), target(1), target(2) + half_length},
-            ColorRGBA::Z()); // ORCA match axis colors
+            ColorRGBA::Z()); // INFINIUM match axis colors
     } else {
         render_line(
             {target(0), target(1), target(2)}, 
             {target(0), target(1), target(2) + half_length},
-            ColorRGBA::Z()); // ORCA match axis colors
+            ColorRGBA::Z()); // INFINIUM match axis colors
     }
 }
 
@@ -442,7 +442,7 @@ bool GLGizmoBase::use_grabbers(const wxMouseEvent &mouse_event) {
         }
     } else if (m_dragging) {
         // when mouse cursor leave window than finish actual dragging operation
-        bool is_leaving = mouse_event.Leaving() && !m_parent.has_mouse_capture(); // ORCA keep tracking mouse position while drag active and cursor not in window bounds
+        bool is_leaving = mouse_event.Leaving() && !m_parent.has_mouse_capture(); // INFINIUM keep tracking mouse position while drag active and cursor not in window bounds
         if (mouse_event.Dragging()) {
             Point      mouse_coord(mouse_event.GetX(), mouse_event.GetY());
             auto       ray = m_parent.mouse_ray(mouse_coord);

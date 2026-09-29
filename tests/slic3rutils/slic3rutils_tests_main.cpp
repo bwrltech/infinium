@@ -53,7 +53,7 @@ TEST_CASE("Check SSL certificates paths", "[Http][NotWorking]") {
     REQUIRE(status == 200);
 }
 
-TEST_CASE("Orca cloud flat session resolves display name consistently", "[InfiniumCloudServiceAgent]")
+TEST_CASE("Infinium cloud flat session resolves display name consistently", "[InfiniumCloudServiceAgent]")
 {
     CHECK(resolved_display_name(flat_session_json({
         {"username", "infinium_username"},
@@ -81,7 +81,7 @@ TEST_CASE("Orca cloud flat session resolves display name consistently", "[Infini
     })) == "infinium_username");
 }
 
-TEST_CASE("Orca cloud nested session resolves display name consistently", "[InfiniumCloudServiceAgent]")
+TEST_CASE("Infinium cloud nested session resolves display name consistently", "[InfiniumCloudServiceAgent]")
 {
     CHECK(resolved_display_name(nested_session_json({
         {"username", "infinium_username"},

@@ -1255,7 +1255,7 @@ msgid "Operation"
 msgstr "Операція"
 
 #. TRN EmbossOperation
-#. ORCA
+#. INFINIUM
 msgid "Join"
 msgstr "Обʼєднати"
 
@@ -2568,7 +2568,7 @@ msgstr "Тороїд"
 msgid "Infinium Cube"
 msgstr "Куб Infinium"
 
-msgid "OrcaSliced Combo"
+msgid "InfiniumSliced Combo"
 msgstr "Комбо OrcaSlice"
 
 msgid "Infinium Badge"
@@ -6580,8 +6580,8 @@ msgstr "Експорт результату"
 msgid "Select profile to load:"
 msgstr "Виберіть профіль для завантаження:"
 
-msgid "Config files (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
-msgstr "Файли конфігурацій (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
+msgid "Config files (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
+msgstr "Файли конфігурацій (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
 
 # AI Translated
 #, c-format, boost-format
@@ -20217,11 +20217,11 @@ msgstr "\n\nInfinium виявила, що функція синхронізац�
 msgid "Printer Setting"
 msgstr "Налаштування принтера"
 
-msgid "Printer config bundle(.orca_printer)"
-msgstr "Пакет конфігурації принтера (.orca_printer)"
+msgid "Printer config bundle(.infinium_printer)"
+msgstr "Пакет конфігурації принтера (.infinium_printer)"
 
-msgid "Filament bundle(.orca_filament)"
-msgstr "Пакет конфігурації ниток (.orca_filament)"
+msgid "Filament bundle(.infinium_filament)"
+msgstr "Пакет конфігурації ниток (.infinium_filament)"
 
 msgid "Printer presets(.zip)"
 msgstr "Налаштування принтера (.zip)"
@@ -22105,8 +22105,8 @@ msgstr ""
 "Чи знаєте ви, що при друку матеріалами, схильними до деформації, такими як ABS, відповідне підвищення температури столу може зменшити ймовірність деформації?"
 
 # AI Translated
-#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart OrcaSlicer."
-#~ msgstr "Нативний перегляд у Wayland потребує відеоприймача GStreamer GTK. Встановіть плагін gtksink для GStreamer, а потім перезапустіть OrcaSlicer."
+#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart Infinium."
+#~ msgstr "Нативний перегляд у Wayland потребує відеоприймача GStreamer GTK. Встановіть плагін gtksink для GStreamer, а потім перезапустіть Infinium."
 
 # AI Translated
 #~ msgid "Failed to initialize the native Wayland GStreamer video sink. Please check your GStreamer GTK plugin installation."
@@ -22119,14 +22119,14 @@ msgstr ""
 #~ msgstr "BambuSource не було правильно зареєстровано для відтворення медіафайлів! Натисніть \"Так\", щоб зареєструвати його повторно. Вас буде сповіщено двічі"
 
 # AI Translated
-#~ msgid "Missing BambuSource component registered for media playing! Please re-install OrcaSlicer or seek community help."
-#~ msgstr "Відсутній компонент BambuSource, зареєстрований для відтворення медіа! Перевстановіть OrcaSlicer або зверніться по допомогу до спільноти."
+#~ msgid "Missing BambuSource component registered for media playing! Please re-install Infinium or seek community help."
+#~ msgstr "Відсутній компонент BambuSource, зареєстрований для відтворення медіа! Перевстановіть Infinium або зверніться по допомогу до спільноти."
 
 #~ msgid "Using a BambuSource from a different install, video play may not work correctly! Press Yes to fix it."
 #~ msgstr "Використовується BambuSource з іншої інсталяції, відтворення відео може працювати неправильно! Натисніть \"Так\", щоб виправити це."
 
-#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Orca Slicer?)"
-#~ msgstr "Вашій системі бракує кодеків H.264 для GStreamer, які необхідні для відтворення відео. (Спробуйте встановити пакети gstreamer1.0-plugins-bad або gstreamer1.0-libav, а потім перезапустіть Orca Slicer?)"
+#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Infinium?)"
+#~ msgstr "Вашій системі бракує кодеків H.264 для GStreamer, які необхідні для відтворення відео. (Спробуйте встановити пакети gstreamer1.0-plugins-bad або gstreamer1.0-libav, а потім перезапустіть Infinium?)"
 
 # AI Translated
 #~ msgid "N"
@@ -22221,8 +22221,8 @@ msgstr ""
 #~ msgstr "Примітка: Можна вибрати лише слоти із загруженим філаментом."
 
 # TODO: Review, changed by lang refactor. PR 14254
-#~ msgid "Click OK to update the Network plug-in the next time Orca Slicer launches."
-#~ msgstr "Натисніть OK, щоб оновити мережевий плагін під час наступного запуску Orca Slicer."
+#~ msgid "Click OK to update the Network plug-in the next time Infinium launches."
+#~ msgstr "Натисніть OK, щоб оновити мережевий плагін під час наступного запуску Infinium."
 
 # TODO: Review, changed by lang refactor. PR 14254
 #, boost-format
@@ -22530,8 +22530,8 @@ msgstr ""
 #~ msgid "Object/Part Setting"
 #~ msgstr "Налаштування обʼєкта/деталі"
 
-#~ msgid "OrcaSlicer is based on BambuStudio, PrusaSlicer, and SuperSlicer."
-#~ msgstr "OrcaSlicer базується на BambuStudio, PrusaSlicer та SuperSlicer."
+#~ msgid "Infinium is based on BambuStudio, PrusaSlicer, and SuperSlicer."
+#~ msgstr "Infinium базується на BambuStudio, PrusaSlicer та SuperSlicer."
 
 #~ msgid "BambuStudio is originally based on PrusaSlicer by PrusaResearch."
 #~ msgstr "BambuStudio спочатку базується на PrusaSlicer від PrusaResearch."
@@ -22562,14 +22562,14 @@ msgstr ""
 #~ msgid "Flow ratio test - Pass 2"
 #~ msgstr "Тест коефіцієнта потоку - Прохід 2"
 
-#~ msgid "Orca YOLO flowratio calibration, 0.01 step"
-#~ msgstr "Калібрування коефіцієнта потоку Orca YOLO, крок 0.01"
+#~ msgid "Infinium YOLO flowratio calibration, 0.01 step"
+#~ msgstr "Калібрування коефіцієнта потоку Infinium YOLO, крок 0.01"
 
 #~ msgid "YOLO (perfectionist version)"
 #~ msgstr "YOLO (версія перфекціоніста)"
 
-#~ msgid "Orca YOLO flowratio calibration, 0.005 step"
-#~ msgstr "Калібрування коефіцієнта потоку Orca YOLO, крок 0.005"
+#~ msgid "Infinium YOLO flowratio calibration, 0.005 step"
+#~ msgstr "Калібрування коефіцієнта потоку Infinium YOLO, крок 0.005"
 
 #~ msgid "Retraction test"
 #~ msgstr "Тест на втягування"
@@ -22593,10 +22593,10 @@ msgstr ""
 #~ "2. Передустановки філаменту\n"
 #~ "3. Передустановки принтера"
 
-#~ msgid "\"Fix Model\" feature is currently only on Windows. Please repair the model on Orca Slicer(windows) or CAD softwares."
+#~ msgid "\"Fix Model\" feature is currently only on Windows. Please repair the model on Infinium(windows) or CAD softwares."
 #~ msgstr ""
 #~ "Функція \\Fix Model\\ доступна лише у Windows. Будь ласка, відремонтуйте модель \n"
-#~ "на Orca Slicer (Windows) або у програмах САПР."
+#~ "на Infinium (Windows) або у програмах САПР."
 
 #~ msgid "This stops the transmission of data to Bambu's cloud services. Users who don't use BBL machines or use LAN mode only can safely turn on this function."
 #~ msgstr "Це зупиняє передачу даних до хмарних сервісів Bambu. Користувачі, які не користуються машинами BBL або використовують лише режим локальної мережі, можуть безпечно ввімкнути цю функцію."
@@ -22979,8 +22979,8 @@ msgstr ""
 #~ msgid "Resync"
 #~ msgstr "Повторна синхронізація"
 
-#~ msgid "There are some unknown filaments mapped to generic preset. Please update Orca Slicer or restart Orca Slicer to check if there is an update to system presets."
-#~ msgstr "Є кілька невідомих ниток, зіставлених із загальною передустановкою.Будь ласка, оновіть Orca Slicer або перезапустіть Orca Slicer, щоб перевірити, чи є оновлення для системи пресети."
+#~ msgid "There are some unknown filaments mapped to generic preset. Please update Infinium or restart Infinium to check if there is an update to system presets."
+#~ msgstr "Є кілька невідомих ниток, зіставлених із загальною передустановкою.Будь ласка, оновіть Infinium або перезапустіть Infinium, щоб перевірити, чи є оновлення для системи пресети."
 
 #~ msgid ""
 #~ "Are you sure you want to store original SVGs with their local paths into the 3MF file?\n"
@@ -23025,8 +23025,8 @@ msgstr ""
 #~ msgid "System Sync"
 #~ msgstr "Синхронізація системи"
 
-#~ msgid "Associate URLs to OrcaSlicer"
-#~ msgstr "Асоціювати URL-адреси з OrcaSlicer"
+#~ msgid "Associate URLs to Infinium"
+#~ msgstr "Асоціювати URL-адреси з Infinium"
 
 #~ msgid "every"
 #~ msgstr "кожен"
@@ -23140,8 +23140,8 @@ msgstr ""
 #~ msgid "Auto-Calc"
 #~ msgstr "Автокалькулятор"
 
-#~ msgid "Orca would re-calculate your flushing volumes every time the filaments color changed. You could disable the auto-calculate in Orca Slicer > Preferences"
-#~ msgstr "Orca буде перераховувати обʼєми промивки філаменту кожного разу, коли змінюється колір філаменту. Ви можете вимкнути автоматичний розрахунок у меню Orca Slicer > Параметри"
+#~ msgid "Infinium would re-calculate your flushing volumes every time the filaments color changed. You could disable the auto-calculate in Infinium > Preferences"
+#~ msgstr "Infinium буде перераховувати обʼєми промивки філаменту кожного разу, коли змінюється колір філаменту. Ви можете вимкнути автоматичний розрахунок у меню Infinium > Параметри"
 
 #~ msgid "unloaded"
 #~ msgstr "вивантажено"
@@ -23164,8 +23164,8 @@ msgstr ""
 #~ msgid "Resume Printing (problem solved)"
 #~ msgstr "Відновлення друку (проблема вирішена)"
 
-#~ msgid "Step 1. Please confirm Orca Slicer and your printer are in the same LAN."
-#~ msgstr "Крок 1. Будь-ласка переконайтесь що Orca Slicer та принтер знаходяться в одній в мережі."
+#~ msgid "Step 1. Please confirm Infinium and your printer are in the same LAN."
+#~ msgstr "Крок 1. Будь-ласка переконайтесь що Infinium та принтер знаходяться в одній в мережі."
 
 #~ msgid "Step 2. If the IP and Access Code below are different from the actual values on your printer, please correct them."
 #~ msgstr "Крок 2. Якщо IP та Код доступу нижче відрізняються від значень на принтері, будь-ласка відкоригуйте їх."

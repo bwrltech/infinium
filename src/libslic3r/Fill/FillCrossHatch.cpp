@@ -196,7 +196,7 @@ void FillCrossHatch ::_fill_surface_single(
     bb.merge(align_to_grid(bb.min, Point(line_spacing * 4, line_spacing * 4)));
 
     // generate pattern
-    //Orca: optimize the cross-hatch infill pattern to improve strength when low infill density is used.
+    //Infinium: optimize the cross-hatch infill pattern to improve strength when low infill density is used.
     double repeat_ratio = 1.0;
     if (params.density < 0.3)
         repeat_ratio = std::clamp(1.0 - std::exp(-5 * params.density), 0.2, 1.0);
@@ -206,7 +206,7 @@ void FillCrossHatch ::_fill_surface_single(
     // shift the pattern to the actual space
     for (Polyline &pl : polylines) { pl.translate(bb.min); }
 
-    // Orca: round the corners of the transition layers. The repeat layers are straight lines and stay as they are.
+    // Infinium: round the corners of the transition layers. The repeat layers are straight lines and stay as they are.
     smooth_polylines_corners(polylines, params.smooth_factor, scaled<double>(params.resolution));
 
     // Apply multiline offset if needed

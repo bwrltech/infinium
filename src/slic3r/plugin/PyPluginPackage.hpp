@@ -5,8 +5,8 @@
 
 namespace Slic3r {
 
-// Package base class: a plugin file subclasses orca.base and overrides
-// register_capabilities() to call orca.register_capability() for each capability.
+// Package base class: a plugin file subclasses infinium.base and overrides
+// register_capabilities() to call infinium.register_capability() for each capability.
 class PyPluginPackage
 {
 public:

@@ -308,7 +308,7 @@ private:
     bool m_networking_cancel_update { false };
     std::shared_ptr<UpgradeNetworkJob> m_upgrade_network_job;
 
-    // ORCA: for installing vendors on the main thread when presets to be synced requires it
+    // INFINIUM: for installing vendors on the main thread when presets to be synced requires it
     // vendor structure is:
     // [vendor_name]: { model: variants, model: variants, ... }
     // filaments structure is:
@@ -370,8 +370,8 @@ public:
     void switch_printer_agent();
 
     std::string resolve_printer_agent_id(const std::string& stored_id);
-    // ORCA TODO: in the future, bbl presets should specify "bbl" printer agent id
-    // then, all resolve and canonical would just be ORCA<->""
+    // INFINIUM TODO: in the future, bbl presets should specify "bbl" printer agent id
+    // then, all resolve and canonical would just be INFINIUM<->""
     std::string canonical_printer_agent_id(const std::string& picked_id);
 
     FilamentColorCodeQuery* get_filament_color_code_query();
@@ -444,8 +444,8 @@ public:
     //update side popup status
     bool            get_side_menu_popup_status();
     void            set_side_menu_popup_status(bool status);
-    std::string     link_to_network_check(); // ORCA
-    std::string     link_to_lan_only_wiki(); // ORCA
+    std::string     link_to_network_check(); // INFINIUM
+    std::string     link_to_lan_only_wiki(); // INFINIUM
 
     const wxColour& get_label_clr_modified() { return m_color_label_modified; }
     const wxColour& get_label_clr_sys()     { return m_color_label_sys; }
@@ -490,7 +490,7 @@ public:
     void            ShowDownNetPluginDlg();
     void            ShowUserLogin(bool show = true, const std::string& provider = INFINIUM_CLOUD_PROVIDER);
     void            ShowOnlyFilament();
-    // Orca auth
+    // Infinium auth
     void            request_login(bool show_user_info = false, const std::string& provider = INFINIUM_CLOUD_PROVIDER);
     bool            check_login(const std::string& provider = INFINIUM_CLOUD_PROVIDER);
     void            get_login_info(const std::string& provider = INFINIUM_CLOUD_PROVIDER);
@@ -540,7 +540,7 @@ public:
 
     bool            maybe_migrate_user_presets_on_login();
 
-    // ORCA: functions for loading unloaded vendors to allow for proper inheritance when syncing user presets/bundles
+    // INFINIUM: functions for loading unloaded vendors to allow for proper inheritance when syncing user presets/bundles
     bool            check_preset_parent_available(const std::pair<std::string, std::map<std::string, std::string>>& preset_data);
     void            add_pending_vendor_preset(const std::pair<std::string, std::map<std::string, std::string>>& preset_data);
     void            load_pending_vendors();
@@ -776,7 +776,7 @@ public:
     bool            install_network_plugin_from_ota(bool& had_cache);
     std::string     get_latest_network_version() const;
     bool            has_network_update_available() const;
-    // Orca: return the client version to report to Bambu servers. Pinned to
+    // Infinium: return the client version to report to Bambu servers. Pinned to
     // 01.10.01.50 when the legacy network plugin lacks get_my_token support
     // so the auth server stays on the ?access_token= redirect path.
     std::string     get_bbl_client_version();

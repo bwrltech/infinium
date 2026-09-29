@@ -1223,7 +1223,7 @@ msgid "Operation"
 msgstr "操作"
 
 #. TRN EmbossOperation
-#. ORCA
+#. INFINIUM
 msgid "Join"
 msgstr "合并"
 
@@ -2517,16 +2517,16 @@ msgid "Torus"
 msgstr "环面"
 
 msgid "Infinium Cube"
-msgstr "Orca方块"
+msgstr "Infinium方块"
 
-msgid "OrcaSliced Combo"
-msgstr "OrcaSliced 复合模型"
+msgid "InfiniumSliced Combo"
+msgstr "InfiniumSliced 复合模型"
 
 msgid "Infinium Badge"
 msgstr "Infinium 徽章"
 
 msgid "Infinium Tolerance Test"
-msgstr "Orca误差测试"
+msgstr "Infinium误差测试"
 
 msgid "3DBenchy"
 msgstr "小船"
@@ -2544,7 +2544,7 @@ msgid "Stanford Bunny"
 msgstr "斯坦福兔子"
 
 msgid "Infinium String Hell"
-msgstr "Orca拉丝地狱"
+msgstr "Infinium拉丝地狱"
 
 msgid ""
 "This model features text embossment on the top surface. For optimal results, it is advisable to set the 'One Wall Threshold (min_width_top_surface)' to 0 for the 'Only One Wall on Top Surfaces' to work best.\n"
@@ -6410,8 +6410,8 @@ msgid "Select profile to load:"
 msgstr "选择要加载的配置："
 
 # AI Translated
-msgid "Config files (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
-msgstr "配置文件 (*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament)|*.json;*.zip;*.orca_printer;*.orca_bundle;*.orca_filament"
+msgid "Config files (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
+msgstr "配置文件 (*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament)|*.json;*.zip;*.infinium_printer;*.infinium_bundle;*.infinium_filament"
 
 #, c-format, boost-format
 msgid "There is %d config imported. (Only non-system and compatible configs)"
@@ -8583,7 +8583,7 @@ msgid "Associate"
 msgstr "相关的"
 
 msgid "with Infinium Slicer so that Infinium can open models from"
-msgstr "与OrcaSlicer一起使用，以便Orca可以从...打开模型"
+msgstr "与Infinium一起使用，以便Infinium可以从...打开模型"
 
 msgid "Current Association: "
 msgstr "当前相关项"
@@ -8613,7 +8613,7 @@ msgid "Default page"
 msgstr "起始页"
 
 msgid "Set the page opened on startup."
-msgstr "设置启动OrcaSlicer时首先显示的页面。"
+msgstr "设置启动Infinium时首先显示的页面。"
 
 msgid "Enable dark Mode"
 msgstr "启用深色模式"
@@ -8763,7 +8763,7 @@ msgid "Remember printer configuration"
 msgstr "记住打印机选项"
 
 msgid "If enabled, Infinium will remember and switch filament/process configuration for each printer automatically."
-msgstr "如果启用，Orca会自动记录并切换您不同打印机之间的耗材配置与打印参数。"
+msgstr "如果启用，Infinium会自动记录并切换您不同打印机之间的耗材配置与打印参数。"
 
 msgid "Group user filament presets"
 msgstr "组用户耗材丝预设"
@@ -9152,7 +9152,7 @@ msgid "If enabled, this sets Infinium Slicer as the default application to open 
 msgstr "启用后，将 Infinium Slicer 设置为打开 STEP 文件的默认应用程序。"
 
 msgid "Associate web links to Infinium Slicer"
-msgstr "将网页链接关联到OrcaSlicer"
+msgstr "将网页链接关联到Infinium"
 
 msgid "Developer"
 msgstr "开发者"
@@ -12169,7 +12169,7 @@ msgstr "将抖动(jerk)速度设置得太低可能会导致打印曲面时出现
 msgid "The jerk setting exceeds the printer's maximum jerk (machine_max_jerk_x/machine_max_jerk_y).\nInfinium will automatically cap the jerk speed to ensure it doesn't surpass the printer's capabilities.\nYou can adjust the maximum jerk setting in your printer's configuration to get higher speeds."
 msgstr ""
 "抖动速度设置超过了打印机的最大抖动速度（machine_max_jerk_x/machine_max_jerk_y）。\n"
-"Orca将自动限制抖动速度，以确保不超过打印机的速度限制。\n"
+"Infinium将自动限制抖动速度，以确保不超过打印机的速度限制。\n"
 "您可以调整打印机配置中的最大抖动速度设置，以获得更高的速度。"
 
 msgid "Junction deviation setting exceeds the printer's maximum value (machine_max_junction_deviation).\nInfinium will automatically cap the junction deviation to ensure it doesn't surpass the printer's capabilities.\nYou can adjust the machine_max_junction_deviation value in your printer's configuration to get higher limits."
@@ -12178,13 +12178,13 @@ msgstr "连接偏差设置超出打印机的最大值 (machine_max_junction_devi
 msgid "The acceleration setting exceeds the printer's maximum acceleration (machine_max_acceleration_extruding).\nInfinium will automatically cap the acceleration speed to ensure it doesn't surpass the printer's capabilities.\nYou can adjust the machine_max_acceleration_extruding value in your printer's configuration to get higher speeds."
 msgstr ""
 "加速度设置超过了打印机的最大加速度（machine_max_acceleration_extruding）。\n"
-"Orca将自动限制加速度，以确保不超过打印机的速度限制。\n"
+"Infinium将自动限制加速度，以确保不超过打印机的速度限制。\n"
 "您可以调整打印机配置中的machine_max_acceleration_extruding值，以获得更高的速度。"
 
 msgid "The travel acceleration setting exceeds the printer's maximum travel acceleration (machine_max_acceleration_travel).\nInfinium will automatically cap the travel acceleration speed to ensure it doesn't surpass the printer's capabilities.\nYou can adjust the machine_max_acceleration_travel value in your printer's configuration to get higher speeds."
 msgstr ""
 "空驶加速度设置超过了打印机的最大空驶加速度（machine_max_acceleration_travel）。\n"
-"Orca将自动限制加速度，以确保不超过打印机的速度限制。\n"
+"Infinium将自动限制加速度，以确保不超过打印机的速度限制。\n"
 "您可以调整打印机配置中的machine_max_acceleration_travel值，以获得更高的速度。"
 
 msgid "The precise wall option will be ignored for outer-inner or inner-outer-inner wall sequences."
@@ -19395,11 +19395,11 @@ msgstr "\n\nInfinium 检测到您未启用用户预设同步，这可能导致�
 msgid "Printer Setting"
 msgstr "打印机设置"
 
-msgid "Printer config bundle(.orca_printer)"
-msgstr "打印机预设包(.orca_printer)"
+msgid "Printer config bundle(.infinium_printer)"
+msgstr "打印机预设包(.infinium_printer)"
 
-msgid "Filament bundle(.orca_filament)"
-msgstr "耗材预设包(.orca_filament)"
+msgid "Filament bundle(.infinium_filament)"
+msgstr "耗材预设包(.infinium_filament)"
 
 msgid "Printer presets(.zip)"
 msgstr "打印机预设(.zip)"
@@ -21023,25 +21023,25 @@ msgstr ""
 msgid "Chamber temperature\nDid you know that Infinium Slicer supports chamber temperature?"
 msgstr ""
 "仓温\n"
-"您知道吗？OrcaSlicer支持仓温。"
+"您知道吗？Infinium支持仓温。"
 
 #: resources/data/hints.ini: [hint:Calibration]
 msgid "Calibration\nDid you know that calibrating your printer can do wonders? Check out our beloved calibration solution in Infinium Slicer."
 msgstr ""
 "校准\n"
-"您知道吗？校准您的打印机可以带来奇迹？在OrcaSlicer中查看我们的备受欢迎的校准解决方案。"
+"您知道吗？校准您的打印机可以带来奇迹？在Infinium中查看我们的备受欢迎的校准解决方案。"
 
 #: resources/data/hints.ini: [hint:Auxiliary fan]
 msgid "Auxiliary fan\nDid you know that Infinium Slicer supports Auxiliary part cooling fan?"
 msgstr ""
 "辅助风扇\n"
-"您知道吗？OrcaSlicer支持辅助部件冷却风扇。"
+"您知道吗？Infinium支持辅助部件冷却风扇。"
 
 #: resources/data/hints.ini: [hint:Air filtration]
 msgid "Air filtration/Exhaust Fan\nDid you know that Infinium Slicer can support Air filtration/Exhaust Fan?"
 msgstr ""
 "空气过滤/排气扇\n"
-"您知道吗？OrcaSlicer可以支持空气过滤/排气扇。"
+"您知道吗？Infinium可以支持空气过滤/排气扇。"
 
 #: resources/data/hints.ini: [hint:G-code window]
 msgid ""
@@ -21284,8 +21284,8 @@ msgstr ""
 "避免翘曲\n"
 "您知道吗？打印ABS这类易翘曲材料时，适当提高热床温度可以降低翘曲的概率。"
 
-#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart OrcaSlicer."
-#~ msgstr "原生 Wayland 实时画面需要 GStreamer GTK 视频接收器。请安装 GStreamer 的 gtksink 插件，然后重启 OrcaSlicer。"
+#~ msgid "Native Wayland liveview requires the GStreamer GTK video sink. Please install the gtksink plugin for GStreamer, then restart Infinium."
+#~ msgstr "原生 Wayland 实时画面需要 GStreamer GTK 视频接收器。请安装 GStreamer 的 gtksink 插件，然后重启 Infinium。"
 
 #~ msgid "Failed to initialize the native Wayland GStreamer video sink. Please check your GStreamer GTK plugin installation."
 #~ msgstr "原生 Wayland GStreamer 视频接收器初始化失败。请检查您的 GStreamer GTK 插件安装情况。"
@@ -21296,14 +21296,14 @@ msgstr ""
 #~ msgid "BambuSource has not correctly been registered for media playing! Press Yes to re-register it. You will be promoted twice"
 #~ msgstr "BambuSource 未正确注册用于媒体播放！按是重新注册它。您将被提示两次"
 
-#~ msgid "Missing BambuSource component registered for media playing! Please re-install OrcaSlicer or seek community help."
-#~ msgstr "缺少用于媒体播放的已注册 BambuSource 组件！请重新安装 OrcaSlicer 或寻求社区帮助。"
+#~ msgid "Missing BambuSource component registered for media playing! Please re-install Infinium or seek community help."
+#~ msgstr "缺少用于媒体播放的已注册 BambuSource 组件！请重新安装 Infinium 或寻求社区帮助。"
 
 #~ msgid "Using a BambuSource from a different install, video play may not work correctly! Press Yes to fix it."
 #~ msgstr "使用来自不同安装的 BambuSource，视频播放可能无法正常工作！按是修复它。"
 
-#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Orca Slicer?)"
-#~ msgstr "您的系统缺少 GStreamer 所需的 H.264 编解码器，这是播放视频所必需的。（尝试安装 gstreamer1.0-plugins-bad 或 gstreamer1.0-libav 软件包，然后重新启动 Orca Slicer？）"
+#~ msgid "Your system is missing H.264 codecs for GStreamer, which are required to play video. (Try installing the gstreamer1.0-plugins-bad or gstreamer1.0-libav packages, then restart Infinium?)"
+#~ msgstr "您的系统缺少 GStreamer 所需的 H.264 编解码器，这是播放视频所必需的。（尝试安装 gstreamer1.0-plugins-bad 或 gstreamer1.0-libav 软件包，然后重新启动 Infinium？）"
 
 # AI Translated
 #~ msgid "N"
@@ -21416,8 +21416,8 @@ msgstr ""
 #~ msgstr "当前固件最多支持 16 种材质。您可以在准备页面将材料数量减少到 16 种或更少，或者尝试更新固件。如果更新后仍然受限，请等待后续固件支持。"
 
 # TODO: Review, changed by lang refactor. PR 14254
-#~ msgid "Click OK to update the Network plug-in the next time Orca Slicer launches."
-#~ msgstr "点击\"确定\"，将在Orca Slicer下次启动之后自动升级网络插件"
+#~ msgid "Click OK to update the Network plug-in the next time Infinium launches."
+#~ msgstr "点击\"确定\"，将在Infinium下次启动之后自动升级网络插件"
 
 # TODO: Review, changed by lang refactor. PR 14254
 #, boost-format
@@ -21956,8 +21956,8 @@ msgstr ""
 #~ msgid "Object/Part Setting"
 #~ msgstr "对象/零件设置"
 
-#~ msgid "OrcaSlicer is based on BambuStudio, PrusaSlicer, and SuperSlicer."
-#~ msgstr "OrcaSlicer 基于 BambuStudio、PrusaSlicer 以及 SuperSlicer 开发。"
+#~ msgid "Infinium is based on BambuStudio, PrusaSlicer, and SuperSlicer."
+#~ msgstr "Infinium 基于 BambuStudio、PrusaSlicer 以及 SuperSlicer 开发。"
 
 #~ msgid "BambuStudio is originally based on PrusaSlicer by PrusaResearch."
 #~ msgstr "BambuStudio 基于 PrusaResearch 的 PrusaSlicer 开发而来。"
@@ -21986,14 +21986,14 @@ msgstr ""
 #~ msgid "Flow ratio test - Pass 2"
 #~ msgstr "流量比例测试 - 微调"
 
-#~ msgid "Orca YOLO flowratio calibration, 0.01 step"
-#~ msgstr "Orca YOLO流量比例校准，0.01步长"
+#~ msgid "Infinium YOLO flowratio calibration, 0.01 step"
+#~ msgstr "Infinium YOLO流量比例校准，0.01步长"
 
 #~ msgid "YOLO (perfectionist version)"
 #~ msgstr "YOLO（完美主义者版本）"
 
-#~ msgid "Orca YOLO flowratio calibration, 0.005 step"
-#~ msgstr "Orca YOLO流量比例校准，0.005步长"
+#~ msgid "Infinium YOLO flowratio calibration, 0.005 step"
+#~ msgstr "Infinium YOLO流量比例校准，0.005步长"
 
 #~ msgid "Retraction test"
 #~ msgstr "回抽测试"
@@ -22028,7 +22028,7 @@ msgstr ""
 #~ msgid "Right nozzle: %smm"
 #~ msgstr "右喷嘴：%smm"
 
-#~ msgid "\"Fix Model\" feature is currently only on Windows. Please repair the model on Orca Slicer(windows) or CAD softwares."
+#~ msgid "\"Fix Model\" feature is currently only on Windows. Please repair the model on Infinium(windows) or CAD softwares."
 #~ msgstr "\"修复模型\"功能目前仅适用于Windows。请在逆戟鲸切片器(windows)或CAD软件上修复模型。"
 
 #~ msgid "This stops the transmission of data to Bambu's cloud services. Users who don't use BBL machines or use LAN mode only can safely turn on this function."

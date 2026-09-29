@@ -34,7 +34,7 @@
 #include "DeviceCore/DevFilaSystem.h"
 #include "DeviceCore/DevFilaSwitch.h"
 #include "DeviceCore/DevMappingNozzle.h"
-#include "DeviceCore/DevNozzleRack.h" // Orca: full type for GetNozzleSystem()->GetNozzleRack()->IsSupported()
+#include "DeviceCore/DevNozzleRack.h" // Infinium: full type for GetNozzleSystem()->GetNozzleRack()->IsSupported()
 
 #include "DeviceTab/wgtDeviceNozzleSelect.h"
 #include "DeviceTab/wgtMsgPanel.h"
@@ -67,7 +67,7 @@ void AmsMapingPopup::update(MachineObject* obj,
                             bool use_dynamic_switch,
                             std::optional<PrintFromType> print_type)
 {
-    if (!obj) { return; } // Orca: guard before use (REF logs before its null check)
+    if (!obj) { return; } // Infinium: guard before use (REF logs before its null check)
 
     BOOST_LOG_TRIVIAL(info) << "ams_mapping total count " << obj->GetFilaSystem()->GetAmsCount();
 
@@ -180,7 +180,7 @@ void AmsMapingPopup::update(MachineObject* obj,
     Refresh();
 }
 
-// Orca: the kept fila model has no tray-level ams_type; the owning AMS type is passed in
+// Infinium: the kept fila model has no tray-level ams_type; the owning AMS type is passed in
 // (DevAms::GetAmsType() for AMS trays, DevAmsType::EXT_SPOOL for the virtual/ext slots).
 static std::optional<TrayData> sGetTrayData(DevAmsTray* tray,
                                             const std::string& ams_id_str,
@@ -486,7 +486,7 @@ void AmsMapingPopup::update_ams_tips(MachineObject* obj)
         m_ams_tips_msg_panel->Clear();
         if (nozzle_nums == 2 && m_show_type != ShowType::LEFT_AND_RIGHT) {
             m_ams_tips_msg_panel->AddMessage(_L("To learn about the filaments matching rules."),
-                                             "#FF6F00", ""); // Orca: dropped vendor help link
+                                             "#FF6F00", ""); // Infinium: dropped vendor help link
         }
 
         if (obj && obj->GetFilaSwitch()->IsInstalled()) {
@@ -502,7 +502,7 @@ void AmsMapingPopup::update_ams_tips(MachineObject* obj)
 
 void AmsMapingPopup::update_rack_select(MachineObject* obj, bool use_dynamic_switch, std::optional<PrintFromType> print_from_type)
 {
-    // Orca: MachineObject has no GetNozzleRack() convenience; route through the nozzle system instead.
+    // Infinium: MachineObject has no GetNozzleRack() convenience; route through the nozzle system instead.
     m_rack = obj ? obj->GetNozzleSystem()->GetNozzleRack() : nullptr;
 
     bool show_rack_select_area = false;
@@ -568,7 +568,7 @@ void AmsMapingPopup::add_ams_mapping(std::vector<TrayData> tray_data,
         m_mapping_item->send_win = send_win;
         m_mapping_item->m_ams_id = tray_data[i].ams_id;
         m_mapping_item->m_slot_id = tray_data[i].slot_id;
-        // Orca: transition_tridid here has no total-extruder-count overload; label the virtual (ext)
+        // Infinium: transition_tridid here has no total-extruder-count overload; label the virtual (ext)
         // slots Ext-R / Ext-L inline in the two-nozzle left+right views (matches that overload's result).
         if ((m_show_type == ShowType::LEFT_AND_RIGHT || m_show_type == ShowType::LEFT_AND_RIGHT_DYNAMIC)
             && (tray_data[i].id == VIRTUAL_TRAY_MAIN_ID || tray_data[i].id == VIRTUAL_TRAY_DEPUTY_ID)) {

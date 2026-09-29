@@ -65,7 +65,7 @@ namespace secret_constants {
 } // namespace secret_constants
 
 // ============================================================================
-// Sync Protocol Data Structures (per Orca Cloud Sync Protocol Specification)
+// Sync Protocol Data Structures (per Infinium Cloud Sync Protocol Specification)
 // ============================================================================
 // Note: These may also be defined in OrcaNetwork.hpp - guards prevent redefinition
 
@@ -102,7 +102,7 @@ struct SyncState {
 #endif // INFINIUM_SYNC_STRUCTS_DEFINED
 
 /**
- * InfiniumCloudServiceAgent - Native cloud service and authentication implementation for Orca Cloud.
+ * InfiniumCloudServiceAgent - Native cloud service and authentication implementation for Infinium Cloud.
  *
  * Implements the ICloudServiceAgent interface with:
  * - Full OAuth 2.0 PKCE authentication support
@@ -124,7 +124,7 @@ public:
         std::string access_token;
         std::string refresh_token;
         std::string user_id;
-        // Orca auth semantics: user_name is the unique Orca Cloud username (infinium_xxxxx),
+        // Infinium auth semantics: user_name is the unique Infinium Cloud username (infinium_xxxxx),
         // user_nickname is the display name shown in the UI when available.
         std::string user_name;
         std::string user_nickname;
@@ -291,7 +291,7 @@ public:
     const SyncState& get_sync_state() const { return sync_state; }
 
     // ========================================================================
-    // Orca-Specific: Bundle Subscription
+    // Infinium-Specific: Bundle Subscription
     // ========================================================================
     bool unsubscribe_bundle(const std::string& bundle_id);
     std::string get_bundle_url(const std::string& bundle_id) const;
@@ -340,7 +340,7 @@ public:
                           const std::string& avatar,
                           const std::string& refresh_token = "",
                           bool persist = true);
-    // Accepts either nested Orca cloud / GoTrue session JSON or flat WebView token JSON.
+    // Accepts either nested Infinium cloud / GoTrue session JSON or flat WebView token JSON.
     bool set_user_session(const nlohmann::json& session_json, bool notify_login = true);
     void clear_session();
 

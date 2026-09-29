@@ -31,10 +31,10 @@ public:
     void RemovePage(size_t n);
     bool SetPageImage(size_t n, const std::string& bmp_name) const;
     void SetPageText(size_t n, const wxString& strText);
-    void SetCompact(size_t n, bool compact); // ORCA
+    void SetCompact(size_t n, bool compact); // INFINIUM
     wxString GetPageText(size_t n) const;
-    wxFlexGridSizer* GetBtnsSizer(){return m_buttons_sizer;}; // ORCA
-    // ORCA: a companion widget shown right after the tab buttons (before any side_tools), e.g.
+    wxFlexGridSizer* GetBtnsSizer(){return m_buttons_sizer;}; // INFINIUM
+    // INFINIUM: a companion widget shown right after the tab buttons (before any side_tools), e.g.
     // an overflow indicator. Pass nullptr to remove it; ownership stays with the caller.
     void SetOverflowButton(wxWindow* button);
 
@@ -46,8 +46,8 @@ private:
     int                             m_selection {-1};
     int                             m_btn_margin;
     int                             m_line_margin;
-    std::vector<wxString>           m_pageLabels; // ORCA
-    wxWindow*                       m_overflow_button{nullptr}; // ORCA
+    std::vector<wxString>           m_pageLabels; // INFINIUM
+    wxWindow*                       m_overflow_button{nullptr}; // INFINIUM
 };
 
 class Notebook : public wxBookCtrlBase

@@ -219,9 +219,9 @@ MachineInfoPanel::MachineInfoPanel(wxWindow* parent, wxWindowID id, const wxPoin
     createAirPumpWidgets(m_main_left_sizer);
     createExtinguishWidgets(m_main_left_sizer);
     createFilaTrackSwitchWidgets(m_main_left_sizer);
-    createRotaryWidgets(m_main_left_sizer);   // Orca: accessory firmware version display
-    createExhaustFan(m_main_left_sizer);      // Orca: accessory firmware version display
-    createAmshubWidgets(m_main_left_sizer);   // Orca: accessory firmware version display
+    createRotaryWidgets(m_main_left_sizer);   // Infinium: accessory firmware version display
+    createExhaustFan(m_main_left_sizer);      // Infinium: accessory firmware version display
+    createAmshubWidgets(m_main_left_sizer);   // Infinium: accessory firmware version display
 
     // nozzle rack widgets (H2C induction hotend rack; hidden unless GetNozzleRack()->IsSupported())
     createNozzleRackWidgets(m_main_left_sizer);
@@ -432,7 +432,7 @@ void MachineInfoPanel::createFilaTrackSwitchWidgets(wxBoxSizer* main_left_sizer)
     main_left_sizer->Add(m_filatrack_sizer, 0, wxEXPAND, 0);
 }
 
-// Orca: accessory firmware version display (device photo asset not shipped, so no left icon)
+// Infinium: accessory firmware version display (device photo asset not shipped, so no left icon)
 void MachineInfoPanel::createRotaryWidgets(wxBoxSizer* main_left_sizer)
 {
     m_rotary_line_above = new wxStaticLine(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL);
@@ -453,7 +453,7 @@ void MachineInfoPanel::createRotaryWidgets(wxBoxSizer* main_left_sizer)
     main_left_sizer->Add(m_rotary_sizer, 0, wxEXPAND, 0);
 }
 
-// Orca: accessory firmware version display (device photo asset not shipped, so no left icon)
+// Infinium: accessory firmware version display (device photo asset not shipped, so no left icon)
 void MachineInfoPanel::createExhaustFan(wxBoxSizer* main_left_sizer)
 {
     m_exhaustfan_line_above = new wxStaticLine(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL);
@@ -474,7 +474,7 @@ void MachineInfoPanel::createExhaustFan(wxBoxSizer* main_left_sizer)
     main_left_sizer->Add(m_exhaustfan_sizer, 0, wxEXPAND, 0);
 }
 
-// Orca: accessory firmware version display (device photo asset not shipped, so no left icon)
+// Infinium: accessory firmware version display (device photo asset not shipped, so no left icon)
 void MachineInfoPanel::createAmshubWidgets(wxBoxSizer* main_left_sizer)
 {
     m_amshub_line_above = new wxStaticLine(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL);
@@ -635,9 +635,9 @@ void MachineInfoPanel::update(MachineObject* obj)
         update_laszer(obj);
         update_extinguish(obj);
         update_filatrack(obj);
-        update_rotary(obj);       // Orca: accessory firmware version display
-        update_exhaustfan(obj);   // Orca: accessory firmware version display
-        update_amshub(obj);       // Orca: accessory firmware version display
+        update_rotary(obj);       // Infinium: accessory firmware version display
+        update_exhaustfan(obj);   // Infinium: accessory firmware version display
+        update_amshub(obj);       // Infinium: accessory firmware version display
         update_nozzle_rack(obj);
 
         //update progress
@@ -1422,7 +1422,7 @@ void MachineInfoPanel::show_filatrack(bool show)
     }
 }
 
-// Orca: accessory firmware version display
+// Infinium: accessory firmware version display
 void MachineInfoPanel::show_rotary(bool show)
 {
     if (m_rotary_version->IsShown() != show)
@@ -1433,7 +1433,7 @@ void MachineInfoPanel::show_rotary(bool show)
     }
 }
 
-// Orca: accessory firmware version display
+// Infinium: accessory firmware version display
 void MachineInfoPanel::show_exhaustfan(bool show)
 {
     if (m_exhaustfan_version->IsShown() != show)
@@ -1444,7 +1444,7 @@ void MachineInfoPanel::show_exhaustfan(bool show)
     }
 }
 
-// Orca: accessory firmware version display
+// Infinium: accessory firmware version display
 void MachineInfoPanel::show_amshub(bool show)
 {
     if (m_amshub_version->IsShown() != show)
@@ -1702,7 +1702,7 @@ void UpgradePanel::update(MachineObject *obj)
         if (m_obj->upgrade_force_upgrade) {
             m_show_forced_hint = false;   //lock hint
             if (force_dlg == nullptr) {
-                force_dlg = new SecondaryCheckDialog(this->GetParent(), wxID_ANY, _L("Update firmware"), SecondaryCheckDialog::VisibleButtons::CONFIRM_AND_CANCEL, wxDefaultPosition, wxDefaultSize);  // ORCA VisibleButtons instead ButtonStyle 
+                force_dlg = new SecondaryCheckDialog(this->GetParent(), wxID_ANY, _L("Update firmware"), SecondaryCheckDialog::VisibleButtons::CONFIRM_AND_CANCEL, wxDefaultPosition, wxDefaultSize);  // INFINIUM VisibleButtons instead ButtonStyle 
                 force_dlg->Bind(EVT_SECONDARY_CHECK_CONFIRM, [this](wxCommandEvent& e) {
                     if (m_obj) {
                         m_obj->command_upgrade_confirm();
@@ -1725,7 +1725,7 @@ void UpgradePanel::update(MachineObject *obj)
         if (m_obj->upgrade_consistency_request) {
             m_show_consistency_hint = false;
             if (consistency_dlg == nullptr) {
-                consistency_dlg = new SecondaryCheckDialog(this->GetParent(), wxID_ANY, _L("Update firmware"), SecondaryCheckDialog::VisibleButtons::CONFIRM_AND_CANCEL, wxDefaultPosition, wxDefaultSize);  // ORCA VisibleButtons instead ButtonStyle 
+                consistency_dlg = new SecondaryCheckDialog(this->GetParent(), wxID_ANY, _L("Update firmware"), SecondaryCheckDialog::VisibleButtons::CONFIRM_AND_CANCEL, wxDefaultPosition, wxDefaultSize);  // INFINIUM VisibleButtons instead ButtonStyle 
                 consistency_dlg->Bind(EVT_SECONDARY_CHECK_CONFIRM, [this](wxCommandEvent& e) {
                     if (m_obj) {
                         m_obj->command_consistency_upgrade_confirm();

@@ -33,7 +33,7 @@
 #define wxMSW false
 #endif
 
-// Orca's styled button (Widgets/Button.hpp), used by PluginConfigField. It lives at global scope.
+// Infinium's styled button (Widgets/Button.hpp), used by PluginConfigField. It lives at global scope.
 class Button;
 
 namespace Slic3r { namespace GUI {

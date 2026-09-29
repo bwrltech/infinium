@@ -1951,26 +1951,26 @@ void GLGizmoMeasure::show_distance_xyz_ui()
             bool volume = m_hit_different_volumes.size() == 1;
             ImGui::TableNextRow();
             ImGui::TableSetColumnIndex(0);
-            m_imgui->text_colored(ImGuiWrapper::to_ImVec4(ColorRGBA::X()), "X:"); // ORCA match axis color
+            m_imgui->text_colored(ImGuiWrapper::to_ImVec4(ColorRGBA::X()), "X:"); // INFINIUM match axis color
             ImGui::TableSetColumnIndex(1);
             ImGui::PushItemWidth(m_input_size_max);
-            m_imgui->disabled_begin(volume || !m_can_set_xyz_distance); // ORCA disable only input box othervise axis colors rendered dimmed
+            m_imgui->disabled_begin(volume || !m_can_set_xyz_distance); // INFINIUM disable only input box othervise axis colors rendered dimmed
             ImGui::BBLInputDouble("##measure_distance_x", &m_buffered_distance[0], 0.0f, 0.0f, "%.2f");
             m_imgui->disabled_end();
 
             ImGui::TableNextRow();
             ImGui::TableSetColumnIndex(0);
-            m_imgui->text_colored(ImGuiWrapper::to_ImVec4(ColorRGBA::Y()), "Y:"); // ORCA match axis color
+            m_imgui->text_colored(ImGuiWrapper::to_ImVec4(ColorRGBA::Y()), "Y:"); // INFINIUM match axis color
             ImGui::TableSetColumnIndex(1);
-            m_imgui->disabled_begin(volume || !m_can_set_xyz_distance); // ORCA disable only input box othervise axis colors rendered dimmed
+            m_imgui->disabled_begin(volume || !m_can_set_xyz_distance); // INFINIUM disable only input box othervise axis colors rendered dimmed
             ImGui::BBLInputDouble("##measure_distance_y", &m_buffered_distance[1], 0.0f, 0.0f, "%.2f");
             m_imgui->disabled_end();
 
             ImGui::TableNextRow();
             ImGui::TableSetColumnIndex(0);
-            m_imgui->text_colored(ImGuiWrapper::to_ImVec4(ColorRGBA::Z()), "Z:"); // ORCA match axis color
+            m_imgui->text_colored(ImGuiWrapper::to_ImVec4(ColorRGBA::Z()), "Z:"); // INFINIUM match axis color
             ImGui::TableSetColumnIndex(1);
-            m_imgui->disabled_begin(volume || !(m_same_model_object && m_can_set_xyz_distance)); // ORCA disable only input box othervise axis colors rendered dimmed
+            m_imgui->disabled_begin(volume || !(m_same_model_object && m_can_set_xyz_distance)); // INFINIUM disable only input box othervise axis colors rendered dimmed
             ImGui::BBLInputDouble("##measure_distance_z", &m_buffered_distance[2], 0.0f, 0.0f, "%.2f");
             m_imgui->disabled_end();
         //}
@@ -2192,7 +2192,7 @@ void GLGizmoMeasure::on_render_input_window(float x, float y, float bottom_limit
     }
     m_last_active_item_imgui = m_current_active_imgui_id;
     GizmoImguiEnd();
-    // Orca
+    // Infinium
     ImGuiWrapper::pop_toolbar_style();
 }
 

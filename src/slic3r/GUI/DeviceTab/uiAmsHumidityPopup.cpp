@@ -23,14 +23,14 @@ uiAmsPercentHumidityDryPopup::uiAmsPercentHumidityDryPopup(wxWindow *parent)
     : wxDialog(parent, wxID_ANY, "")
 {
     Create();
-    wxGetApp().UpdateDlgDarkUI(this); // Orca: apply dark-mode theming to the popup
+    wxGetApp().UpdateDlgDarkUI(this); // Infinium: apply dark-mode theming to the popup
 }
 
 void uiAmsPercentHumidityDryPopup::Create()
 {
     // create images
     idle_img = ScalableBitmap(this, "ams_drying", 16);
-    drying_img = ScalableBitmap(this, "ams_is_drying", 16); // Orca: use the drying-state icon
+    drying_img = ScalableBitmap(this, "ams_is_drying", 16); // Infinium: use the drying-state icon
 
     // background
     SetBackgroundColour(*wxWHITE);
@@ -147,7 +147,7 @@ void uiAmsPercentHumidityDryPopup::UpdateContents()
     // table grid
     const wxString& humidity_str = wxString::Format("%d%%", m_humidity_percent);
     m_humidity_label->SetLabel(humidity_str);
-    // Orca: format the temperature with an explicit UTF-8 \u2103 (no translation of a units-only format)
+    // Infinium: format the temperature with an explicit UTF-8 \u2103 (no translation of a units-only format)
     const wxString& temp_str = wxString::Format(wxString::FromUTF8(u8"%d\u2103" /* \u00b0C */), (int)std::round(m_current_temperature));
     m_temperature_label->SetLabel(temp_str);
 

@@ -124,7 +124,7 @@ void MsgDialog::on_dpi_changed(const wxRect &suggested_rect)
 
          while (i != m_buttons.end()) {
              MsgButton *bd   = i->second;
-             /* ORCA not required since all buttons has same size and Rescale re applies its style
+             /* INFINIUM not required since all buttons has same size and Rescale re applies its style
              wxSize     bsize;
 
 
@@ -155,7 +155,7 @@ void MsgDialog::SetButtonLabel(wxWindowID btn_id, const wxString& label, bool se
 Button* MsgDialog::add_button(wxWindowID btn_id, bool set_focus /*= false*/, const wxString& label/* = wxString()*/)
 {
     Button* btn = new Button(this, label, "", 0, 0, btn_id);
-    /* ORCA not required since all buttons has same size and Rescale re applies its style
+    /* INFINIUM not required since all buttons has same size and Rescale re applies its style
     ButtonSizeType type;
 
     if (label.length() < 5) {
@@ -219,7 +219,7 @@ void MsgDialog::apply_style(long style)
     if (style & wxCANCEL)   add_button(wxID_CANCEL, false, _L("Cancel"));
 
     logo->SetBitmap( create_scaled_bitmap(style & wxAPPLY        ? "completed" :
-                                          style & wxICON_WARNING        ? "exclamation" : // ORCA "exclamation" used for dialogs "obj_warning" used for 16x16 areas
+                                          style & wxICON_WARNING        ? "exclamation" : // INFINIUM "exclamation" used for dialogs "obj_warning" used for 16x16 areas
                                           style & wxICON_INFORMATION    ? "info"        :
                                           style & wxICON_QUESTION       ? "question"    : "Infinium", this, 64, style & wxICON_ERROR));
 }
@@ -380,7 +380,7 @@ static void add_msg_content(wxWindow   *parent,
             msg_sz = measure_mixed_text(parent, msg.ToUTF8().data(), font, monospace);
         } else {
             wxClientDC dc(parent);
-            dc.SetFont(font); // ORCA without this it calculates bigger size
+            dc.SetFont(font); // INFINIUM without this it calculates bigger size
             msg_sz = dc.GetMultiLineTextExtent(msg);
         }
         msg_sz += parent->FromDIP(wxSize(10,5)); // added extra spacing to prevent wrapping
@@ -687,7 +687,7 @@ wxBoxSizer *Newer3mfVersionDialog::get_msg_sizer()
     if (file_version_newer) { 
         text1 = new wxStaticText(this, wxID_ANY, _L("The 3MF file version is in Beta and it is newer than the current Infinium Slicer version."));
         wxStaticText *   text2       = new wxStaticText(this, wxID_ANY, _L("If you would like to try Infinium Slicer Beta, you may click to"));
-        // ORCA standardized HyperLink
+        // INFINIUM standardized HyperLink
         HyperLink *      github_link = new HyperLink(this, _L("Download Beta Version"), "https://github.com/SoftFever/Infinium/releases");
         horizontal_sizer->Add(text2, 0, wxEXPAND, 0);
         horizontal_sizer->Add(github_link, 0, wxEXPAND | wxLEFT, 5);
@@ -774,7 +774,7 @@ NetworkErrorDialog::NetworkErrorDialog(wxWindow* parent)
 
     wxBoxSizer* sizer_link = new wxBoxSizer(wxVERTICAL);
 
-    // ORCA standardized HyperLink
+    // INFINIUM standardized HyperLink
     m_link_server_state = new HyperLink(this, _L("Check the status of current system services"), wxGetApp().link_to_network_check());
     m_link_server_state->SetFont(::Label::Body_13);
 
@@ -790,7 +790,7 @@ NetworkErrorDialog::NetworkErrorDialog(wxWindow* parent)
     m_text_proposal->SetFont(::Label::Body_14);
     m_text_proposal->SetForegroundColour(0x323A3C);
 
-    // ORCA standardized HyperLink
+    // INFINIUM standardized HyperLink
     m_text_wiki = new HyperLink(this, _L("How to use LAN only mode"), wxGetApp().link_to_lan_only_wiki());
     m_text_wiki->SetFont(::Label::Body_13);
 

@@ -74,7 +74,7 @@ inline Point normal(Point pt, double scale)
 
     return pt * (scale / length);
 }
-// ORCA:
+// INFINIUM:
 // Collect all polygons of a given SurfaceType from all regions of a layer.
 // Used for top-contact probing across region/modifier boundaries.
 static Polygons collect_region_slices_by_type(const Layer &layer, SurfaceType surface_type)
@@ -1184,10 +1184,10 @@ void TreeSupport::create_tree_support_layers()
 
         // Layers between the raft contacts and bottom of the object.
         double dist_to_go = m_slicing_params.object_print_z_min - raft_print_z;
-        // ORCA: Guard tiny residual raft-to-object gaps so the EPSILON-biased ceil()
+        // INFINIUM: Guard tiny residual raft-to-object gaps so the EPSILON-biased ceil()
         // below cannot turn them into zero steps after floating-point accumulation.
         if (dist_to_go > EPSILON) {
-            // ORCA: Bias by EPSILON so near-equal gaps do not get an extra split from FP noise.
+            // INFINIUM: Bias by EPSILON so near-equal gaps do not get an extra split from FP noise.
             auto nsteps = int(ceil((dist_to_go - EPSILON) / m_slicing_params.max_suport_layer_height));
             double height = dist_to_go / nsteps;
             for (int i = 0; i < nsteps; ++i) {
@@ -1333,7 +1333,7 @@ static void make_perimeter_and_infill(ExtrusionEntitiesPtr& dst, const ExPolygon
         }
     }
 
-    // Orca: Some entities are direct paths, so check the type before testing for an empty collection.
+    // Infinium: Some entities are direct paths, so check the type before testing for an empty collection.
     dst.erase(std::remove_if(dst.begin(), dst.end(), [](ExtrusionEntity *entity) {
         return entity != nullptr && entity->is_collection() && static_cast<ExtrusionEntityCollection *>(entity)->empty();
     }), dst.end());
@@ -1478,7 +1478,7 @@ void TreeSupport::generate_toolpaths()
         return;
 
     BoundingBox bbox_object(Point(-scale_(1.), -scale_(1.0)), Point(scale_(1.), scale_(1.)));
-    // ORCA: base angle used for explicit interlaced interface orientation.
+    // INFINIUM: base angle used for explicit interlaced interface orientation.
     const float base_support_angle = Geometry::deg2rad(object_config.support_angle.value);
 
     // generate tree support tool paths
@@ -1498,7 +1498,7 @@ void TreeSupport::generate_toolpaths()
                 coordf_t support_spacing         = object_config.support_base_pattern_spacing.value + support_flow.spacing();
                 coordf_t support_density         = std::min(1., support_flow.spacing() / support_spacing);
                 ts_layer->support_fills.no_sort = false;
-                // ORCA: per-layer Fill instances to avoid shared-state races during interlaced interfaces.
+                // INFINIUM: per-layer Fill instances to avoid shared-state races during interlaced interfaces.
                 std::shared_ptr<Fill> filler_interface = std::shared_ptr<Fill>(Fill::new_from_type(m_support_params.contact_fill_pattern));
                 std::shared_ptr<Fill> filler_Roof1stLayer = std::shared_ptr<Fill>(Fill::new_from_type(ipRectilinear));
                 filler_interface->set_bounding_box(bbox_object);
@@ -1508,7 +1508,7 @@ void TreeSupport::generate_toolpaths()
                     ExPolygon& poly = *area_group.area;
                     ExPolygons polys;
                     FillParams fill_params;
-                    // ORCA: reset interface Fill state per area group to keep angles deterministic.
+                    // INFINIUM: reset interface Fill state per area group to keep angles deterministic.
                     filler_interface->fixed_angle = false;
                     filler_interface->layer_id = size_t(-1);
                     filler_Roof1stLayer->fixed_angle = false;
@@ -1534,7 +1534,7 @@ void TreeSupport::generate_toolpaths()
                     }
                     if (area_group.type == SupportLayer::Roof1stLayer) {
                         // roof_1st_layer
-                        // ORCA: Roof1stLayer may be printed with base material when it acts as a contact layer.
+                        // INFINIUM: Roof1stLayer may be printed with base material when it acts as a contact layer.
                         bool interface_as_base = area_group.interface_as_base;
                         fill_params.density = interface_density;
                         // Note: spacing means the separation between two lines as if they are tightly extruded
@@ -1594,19 +1594,19 @@ void TreeSupport::generate_toolpaths()
                         bool need_infill = with_infill;
                         if(m_object_config->support_base_pattern==smpDefault)
                             need_infill &= area_group.need_infill;
-                        // Orca: Use rectilinear for support base on the bed
+                        // Infinium: Use rectilinear for support base on the bed
                         const InfillPattern base_fill_pattern = support_base_on_bed ? ipRectilinear : m_support_params.base_fill_pattern;
                         std::shared_ptr<Fill> filler_support = std::shared_ptr<Fill>(Fill::new_from_type(base_fill_pattern));
                         filler_support->set_bounding_box(bbox_object);
 
                         filler_support->spacing =
                             support_base_on_bed ?
-                            flow.spacing() : // Orca: On the bed-contacting support base layer, use first-layer flow spacing directly.
+                            flow.spacing() : // Infinium: On the bed-contacting support base layer, use first-layer flow spacing directly.
                             support_spacing * support_density; // constant spacing to align support infill lines
                         filler_support->angle = Geometry::deg2rad(object_config.support_angle.value);
 
                         Polygons loops = to_polygons(poly);
-                        //ORCA: Group base per area as no_sort to keep outline->fill together.
+                        //INFINIUM: Group base per area as no_sort to keep outline->fill together.
                         std::unique_ptr<ExtrusionEntityCollection> base_eec = std::make_unique<ExtrusionEntityCollection>();
                         base_eec->no_sort = true;
                         ExtrusionEntitiesPtr &base_dst = base_eec->entities;
@@ -1616,7 +1616,7 @@ void TreeSupport::generate_toolpaths()
                                                                        m_support_params, true, false);
                         }
                         else {
-                            //ORCA: Force base walls before infill to keep outline->fill order.
+                            //INFINIUM: Force base walls before infill to keep outline->fill order.
                             if (need_infill && m_support_params.base_fill_pattern != ipLightning) {
                                 // allow infill-only mode if support is thick enough (so min_wall_count is 0);
                                 // otherwise must draw 1 wall
@@ -1633,7 +1633,7 @@ void TreeSupport::generate_toolpaths()
                             }
                         }
 
-                        //ORCA: Emit lightning infill per base area to avoid interleaving across islands.
+                        //INFINIUM: Emit lightning infill per base area to avoid interleaving across islands.
                         if (m_support_params.base_fill_pattern == ipLightning) {
                             double print_z = ts_layer->print_z;
                             auto lightning_layer_mapping = printZ_to_lightninglayer.find(print_z);
@@ -1668,7 +1668,7 @@ void TreeSupport::generate_toolpaths()
                             }
                         }
 
-                        //ORCA: Keep per-area base paths grouped for outline->fill preservation.
+                        //INFINIUM: Keep per-area base paths grouped for outline->fill preservation.
                         if (!base_eec->empty())
                             ts_layer->support_fills.entities.push_back(base_eec.release());
                     }
@@ -2202,7 +2202,7 @@ void TreeSupport::draw_circles()
                     for (auto &area : base_areas) { area.simplify(scale_(line_width / 2), &base_areas_simplified); }
                     base_areas = std::move(base_areas_simplified);
                 }
-                // ORCA:
+                // INFINIUM:
                 // Bottom interface / bottom gap must be anchored to the *true* support-to-model contact surface.
                 // Do NOT window the contact search by gap or interface height.
                 // First find the real contact below, then enforce:
@@ -2283,7 +2283,7 @@ void TreeSupport::draw_circles()
                                             break;
                                         --first_interface_layer;
                                     }
-                                    // ORCA: Use support-layer index for base-interface selection (robust with independent heights).
+                                    // INFINIUM: Use support-layer index for base-interface selection (robust with independent heights).
                                     if (m_support_params.num_bottom_base_interface_layers > 0) {
                                         const int bottom_interface_idx =
                                             std::max(0, int(layer_nr) - int(first_interface_layer));
@@ -2324,7 +2324,7 @@ void TreeSupport::draw_circles()
                     floor_areas = std::move(new_floor_areas);
                 }
 
-                // Orca: Hybrid tree first-layer expansion belongs only to the normal-support
+                // Infinium: Hybrid tree first-layer expansion belongs only to the normal-support
                 // part. area_poly is collected from ePolygon nodes above, which are the normal
                 // support nodes in Hybrid mode. Apply the expansion before area_groups and
                 // lslices are built so toolpaths and brim avoidance use the same footprint.
@@ -2334,7 +2334,7 @@ void TreeSupport::draw_circles()
                     const float inflate_factor_1st_layer = float(scale_(m_object_config->raft_first_layer_expansion.value));
                     Polygons trimming = offset(m_object->layers().front()->lslices, float(scale_(m_support_params.gap_xy_first_layer)),
                                                SUPPORT_SURFACES_OFFSET_PARAMETERS);
-                    // Orca: Match normal support expansion: grow in steps and re-trim against the object each time.
+                    // Infinium: Match normal support expansion: grow in steps and re-trim against the object each time.
                     const int nsteps = std::max(5, int(ceil(inflate_factor_1st_layer / m_support_params.first_layer_flow.scaled_width())));
                     const float step = inflate_factor_1st_layer / nsteps;
                     for (const ExPolygon &expoly : ts_layer->base_areas) {
@@ -2349,7 +2349,7 @@ void TreeSupport::draw_circles()
                     ts_layer->base_areas = std::move(expanded_base_areas);
                 }
 
-                // Orca: Final tree base polygons may be too close above model surfaces.
+                // Infinium: Final tree base polygons may be too close above model surfaces.
                 // Enforce bottom Z clearance for non-contact support layers as well.
                 if (!ts_layer->base_areas.empty()) {
                     const Polygons trimming = get_trim_support_regions(
@@ -2408,7 +2408,7 @@ void TreeSupport::draw_circles()
 
             }
         });
-        // ORCA: normalize interface_id sequencing to follow printed interface layers only.
+        // INFINIUM: normalize interface_id sequencing to follow printed interface layers only.
         const bool interlaced = m_object_config->support_interface_pattern == smipRectilinearInterlaced;
         int roof_interface_id = 0;
         int floor_interface_id = 0;
@@ -3378,7 +3378,7 @@ std::vector<LayerHeightData> TreeSupport::plan_layer_heights()
     for (size_t i = 0; i < layer_heights.size(); i++, support_layer_nr++) {
         // SupportLayer *ts_layer = m_object->add_tree_support_layer(support_layer_nr, layer_heights[i].print_z, layer_heights[i].height, layer_heights[i].print_z);
 
-        // ORCA: add_tree_support_layer() argument order is (id, height, print_z, slice_z).
+        // INFINIUM: add_tree_support_layer() argument order is (id, height, print_z, slice_z).
         // Passing print_z as height breaks support layer geometry.
         SupportLayer *ts_layer = m_object->add_tree_support_layer(support_layer_nr, layer_heights[i].height, layer_heights[i].print_z, layer_heights[i].print_z);
 

@@ -34,7 +34,7 @@
 #include "Widgets/CheckBox.hpp"
 #include "Widgets/ComboBox.hpp"
 #include "Widgets/ScrolledWindow.hpp"
-#include "Widgets/SwitchButton.hpp" // Orca: SwitchBoard (m_nozzle_btn_panel); not transitively available here
+#include "Widgets/SwitchButton.hpp" // Infinium: SwitchBoard (m_nozzle_btn_panel); not transitively available here
 #include "Widgets/PopupWindow.hpp"
 #include <wx/simplebook.h>
 #include <wx/hashmap.h>
@@ -96,7 +96,7 @@ protected:
     wxString m_mapping_text;
 
 public:
-    // Orca: filament_id defaults to empty so the existing 3-arg callers keep compiling;
+    // Infinium: filament_id defaults to empty so the existing 3-arg callers keep compiling;
     // m_filament_id is otherwise unused here.
     MaterialItem(wxWindow *parent, wxColour mcolour, wxString mname, std::string filament_id = std::string());
     ~MaterialItem();
@@ -172,7 +172,7 @@ public:
 class MaterialSyncItem : public MaterialItem
 {
 public:
-    // Orca: filament_id defaults to empty for existing 3-arg callers (see MaterialItem).
+    // Infinium: filament_id defaults to empty for existing 3-arg callers (see MaterialItem).
     MaterialSyncItem(wxWindow *parent, wxColour mcolour, wxString mname, std::string filament_id = std::string());
     ~MaterialSyncItem();
     int  get_real_offset();
@@ -352,10 +352,10 @@ public:
     void         paintEvent(wxPaintEvent &evt);
     void         set_parent_item(MaterialItem* item) {m_parent_item = item;};
     void         set_show_type(ShowType type) { m_show_type = type; };
-    // Orca: kept as a no-op for SelectMachine — its only caller passes false, which
+    // Infinium: kept as a no-op for SelectMachine — its only caller passes false, which
     // equals the update path's default (all slots shown).
     void         set_only_show_ext_spool(bool /*flag*/) {}
-    // Orca: dropped by the reference but still consumed by SelectMachine.
+    // Infinium: dropped by the reference but still consumed by SelectMachine.
     std::vector<TrayData> parse_ams_mapping(const std::map<std::string, DevAms*, NumericStrCompare>& amsList);
 
 #ifdef __APPLE__

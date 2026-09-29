@@ -379,7 +379,7 @@ std::string DevPrinterConfigUtil::get_toolhead_display_name(
         }
     }
 
-    // Orca: models that ship no tool_head_display_names (e.g. H2D/H2S) must still get distinct
+    // Infinium: models that ship no tool_head_display_names (e.g. H2D/H2S) must still get distinct
     // per-extruder labels, so fall back to the previous programmatic Left/Right construction.
     // Engages only when the config lookup above yields nothing, so models that ship the key
     // behave exactly like the reference.

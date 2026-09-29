@@ -4,7 +4,7 @@
 #include "MainFrame.hpp"
 #include "WebViewDialog.hpp"
 #include "Plater.hpp"
-#include "GLCanvas3D.hpp" // ORCA: for live preview refresh when toggling "Dim lower layers"
+#include "GLCanvas3D.hpp" // INFINIUM: for live preview refresh when toggling "Dim lower layers"
 #include "MsgDialog.hpp"
 #include "I18N.hpp"
 #include "libslic3r/AppConfig.hpp"
@@ -689,7 +689,7 @@ wxBoxSizer *PreferencesDialog::create_item_spinctrl(wxString title, wxString tit
     auto input = new SpinInput(m_parent, wxEmptyString, side_label, wxDefaultPosition, DESIGN_INPUT_SIZE, wxSP_ARROW_KEYS, min, max, stoi(app_config->get(param)));
     input->SetToolTip(tip);
 
-    // ORCA: this one is only meaningful while the dimming it controls is enabled
+    // INFINIUM: this one is only meaningful while the dimming it controls is enabled
     if (param == "preview_dim_previous_layers_brightness") {
         m_dim_previous_layers_brightness_input = input;
         input->Enable(app_config->get_bool("preview_dim_previous_layers"));
@@ -1040,7 +1040,7 @@ wxBoxSizer *PreferencesDialog::create_item_checkbox(wxString title, wxString too
                 wxGetApp().mainframe->m_webview->SendCloudProvidersInfo();
             }
         }
-        // ORCA: apply the preview dimming change immediately to the currently loaded preview
+        // INFINIUM: apply the preview dimming change immediately to the currently loaded preview
         else if (param == "preview_dim_previous_layers") {
             if (m_dim_previous_layers_brightness_input)
                 m_dim_previous_layers_brightness_input->Enable(app_config->get_bool(param));
@@ -1581,7 +1581,7 @@ void PreferencesDialog::Split(const std::string &src, const std::string &separat
 
 void PreferencesDialog::create_items()
 {
-    // ORCA
+    // INFINIUM
     // Window focus follows item creation order. so below code has to be in same order with UI
     // Create functions for custom controls to keep list clean
     // Tooltips added automatically from related title if its empty
@@ -1938,7 +1938,7 @@ void PreferencesDialog::create_items()
         "preview_dim_previous_layers_brightness",
         0,
         99,
-        // ORCA: apply the new brightness immediately to the currently loaded preview
+        // INFINIUM: apply the new brightness immediately to the currently loaded preview
         [](int value) {
             if (Plater* plater = wxGetApp().plater()) {
                 if (GLCanvas3D* canvas = plater->get_preview_canvas3D()) {
@@ -2192,7 +2192,7 @@ wxBoxSizer* PreferencesDialog::create_debug_page()
     auto item_internal_developer = create_item_checkbox(_L("Internal developer mode"), _L("Internal developer mode"), "internal_developer_mode");
 
     auto title_host = create_item_title(_L("Host Setting"));
-    // ORCA RadioGroup
+    // INFINIUM RadioGroup
     auto radio_group = new RadioGroup(m_parent, {
         _L("DEV host: api-dev.bambu-lab.com/v1"), // 0
         _L("QA  host: api-qa.bambu-lab.com/v1"),  // 1
@@ -2280,7 +2280,7 @@ wxBoxSizer* PreferencesDialog::create_debug_page()
                     wxGetApp().request_user_logout();
                     agent->set_country_code(country_code);
                 }
-                ConfirmBeforeSendDialog confirm_dlg(this, wxID_ANY, _L("Warning"), ConfirmBeforeSendDialog::VisibleButtons::ONLY_CONFIRM);  // ORCA VisibleButtons instead ButtonStyle 
+                ConfirmBeforeSendDialog confirm_dlg(this, wxID_ANY, _L("Warning"), ConfirmBeforeSendDialog::VisibleButtons::ONLY_CONFIRM);  // INFINIUM VisibleButtons instead ButtonStyle 
                 confirm_dlg.update_text(_L("Cloud environment switched; please login again!"));
                 confirm_dlg.on_show();
             }

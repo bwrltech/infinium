@@ -30,14 +30,14 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	margin-right: 4px !important;
-	top: -100px; /* ORCA this will be activated when item filtered with position:absolute */
+	top: -100px; /* INFINIUM this will be activated when item filtered with position:absolute */
 }
 
 .MItem label {
 	margin-right: 0px !important;
 }
 
-/* ORCA COLUMN BROWSER */
+/* INFINIUM COLUMN BROWSER */
 .cbr-browser-container {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);

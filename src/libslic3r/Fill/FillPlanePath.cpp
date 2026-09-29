@@ -78,7 +78,7 @@ void FillPlanePath::_fill_surface_single(
 
     //FIXME Vojtech: We are not sure whether the user expects the fill patterns on visible surfaces to be aligned across all the islands of a single layer.
     // One may align for this->centered() to align the patterns for Archimedean Chords and Octagram Spiral patterns.
-    // Orca: the old implementation became obsolete when it became possible to change the density of the top and bottom surfaces
+    // Infinium: the old implementation became obsolete when it became possible to change the density of the top and bottom surfaces
     bool        align = params.extrusion_role == ExtrusionRole::erInternalInfill;
     BoundingBox bounding_box;
     BoundingBox snug_bounding_box = get_extents(expolygon).inflated(SCALED_EPSILON);
@@ -135,7 +135,7 @@ void FillPlanePath::_fill_surface_single(
         if (!polylines.empty()) {
             Polylines chained;
             if (params.dont_connect() || params.density > 0.5) {
-                // ORCA: special flag for flow rate calibration. The chords chained ahead of the
+                // INFINIUM: special flag for flow rate calibration. The chords chained ahead of the
                 // inside-out center spiral collide with it in opposing directions, raising a
                 // tactile lip that the calibration reads. Only applies while the fill order is
                 // Default, so it can be overridden from the calibration objects.
@@ -163,7 +163,7 @@ void FillPlanePath::_fill_surface_single(
                     // Then add the center spiral back
                     chained.push_back(std::move(center_spiral));
                 } else if (params.fill_order != SurfaceFillOrder::Default) {
-                    // Orca: print the fragments in the order they appear along the generated
+                    // Infinium: print the fragments in the order they appear along the generated
                     // path, which runs from the center outwards. The Euclidean distance from
                     // the center cannot be used for this: along the Octagram Spiral the radius
                     // oscillates by far more than the ring spacing, so fragments of different

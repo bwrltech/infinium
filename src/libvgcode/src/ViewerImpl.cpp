@@ -296,7 +296,7 @@ static const std::array<Color, size_t(EGCodeExtrusionRole::COUNT)> DEFAULT_EXTRU
     {   0, 128,   0 }, // SupportMaterialInterface
     { 179, 227, 171 }, // WipeTower
     {  94, 209, 148 },  // Custom
-    // ORCA
+    // INFINIUM
     { 102,  92, 199 }, // BottomSurface
     {  77, 128, 186 }, // InternalBridgeInfill
     {   0,  59, 110 }, // Brim
@@ -967,7 +967,7 @@ static void extract_pos_and_or_hwa(const std::vector<PathVertex>& vertices, floa
                 width = v.width;
             }
             
-            // ORCA: Set bias for wipes and options to avoid z-fighting
+            // INFINIUM: Set bias for wipes and options to avoid z-fighting
             float bias = 0.0f;
             if (v.is_wipe())
                 bias = 0.05f;
@@ -975,7 +975,7 @@ static void extract_pos_and_or_hwa(const std::vector<PathVertex>& vertices, floa
                 bias = 0.1f;
 
             // the last component is a dummy float to comply with GL_RGBA32F format
-            // ORCA: Pass bias to shader
+            // INFINIUM: Pass bias to shader
             heights_widths_angles->push_back({ height, width,
                 std::atan2(prev_line[0] * this_line[1] - prev_line[1] * this_line[0], dot(prev_line, this_line)), bias });
         }
@@ -1223,7 +1223,7 @@ static float encode_color(const Color& color) {
     return static_cast<float>(i_color);
 }
 
-// ORCA: returns the encoded color scaled towards black by 'brightness', preserving its hue.
+// INFINIUM: returns the encoded color scaled towards black by 'brightness', preserving its hue.
 // 1.0 = no change, 0.0 = black.
 static float encode_color_dimmed(const Color& color, float brightness) {
     const int r = static_cast<int>(color[0] * brightness);
@@ -1244,7 +1244,7 @@ void ViewerImpl::update_colors_texture()
     const size_t top_layer_id = m_settings.top_layer_only_view_range ? m_layers.get_view_range()[1] : 0;
     const bool color_top_layer_only = m_view_range.get_full()[1] != m_view_range.get_visible()[1];
 
-    // ORCA: when dim_previous_layers is enabled, darken every layer (keeping its color) except the
+    // INFINIUM: when dim_previous_layers is enabled, darken every layer (keeping its color) except the
     // one(s) the layer slider is being scrubbed to, so that only those are shown at full brightness.
     // A slider thumb marks a layer as inspected only once it is moved away from
     // its end of the print: the upper one while it is below the last layer (or while the moves
@@ -1266,7 +1266,7 @@ void ViewerImpl::update_colors_texture()
     for (size_t i=0; i<m_vertices.size(); ++i) {
         const PathVertex& v = m_vertices[i];
         const bool keep_spiral_seam = m_settings.spiral_vase_mode && i == m_view_range.get_enabled()[0];
-        // ORCA: layers kept at full brightness by the dimming above are excluded from the greying below too
+        // INFINIUM: layers kept at full brightness by the dimming above are excluded from the greying below too
         const bool inspected_layer = dim_previous_layers &&
                                      ((inspecting_top_layer && v.layer_id == layers_range[1]) ||
                                       (inspecting_bottom_layer && v.layer_id == layers_range[0]));
@@ -1384,7 +1384,7 @@ void ViewerImpl::toggle_top_layer_only_view_range()
     update_colors_texture();
 }
 
-// ORCA: enable/disable darkening of the layers the layer slider is not scrubbed to
+// INFINIUM: enable/disable darkening of the layers the layer slider is not scrubbed to
 void ViewerImpl::set_dim_previous_layers(bool value)
 {
     if (m_settings.dim_previous_layers == value)
@@ -1395,7 +1395,7 @@ void ViewerImpl::set_dim_previous_layers(bool value)
     m_settings.update_colors = true;
 }
 
-// ORCA: set how bright the darkened layers are rendered, 1.0 = unchanged, 0.0 = black
+// INFINIUM: set how bright the darkened layers are rendered, 1.0 = unchanged, 0.0 = black
 void ViewerImpl::set_dim_previous_layers_brightness(float value)
 {
     value = std::clamp(value, 0.0f, 1.0f);
@@ -1558,17 +1558,17 @@ Color ViewerImpl::get_vertex_color(const PathVertex& v) const
     {
         return v.is_travel() ? get_option_color(move_type_to_option(v.type)) : m_temperature_range.get_color_at(v.temperature);
     }
-// ORCA: Add Pressure Advance visualization support
+// INFINIUM: Add Pressure Advance visualization support
     case EViewType::PressureAdvance:
     {
         return v.is_travel() ? get_option_color(move_type_to_option(v.type)) : m_pressure_advance_range.get_color_at(v.pressure_advance);
     }
-    // ORCA: Add Acceleration visualization support
+    // INFINIUM: Add Acceleration visualization support
     case EViewType::Acceleration:
     {
         return m_acceleration_range.get_color_at(v.acceleration);
     }
-    // ORCA: Add Jerk visualization support
+    // INFINIUM: Add Jerk visualization support
     case EViewType::Jerk:
     {
         return m_jerk_range.get_color_at(v.jerk);
@@ -1596,7 +1596,7 @@ Color ViewerImpl::get_vertex_color(const PathVertex& v) const
         assert(static_cast<size_t>(v.extruder_id) < m_tool_colors.size());
         return m_tool_colors[v.extruder_id];
     }
-    case EViewType::Summary: // ORCA
+    case EViewType::Summary: // INFINIUM
     case EViewType::ColorPrint:
     {
         return m_layers.layer_contains_colorprint_options(static_cast<size_t>(v.layer_id)) ? DUMMY_COLOR :
@@ -1662,11 +1662,11 @@ const ColorRange& ViewerImpl::get_color_range(EViewType type) const
     case EViewType::ActualSpeed:              { return m_actual_speed_range; }
     case EViewType::FanSpeed:                 { return m_fan_speed_range; }
     case EViewType::Temperature:              { return m_temperature_range; }
-// ORCA: Add Pressure Advance visualization support
+// INFINIUM: Add Pressure Advance visualization support
     case EViewType::PressureAdvance:          { return m_pressure_advance_range; }
-    // ORCA: Add Acceleration visualization support
+    // INFINIUM: Add Acceleration visualization support
     case EViewType::Acceleration:             { return m_acceleration_range; }
-    // ORCA: Add Jerk visualization support
+    // INFINIUM: Add Jerk visualization support
     case EViewType::Jerk:                     { return m_jerk_range; }
     case EViewType::VolumetricFlowRate:       { return m_volumetric_rate_range; }
     case EViewType::ActualVolumetricFlowRate: { return m_actual_volumetric_rate_range; }
@@ -1686,11 +1686,11 @@ void ViewerImpl::set_color_range_palette(EViewType type, const Palette& palette)
     case EViewType::ActualSpeed:              { m_actual_speed_range.set_palette(palette);    break; }
     case EViewType::FanSpeed:                 { m_fan_speed_range.set_palette(palette);       break; }
     case EViewType::Temperature:              { m_temperature_range.set_palette(palette);     break; }
-// ORCA: Add Pressure Advance visualization support
+// INFINIUM: Add Pressure Advance visualization support
     case EViewType::PressureAdvance:          { m_pressure_advance_range.set_palette(palette); break; }
-    // ORCA: Add Acceleration visualization support
+    // INFINIUM: Add Acceleration visualization support
     case EViewType::Acceleration:             { m_acceleration_range.set_palette(palette);     break; }
-    // ORCA: Add Jerk visualization support
+    // INFINIUM: Add Jerk visualization support
     case EViewType::Jerk:                     { m_jerk_range.set_palette(palette);             break; }
     case EViewType::VolumetricFlowRate:       { m_volumetric_rate_range.set_palette(palette); break; }
     case EViewType::ActualVolumetricFlowRate: { m_actual_volumetric_rate_range.set_palette(palette); break; }
@@ -1729,11 +1729,11 @@ size_t ViewerImpl::get_used_cpu_memory() const
     ret += m_actual_speed_range.size_in_bytes_cpu();
     ret += m_fan_speed_range.size_in_bytes_cpu();
     ret += m_temperature_range.size_in_bytes_cpu();
-    // ORCA: Add Pressure Advance visualization support
+    // INFINIUM: Add Pressure Advance visualization support
     ret += m_pressure_advance_range.size_in_bytes_cpu();
-    // ORCA: Add Acceleration visualization support
+    // INFINIUM: Add Acceleration visualization support
     ret += m_acceleration_range.size_in_bytes_cpu();
-    // ORCA: Add Jerk visualization support
+    // INFINIUM: Add Jerk visualization support
     ret += m_jerk_range.size_in_bytes_cpu();
     ret += m_volumetric_rate_range.size_in_bytes_cpu();
     ret += m_actual_volumetric_rate_range.size_in_bytes_cpu();
@@ -1885,11 +1885,11 @@ void ViewerImpl::update_color_ranges()
     m_actual_speed_range.reset();
     m_fan_speed_range.reset();
     m_temperature_range.reset();
-    // ORCA: Add Pressure Advance visualization support
+    // INFINIUM: Add Pressure Advance visualization support
     m_pressure_advance_range.reset();
-    // ORCA: Add Acceleration visualization support
+    // INFINIUM: Add Acceleration visualization support
     m_acceleration_range.reset();
-    // ORCA: Add Jerk visualization support
+    // INFINIUM: Add Jerk visualization support
     m_jerk_range.reset();
     m_volumetric_rate_range.reset();
     m_actual_volumetric_rate_range.reset();
@@ -1907,7 +1907,7 @@ void ViewerImpl::update_color_ranges()
             }
             m_fan_speed_range.update(round_to_bin(v.fan_speed));
             m_temperature_range.update(round_to_bin(v.temperature));
-            // ORCA: Add Pressure Advance visualization support
+            // INFINIUM: Add Pressure Advance visualization support
             if (v.pressure_advance >= 0.0f)
                 m_pressure_advance_range.update(v.pressure_advance);
         }
@@ -1916,9 +1916,9 @@ void ViewerImpl::update_color_ranges()
              v.is_extrusion()) {
             m_speed_range.update(v.feedrate);
             m_actual_speed_range.update(v.actual_feedrate);
-            // ORCA: Add Acceleration visualization support
+            // INFINIUM: Add Acceleration visualization support
             m_acceleration_range.update(v.acceleration);
-            // ORCA: Add Jerk visualization support
+            // INFINIUM: Add Jerk visualization support
             m_jerk_range.update(v.jerk);
         }
     }

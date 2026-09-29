@@ -320,7 +320,7 @@ void Tab::create_preset_tab()
     //search input
     m_search_item = new StaticBox(m_top_panel);
     StateColor box_colour(std::pair<wxColour, int>(*wxWHITE, StateColor::Normal));
-    StateColor box_border_colour(std::pair<wxColour, int>(wxColour("#0D6E63"), StateColor::Normal)); // ORCA match border color with other input/combo boxes
+    StateColor box_border_colour(std::pair<wxColour, int>(wxColour("#0D6E63"), StateColor::Normal)); // INFINIUM match border color with other input/combo boxes
 
     m_search_item->SetBackgroundColor(box_colour);
     m_search_item->SetBorderColor(box_border_colour);
@@ -350,8 +350,8 @@ void Tab::create_preset_tab()
         if (m_presets_choice) m_presets_choice->Show();
 
         m_btn_save_preset->Show();
-        m_btn_delete_preset->Show(); // ORCA: fixes delete preset button visible while search box focused
-        m_undo_btn->Show();          // ORCA: fixes revert preset button visible while search box focused
+        m_btn_delete_preset->Show(); // INFINIUM: fixes delete preset button visible while search box focused
+        m_undo_btn->Show();          // INFINIUM: fixes revert preset button visible while search box focused
         m_btn_search->Show();
         m_search_item->Hide();
 
@@ -380,8 +380,8 @@ void Tab::create_preset_tab()
              m_presets_choice->Hide();
 
          m_btn_save_preset->Hide();
-         m_btn_delete_preset->Hide(); // ORCA: fixes delete preset button visible while search box focused
-         m_undo_btn->Hide();          // ORCA: fixes revert preset button visible while search box focused
+         m_btn_delete_preset->Hide(); // INFINIUM: fixes delete preset button visible while search box focused
+         m_undo_btn->Hide();          // INFINIUM: fixes revert preset button visible while search box focused
          m_btn_search->Hide();
          m_search_item->Show();
 
@@ -427,7 +427,7 @@ void Tab::create_preset_tab()
     m_top_sizer->Add(m_search_item      , 1, wxALIGN_CENTER_VERTICAL | wxLEFT, FromDIP(SidebarProps::ContentMargin()));
 
     if (dynamic_cast<TabPrint*>(this) == nullptr) {
-        m_mode_icon = new ScalableButton(m_top_panel, wxID_ANY, "advanced"); // ORCA
+        m_mode_icon = new ScalableButton(m_top_panel, wxID_ANY, "advanced"); // INFINIUM
         m_mode_icon->SetToolTip(_L("Cycle settings visibility"));
         m_mode_icon->Bind(wxEVT_BUTTON, [this](wxCommandEvent e) {
             if (wxGetApp().get_mode() == comDevelop || m_mode_view == nullptr)
@@ -1796,7 +1796,7 @@ static wxString pad_combo_value_for_config(const DynamicPrintConfig &config)
 
 void Tab::on_value_change(const std::string& opt_key, const boost::any& value)
 {
-    // Orca:
+    // Infinium:
     // TODO: Move filament-specific checks to TabFilament::on_value_change()
     // TODO: Move printer-specific checks to TabPrinter::on_value_change()
 
@@ -1895,7 +1895,7 @@ void Tab::on_value_change(const std::string& opt_key, const boost::any& value)
             // Disabling the prime tower on a multi-nozzle printer degrades quality because nozzle changes rely
             // on it. Gate on any extruder having extruder_max_nozzle_count > 1 so single-nozzle and dual-extruder
             // (H2D, {1,1}) printers keep their exact existing behavior.
-            // Orca: gate on any_of(count > 1) rather than the sum of counts >= 2. The sum form would also fire for
+            // Infinium: gate on any_of(count > 1) rather than the sum of counts >= 2. The sum form would also fire for
             // H2D ({1,1} sums to 2); any_of(>1) preserves H2D's current no-dialog behavior.
             auto *max_nozzle_counts_opt = wxGetApp().preset_bundle->printers.get_edited_preset().config.option<ConfigOptionIntsNullable>("extruder_max_nozzle_count");
             const bool has_multiple_nozzle = max_nozzle_counts_opt &&
@@ -2025,7 +2025,7 @@ void Tab::on_value_change(const std::string& opt_key, const boost::any& value)
     }
 
     // BBS set support style to default when support type changes
-    // Orca: do this only in simple mode
+    // Infinium: do this only in simple mode
     if (opt_key == "support_type" && m_mode == comSimple) {
         DynamicPrintConfig new_conf = *m_config;
         new_conf.set_key_value("support_style", new ConfigOptionEnum<SupportMaterialStyle>(smsDefault));
@@ -2107,7 +2107,7 @@ void Tab::on_value_change(const std::string& opt_key, const boost::any& value)
     }
 
     if (opt_key == "sparse_infill_rotate_template") {
-        // Orca: show warning dialog if rotate template for solid infill if not support
+        // Infinium: show warning dialog if rotate template for solid infill if not support
         const auto _sparse_infill_pattern = m_config->option<ConfigOptionEnum<InfillPattern>>("sparse_infill_pattern")->value;
         bool       is_safe_to_rotate      = _sparse_infill_pattern == ipRectilinear || _sparse_infill_pattern == ipLine ||
                                  _sparse_infill_pattern == ipZigZag || _sparse_infill_pattern == ipCrossZag ||
@@ -2173,7 +2173,7 @@ void Tab::on_value_change(const std::string& opt_key, const boost::any& value)
     }
 
 
-    //Orca: sync filament num if it's a multi tool printer
+    //Infinium: sync filament num if it's a multi tool printer
     if (opt_key == "extruders_count" && !m_config->opt_bool("single_extruder_multi_material")){
         const size_t num_extruder = boost::any_cast<size_t>(value);
         auto        *bundle       = wxGetApp().preset_bundle;
@@ -2196,7 +2196,7 @@ void Tab::on_value_change(const std::string& opt_key, const boost::any& value)
         }
     }
 
-    //Orca: disable purge_in_prime_tower if single_extruder_multi_material is disabled
+    //Infinium: disable purge_in_prime_tower if single_extruder_multi_material is disabled
     if (opt_key == "single_extruder_multi_material" && m_config->opt_bool("single_extruder_multi_material") == false){
         DynamicPrintConfig new_conf = *m_config;
         new_conf.set_key_value("purge_in_prime_tower", new ConfigOptionBool(false));
@@ -2219,7 +2219,7 @@ void Tab::on_value_change(const std::string& opt_key, const boost::any& value)
         }
     }
 
-    // Orca: allow different layer height for non-bbl printers
+    // Infinium: allow different layer height for non-bbl printers
     // TODO: allow this for BBL printers too?
     if (m_preset_bundle->get_printer_extruder_count() > 1 && m_preset_bundle->is_bbl_vendor()) {
         int extruder_idx = std::atoi(opt_key.substr(opt_key.find_last_of('#') + 1).c_str());
@@ -2276,7 +2276,7 @@ void Tab::on_value_change(const std::string& opt_key, const boost::any& value)
         m_active_page->update_visibility(m_mode, true);
     m_page_view->GetParent()->Layout();
 
-    // ORCA also update states of plates for plates toolbar. same method exist on Plater::priv::on_select_preset()
+    // INFINIUM also update states of plates for plates toolbar. same method exist on Plater::priv::on_select_preset()
     auto& plate_list = wxGetApp().plater()->get_partplate_list();
     for (auto plate : plate_list.get_plate_list())
         plate->update_slice_result_valid_state(false);
@@ -2297,7 +2297,7 @@ void Tab::show_timelapse_warning_dialog() {
 void Tab::update_wiping_button_visibility() {
     if (m_preset_bundle->printers.get_selected_preset().printer_technology() == ptSLA)
         return; // ys_FIXME
-    // Orca: it's not used
+    // Infinium: it's not used
     //
     // bool wipe_tower_enabled = dynamic_cast<ConfigOptionBool*>(  (m_preset_bundle->prints.get_edited_preset().config  ).option("enable_prime_tower"))->value;
     // bool multiple_extruders = dynamic_cast<ConfigOptionFloats*>((m_preset_bundle->printers.get_edited_preset().config).option("nozzle_diameter"))->values.size() > 1;
@@ -2468,7 +2468,7 @@ void Tab::on_presets_changed()
 
     wxGetApp().plater()->update_project_dirty_from_presets();
 
-    // ORCA also update states of plates for plates toolbar. same method exist on Plater::priv::on_select_preset()
+    // INFINIUM also update states of plates for plates toolbar. same method exist on Plater::priv::on_select_preset()
     auto& plate_list = wxGetApp().plater()->get_partplate_list();
     for (auto plate : plate_list.get_plate_list())
         plate->update_slice_result_valid_state(false);
@@ -2634,7 +2634,7 @@ void TabPrint::build()
         m_presets = &m_preset_bundle->prints;
     load_initial_data();
 
-    auto page = add_options_page(L("Quality"), "custom-gcode_quality"); // ORCA: icon only visible on placeholders
+    auto page = add_options_page(L("Quality"), "custom-gcode_quality"); // INFINIUM: icon only visible on placeholders
         auto optgroup = page->new_optgroup(L("Layer height"), L"param_layer_height");
         optgroup->append_single_option_line("layer_height","quality_settings_layer_height");
         optgroup->append_single_option_line("initial_layer_print_height","quality_settings_layer_height");
@@ -2704,7 +2704,7 @@ void TabPrint::build()
         optgroup->append_single_option_line("zaa_minimize_perimeter_height", "quality_settings_z_contouring#minimize-wall-height-angle");
         optgroup->append_single_option_line("zaa_min_z", "quality_settings_z_contouring#minimum-z-height");
         optgroup->append_single_option_line("zaa_dont_alternate_fill_direction", "quality_settings_z_contouring#dont-alternate-fill-direction");
-        // Orca: it's not used yet, so hide it in UI for now
+        // Infinium: it's not used yet, so hide it in UI for now
         // optgroup->append_single_option_line("ironing_expansion");
 
         optgroup = page->new_optgroup(L("Wall generator"), L"param_wall_generator");
@@ -2771,7 +2771,7 @@ void TabPrint::build()
         optgroup->append_single_option_line("overhang_reverse_internal_only", "quality_settings_overhangs#reverse-internal-only");
         optgroup->append_single_option_line("overhang_reverse_threshold", "quality_settings_overhangs#reverse-threshold");
 
-    page = add_options_page(L("Strength"), "custom-gcode_strength"); // ORCA: icon only visible on placeholders
+    page = add_options_page(L("Strength"), "custom-gcode_strength"); // INFINIUM: icon only visible on placeholders
         optgroup = page->new_optgroup(L("Walls"), L"param_wall");
         optgroup->append_single_option_line("wall_loops", "strength_settings_walls#wall-loops");
         optgroup->append_single_option_line("alternate_extra_wall", "strength_settings_walls#alternate-extra-wall");
@@ -2833,7 +2833,7 @@ void TabPrint::build()
         optgroup->append_single_option_line("align_infill_direction_to_model", "strength_settings_advanced#align-directions-to-model");
         optgroup->append_single_option_line("extra_solid_infills", "strength_settings_infill#extra-solid-infill");
         optgroup->append_single_option_line("bridge_angle", "strength_settings_advanced#bridge-infill-direction");
-        optgroup->append_single_option_line("internal_bridge_angle", "strength_settings_advanced#bridge-infill-direction"); // ORCA: Internal bridge angle override
+        optgroup->append_single_option_line("internal_bridge_angle", "strength_settings_advanced#bridge-infill-direction"); // INFINIUM: Internal bridge angle override
         optgroup->append_single_option_line("relative_bridge_angle", "strength_settings_advanced#relative-bridge-angle");
         optgroup->append_single_option_line("minimum_sparse_infill_area", "strength_settings_advanced#minimum-sparse-infill-threshold");
         optgroup->append_single_option_line("infill_combination", "strength_settings_advanced#infill-combination");
@@ -2841,7 +2841,7 @@ void TabPrint::build()
         optgroup->append_single_option_line("detect_narrow_internal_solid_infill", "strength_settings_advanced#detect-narrow-internal-solid-infill");
         optgroup->append_single_option_line("ensure_vertical_shell_thickness", "strength_settings_advanced#ensure-vertical-shell-thickness");
 
-    page = add_options_page(L("Speed"), "custom-gcode_speed"); // ORCA: icon only visible on placeholders
+    page = add_options_page(L("Speed"), "custom-gcode_speed"); // INFINIUM: icon only visible on placeholders
         optgroup = page->new_optgroup(L("First layer speed"), L"param_speed_first", 15);
         optgroup->append_single_option_line("initial_layer_speed", "speed_settings_initial_layer_speed#initial-layer", 0);
         optgroup->append_single_option_line("initial_layer_infill_speed", "speed_settings_initial_layer_speed#initial-layer-infill", 0);
@@ -2913,7 +2913,7 @@ void TabPrint::build()
         optgroup->append_single_option_line("max_volumetric_extrusion_rate_slope_segment_length", "speed_settings_advanced");
         optgroup->append_single_option_line("extrusion_rate_smoothing_external_perimeter_only", "speed_settings_advanced");
 
-    page = add_options_page(L("Support"), "custom-gcode_support"); // ORCA: icon only visible on placeholders
+    page = add_options_page(L("Support"), "custom-gcode_support"); // INFINIUM: icon only visible on placeholders
         optgroup = page->new_optgroup(L("Support"), L"param_support");
         optgroup->append_single_option_line("enable_support", "support_settings_support");
         optgroup->append_single_option_line("support_type", "support_settings_support#type");
@@ -2980,7 +2980,7 @@ void TabPrint::build()
         optgroup->append_single_option_line("tree_support_auto_brim", "support_settings_tree");
         optgroup->append_single_option_line("tree_support_brim_width", "support_settings_tree");
 
-    page = add_options_page(L("Multimaterial"), "custom-gcode_multi_material"); // ORCA: icon only visible on placeholders
+    page = add_options_page(L("Multimaterial"), "custom-gcode_multi_material"); // INFINIUM: icon only visible on placeholders
         optgroup = page->new_optgroup(L("Prime tower"), L"param_tower");
         optgroup->append_single_option_line("enable_prime_tower", "multimaterial_settings_prime_tower");
         optgroup->append_single_option_line("prime_tower_skip_points", "multimaterial_settings_prime_tower");
@@ -3035,7 +3035,7 @@ void TabPrint::build()
         optgroup->append_single_option_line("interlocking_depth", "multimaterial_settings_advanced#interlocking-depth");
         optgroup->append_single_option_line("interlocking_boundary_avoidance", "multimaterial_settings_advanced#interlocking-boundary-avoidance");
 
-    page = add_options_page(L("Others"), "custom-gcode_other"); // ORCA: icon only visible on placeholders
+    page = add_options_page(L("Others"), "custom-gcode_other"); // INFINIUM: icon only visible on placeholders
         optgroup = page->new_optgroup(L("Skirt"), L"param_skirt");
         optgroup->append_single_option_line("skirt_loops", "others_settings_skirt#loops");
         optgroup->append_single_option_line("skirt_type", "others_settings_skirt#type");
@@ -3133,7 +3133,7 @@ void TabPrint::build()
         option.opt.height = 25;//250;
         optgroup->append_single_option_line(option, "others_settings_notes");
 
-    // Orca: hide the dependencies tab for process for now. The UI is not ready yet.
+    // Infinium: hide the dependencies tab for process for now. The UI is not ready yet.
     // page = add_options_page(L("Dependencies"), "param_profile_dependencies"); // icons ready
     //     optgroup = page->new_optgroup(L("Profile dependencies"), "param_profile_dependencies"); // icons ready
 
@@ -3996,7 +3996,7 @@ void TabFilament::set_custom_gcode(const t_config_option_key& opt_key, const std
 void TabFilament::add_filament_overrides_page()
 {
     //BBS
-    PageShp page = add_options_page(L("Setting Overrides"), "custom-gcode_setting_override"); // ORCA: icon only visible on placeholders
+    PageShp page = add_options_page(L("Setting Overrides"), "custom-gcode_setting_override"); // INFINIUM: icon only visible on placeholders
 
     const int extruder_idx = 0; // #ys_FIXME
 
@@ -4006,7 +4006,7 @@ void TabFilament::add_filament_overrides_page()
         line = optgroup->create_single_option_line(optgroup->get_option(opt_key, opt_index));
 
         line.near_label_widget = [this, optgroup_wk = ConfigOptionsGroupWkp(optgroup), opt_key, opt_index](wxWindow* parent) {
-            auto check_box = new ::CheckBox(parent); // ORCA modernize checkboxes
+            auto check_box = new ::CheckBox(parent); // INFINIUM modernize checkboxes
             check_box->Bind(wxEVT_TOGGLEBUTTON, [this, optgroup_wk, opt_key, opt_index](wxCommandEvent& evt) {
                 const bool is_checked = evt.IsChecked();
                 if (auto optgroup_sh = optgroup_wk.lock(); optgroup_sh) {
@@ -4051,7 +4051,7 @@ void TabFilament::add_filament_overrides_page()
                                         // BBS
                                         "filament_wipe_distance",
                                         "filament_retract_before_wipe",
-                                        // Orca
+                                        // Infinium
                                         "filament_retract_after_wipe",
                                         // BBS
                                         "filament_long_retractions_when_cut",
@@ -4074,7 +4074,7 @@ void TabFilament::add_filament_overrides_page()
         line = ironing_optgroup->create_single_option_line(ironing_optgroup->get_option(opt_key, opt_index));
 
         line.near_label_widget = [this, optgroup_wk = ConfigOptionsGroupWkp(ironing_optgroup), opt_key, opt_index](wxWindow* parent) {
-            auto check_box = new ::CheckBox(parent); // ORCA modernize checkboxes
+            auto check_box = new ::CheckBox(parent); // INFINIUM modernize checkboxes
             check_box->Bind(wxEVT_TOGGLEBUTTON, [this, optgroup_wk, opt_key, opt_index](wxCommandEvent& evt) {
                 const bool is_checked = evt.IsChecked();
                 if (auto optgroup_sh = optgroup_wk.lock(); optgroup_sh) {
@@ -4188,7 +4188,7 @@ void TabFilament::update_filament_overrides_page(const DynamicPrintConfig* print
                                             // BBS
                                             "filament_wipe_distance",
                                             "filament_retract_before_wipe",
-                                            // Orca
+                                            // Infinium
                                             "filament_retract_after_wipe",
                                             // BBS
                                             "filament_long_retractions_when_cut",
@@ -4285,10 +4285,10 @@ void TabFilament::build()
     m_presets = &m_preset_bundle->filaments;
     load_initial_data();
 
-    auto page = add_options_page(L("Filament"), "custom-gcode_filament"); // ORCA: icon only visible on placeholders
+    auto page = add_options_page(L("Filament"), "custom-gcode_filament"); // INFINIUM: icon only visible on placeholders
         //BBS
         auto optgroup = page->new_optgroup(L("Basic information"), L"param_information");
-        optgroup->append_single_option_line("filament_type", "material_basic_information#type"); // ORCA use same width with other elements
+        optgroup->append_single_option_line("filament_type", "material_basic_information#type"); // INFINIUM use same width with other elements
         optgroup->append_single_option_line("filament_vendor", "material_basic_information#vendor");
         optgroup->append_single_option_line("filament_soluble", "material_basic_information#soluble-material");
         // BBS
@@ -4323,7 +4323,7 @@ void TabFilament::build()
             on_value_change(opt_key, value);
         };
 
-        // Orca: New section to focus on flow rate and PA to declutter general section
+        // Infinium: New section to focus on flow rate and PA to declutter general section
         optgroup = page->new_optgroup(L("Flow ratio and Pressure Advance"), L"param_flow_ratio_and_pressure_advance");
         optgroup->append_single_option_line("pellet_flow_coefficient", "printer_basic_information_advanced#pellet-modded-printer");
         optgroup->append_single_option_line("filament_flow_ratio", "material_flow_ratio_and_pressure_advance#flow-ratio", 0);
@@ -4331,7 +4331,7 @@ void TabFilament::build()
         optgroup->append_single_option_line("enable_pressure_advance", "material_flow_ratio_and_pressure_advance#pressure-advance");
         optgroup->append_single_option_line("pressure_advance", "material_flow_ratio_and_pressure_advance#pressure-advance");
 
-        // Orca: adaptive pressure advance and calibration model
+        // Infinium: adaptive pressure advance and calibration model
         optgroup->append_single_option_line("adaptive_pressure_advance", "material_flow_ratio_and_pressure_advance#enable-adaptive-pressure-advance-beta");
         optgroup->append_single_option_line("adaptive_pressure_advance_overhangs", "material_flow_ratio_and_pressure_advance#enable-adaptive-pressure-advance-for-overhangs-beta");
         optgroup->append_single_option_line("adaptive_pressure_advance_bridges", "material_flow_ratio_and_pressure_advance#pressure-advance-for-bridges");
@@ -4467,7 +4467,7 @@ void TabFilament::build()
         //};
         //optgroup->append_line(line);
 
-    page = add_options_page(L("Cooling"), "custom-gcode_cooling_fan"); // ORCA: icon only visible on placeholders
+    page = add_options_page(L("Cooling"), "custom-gcode_cooling_fan"); // INFINIUM: icon only visible on placeholders
 
         //line = { "", "" };
         //line.full_width = 1;
@@ -4477,7 +4477,7 @@ void TabFilament::build()
         //optgroup->append_line(line);
         optgroup = page->new_optgroup(L("Cooling for specific layer"), L"param_cooling_specific_layer");
         optgroup->append_single_option_line("close_fan_the_first_x_layers", "material_cooling#no-cooling-for-the-first");
-        // ORCA: explicit override for the part cooling fan on layer 0; also anchors the ramp when "Full fan speed at layer" is set.
+        // INFINIUM: explicit override for the part cooling fan on layer 0; also anchors the ramp when "Full fan speed at layer" is set.
         optgroup->append_single_option_line("initial_layer_fan_speed", "material_cooling#first-layer-fan-speed");
         optgroup->append_single_option_line("full_fan_speed_layer", "material_cooling#full-fan-speed-at-layer");
 
@@ -4500,9 +4500,9 @@ void TabFilament::build()
         optgroup->append_single_option_line("enable_overhang_bridge_fan", "material_cooling#force-cooling-for-overhangs-and-bridges");
         optgroup->append_single_option_line("overhang_fan_threshold", "material_cooling#overhang-cooling-activation-threshold");
         optgroup->append_single_option_line("overhang_fan_speed", "material_cooling#overhangs-and-external-bridges-fan-speed");
-        optgroup->append_single_option_line("internal_bridge_fan_speed", "material_cooling#internal-bridges-fan-speed"); // ORCA: Add support for separate internal bridge fan speed control
+        optgroup->append_single_option_line("internal_bridge_fan_speed", "material_cooling#internal-bridges-fan-speed"); // INFINIUM: Add support for separate internal bridge fan speed control
         optgroup->append_single_option_line("support_material_interface_fan_speed", "material_cooling#support-interface-fan-speed");
-        optgroup->append_single_option_line("ironing_fan_speed", "material_cooling#ironing-fan-speed"); // ORCA: Add support for ironing fan speed control
+        optgroup->append_single_option_line("ironing_fan_speed", "material_cooling#ironing-fan-speed"); // INFINIUM: Add support for ironing fan speed control
 
         optgroup = page->new_optgroup(L("Auxiliary part cooling fan"), L"param_cooling_aux_fan");
         optgroup->append_single_option_line("additional_cooling_fan_speed", "material_cooling#auxiliary-part-cooling-fan");
@@ -4530,7 +4530,7 @@ void TabFilament::build()
 
         auto edit_custom_gcode_fn = [this](const t_config_option_key& opt_key) { edit_custom_gcode(opt_key); };
 
-    page = add_options_page(L("Advanced"), "custom-gcode_advanced"); // ORCA: icon only visible on placeholders
+    page = add_options_page(L("Advanced"), "custom-gcode_advanced"); // INFINIUM: icon only visible on placeholders
         optgroup = page->new_optgroup(L("Filament start G-code"), L"param_gcode", 0);
         optgroup->m_on_change = [this, &optgroup_title = optgroup->title](const t_config_option_key& opt_key, const boost::any& value) {
             validate_custom_gcode_cb(this, optgroup_title, opt_key, value);
@@ -4567,7 +4567,7 @@ void TabFilament::build()
         optgroup = page->new_optgroup(L("Plugin Configuration"), L"param_gcode");
         optgroup->append_single_option_line("filament_plugin_config_overrides");
 
-    page = add_options_page(L("Multimaterial"), "custom-gcode_multi_material"); // ORCA: icon only visible on placeholders
+    page = add_options_page(L("Multimaterial"), "custom-gcode_multi_material"); // INFINIUM: icon only visible on placeholders
         optgroup = page->new_optgroup(L("Wipe tower parameters"), "param_tower");
         optgroup->append_single_option_line("filament_minimal_purge_on_wipe_tower", "material_multimaterial#multimaterial-wipe-tower-parameters");
         optgroup->append_single_option_line("filament_tower_interface_pre_extrusion_dist", "material_multimaterial#multimaterial-wipe-tower-parameters");
@@ -4595,7 +4595,7 @@ void TabFilament::build()
         optgroup->append_single_option_line("filament_stamping_distance", "material_multimaterial#stamping-distance");
         create_line_with_widget(optgroup.get(), "filament_ramming_parameters", "material_multimaterial#ramming-parameters", [this](wxWindow* parent) {
 
-            // ORCA modernize button style
+            // INFINIUM modernize button style
             Button* btn = new Button(parent, _(L("Set")) + " " + dots);
             btn->SetStyle(ButtonStyle::Regular, ButtonType::Parameter);
 
@@ -4636,7 +4636,7 @@ void TabFilament::build()
         option.opt.full_width = true;
         optgroup->append_single_option_line(option, "material_dependencies#compatible-process-profiles");
 
-    page = add_options_page(L("Notes"), "custom-gcode_note"); // ORCA: icon only visible on placeholders
+    page = add_options_page(L("Notes"), "custom-gcode_note"); // INFINIUM: icon only visible on placeholders
         optgroup = page->new_optgroup(L("Notes"),"note", 0);
         optgroup->label_width = 0;
         option = optgroup->get_option("filament_notes");
@@ -4696,14 +4696,14 @@ void TabFilament::toggle_options()
 
     if (m_active_page->title() == L("Cooling")) {
         bool has_enable_overhang_bridge_fan = m_config->opt_bool("enable_overhang_bridge_fan", 0);
-        for (auto el : {"overhang_fan_speed", "overhang_fan_threshold", "internal_bridge_fan_speed"}) // ORCA: Add support for separate internal bridge fan speed control
+        for (auto el : {"overhang_fan_speed", "overhang_fan_threshold", "internal_bridge_fan_speed"}) // INFINIUM: Add support for separate internal bridge fan speed control
             toggle_option(el, has_enable_overhang_bridge_fan);
 
-        // Orca: toggle dont slow down for external perimeters if
+        // Infinium: toggle dont slow down for external perimeters if
         bool has_slow_down_for_layer_cooling = m_config->opt_bool("slow_down_for_layer_cooling", 0);
         toggle_option("dont_slow_down_outer_wall", has_slow_down_for_layer_cooling);
 
-        // ORCA: First layer fan speed override only makes sense when no layers are gated off ("No cooling for
+        // INFINIUM: First layer fan speed override only makes sense when no layers are gated off ("No cooling for
         // the first" == 0). Otherwise the override would set layer 0 to a non-zero value while the gate forces
         // layers 1..N-1 to zero, producing a confusing non-monotonic profile. When the gate is active we both
         // grey out the UI line and force the underlying value to -1 so the cooling buffer never enters the
@@ -4745,7 +4745,7 @@ void TabFilament::toggle_options()
         bool pa = m_config->opt_bool("enable_pressure_advance", 0);
         toggle_option("pressure_advance", pa);
 
-        //Orca: Enable the plates that should be visible when multi bed support is enabled or a BBL printer is selected; otherwise, enable only the plate visible for the selected bed type.
+        //Infinium: Enable the plates that should be visible when multi bed support is enabled or a BBL printer is selected; otherwise, enable only the plate visible for the selected bed type.
         DynamicConfig& proj_cfg               = m_preset_bundle->project_config;
         std::string    bed_temp_1st_layer_key = "";
         if (proj_cfg.has("curr_bed_type"))
@@ -4768,7 +4768,7 @@ void TabFilament::toggle_options()
 
 
 
-        // Orca: adaptive pressure advance and calibration model
+        // Infinium: adaptive pressure advance and calibration model
         // If PA is not enabled, disable adaptive pressure advance and hide the model section
         // If adaptive PA is not enabled, hide the adaptive PA model section
         toggle_option("adaptive_pressure_advance", pa);
@@ -4795,7 +4795,7 @@ void TabFilament::toggle_options()
         update_filament_overrides_page(&printer_cfg);
 
     if (m_active_page->title() == L("Multimaterial")) {
-        // Orca: hide specific settings for BBL printers
+        // Infinium: hide specific settings for BBL printers
         for (auto el : {"filament_minimal_purge_on_wipe_tower", "filament_loading_speed_start", "filament_loading_speed",
                         "filament_unloading_speed_start", "filament_unloading_speed", "filament_toolchange_delay", "filament_cooling_moves",
                         "filament_cooling_initial_speed", "filament_cooling_final_speed"})
@@ -4846,7 +4846,7 @@ void TabFilament::clear_pages()
     m_overrides_options.clear();
 }
 
-// Orca:
+// Infinium:
 void TabFilament::on_value_change(const std::string& opt_key, const boost::any& value)
 {
     if (wxGetApp().plater() == nullptr || m_config_manipulation.is_applying())
@@ -4926,7 +4926,7 @@ void Tab::update_pages_with_multi_variant()
     if (!m_active_page) {
         return;
     }
-    // TODO: Orca: support multi variant field
+    // TODO: Infinium: support multi variant field
     //for (auto optgroup : m_active_page->m_optgroups) {
     //    Field *multi_variant_field = nullptr;
     //    std::string opt_key;
@@ -4997,7 +4997,7 @@ void TabPrinter::build_fff()
     m_sys_extruders_count = parent_preset == nullptr ? 0 :
             static_cast<const ConfigOptionFloats*>(parent_preset->config.option("nozzle_diameter"))->values.size();
 
-    auto page = add_options_page(L("Basic information"), "custom-gcode_object-info"); // ORCA: icon only visible on placeholders
+    auto page = add_options_page(L("Basic information"), "custom-gcode_object-info"); // INFINIUM: icon only visible on placeholders
     auto optgroup = page->new_optgroup(L("Printable space"), "param_printable_space");
 
         create_line_with_widget(optgroup.get(), "printable_area", "custom-svg-and-png-bed-textures_124612", [this](wxWindow* parent) {
@@ -5102,7 +5102,7 @@ void TabPrinter::build_fff()
         line.append_option(optgroup->get_option("fan_speedup_overhangs"));
         optgroup->append_line(line);
         optgroup->append_single_option_line("fan_kickstart", "printer_basic_information_cooling_fan#fan-kick-start-time");
-        // ORCA: PWM floor for fans that won't spool at low duty cycles.
+        // INFINIUM: PWM floor for fans that won't spool at low duty cycles.
         optgroup->append_single_option_line("part_cooling_fan_min_pwm", "printer_basic_information_cooling_fan#minimum-non-zero-part-cooling-fan-speed");
 
         optgroup = page->new_optgroup(L("Extruder Clearance"), "param_extruder_clearance");
@@ -5129,7 +5129,7 @@ void TabPrinter::build_fff()
 
     const int gcode_field_height = 15; // 150
     const int notes_field_height = 25; // 250
-    page = add_options_page(L("Machine G-code"), "custom-gcode_gcode"); // ORCA: icon only visible on placeholders
+    page = add_options_page(L("Machine G-code"), "custom-gcode_gcode"); // INFINIUM: icon only visible on placeholders
         optgroup = page->new_optgroup(L("File header G-code"), L"param_gcode", 0);
         optgroup->m_on_change = [this, &optgroup_title = optgroup->title](const t_config_option_key& opt_key, const boost::any& value) {
             validate_custom_gcode_cb(this, optgroup_title, opt_key, value);
@@ -5261,7 +5261,7 @@ void TabPrinter::build_fff()
         option.opt.height = gcode_field_height;//150;
         optgroup->append_single_option_line(option, "printer_machine_gcode#template-custom-g-code");
 
-    page = add_options_page(L("Notes"), "custom-gcode_note"); // ORCA: icon only visible on placeholders
+    page = add_options_page(L("Notes"), "custom-gcode_note"); // INFINIUM: icon only visible on placeholders
         optgroup = page->new_optgroup(L("Notes"), "note", 0);
         option = optgroup->get_option("printer_notes");
         option.opt.full_width = true;
@@ -5345,7 +5345,7 @@ void TabPrinter::extruders_count_changed(size_t extruders_count)
 
         wxGetApp().plater()->get_partplate_list().on_extruder_count_changed((int)m_extruders_count);
     }
-    // Orca: support multi tool
+    // Infinium: support multi tool
     else if (m_extruders_count == 1 &&
              m_preset_bundle->project_config.option<ConfigOptionFloats>("flush_volumes_matrix")->values.size()>1)
         m_preset_bundle->update_multi_material_filament_presets();
@@ -5377,7 +5377,7 @@ void TabPrinter::append_option_line(ConfigOptionsGroupShp optgroup, const std::s
 
 PageShp TabPrinter::build_kinematics_page()
 {
-    auto page = add_options_page(L("Motion ability"), "custom-gcode_motion", true); // ORCA: icon only visible on placeholders
+    auto page = add_options_page(L("Motion ability"), "custom-gcode_motion", true); // INFINIUM: icon only visible on placeholders
 
     if (m_use_silent_mode) {
         // Legend for OptionsGroups
@@ -5511,7 +5511,7 @@ if (is_marlin_flavor)
 
     if (from_initial_build) {
         // create a page, but pretend it's an extruder page, so we can add it to m_pages ourselves
-        auto page     = add_options_page(L("Multimaterial"), "custom-gcode_multi_material", true); // ORCA: icon only visible on placeholders
+        auto page     = add_options_page(L("Multimaterial"), "custom-gcode_multi_material", true); // INFINIUM: icon only visible on placeholders
         auto optgroup = page->new_optgroup(L("Single extruder multi-material setup"), "param_multi_material");
         optgroup->append_single_option_line("single_extruder_multi_material", "printer_multimaterial_setup#single-extruder-multi-material");
         ConfigOptionDef def;
@@ -5524,7 +5524,7 @@ if (is_marlin_flavor)
         Option option(def, "extruders_count");
         optgroup->append_single_option_line(option, "printer_multimaterial_setup#extruders");
 
-        // Orca: rebuild missed extruder pages
+        // Infinium: rebuild missed extruder pages
         optgroup->m_on_change = [this, optgroup_wk = ConfigOptionsGroupWkp(optgroup)](t_config_option_key opt_key, boost::any value) {
             auto optgroup_sh = optgroup_wk.lock();
             if (!optgroup_sh)
@@ -5547,7 +5547,7 @@ if (is_marlin_flavor)
                         if (boost::any_cast<bool>(value) && m_extruders_count > 1) {
                             SuppressBackgroundProcessingUpdate sbpu;
 
-// Orca: we use a different logic here. If SEMM is enabled, we set extruder count to 1.
+// Infinium: we use a different logic here. If SEMM is enabled, we set extruder count to 1.
 #if 1
                             extruders_count_changed(1);
 #else
@@ -5621,13 +5621,13 @@ if (is_marlin_flavor)
         m_pages.insert(m_pages.end() - n_after_single_extruder_MM, page);
     }
 
-    // Orca: build missed extruder pages
+    // Infinium: build missed extruder pages
     for (auto extruder_idx = m_extruders_count_old; extruder_idx < m_extruders_count; ++extruder_idx) {
         const wxString& page_name = (m_extruders_count > 1) ? wxString::Format("Extruder %d", int(extruder_idx + 1)) : wxString::Format("Extruder");
 
         //# build page
         //const wxString& page_name = wxString::Format("Extruder %d", int(extruder_idx + 1));
-        auto page = add_options_page(page_name, "custom-gcode_extruder", true); // ORCA: icon only visible on placeholders
+        auto page = add_options_page(page_name, "custom-gcode_extruder", true); // INFINIUM: icon only visible on placeholders
         m_pages.insert(m_pages.begin() + n_before_extruders + extruder_idx, page);
 
         auto optgroup = page->new_optgroup(L("Basic information"), L"param_information", -1, true);
@@ -5773,7 +5773,7 @@ if (is_marlin_flavor)
 // this gets executed after preset is loaded and before GUI fields are updated
 void TabPrinter::on_preset_loaded()
 {
-    // Orca
+    // Infinium
     //update nozzle_volume_type
     const Preset& current_printer = m_preset_bundle->printers.get_selected_preset();
     const Preset* base_printer = m_preset_bundle->printers.get_preset_base(current_printer);
@@ -5810,7 +5810,7 @@ void TabPrinter::on_preset_loaded()
             has_switcher->value = false;
         if (auto* dynamic_map = m_preset_bundle->project_config.opt<ConfigOptionBool>("enable_filament_dynamic_map"))
             dynamic_map->value = false;
-        // Orca: also clear the sidebar switcher status icon on printer-model change (mirrors BBS's
+        // Infinium: also clear the sidebar switcher status icon on printer-model change (mirrors BBS's
         // reset_fila_switch on machine change); it re-derives from device sync once a printer connects.
         if (wxGetApp().plater())
             wxGetApp().plater()->sidebar().reset_fila_switch();
@@ -6105,7 +6105,7 @@ void TabPrinter::toggle_options()
         toggle_option("manual_filament_change", bSEMM);
         toggle_option("purge_in_prime_tower", bSEMM && supports_wipe_tower_2);
 
-        // Orca: "Tool change on wipe tower" only makes sense for multi-extruder (multi-toolhead) printers
+        // Infinium: "Tool change on wipe tower" only makes sense for multi-extruder (multi-toolhead) printers
         // using a Type 2 wipe tower. SEMM already always travels to the tower as part of the purge,
         // so the option is irrelevant there.
         const size_t extruders_count = m_config->option<ConfigOptionFloats>("nozzle_diameter")->size();
@@ -6158,7 +6158,7 @@ void TabPrinter::toggle_options()
 
         bool wipe = retraction && m_config->opt_bool("wipe", variant_index);
 
-        // Orca:
+        // Infinium:
         double retract_before_wipe = m_config->option<ConfigOptionPercents>("retract_before_wipe")->get_at(variant_index);
         double retract_after_wipe  = m_config->option<ConfigOptionPercents>("retract_after_wipe")->get_at(variant_index);
 
@@ -6206,7 +6206,7 @@ void TabPrinter::toggle_options()
         auto gcf = m_config->option<ConfigOptionEnum<GCodeFlavor>>("gcode_flavor")->value;
         update_input_shaper_menu(gcf);
 
-        // Orca: use booleans to avoid repeated comparisons with enum values
+        // Infinium: use booleans to avoid repeated comparisons with enum values
         const bool gcf_is_marlin_legacy = gcf == GCodeFlavor::gcfMarlinLegacy;
         const bool gcf_is_marlin_firmware = gcf == GCodeFlavor::gcfMarlinFirmware;
         const bool gcf_is_klipper = gcf == GCodeFlavor::gcfKlipper;
@@ -6266,7 +6266,7 @@ void TabPrinter::toggle_options()
     }
 }
 
-// Orca:
+// Infinium:
 void TabPrinter::on_value_change(const std::string& opt_key, const boost::any& value)
 {
     if (wxGetApp().plater() == nullptr || m_config_manipulation.is_applying())
@@ -6876,7 +6876,7 @@ bool Tab::select_preset(
         // check if there is something in the cache to move to the new selected preset
         apply_config_from_cache();
 
-        // Orca: update presets for the selected printer
+        // Infinium: update presets for the selected printer
         if (m_type == Preset::TYPE_PRINTER && wxGetApp().app_config->get_bool("remember_printer_config")) {
             m_preset_bundle->update_selections(*wxGetApp().app_config);
             wxGetApp().plater()->sidebar().on_filament_count_change(m_preset_bundle->filament_presets.size());
@@ -7316,7 +7316,7 @@ void Tab::transfer_options(const std::string &name_from, const std::string &name
 //BBS: add project embedded preset relate logic
 void Tab::save_preset(std::string name /*= ""*/, bool detach, bool save_to_project, bool from_input, std::string input_name )
 {
-    // ORCA: Validate before opening any save-name UI for filament presets.
+    // INFINIUM: Validate before opening any save-name UI for filament presets.
     if (!validate_filament_temperature_pairs())
         return;
 
@@ -7357,7 +7357,7 @@ void Tab::save_preset(std::string name /*= ""*/, bool detach, bool save_to_proje
         exist_preset = true;
     }
 
-    // Orca: check if compatible_printers exists and is not empty, set it to the current printer if it is empty
+    // Infinium: check if compatible_printers exists and is not empty, set it to the current printer if it is empty
     // Ensures that custom filaments based on system are not accidentally allowed for all printers
     // Can still be set for all after creation
     if (m_presets->type() == Preset::TYPE_FILAMENT && !exist_preset && edited_preset.is_system) {
@@ -7651,7 +7651,7 @@ wxSizer* Tab::compatible_widget_create(wxWindow* parent, PresetDependencies &dep
     deps.checkbox_title->SetForegroundColour(wxColour("#363636"));
     wxGetApp().UpdateDarkUI(deps.checkbox_title, false, true);
 
-    // ORCA modernize button style
+    // INFINIUM modernize button style
     Button* btn = new Button(parent, _(L("Set")) + " " + dots);
     btn->SetStyle(ButtonStyle::Regular, ButtonType::Parameter);
     deps.btn = btn;
@@ -7805,7 +7805,7 @@ void TabPrinter::set_extruder_volume_type(int extruder_id, NozzleVolumeType type
 // Return a callback to create a TabPrinter widget to edit bed shape
 wxSizer* TabPrinter::create_bed_shape_widget(wxWindow* parent)
 {
-    // ORCA modernize button style
+    // INFINIUM modernize button style
     Button* btn = new Button(parent, _(L("Set")) + " " + dots);
     btn->SetStyle(ButtonStyle::Regular, ButtonType::Parameter);
 
@@ -7914,10 +7914,10 @@ bool Tab::validate_custom_gcodes()
     return valid;
 }
 
-// ORCA: Session-only suppression keys for temperature-pair safety warnings.
+// INFINIUM: Session-only suppression keys for temperature-pair safety warnings.
 static std::unordered_set<std::string> s_filament_temp_pair_warning_suppressed_for_session;
 
-// ORCA: Validate that first-layer and other-layer temperature pairs are within safety limits, and warn the user if not.
+// INFINIUM: Validate that first-layer and other-layer temperature pairs are within safety limits, and warn the user if not.
 bool Tab::validate_filament_temperature_pairs()
 {
     if (m_type != Preset::TYPE_FILAMENT || m_presets == nullptr)
@@ -8039,11 +8039,11 @@ void Tab::update_extruder_variants(int extruder_id, bool reload)
         int extruder_nums = m_preset_bundle->get_printer_extruder_count();
         nozzle_volumes->values.resize(extruder_nums);
 
-        // Orca: update `m_actual_nozzle_volumes` to current selected ones
+        // Infinium: update `m_actual_nozzle_volumes` to current selected ones
         m_actual_nozzle_volumes.resize(extruder_nums, NozzleVolumeType::nvtStandard);
         for (int i = 0; i < extruder_nums; i++) m_actual_nozzle_volumes[i] = (NozzleVolumeType)nozzle_volumes->values[i];
 
-        // Orca: a non-Bambu dual-nozzle printer has two extruders but a single variant column, so
+        // Infinium: a non-Bambu dual-nozzle printer has two extruders but a single variant column, so
         // the nozzle switch and sync button have nothing to act on. Only enable with real variants.
         if (extruder_nums == 2 && m_preset_bundle->support_different_extruders()) {
             auto options = generate_extruder_options();
@@ -8508,7 +8508,7 @@ void Page::activate(ConfigOptionMode mode, std::function<void()> throw_if_cancel
     for (auto group : m_optgroups) {
         if (!group->activate(throw_if_canceled))
             continue;
-        m_vsizer->Add(group->sizer, 0, wxEXPAND | (group->is_legend_line() ? (wxLEFT|wxTOP) : wxALL), m_parent->FromDIP(5)); // ORCA use less margin on parameters section
+        m_vsizer->Add(group->sizer, 0, wxEXPAND | (group->is_legend_line() ? (wxLEFT|wxTOP) : wxALL), m_parent->FromDIP(5)); // INFINIUM use less margin on parameters section
         group->update_visibility(mode);
 #if HIDE_FIRST_SPLIT_LINE
         if (first) group->stb->Hide();
@@ -8607,7 +8607,7 @@ bool Page::set_value(const t_config_option_key &opt_key, const boost::any &value
 ConfigOptionsGroupShp Page::new_optgroup(const wxString &title, const wxString &icon, int noncommon_label_width /*= -1*/, bool is_extruder_og /* false */)
 {
     //! config_ have to be "right"
-    ConfigOptionsGroupShp optgroup  = is_extruder_og ? std::make_shared<ExtruderOptionsGroup>(m_parent, title, icon, m_config, true) // ORCA: add support for icons
+    ConfigOptionsGroupShp optgroup  = is_extruder_og ? std::make_shared<ExtruderOptionsGroup>(m_parent, title, icon, m_config, true) // INFINIUM: add support for icons
         : std::make_shared<ConfigOptionsGroup>(m_parent, title, icon, m_config, true);
     optgroup->split_multi_line     = this->m_split_multi_line;
     optgroup->option_label_at_right = this->m_option_label_at_right;

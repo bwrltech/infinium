@@ -17,7 +17,7 @@
 using namespace nlohmann;
 
 namespace {
-    // Orca: access_code lives on BBLocalMachine::access_code (keyed by dev_id via
+    // Infinium: access_code lives on BBLocalMachine::access_code (keyed by dev_id via
     // get_local_machines(), scoped by the record's own printer_agent_id field) - so binding a
     // printer under one agent doesn't silently appear as already-bound under a different,
     // independent agent. This only covers LAN devices (BBLocalMachine's own scope); access_code

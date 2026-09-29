@@ -172,11 +172,11 @@ TEST_CASE("Current vendor type tolerates missing printer model", "[Preset][Bundl
 {
     PresetBundle bundle;
 
-    VendorProfile infinium_vendor; infinium_vendor.id = "ORCA";
+    VendorProfile infinium_vendor; infinium_vendor.id = "INFINIUM";
     VendorProfile::PrinterModel model;
-    model.name = "Orca Test";
+    model.name = "Infinium Test";
     infinium_vendor.models.emplace_back(model);
-    bundle.vendors.emplace("ORCA", std::move(infinium_vendor));
+    bundle.vendors.emplace("INFINIUM", std::move(infinium_vendor));
 
     bundle.printers.get_edited_preset().config.erase("printer_model");
 
@@ -579,7 +579,7 @@ TEST_CASE("Plugin capability override keys are scoped per preset type", "[Preset
 
 namespace {
 
-// A standalone filament collection that exposes the protected library masking builder, so the Orca
+// A standalone filament collection that exposes the protected library masking builder, so the Infinium
 // Filament Library scenario can be set up without the full system-profile load pipeline.
 struct LibraryFilamentTestCollection : public PresetCollection
 {
@@ -838,7 +838,7 @@ TEST_CASE("Exact-only resolution rejects an unconfigured manifest-backed file", 
     CHECK(error == "Preset was not found in the loaded bundle");
 }
 
-TEST_CASE("Vendor filament resolution uses the shared Orca library base", "[Preset][Bundle][Regression]")
+TEST_CASE("Vendor filament resolution uses the shared Infinium library base", "[Preset][Bundle][Regression]")
 {
     ScopedTemporaryDir dir;
     const fs::path      library_dir = dir.path() / PresetBundle::INFINIUM_FILAMENT_LIBRARY;
@@ -1174,7 +1174,7 @@ TEST_CASE("Manifest-backed resolution shares the library between vendors under o
     CHECK_THAT(density(fresh, beta_petg), Catch::Matchers::WithinAbs(1.5, 1e-6));
 }
 
-// Orca: a filament in the Orca Filament Library that names its compatible printers has to hide the generic
+// Infinium: a filament in the Infinium Filament Library that names its compatible printers has to hide the generic
 // library filament sharing its alias, the same way a vendor owned filament does. Otherwise both are compatible
 // with that printer and the plater combo box lists the shared alias twice.
 TEST_CASE("A printer specific filament supersedes the generic library filament with the same alias", "[Preset][Bundle]")
@@ -1228,7 +1228,7 @@ TEST_CASE("A printer specific filament supersedes the generic library filament w
 namespace {
 
 // One system printer plus the filament presets a machine facing dialog has to choose between:
-// an Orca Filament Library generic with no compatible_printers, a same alias vendor filament
+// an Infinium Filament Library generic with no compatible_printers, a same alias vendor filament
 // that names the printer, a library filament with no vendor twin, and a vendor filament that
 // belongs to a different printer.
 struct MachineFilaments
@@ -1354,7 +1354,7 @@ TEST_CASE("set_num_filaments keeps mixed-color arrays in step with the filament 
     }
 }
 
-// A mix is described by 1-based indices into the project's filament list, which Orca rebuilds
+// A mix is described by 1-based indices into the project's filament list, which Infinium rebuilds
 // from the selected printer's snapshot (filament_%02u / filament_colors) at startup and on every
 // printer selection. Held anywhere but that same per-printer snapshot, the mixed arrays end up
 // indexing a filament list they were never saved against.
@@ -1948,7 +1948,7 @@ TEST_CASE("Published 3MF uniquifies an imported full material name on collision"
     qidi.config.opt_string("filament_type", 0u) = "PLA";
     qidi.config.opt_string("filament_vendor", 0u) = "Generic";
     qidi.config.opt<ConfigOptionFloatsNullable>("filament_retraction_length", true)->values = { 0.5 };
-    // The Orca library preset.
+    // The Infinium library preset.
     Preset &sys = add_inmemory_preset(bundle.filaments, "Generic PLA @System");
     sys.config.opt_string("filament_type", 0u) = "PLA";
     sys.config.opt_string("filament_vendor", 0u) = "Generic";

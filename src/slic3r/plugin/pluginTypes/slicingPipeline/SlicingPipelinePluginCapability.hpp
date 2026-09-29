@@ -34,7 +34,7 @@ struct SlicingPipelineContext {
 class SlicingPipelinePluginCapability : public PluginCapabilityInterface {
 public:
     PluginCapabilityType get_type() const override { return PluginCapabilityType::SlicingPipeline; }
-    // Runs on the slicing worker thread. Do not call orca.host.ui.* here: the UI thread can be
+    // Runs on the slicing worker thread. Do not call infinium.host.ui.* here: the UI thread can be
     // blocked waiting on the slicing worker, so a marshaled UI call from this thread can deadlock.
     virtual ExecutionResult execute(SlicingPipelineContext& ctx) = 0;
     static void RegisterBindings(pybind11::module_& module);
