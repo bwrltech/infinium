@@ -184,7 +184,8 @@ const char *const GOAL_KEYS[] = {"outer_wall_speed", "inner_wall_speed", "outer_
                                  "seam_slope_type", "seam_slope_conditional", "scarf_angle_threshold", "seam_slope_steps",
                                  "seam_slope_min_length", "seam_slope_inner_walls", "wipe_before_external_loop", "wipe_on_loops",
                                  "staggered_inner_seams", "detect_thin_wall", "sparse_infill_density", "sparse_infill_pattern",
-                                 "ironing_flow", "ironing_spacing", "infill_combination", "only_one_wall_top"};
+                                 "ironing_flow", "ironing_spacing", "infill_combination", "infill_combination_max_layer_height",
+                                 "only_one_wall_top"};
 
 double round_layer(double v) { return std::round(v * 100.) / 100.; }
 
@@ -226,8 +227,8 @@ public:
         add_card(cards, PrintGoal::Smooth, _L("Smooth & beautiful"),
                  _L("Almost no lines on the sides. Seam hidden. Smooth top. Best for figures, gifts and show pieces."), _L("Print time: slow"));
         add_card(cards, PrintGoal::SmoothFast, _L("Smooth & fast"),
-                 _L("Nicer outside than Fast print: hidden seam, cleaner sides and top. Takes about the same time. Not for parts that take force."),
-                 _L("Print time: fast"));
+                 _L("Thin 0.1 mm layers outside for smooth sides, thick quick layers inside to save time. Seam hidden. Not for parts that take force."),
+                 _L("Print time: normal"));
         add_card(cards, PrintGoal::Strong, _L("Strong part"),
                  _L("Thick walls and a strong inside. Best for holders, brackets and parts that take force."), _L("Print time: normal"));
         add_card(cards, PrintGoal::Fast, _L("Fast print"),
@@ -361,10 +362,9 @@ void apply_auto_quality(bool silent)
     else if (goal == PrintGoal::Fast)
         lh_ratio = 0.70;
     else if (goal == PrintGoal::SmoothFast)
-        // Print time follows the number of layers (every layer is another trip around the walls), so
-        // this stays close to Fast: a 3DBenchy on an A1 mini took 46.5 min against Fast's 45 min at
-        // 0.65 (0.26 mm), but 57 min at 0.60. The looks come from the seam, wall and top settings.
-        lh_ratio = 0.65;
+        // Thin layers (0.1 mm on a 0.4 nozzle) so the sides are as smooth as Smooth's; the time is won
+        // back inside, where the infill is combined into thick layers (see below).
+        lh_ratio = 0.25;
     const double layer_height = std::clamp(round_layer(nozzle * lh_ratio), round_layer(min_layer), round_layer(max_layer));
     delta.set("layer_height", fmt_mm(layer_height, 2));
 
@@ -414,18 +414,23 @@ void apply_auto_quality(bool silent)
         break;
     }
     case PrintGoal::SmoothFast: {
-        // Only what you see is printed carefully: the outer wall, the seam and the top. Inner walls
-        // and infill keep the profile's full speed; the infill is the quick lightning pattern,
-        // printed every second layer. Constant layers on purpose: an adaptive layer profile made
-        // the Benchy slower, not faster, and doesn't work with the organic supports used here.
-        delta.set("top_shell_thickness", "0.8");
-        delta.set("bottom_shell_thickness", "0.6");
-        delta.set("top_shell_layers", std::to_string(std::max(4, int(std::ceil(0.8 / layer_height)))));
-        delta.set("bottom_shell_layers", std::to_string(std::max(3, int(std::ceil(0.6 / layer_height)))));
+        // What you see gets thin layers and careful walls: the outer wall, the seam and the top.
+        // Everything inside is cheap: inner walls and infill keep the profile's full speed, and the
+        // sparse infill (quick lightning pattern) is combined over several thin layers into one
+        // thick one of up to 75% of the nozzle (3 x 0.1 = 0.3 mm on a 0.4 nozzle). Constant layers
+        // on purpose: an adaptive layer profile doesn't work with the organic supports used here.
+        const int    infill_layers = std::max(1, int(std::floor(nozzle * 0.75 / layer_height + 1e-6)));
+        const double infill_height = layer_height * infill_layers;
+        // Thin layers cover well, so 0.6 mm of top (6 layers at 0.1) is enough and saves time.
+        delta.set("top_shell_thickness", "0.6");
+        delta.set("bottom_shell_thickness", "0.5");
+        delta.set("top_shell_layers", std::to_string(std::max(4, int(std::ceil(0.6 / layer_height - 1e-6)))));
+        delta.set("bottom_shell_layers", std::to_string(std::max(3, int(std::ceil(0.5 / layer_height - 1e-6)))));
         delta.set("wall_loops", "2");
         delta.set("sparse_infill_density", "10%");
         delta.set("sparse_infill_pattern", "lightning");
         delta.set("infill_combination", "1");
+        delta.set("infill_combination_max_layer_height", fmt_mm(infill_height, 2));
         delta.set("only_one_wall_top", "1");
         delta.set_floats("outer_wall_speed", 150., true);
         delta.set_floats("outer_wall_acceleration", 4000., true);
@@ -438,15 +443,19 @@ void apply_auto_quality(bool silent)
         delta.set("seam_slope_type", "external");
         delta.set("seam_slope_conditional", "1");
         delta.set("scarf_angle_threshold", "155");
-        delta.set("seam_slope_steps", "10");
-        delta.set("seam_slope_min_length", "10");
+        // Same seam blending as Smooth: it costs no time.
+        delta.set("seam_slope_steps", "20");
+        delta.set("seam_slope_min_length", "20");
         delta.set("wipe_before_external_loop", "1");
+        delta.set("wipe_on_loops", "1");
+        delta.set("staggered_inner_seams", "1");
         delta.set("ironing_type", "no ironing");
 
-        done.push_back(wxString::Format(_L("Layers of %s mm, a little thinner than Fast print, so it takes about the same time."),
+        done.push_back(wxString::Format(_L("Thin layers (%s mm) on the outside, so the lines on the sides are very hard to see."),
                                         mm(layer_height, 2)));
+        done.push_back(wxString::Format(_L("The inside is printed in thick layers (%s mm, %d at a time) with a light, quick pattern (10%%), to save time. Good for looks, not for parts that take force."),
+                                        mm(infill_height, 2), infill_layers));
         done.push_back(_L("Only the outside wall and the top are printed carefully, so they come out clean. Everything inside prints at full speed."));
-        done.push_back(_L("The inside is a light, quick pattern (10%). Good for looks, not for parts that take force."));
         done.push_back(_L("The seam (where each layer starts) is hidden in a corner, or blended in on round sides."));
         break;
     }
