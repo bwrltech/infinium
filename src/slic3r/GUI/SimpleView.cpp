@@ -36,7 +36,7 @@ SimpleViewPanel *s_panel = nullptr;
 
 const wxColour BLUE("#386CA1");
 const wxColour TITLE("#1F3A5A");
-const wxColour TEXT("#5B6B7C");
+const wxColour BODY_TEXT("#5B6B7C");
 
 wxColour themed(const wxColour &c) { return StateColor::darkModeColorFor(c); }
 
@@ -131,7 +131,7 @@ SimpleViewPanel::SimpleViewPanel(wxWindow *parent) : wxPanel(parent, wxID_ANY)
     m_step_title->SetForegroundColour(themed(TITLE));
     m_step_text = new wxStaticText(m_step_box, wxID_ANY, "");
     m_step_text->SetFont(Label::Body_14);
-    m_step_text->SetForegroundColour(themed(TEXT));
+    m_step_text->SetForegroundColour(themed(BODY_TEXT));
 
     m_step_btn = new Button(m_step_box, "");
     m_step_btn->SetStyle(ButtonStyle::Confirm, ButtonType::Expanded);
@@ -205,7 +205,7 @@ SimpleViewPanel::SimpleViewPanel(wxWindow *parent) : wxPanel(parent, wxID_ANY)
         m_auto_center->SetValue(Plater::auto_center_enabled());
         auto *label = new wxStaticText(this, wxID_ANY, _L("Keep my models in the middle of the plate"));
         label->SetFont(Label::Body_14);
-        label->SetForegroundColour(themed(TEXT));
+        label->SetForegroundColour(themed(BODY_TEXT));
         const wxString tip = _L("Auto-centre: when you add a model or click Get ready, all models slide to the middle together. "
                                 "Models you moved yourself stay where you put them.");
         m_auto_center->SetToolTip(tip);
@@ -256,7 +256,7 @@ void SimpleViewPanel::add_card(wxWindow *parent, wxSizer *grid, PrintGoal goal, 
     name_txt->SetForegroundColour(themed(TITLE));
     auto *text_txt = new wxStaticText(box, wxID_ANY, text);
     text_txt->SetFont(Label::Body_12);
-    text_txt->SetForegroundColour(themed(TEXT));
+    text_txt->SetForegroundColour(themed(BODY_TEXT));
     text_txt->Wrap(FromDIP(130));
 
     auto *sizer = new wxBoxSizer(wxVERTICAL);
