@@ -98,6 +98,7 @@
 #include "MainFrame.hpp"
 #include "Plater.hpp"
 #include "ModelGallery.hpp" // INFINIUM
+#include "PhotoForgeDialog.hpp" // INFINIUM
 #include "GLCanvas3D.hpp"
 #include "EncodedFilament.hpp"
 #include "GeneratedConfig.hpp"
@@ -5225,10 +5226,21 @@ std::string GUI_App::handle_web_request(std::string cmd)
                 if (data)
                     gallery_load(data->get<std::string>("id", ""));
             }
+            // INFINIUM: the web slicer's picture tools and printer farm, from the start screen
+            else if (command_str.compare("homepage_photo_forge") == 0 || command_str.compare("homepage_photo3d") == 0) {
+                const bool forge = command_str.compare("homepage_photo_forge") == 0;
+                CallAfter([forge] { PhotoForgeDialog::show(forge ? PhotoForgeDialog::Tool::PhotoForge : PhotoForgeDialog::Tool::PhotoTo3D); });
+            }
+            else if (command_str.compare("homepage_open_printers") == 0) {
+                CallAfter([this] {
+                    if (mainframe)
+                        mainframe->select_tab(wxString(TAB_ID_FARM));
+                });
+            }
             else if (command_str.compare("homepage_fun_model") == 0) {
                 // Only names from this table are accepted, the page never sends a path.
                 static const std::map<std::string, std::string> fun_models = {
-                    {"cat", "calicat.drc"}, {"boat", "3DBenchy.drc"}, {"bunny", "Stanford_Bunny.drc"}, {"cube", "InfiniumCube_v2.drc"}};
+                    {"cat", "calicat.drc"}, {"boat", "3DBenchy.drc"}, {"bunny", "Stanford_Bunny.drc"}, {"cube", "InfiniumPlainCube.stl"}};
                 const auto data  = root.get_child_optional("data");
                 const auto model = data ? data->get_optional<std::string>("model") : boost::none;
                 const auto it    = model ? fun_models.find(*model) : fun_models.end();

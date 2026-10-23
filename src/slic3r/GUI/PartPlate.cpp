@@ -4561,6 +4561,64 @@ void PartPlateList::set_default_wipe_tower_pos_for_plate(int plate_idx, bool ini
     dynamic_cast<ConfigOptionFloats *>(proj_cfg.option("wipe_tower_y"))->set_at(&wt_y_opt, plate_idx, 0);
 }
 
+bool PartPlateList::move_wipe_tower_off_objects(int plate_idx)
+{
+    PartPlate *plate = get_plate(plate_idx);
+    if (plate == nullptr || plate->empty() || m_model == nullptr)
+        return false;
+    DynamicConfig      &proj_cfg = wxGetApp().preset_bundle->project_config;
+    ConfigOptionFloats *tower_x  = proj_cfg.opt<ConfigOptionFloats>("wipe_tower_x");
+    ConfigOptionFloats *tower_y  = proj_cfg.opt<ConfigOptionFloats>("wipe_tower_y");
+    if (tower_x == nullptr || tower_y == nullptr || plate_idx >= int(tower_x->size()) || plate_idx >= int(tower_y->size()))
+        return false;
+
+    // The tower this plate prints (none for one colour), as set_default_wipe_tower_pos_for_plate() works it out.
+    std::vector<int> filament_maps = plate->get_real_filament_maps(proj_cfg);
+    std::vector<int> f_volume_maps = plate->get_filament_volume_maps();
+    if (f_volume_maps.empty())
+        f_volume_maps = wxGetApp().preset_bundle->get_default_nozzle_volume_types_for_filaments(filament_maps);
+    const DynamicPrintConfig full_config = wxGetApp().preset_bundle->full_config(false, filament_maps, f_volume_maps);
+    const WipeTowerFootprint footprint   = plate->estimate_wipe_tower_footprint(full_config);
+    if (footprint.width <= 0. || footprint.depth <= 0.)
+        return false;
+
+    // The models on this plate, in the plate's own coordinates (where the tower position lives), 5 mm around.
+    const Vec3d origin = plate->get_origin();
+    std::vector<BoundingBoxf> models;
+    for (const auto &[obj_idx, inst_idx] : plate->get_obj_and_inst_set()) {
+        if (obj_idx < 0 || obj_idx >= int(m_model->objects.size()) || inst_idx < 0 || inst_idx >= int(m_model->objects[obj_idx]->instances.size()))
+            continue;
+        const BoundingBoxf3 bb = m_model->objects[obj_idx]->instance_bounding_box(size_t(inst_idx));
+        models.emplace_back(Vec2d(bb.min.x() - origin.x() - 5., bb.min.y() - origin.y() - 5.),
+                            Vec2d(bb.max.x() - origin.x() + 5., bb.max.y() - origin.y() + 5.));
+    }
+    const double brim = footprint.brim_width;
+    auto clear = [&](double x, double y) {
+        const BoundingBoxf tower(Vec2d(x - brim, y - brim), Vec2d(x + footprint.width + brim, y + footprint.depth + brim));
+        return std::none_of(models.begin(), models.end(), [&](const BoundingBoxf &m) { return tower.overlap(m); });
+    };
+    if (clear(tower_x->get_at(plate_idx), tower_y->get_at(plate_idx)))
+        return false;
+
+    // Back-left, back-right, front-right, front-left.
+    const BoundingBoxf3 bed  = plate->get_bounding_box();
+    const double        x0   = bed.min.x() - origin.x(), y0 = bed.min.y() - origin.y();
+    const double        x1   = bed.max.x() - origin.x(), y1 = bed.max.y() - origin.y();
+    const double        edge = WIPE_TOWER_AUTO_MARGIN + brim;
+    const Vec2d corners[] = {{x0 + edge, y1 - edge - footprint.depth}, {x1 - edge - footprint.width, y1 - edge - footprint.depth},
+                             {x1 - edge - footprint.width, y0 + edge}, {x0 + edge, y0 + edge}};
+    for (const Vec2d &c : corners) {
+        if (!clear(c.x(), c.y()))
+            continue;
+        ConfigOptionFloat wt_x_opt(c.x()), wt_y_opt(c.y());
+        tower_x->set_at(&wt_x_opt, plate_idx, 0);
+        tower_y->set_at(&wt_y_opt, plate_idx, 0);
+        BOOST_LOG_TRIVIAL(info) << "Prime tower moved off the models to " << c.x() << ", " << c.y() << " on plate " << plate_idx;
+        return true;
+    }
+    return false;
+}
+
 //this may be happened after machine changed
 void PartPlateList::reset_size(int width, int depth, double height, bool reload_objects, bool update_shapes)
 {

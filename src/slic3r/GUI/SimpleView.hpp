@@ -60,6 +60,8 @@ private:
     wxStaticText       *m_step_text{nullptr};
     Button             *m_step_btn{nullptr};
     Button             *m_fun_btn{nullptr};
+    Button             *m_picture_btn{nullptr};
+    Button             *m_farm_btn{nullptr};
     wxStaticText       *m_cards_title{nullptr};
     std::vector<Card>   m_cards;
     HyperLink          *m_all_settings{nullptr};

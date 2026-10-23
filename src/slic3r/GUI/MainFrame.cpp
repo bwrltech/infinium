@@ -39,6 +39,8 @@
 #include "Plater.hpp"
 #include "WebViewDialog.hpp"
 #include "MarketplacePanel.hpp" // INFINIUM
+#include "FarmPanel.hpp"        // INFINIUM
+#include "PhotoForgeDialog.hpp" // INFINIUM
 #include "../Utils/Process.hpp"
 // BBS
 #include "PartPlate.hpp"
@@ -1281,6 +1283,9 @@ void MainFrame::init_tabpanel() {
         else if (panel == m_monitor) {
             //monitor
         }
+        else if (m_farm && panel == m_farm) {
+            m_farm->reload(); // the server's page, fresh each time (it is only loaded once the tab is opened)
+        }
         else if (m_marketplace && panel == m_marketplace) {
             m_marketplace->refresh_brands(); // printers may have been added since it was last shown
         }
@@ -1348,6 +1353,9 @@ void MainFrame::init_tabpanel() {
     // INFINIUM: Marketplace, the last built-in tab: each printer maker's apps, free model sites and help pages.
     // Device-tab relayouts only move pages before it (Calibration goes back after Project), so it stays last.
     if (wxGetApp().is_editor()) {
+        // INFINIUM: My printers (the Infinium server's printer farm), just before the Marketplace.
+        m_farm = new FarmPanel(m_tabpanel);
+        m_tabpanel->AddPage(TAB_ID_FARM, m_farm, _L("My printers"), "tab_farm_active");
         m_marketplace = new MarketplacePanel(m_tabpanel);
         m_tabpanel->AddPage(TAB_ID_MARKETPLACE, m_marketplace, _L("Marketplace"), "tab_marketplace_active");
     }
@@ -2903,7 +2911,21 @@ void MainFrame::init_menubar_as_editor()
             [this](wxCommandEvent&) { load_config_file(); }, "menu_import", nullptr,
             [](){return true; }, this);
 
+        // INFINIUM: the web slicer's picture tools
+        import_menu->AppendSeparator();
+        append_menu_item(import_menu, wxID_ANY, _L("Photo Forge: a model from a picture") + dots, _L("A light picture, raised picture, shape or colour picture from a photo or drawing"),
+            [](wxCommandEvent&) { PhotoForgeDialog::show(PhotoForgeDialog::Tool::PhotoForge); }, "menu_import", nullptr,
+            [this]() { return can_add_models(); }, this);
+        append_menu_item(import_menu, wxID_ANY, _L("Photo to 3D (AI)") + dots, _L("The AI on your Infinium server makes a whole 3D model from one photo"),
+            [](wxCommandEvent&) { PhotoForgeDialog::show(PhotoForgeDialog::Tool::PhotoTo3D); }, "menu_import", nullptr,
+            [this]() { return can_add_models(); }, this);
+
         append_submenu(fileMenu, import_menu, wxID_ANY, _L("Import"), "");
+
+        // INFINIUM: the sliced plate into the Infinium server's print queue (My printers)
+        append_menu_item(fileMenu, wxID_ANY, _L("Send to my printers"), _L("Put the sliced plate in the print queue of your Infinium server"),
+            [](wxCommandEvent&) { FarmPanel::send_plate(); }, "", nullptr,
+            [this]() { return m_plater != nullptr; }, this);
 
 
         wxMenu* export_menu = new wxMenu();

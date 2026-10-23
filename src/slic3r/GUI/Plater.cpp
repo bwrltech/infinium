@@ -19287,6 +19287,10 @@ void Plater::reslice()
     if (get_view3D_canvas3D()->get_gizmos_manager().is_in_editing_mode(true))
         return;
 
+    // INFINIUM: a prime tower standing on a model can't print: it goes to a free corner of the plate first.
+    if (p->partplate_list.move_wipe_tower_off_objects(p->partplate_list.get_curr_plate_index()))
+        get_view3D_canvas3D()->reload_scene(true);
+
     // Enforce the missing-plugin block at the slicing choke point: menu/keyboard/queued triggers can
     // carry a stale enabled state while plugins load asynchronously. refresh_missing_plugin_block
     // rebuilds the missing sets and notifications from the active presets without running

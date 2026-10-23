@@ -1135,6 +1135,9 @@ body
 	--tile-new         : #FFF1D6;
 	--tile-open        : #E2F5E9;
 	--tile-market      : #EEE7FF; /* INFINIUM: Marketplace tile */
+	--tile-forge       : #FFE8EC; /* INFINIUM: Photo Forge, Photo to 3D, My printers */
+	--tile-photo3d     : #E6F7F7;
+	--tile-printers    : #F1F4E2;
 	--fun-cat          : #FFE4E1;
 	--fun-boat         : #DDEFFF;
 	--fun-bunny        : #EFE6FF;
@@ -1214,6 +1217,9 @@ body
 .TileNew   { background-color: var(--tile-new); }
 .TileOpen  { background-color: var(--tile-open); }
 .TileMarket { background-color: var(--tile-market); }
+.TileForge, .MenuItem.BigTile:hover.TileForge { background-color: var(--tile-forge); }
+.TilePhoto3D, .MenuItem.BigTile:hover.TilePhoto3D { background-color: var(--tile-photo3d); }
+.TilePrinters, .MenuItem.BigTile:hover.TilePrinters { background-color: var(--tile-printers); }
 
 .MenuItem.BigTile:hover.TileModel { background-color: var(--tile-model); }
 .MenuItem.BigTile:hover.TileNew   { background-color: var(--tile-new); }

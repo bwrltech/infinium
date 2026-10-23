@@ -4064,6 +4064,21 @@ void GCode::_do_export(Print& print, GCodeOutputStream &file, ThumbnailsGenerato
                 file.writeln(this->placeholder_parser_process("filament_end_gcode", end_gcode, extruder_id, &config));
             }
         }
+        // Infinium: every printer, when the print is done: a little filament pulled back so it doesn't ooze, the
+        // nozzle lifted 10 mm off the print (never above the printer's height) and moved to the back-left corner
+        // of the plate, so the print is clear to take off. Then the printer's own end G-code runs as before.
+        // Same as with_park() in the web server, which writes the marker into the end G-code itself: skip then.
+        static const char *park_marker = "; Infinium: nozzle off the finished print";
+        const auto &area = print.config().printable_area.values;
+        if (!area.empty() && print.config().machine_end_gcode.value.find(park_marker) == std::string::npos) {
+            BoundingBoxf bed(area);
+            const double height = print.config().printable_height.value;
+            const double lift   = height > 0 ? std::min(m_max_layer_z + 10., height) : m_max_layer_z + 10.;
+            char park[256];
+            snprintf(park, sizeof(park), "%s\nM400\nG91\nG1 E-1 F1800\nG90\nG1 Z%.3f F600\nG1 X%.3f Y%.3f F6000\nM400",
+                     park_marker, lift, bed.min.x() + 5., bed.max.y() - 5.);
+            file.writeln(park);
+        }
         file.writeln(this->placeholder_parser_process("machine_end_gcode", print.config().machine_end_gcode, m_writer.filament()->id(), &config));
     }
     file.write(m_writer.update_progress(m_layer_count, m_layer_count, true)); // 100%

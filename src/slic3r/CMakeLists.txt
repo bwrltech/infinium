@@ -351,6 +351,10 @@ set(SLIC3R_GUI_SOURCES
     GUI/MeshUtils.hpp
     GUI/MarketplacePanel.cpp
     GUI/MarketplacePanel.hpp
+    GUI/FarmPanel.cpp
+    GUI/FarmPanel.hpp
+    GUI/PhotoForgeDialog.cpp
+    GUI/PhotoForgeDialog.hpp
     GUI/ModelMall.cpp
     GUI/ModelMall.hpp
     GUI/MonitorBasePanel.cpp

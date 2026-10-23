@@ -17,6 +17,8 @@
 #include "ParamsPanel.hpp"
 #include "PartPlate.hpp"
 #include "Plater.hpp"
+#include "FarmPanel.hpp"
+#include "PhotoForgeDialog.hpp"
 #include "Widgets/Button.hpp"
 #include "Widgets/CheckBox.hpp"
 #include "Widgets/HyperLink.hpp"
@@ -156,11 +158,28 @@ SimpleViewPanel::SimpleViewPanel(wxWindow *parent) : wxPanel(parent, wxID_ANY)
         refresh();
     });
 
+    // INFINIUM: Photo Forge (a picture becomes a model) and the printer farm, as in the web slicer.
+    m_picture_btn = new Button(m_step_box, _L("Or make one from a picture"));
+    m_farm_btn    = new Button(m_step_box, _L("Or send it to my printers"));
+    for (Button *btn : {m_picture_btn, m_farm_btn}) {
+        btn->SetStyle(ButtonStyle::Regular, ButtonType::Expanded);
+        btn->SetFont(Label::Body_14);
+        btn->SetMinSize(wxSize(-1, FromDIP(38)));
+        btn->SetCornerRadius(FromDIP(19));
+    }
+    m_picture_btn->Bind(wxEVT_BUTTON, [this](wxCommandEvent &) {
+        PhotoForgeDialog::show(PhotoForgeDialog::Tool::PhotoForge);
+        refresh();
+    });
+    m_farm_btn->Bind(wxEVT_BUTTON, [](wxCommandEvent &) { FarmPanel::send_plate(); });
+
     auto *step_sizer = new wxBoxSizer(wxVERTICAL);
     step_sizer->Add(m_step_title, 0, wxEXPAND | wxLEFT | wxRIGHT | wxTOP, FromDIP(16));
     step_sizer->Add(m_step_text, 0, wxEXPAND | wxLEFT | wxRIGHT | wxTOP, FromDIP(16));
     step_sizer->Add(m_step_btn, 0, wxEXPAND | wxLEFT | wxRIGHT | wxTOP, FromDIP(16));
     step_sizer->Add(m_fun_btn, 0, wxEXPAND | wxLEFT | wxRIGHT | wxTOP, FromDIP(16));
+    step_sizer->Add(m_picture_btn, 0, wxEXPAND | wxLEFT | wxRIGHT | wxTOP, FromDIP(10));
+    step_sizer->Add(m_farm_btn, 0, wxEXPAND | wxLEFT | wxRIGHT | wxTOP, FromDIP(16));
     step_sizer->AddSpacer(FromDIP(16));
     m_step_box->SetSizer(step_sizer);
 
@@ -328,6 +347,8 @@ void SimpleViewPanel::show_step(Step step)
     m_step_text->Wrap(FromDIP(290));
     m_step_btn->SetLabel(button);
     m_fun_btn->Show(step == Step::AddModel);
+    m_picture_btn->Show(step == Step::AddModel);
+    m_farm_btn->Show(step == Step::Print);
     // The wrapped text changes height: re-measure up to the scrolled sidebar.
     m_step_text->InvalidateBestSize();
     m_step_box->InvalidateBestSize();
@@ -345,6 +366,8 @@ void SimpleViewPanel::msw_rescale()
 {
     m_step_btn->Rescale();
     m_fun_btn->Rescale();
+    m_picture_btn->Rescale();
+    m_farm_btn->Rescale();
     if (m_auto_center != nullptr)
         m_auto_center->Rescale();
     Layout();

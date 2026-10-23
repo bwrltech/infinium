@@ -666,6 +666,9 @@ class PartPlateList : public ObjectBase
 
 public:
     void set_default_wipe_tower_pos_for_plate(int plate_idx, bool init_pos = false);
+    // INFINIUM: when the prime tower stands on a model, move it to the first corner of the plate where it touches
+    // none (as tower_spot() in the web slicer). True when it moved.
+    bool move_wipe_tower_off_objects(int plate_idx);
     class BedTextureInfo {
     public:
         class TexturePart {
