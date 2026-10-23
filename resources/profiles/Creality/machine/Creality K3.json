@@ -1,0 +1,13 @@
+{
+    "type": "machine_model",
+    "name": "Creality K3",
+    "nozzle_diameter": "0.4",
+    "bed_model": "creality_k2pro_buildplate_model.stl",
+    "default_bed_type": "Textured PEI Plate",
+    "bed_texture": "creality_k2pro_buildplate_texture.svg",
+    "family": "Creality",
+    "hotend_model": "",
+    "machine_tech": "FFF",
+    "model_id": "Creality_K3",
+    "default_materials": "Generic PLA @Creality K3;Generic PETG @Creality K3;Generic ABS @Creality K3;Generic ASA @Creality K3;Generic PLA-CF @Creality K3;Generic PLA-Silk @Creality K3;Generic TPU @Creality K3;CR-PLA @Creality K3;Hyper PLA @Creality K3"
+}

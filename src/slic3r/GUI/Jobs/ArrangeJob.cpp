@@ -730,6 +730,9 @@ void ArrangeJob::finalize(bool canceled, std::exception_ptr &eptr) {
 
     wxGetApp().obj_list()->reload_all_plates();
 
+    // INFINIUM auto-centre: Arrange decides the layout again, so forget what was placed by hand.
+    m_plater->clear_placed_by_hand(only_on_partplate ? current_plate_index : -1);
+
     m_plater->update();
 
     m_plater->m_arrange_running.store(false);

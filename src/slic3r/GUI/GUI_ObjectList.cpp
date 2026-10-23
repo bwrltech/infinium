@@ -94,13 +94,13 @@ public:
     wxRenderer() : wxDelegateRendererNative(wxRendererNative::Get()) {}
     virtual void DrawItemSelectionRect(wxWindow *win, wxDC& dc, const wxRect& rect, int flags = 0) override
     {   // INFINIUM draw selection background to improve consistency between platforms
-        dc.SetBrush(StateColor::darkModeColorFor(wxColour("#BFE1DE")));
+        dc.SetBrush(StateColor::darkModeColorFor(wxColour("#CDDAE8")));
         dc.DrawRectangle(rect);
         //GetGeneric().DrawItemSelectionRect(win, dc, rect, flags);
     }
     virtual void DrawFocusRect(        wxWindow *win, wxDC& dc, const wxRect& rect, int flags = 0) override
     {   // INFINIUM draw focus rectangle to improve consistency between platforms
-        dc.SetPen(  StateColor::darkModeColorFor(wxColour("#0D6E63")));
+        dc.SetPen(  StateColor::darkModeColorFor(wxColour("#386CA1")));
         dc.DrawRectangle(rect);
     }
     virtual void DrawTreeItemButton(   wxWindow *win, wxDC& dc, const wxRect& rect, int flags = 0) override

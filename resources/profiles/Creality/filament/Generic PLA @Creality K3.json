@@ -1,0 +1,24 @@
+{
+    "type": "filament",
+    "name": "Generic PLA @Creality K3",
+    "inherits": "Generic PLA @K2 SE-all",
+    "from": "system",
+    "setting_id": "UpiDJjroiHFZpFOL",
+    "instantiation": "true",
+    "filament_id": "00001",
+    "compatible_printers": [
+        "Creality K3 0.4 nozzle"
+    ],
+    "nozzle_temperature": [
+        "220"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "220"
+    ],
+    "filament_max_volumetric_speed": [
+        "16"
+    ],
+    "filament_flow_ratio": [
+        "0.95"
+    ]
+}

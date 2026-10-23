@@ -1,0 +1,232 @@
+{
+  "version": 1,
+  "checked": "2026-10-13",
+  "about": "Official links only: each printer maker's own apps, free model sites and help pages. No shops, no tracking. Every link was opened on the date in 'checked' and loaded the maker's own page or official app store listing. Shared by the web slicer (web/src/data/marketplace.json) and the desktop app (resources/web/marketplace/marketplace.json): keep both copies the same (web/scripts/check-marketplace.mjs).",
+  "brands": [
+    {
+      "id": "bambu",
+      "name": "Bambu Lab",
+      "badge": "BL",
+      "color": "#1E8E3E",
+      "vendors": ["BBL"],
+      "about": "Fast printers like the A1, P1S and X1.",
+      "apps": [
+        { "name": "Bambu Studio", "text": "Get your model ready to print, on your computer.", "url": "https://bambulab.com/en/download/studio" },
+        { "name": "Bambu Handy", "text": "Phone app: watch and start prints from anywhere.", "url": "https://bambulab.com/en/download/app",
+          "android": "https://play.google.com/store/apps/details?id=bbl.intl.bambulab.com",
+          "iphone": "https://apps.apple.com/us/app/bambu-handy/id1625671285" },
+        { "name": "All Bambu Lab apps", "text": "Every app from Bambu Lab in one place.", "url": "https://bambulab.com/en/download" }
+      ],
+      "models": [
+        { "name": "MakerWorld", "text": "Lots of free models, ready to print.", "url": "https://makerworld.com/en" }
+      ],
+      "help": [
+        { "name": "Bambu Lab Wiki", "text": "How-to guides and fixes.", "url": "https://wiki.bambulab.com/en/home" },
+        { "name": "Firmware", "text": "The newest printer software.", "url": "https://bambulab.com/en/support/firmware-download/all" },
+        { "name": "Support", "text": "Ask Bambu Lab for help.", "url": "https://bambulab.com/en/support" }
+      ]
+    },
+    {
+      "id": "creality",
+      "name": "Creality",
+      "badge": "Cr",
+      "color": "#0B6FB8",
+      "vendors": ["Creality"],
+      "about": "Ender, K1, K2 and K3 printers.",
+      "apps": [
+        { "name": "Creality Print", "text": "Get your model ready to print, on your computer.", "url": "https://www.creality.com/download" },
+        { "name": "Creality Cloud app", "text": "Phone app: models and printing from your phone.", "url": "https://www.crealitycloud.com/downloads/creality-cloud-app",
+          "android": "https://play.google.com/store/apps/details?id=com.cxsw.sdprinter",
+          "iphone": "https://apps.apple.com/us/app/creality-cloud-3d-printing/id1577663728" },
+        { "name": "Creality Print on GitHub", "text": "Every version of Creality Print, also for Linux.", "url": "https://github.com/CrealityOfficial/CrealityPrint/releases" }
+      ],
+      "models": [
+        { "name": "Creality Cloud", "text": "Free models to print.", "url": "https://www.crealitycloud.com/model-category/3d-print-all" }
+      ],
+      "help": [
+        { "name": "Creality Wiki", "text": "How-to guides and fixes.", "url": "https://wiki.creality.com/en/home" },
+        { "name": "Firmware", "text": "The newest printer software.", "url": "https://www.crealitycloud.com/downloads/firmware" },
+        { "name": "Support", "text": "Ask Creality for help.", "url": "https://www.creality.com/support" }
+      ]
+    },
+    {
+      "id": "snapmaker",
+      "name": "Snapmaker",
+      "badge": "Sm",
+      "color": "#3A3F4B",
+      "vendors": ["Snapmaker"],
+      "about": "The U1 and other printers that change tools.",
+      "apps": [
+        { "name": "Snapmaker Orca", "text": "Get your model ready to print (made for the U1).", "url": "https://www.snapmaker.com/snapmaker-orca" },
+        { "name": "Snapmaker Luban", "text": "Print, laser and carve with older Snapmakers.", "url": "https://www.snapmaker.com/snapmaker-luban" },
+        { "name": "Snapmaker app", "text": "Phone app: watch and control your printer.", "url": "https://wiki.snapmaker.com/en/snapmaker_app",
+          "android": "https://play.google.com/store/apps/details?id=com.snapmaker.lavaapp",
+          "iphone": "https://apps.apple.com/us/app/snapmaker/id6670739251" }
+      ],
+      "models": [],
+      "help": [
+        { "name": "Snapmaker Wiki", "text": "How-to guides, manuals and fixes.", "url": "https://wiki.snapmaker.com/en/home" },
+        { "name": "Firmware and manuals", "text": "Printer software and books for each model.", "url": "https://support.snapmaker.com/hc/en-us" }
+      ]
+    },
+    {
+      "id": "anycubic",
+      "name": "Anycubic",
+      "badge": "Ac",
+      "color": "#1D63C4",
+      "vendors": ["Anycubic"],
+      "about": "Kobra printers and Photon resin printers.",
+      "apps": [
+        { "name": "Anycubic Slicer Next", "text": "Get your model ready to print, on your computer.", "url": "https://www.anycubic.com/slicerNextDownload" },
+        { "name": "Anycubic app", "text": "Phone app: print, watch and find models.", "url": "https://www.anycubic.com/appDownload",
+          "android": "https://play.google.com/store/apps/details?id=ac.cloud.com",
+          "iphone": "https://apps.apple.com/us/app/anycubic-3d-print-models/id1662443263" },
+        { "name": "Photon Workshop", "text": "For Anycubic resin printers.", "url": "https://www.anycubic.com/lcdDownload" }
+      ],
+      "models": [
+        { "name": "Makeronline", "text": "Free models from Anycubic.", "url": "https://www.makeronline.com/en" }
+      ],
+      "help": [
+        { "name": "Anycubic Wiki", "text": "How-to guides, firmware and fixes.", "url": "https://wiki.anycubic.com/en/home" },
+        { "name": "Support center", "text": "Manuals and help for each printer.", "url": "https://www.anycubic.com/SupportCenter/ProductSupport" }
+      ]
+    },
+    {
+      "id": "prusa",
+      "name": "Prusa",
+      "badge": "Pr",
+      "color": "#B5491B",
+      "vendors": ["Prusa"],
+      "about": "Original Prusa MK4, Core One and MINI.",
+      "apps": [
+        { "name": "PrusaSlicer", "text": "Get your model ready to print, on your computer.", "url": "https://www.prusa3d.com/p/prusaslicer/" },
+        { "name": "Prusa app", "text": "Phone app: watch your prints and find models.", "url": "https://www.prusa3d.com/prusa-app/",
+          "android": "https://play.google.com/store/apps/details?id=com.prusa3d.connect",
+          "iphone": "https://apps.apple.com/us/app/prusa/id6477531937" },
+        { "name": "Prusa Connect", "text": "Control your printers in the web browser.", "url": "https://connect.prusa3d.com/" }
+      ],
+      "models": [
+        { "name": "Printables", "text": "Lots of free models, from Prusa.", "url": "https://www.printables.com/" }
+      ],
+      "help": [
+        { "name": "Prusa Help", "text": "Guides, manuals and fixes.", "url": "https://help.prusa3d.com/" },
+        { "name": "Firmware and downloads", "text": "The newest printer software.", "url": "https://help.prusa3d.com/downloads" }
+      ]
+    },
+    {
+      "id": "elegoo",
+      "name": "Elegoo",
+      "badge": "El",
+      "color": "#0E7C86",
+      "vendors": ["Elegoo"],
+      "about": "Neptune and Centauri printers, and resin printers.",
+      "apps": [
+        { "name": "ElegooSlicer", "text": "Get your model ready to print, on your computer.", "url": "https://www.elegoo.com/pages/download?c1=3d-printers-slicing-softwares" },
+        { "name": "ELEGOO Matrix app", "text": "Phone app: connect printers and find models.", "url": "https://www.elegoo.com/pages/elegoo-matrix-app",
+          "android": "https://play.google.com/store/apps/details?id=com.elegoo.matrix",
+          "iphone": "https://apps.apple.com/us/app/elegoo-matrix/id6745138636" }
+      ],
+      "models": [
+        { "name": "Nexprint", "text": "Free models from Elegoo.", "url": "https://www.nexprint.com/en" }
+      ],
+      "help": [
+        { "name": "Elegoo Wiki", "text": "How-to guides and fixes.", "url": "https://wiki.elegoo.com/en/home" },
+        { "name": "Firmware and downloads", "text": "Printer software, manuals and files.", "url": "https://www.elegoo.com/pages/download" },
+        { "name": "Support", "text": "Ask Elegoo for help.", "url": "https://www.elegoo.com/pages/support-center" }
+      ]
+    },
+    {
+      "id": "flashforge",
+      "name": "Flashforge",
+      "badge": "Ff",
+      "color": "#B83227",
+      "vendors": ["Flashforge"],
+      "about": "Adventurer and Creator printers.",
+      "apps": [
+        { "name": "Orca-Flashforge and FlashPrint", "text": "Get your model ready to print, on your computer.", "url": "https://www.flashforge.com/pages/download-center" },
+        { "name": "Flash Maker app", "text": "Phone app: watch and manage your printers.", "url": "https://wiki.flashforge.com/en/Orca-Flashforge-and-Flashmaker",
+          "android": "https://play.google.com/store/apps/details?id=com.flashforge.flashmaker",
+          "iphone": "https://apps.apple.com/us/app/flash-maker/id6475712393" },
+        { "name": "Flash Studio app", "text": "Newer phone app: watch prints with live video.", "url": "https://wiki.flashforge.com/en/Flash-Studio/Flash-Studio-Mobile",
+          "android": "https://play.google.com/store/apps/details?id=com.flashforge.flashstudio",
+          "iphone": "https://apps.apple.com/us/app/flash-studio/id6756779254" }
+      ],
+      "models": [],
+      "help": [
+        { "name": "Flashforge Wiki", "text": "How-to guides and fixes.", "url": "https://wiki.flashforge.com/en/home" },
+        { "name": "Support", "text": "Help, manuals and firmware.", "url": "https://support.flashforge.com/" }
+      ]
+    },
+    {
+      "id": "qidi",
+      "name": "QIDI",
+      "badge": "QD",
+      "color": "#8A5A00",
+      "vendors": ["Qidi"],
+      "about": "Q1, Plus and Max printers.",
+      "apps": [
+        { "name": "QIDI Studio", "text": "Get your model ready to print, on your computer.", "url": "https://qidi3d.com/pages/qidi-studio" },
+        { "name": "QIDI Link app", "text": "Phone app: watch and control your printer.", "url": "https://qidi3d.com/pages/qidi-link",
+          "android": "https://play.google.com/store/apps/details?id=com.qidi.qiditech",
+          "iphone": "https://apps.apple.com/us/app/qidi-link/id6476657588" },
+        { "name": "QIDI Maker app", "text": "Phone app: print from your phone and find models.", "url": "https://qidi3d.com/pages/qidi-maker",
+          "android": "https://play.google.com/store/apps/details?id=qdt.intl.qidimaker.com",
+          "iphone": "https://apps.apple.com/us/app/qidi-maker/id6757949896" }
+      ],
+      "models": [
+        { "name": "QIDI Maker", "text": "Free models from QIDI.", "url": "https://www.qidimaker.com/en/home" }
+      ],
+      "help": [
+        { "name": "QIDI Wiki", "text": "How-to guides and fixes.", "url": "https://wiki.qidi3d.com/en/home" },
+        { "name": "Software and firmware", "text": "The newest printer software.", "url": "https://qidi3d.com/pages/software-firmware" },
+        { "name": "Support", "text": "Ask QIDI for help.", "url": "https://qidi3d.com/pages/support" }
+      ]
+    },
+    {
+      "id": "sovol",
+      "name": "Sovol",
+      "badge": "Sv",
+      "color": "#6B3FA0",
+      "vendors": ["Sovol"],
+      "about": "SV06, SV08 and Sovol Zero printers.",
+      "apps": [
+        { "name": "Sovol OrcaSlicer", "text": "Get your model ready to print, on your computer.", "url": "https://github.com/Sovol3d/Sovol-OrcaSlicer/releases" }
+      ],
+      "models": [],
+      "help": [
+        { "name": "Sovol Wiki", "text": "How-to guides and fixes.", "url": "https://wiki.sovol3d.com/en/home" },
+        { "name": "Firmware", "text": "The newest printer software.", "url": "https://www.sovol3d.com/pages/download" },
+        { "name": "Open source files", "text": "Printer files and firmware code.", "url": "https://github.com/Sovol3d" }
+      ]
+    },
+    {
+      "id": "voron",
+      "name": "Voron",
+      "badge": "Vo",
+      "color": "#C62828",
+      "vendors": ["Voron"],
+      "community": true,
+      "about": "Printers people build themselves. Made by a community, not a company.",
+      "apps": [],
+      "models": [],
+      "help": [
+        { "name": "Voron Design", "text": "The home page of the Voron project.", "url": "https://vorondesign.com/" },
+        { "name": "Voron docs", "text": "Build guides and help.", "url": "https://docs.vorondesign.com/" },
+        { "name": "Voron on GitHub", "text": "Printer files to download.", "url": "https://github.com/VoronDesign" },
+        { "name": "Klipper", "text": "The printer software Vorons use.", "url": "https://www.klipper3d.org/" }
+      ]
+    }
+  ],
+  "models": [
+    { "name": "MakerWorld", "text": "Lots of free models, ready to print. From Bambu Lab.", "url": "https://makerworld.com/en", "color": "#1E8E3E" },
+    { "name": "Printables", "text": "Lots of free models. From Prusa.", "url": "https://www.printables.com/", "color": "#B5491B" },
+    { "name": "Thingiverse", "text": "One of the oldest free model sites.", "url": "https://www.thingiverse.com/", "color": "#1F5FAA" },
+    { "name": "Thangs", "text": "Search for models across the web.", "url": "https://thangs.com/", "color": "#3A3F4B" },
+    { "name": "Creality Cloud", "text": "Free models from Creality.", "url": "https://www.crealitycloud.com/model-category/3d-print-all", "color": "#0B6FB8" },
+    { "name": "MyMiniFactory", "text": "Models checked to print well.", "url": "https://www.myminifactory.com/", "color": "#2C7A4B" },
+    { "name": "Makeronline", "text": "Free models from Anycubic.", "url": "https://www.makeronline.com/en", "color": "#1D63C4" },
+    { "name": "Nexprint", "text": "Free models from Elegoo.", "url": "https://www.nexprint.com/en", "color": "#0E7C86" },
+    { "name": "NIH 3D", "text": "Science models: cells, bones and more.", "url": "https://3d.nih.gov/", "color": "#20558A" },
+    { "name": "NASA 3D", "text": "Space models: rockets, planets and more.", "url": "https://science.nasa.gov/3d-resources/", "color": "#0B3D91" }
+  ]
+}

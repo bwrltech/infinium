@@ -6,6 +6,8 @@
 #include <cstring>
 #include <vector>
 
+#include <boost/algorithm/string/predicate.hpp>
+
 #include <wx/sizer.h>
 #include <wx/stattext.h>
 #include <wx/timer.h>
@@ -29,8 +31,6 @@
 namespace Slic3r { namespace GUI {
 
 namespace {
-
-enum class PrintGoal { Smooth, SmoothFast, Strong, Fast };
 
 std::string fmt_mm(double v, int decimals)
 {
@@ -91,10 +91,8 @@ struct ShapeInfo
     double height        = 0.;
     double longest       = 0.;
     double surface_area  = 0.; // mm²
-    double overhang_area = 0.; // faces pointing down steeper than 45° that don't rest on the bed
     double flat_top_area = 0.; // upward flat faces above the bed
 
-    bool needs_support() const { return overhang_area > std::max(25., surface_area * 0.005); }
     bool has_flat_top() const { return flat_top_area >= 100.; }
     bool tall_or_tiny() const { return height / min_xy > 3. || min_xy < 10.; }
     bool large_base() const { return max_xy > 150.; }
@@ -133,9 +131,7 @@ ShapeInfo analyze_shape(const Model &model)
                 info.surface_area += area;
                 if ((a.z() + b.z() + c.z()) / 3. - bed_z < 0.3)
                     continue; // sits on the bed
-                if (n.z() < -0.707)
-                    info.overhang_area += area;
-                else if (n.z() > 0.985)
+                if (n.z() > 0.985)
                     info.flat_top_area += area;
             }
         }
@@ -194,13 +190,11 @@ wxString mm(double v, int decimals) { return wxString::FromUTF8(fmt_mm(v, decima
 // Plain-words line about the object, shown in the window before anything is changed.
 wxString describe_shape(const ShapeInfo &shape)
 {
-    wxString text = wxString::Format(_L("Your object: %s x %s x %s mm."), mm(shape.size.x(), 0), mm(shape.size.y(), 0), mm(shape.size.z(), 0));
-    if (shape.needs_support())
-        text += " " + _L("Some parts hang in the air, so supports will be added.");
+    wxString text = wxString::Format(_L("Your model is %s x %s x %s mm."), mm(shape.size.x(), 0), mm(shape.size.y(), 0), mm(shape.size.z(), 0));
     if (shape.tall_or_tiny())
-        text += " " + _L("It is tall or thin, so a brim will stop it falling over.");
+        text += " " + _L("It is tall or thin, so a brim (a ring around the bottom) will stop it falling over.");
     else if (shape.large_base())
-        text += " " + _L("It has a big base, so a brim will stop the corners lifting.");
+        text += " " + _L("It has a big bottom, so a brim (a ring around the bottom) will stop the corners lifting.");
     return text;
 }
 
@@ -220,19 +214,19 @@ public:
         title->SetFont(Label::Head_18);
         v_sizer->Add(title, 0, wxLEFT | wxRIGHT | wxTOP, FromDIP(20));
 
-        auto *hint = new wxStaticText(this, wxID_ANY, _L("Pick one. Infinium looks at your object and sets everything for you."));
+        auto *hint = new wxStaticText(this, wxID_ANY, _L("Pick one. Infinium looks at your model and sets up everything for you."));
         v_sizer->Add(hint, 0, wxLEFT | wxRIGHT | wxTOP, FromDIP(20) / 2);
 
         auto *cards = new wxBoxSizer(wxHORIZONTAL);
         add_card(cards, PrintGoal::Smooth, _L("Smooth & beautiful"),
-                 _L("Almost no lines on the sides. Seam hidden. Smooth top. Best for figures, gifts and show pieces."), _L("Print time: slow"));
+                 _L("Very smooth sides and top. Great for toys, figures and gifts."), _L("Takes a long time"));
         add_card(cards, PrintGoal::SmoothFast, _L("Smooth & fast"),
-                 _L("Thin 0.1 mm layers outside for smooth sides, thick quick layers inside to save time. Seam hidden. Not for parts that take force."),
-                 _L("Print time: normal"));
+                 _L("Smooth on the outside, quick on the inside. Great for things you look at, not for things you push or pull."),
+                 _L("Takes a normal time"));
         add_card(cards, PrintGoal::Strong, _L("Strong part"),
-                 _L("Thick walls and a strong inside. Best for holders, brackets and parts that take force."), _L("Print time: normal"));
+                 _L("Thick walls and a strong inside, so it does not break. Great for hooks, holders and parts you push or pull."), _L("Takes a normal time"));
         add_card(cards, PrintGoal::Fast, _L("Fast print"),
-                 _L("Thick layers, finishes quickly. Lines will show. Best for tests and quick drafts."), _L("Print time: fast"));
+                 _L("Finishes quickly, but you will see lines on the sides. Great for tests and quick tries."), _L("Quick"));
         v_sizer->Add(cards, 0, wxEXPAND | wxLEFT | wxRIGHT | wxTOP, FromDIP(20));
 
         auto *shape_text = new wxStaticText(this, wxID_ANY, describe_shape(shape));
@@ -243,7 +237,7 @@ public:
         m_auto_cb        = new ::CheckBox(this);
         m_auto_cb->SetValue(auto_on_resize());
         auto_sizer->Add(m_auto_cb, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, FromDIP(8));
-        auto_sizer->Add(new wxStaticText(this, wxID_ANY, _L("Do this again by itself when I change the object's size")), 0,
+        auto_sizer->Add(new wxStaticText(this, wxID_ANY, _L("Do this again by itself when I change the model's size")), 0,
                         wxALIGN_CENTER_VERTICAL);
         v_sizer->Add(auto_sizer, 0, wxLEFT | wxRIGHT | wxTOP, FromDIP(20));
 
@@ -279,7 +273,7 @@ private:
         box->SetCornerRadius(FromDIP(8));
         auto *sizer = new wxBoxSizer(wxVERTICAL);
 
-        auto *name_txt = new wxStaticText(box, wxID_ANY, name);
+        auto *name_txt = new wxStaticText(box, wxID_ANY, wxControl::EscapeMnemonics(name)); // keep the "&"
         name_txt->SetFont(Label::Head_16);
         auto *text_txt = new wxStaticText(box, wxID_ANY, text);
         text_txt->SetFont(Label::Body_13);
@@ -313,7 +307,7 @@ private:
         for (const Card &card : m_cards) {
             const bool selected = card.goal == m_goal;
             card.box->SetBorderWidth(FromDIP(selected ? 2 : 1));
-            card.box->SetBorderColorNormal(selected ? wxColour("#009688") : StateColor::darkModeColorFor(wxColour("#DBDBDB")));
+            card.box->SetBorderColorNormal(selected ? wxColour("#386CA1") : StateColor::darkModeColorFor(wxColour("#DBDBDB")));
             card.box->Refresh();
         }
     }
@@ -323,14 +317,74 @@ private:
 
 } // namespace
 
-void apply_auto_quality(bool silent)
+namespace {
+
+// Auto tree supports set up to come off by hand: a gap of whole layers (~0.16-0.24 mm) to the model
+// instead of the fine profiles' single 0.08 mm layer, a wider side gap and a thin, open top.
+void set_easy_supports(SettingsDelta &delta, double layer_height)
 {
+    const double support_gap = layer_height * std::max(1., std::ceil(0.16 / layer_height - 1e-6));
+    delta.set("enable_support", "1");
+    delta.set("support_type", "tree(auto)");
+    delta.set("support_threshold_angle", "30");
+    delta.set("independent_support_layer_height", "1");
+    delta.set("support_top_z_distance", fmt_mm(support_gap, 2));
+    delta.set("support_bottom_z_distance", fmt_mm(support_gap, 2));
+    delta.set("support_object_xy_distance", "0.4");
+    delta.set("support_interface_top_layers", "2");
+    delta.set("support_interface_spacing", "0.5");
+}
+
+} // namespace
+
+PrintGoal easy_print_goal() { return saved_goal(); }
+
+namespace {
+enum class Feedback { Dialog, Silent, Quick };
+void apply_goal(Feedback feedback);
+} // namespace
+
+void apply_auto_quality(bool silent) { apply_goal(silent ? Feedback::Silent : Feedback::Dialog); }
+
+void apply_easy_print_goal(PrintGoal goal)
+{
+    save_goal(goal);
+    wxGetApp().app_config->save();
+    apply_goal(Feedback::Quick);
+}
+
+bool easy_print_add_needed_support()
+{
+    Tab *tab = wxGetApp().get_tab(Preset::TYPE_PRINT);
+    const Preset &preset = wxGetApp().preset_bundle->prints.get_edited_preset();
+    // Only Easy Print's own presets: a support choice made by hand is left alone.
+    if (tab == nullptr || !boost::starts_with(preset.name, "Easy ") || preset.config.opt_bool("enable_support"))
+        return false;
+
+    SettingsDelta delta(preset.config);
+    set_easy_supports(delta, preset.config.opt_float("layer_height"));
+    const std::string name = preset.name;
+    tab->load_config(delta.config());
+    tab->save_preset(name);
+
+    Plater *plater = wxGetApp().plater();
+    plater->get_notification_manager()->push_notification(NotificationType::CustomNotification,
+                                                          NotificationManager::NotificationLevel::RegularNotificationLevel,
+                                                          _u8L("Some parts would hang in the air, so supports were added. They break off easily by hand."));
+    plater->reslice();
+    return true;
+}
+
+namespace {
+void apply_goal(Feedback feedback)
+{
+    const bool silent = feedback != Feedback::Dialog;
     Plater *plater = wxGetApp().plater();
     const Model &model = plater->model();
     if (model.objects.empty()) {
         if (silent)
             return;
-        MessageDialog(plater, _L("Add a model to the plate first, then click Easy Print."), _L("Easy Print"), wxOK | wxICON_INFORMATION).ShowModal();
+        MessageDialog(plater, _L("Put a model on the plate first, then click Easy Print."), _L("Easy Print"), wxOK | wxICON_INFORMATION).ShowModal();
         return;
     }
 
@@ -355,16 +409,20 @@ void apply_auto_quality(bool silent)
     std::vector<wxString>     done; // plain-words list of what was set, for the person printing
 
     // Layer height
+    // Smooth: thin layers hide the lines; bigger objects get a bit thicker ones so the print doesn't
+    // take days. Small objects: 0.30 x nozzle (0.12 mm on a 0.4 nozzle). Was 0.20 (0.08 mm), which made
+    // slicing and printing very slow for little visible gain. Kept in step with the web port (easyprint.py).
+    constexpr double SMOOTH_SMALL_RATIO = 0.30;
+    const double     smooth_ratio       = shape.longest <= 100. ? SMOOTH_SMALL_RATIO : shape.longest <= 180. ? 0.35 : 0.40;
     double lh_ratio = 0.5;
     if (goal == PrintGoal::Smooth)
-        // Thin layers hide the lines; very big objects get a bit thicker ones so the print doesn't take days.
-        lh_ratio = shape.longest <= 100. ? 0.20 : shape.longest <= 180. ? 0.30 : 0.40;
+        lh_ratio = smooth_ratio;
     else if (goal == PrintGoal::Fast)
         lh_ratio = 0.70;
     else if (goal == PrintGoal::SmoothFast)
-        // Thin layers (0.1 mm on a 0.4 nozzle) so the sides are as smooth as Smooth's; the time is won
-        // back inside, where the infill is combined into thick layers (see below).
-        lh_ratio = 0.25;
+        // Exactly Smooth's layers, so the sides are as smooth as Smooth's and "fast" is never the slower
+        // one; the time is won back inside, where the infill is combined into thick layers (see below).
+        lh_ratio = smooth_ratio;
     const double layer_height = std::clamp(round_layer(nozzle * lh_ratio), round_layer(min_layer), round_layer(max_layer));
     delta.set("layer_height", fmt_mm(layer_height, 2));
 
@@ -402,7 +460,7 @@ void apply_auto_quality(bool silent)
         delta.set("ironing_flow", "10%");
         delta.set("ironing_spacing", "0.15");
 
-        if (lh_ratio <= 0.20)
+        if (lh_ratio <= SMOOTH_SMALL_RATIO)
             done.push_back(wxString::Format(_L("Very thin layers (%s mm), so the lines on the sides are very hard to see."), mm(layer_height, 2)));
         else
             done.push_back(wxString::Format(_L("Thin layers (%s mm). Your object is big, so they are a little thicker to keep the print time sensible."),
@@ -414,14 +472,15 @@ void apply_auto_quality(bool silent)
         break;
     }
     case PrintGoal::SmoothFast: {
-        // What you see gets thin layers and careful walls: the outer wall, the seam and the top.
+        // What you see gets Smooth's layers and careful walls: the outer wall, the seam and the top.
         // Everything inside is cheap: inner walls and infill keep the profile's full speed, and the
-        // sparse infill (quick lightning pattern) is combined over several thin layers into one
-        // thick one of up to 75% of the nozzle (3 x 0.1 = 0.3 mm on a 0.4 nozzle). Constant layers
-        // on purpose: an adaptive layer profile doesn't work with the organic supports used here.
+        // sparse infill (quick lightning pattern) is combined over several layers into one thick
+        // one of up to 75% of the nozzle (2 x 0.12 = 0.24 mm on a 0.4 nozzle for a small object;
+        // big objects' layers are already too thick to combine). Constant layers on purpose: an
+        // adaptive layer profile doesn't work with the organic supports used here.
         const int    infill_layers = std::max(1, int(std::floor(nozzle * 0.75 / layer_height + 1e-6)));
         const double infill_height = layer_height * infill_layers;
-        // Thin layers cover well, so 0.6 mm of top (6 layers at 0.1) is enough and saves time.
+        // 0.6 mm of top (5 layers at 0.12 mm) is enough on these layers and saves time.
         delta.set("top_shell_thickness", "0.6");
         delta.set("bottom_shell_thickness", "0.5");
         delta.set("top_shell_layers", std::to_string(std::max(4, int(std::ceil(0.6 / layer_height - 1e-6)))));
@@ -451,10 +510,13 @@ void apply_auto_quality(bool silent)
         delta.set("staggered_inner_seams", "1");
         delta.set("ironing_type", "no ironing");
 
-        done.push_back(wxString::Format(_L("Thin layers (%s mm) on the outside, so the lines on the sides are very hard to see."),
+        done.push_back(wxString::Format(_L("The outside uses the same layers as \"Smooth & beautiful\" (%s mm), so the sides look just as smooth."),
                                         mm(layer_height, 2)));
-        done.push_back(wxString::Format(_L("The inside is printed in thick layers (%s mm, %d at a time) with a light, quick pattern (10%%), to save time. Good for looks, not for parts that take force."),
-                                        mm(infill_height, 2), infill_layers));
+        if (infill_layers > 1)
+            done.push_back(wxString::Format(_L("The inside is printed in thick layers (%s mm, %d at a time) with a light, quick pattern (10%%), to save time. Good for looks, not for parts that take force."),
+                                            mm(infill_height, 2), infill_layers));
+        else
+            done.push_back(wxString::Format(_L("The inside is printed with a light, quick pattern (10%%), to save time. Good for looks, not for parts that take force.")));
         done.push_back(_L("Only the outside wall and the top are printed carefully, so they come out clean. Everything inside prints at full speed."));
         done.push_back(_L("The seam (where each layer starts) is hidden in a corner, or blended in on round sides."));
         break;
@@ -486,26 +548,11 @@ void apply_auto_quality(bool silent)
         break;
     }
 
-    // Supports only when the object has parts hanging in the air; otherwise they stay off, so nothing
-    // is added under small overhangs the printer bridges fine. When on: auto tree supports set up to
-    // come off by hand - a gap of whole layers (~0.16-0.24 mm) to the model instead of the fine
-    // profiles' single 0.08 mm layer, a wider side gap and a thin, open top.
-    if (shape.needs_support()) {
-        const double support_gap = layer_height * std::max(1., std::ceil(0.16 / layer_height - 1e-6));
-        delta.set("enable_support", "1");
-        delta.set("support_type", "tree(auto)");
-        delta.set("support_threshold_angle", "30");
-        delta.set("independent_support_layer_height", "1");
-        delta.set("support_top_z_distance", fmt_mm(support_gap, 2));
-        delta.set("support_bottom_z_distance", fmt_mm(support_gap, 2));
-        delta.set("support_object_xy_distance", "0.4");
-        delta.set("support_interface_top_layers", "2");
-        delta.set("support_interface_spacing", "0.5");
-        done.push_back(_L("Some parts hang in the air, so supports are added under them. They are set up to break off easily by hand."));
-    } else {
-        delta.set("enable_support", "0");
-        done.push_back(_L("Nothing on your object hangs in the air, so supports are off."));
-    }
+    // Supports start off. Downward faces alone can't tell a bridge or a gentle slope (fine without
+    // support, like most of a Benchy) from a part that really hangs in the air, so the slicer decides:
+    // its support check runs on "Get ready" and easy_print_add_needed_support() turns them on only then.
+    delta.set("enable_support", "0");
+    done.push_back(_L("Supports are off. When you click Get ready, Infinium checks your model and adds supports only if a part would hang in the air."));
 
     // First layer and holding the object on the bed.
     const double first_layer_speed = shape.min_xy < 20. ? 20. : 30.;
@@ -526,6 +573,12 @@ void apply_auto_quality(bool silent)
     }
     done.push_back(_L("The first layer prints slowly, so it sticks well to the bed."));
 
+    // The automatic re-apply after a size change often lands on exactly the settings already in use.
+    // Then loading and saving them again would only write a new preset file and throw away the slice
+    // that is already running, so leave everything as it is.
+    if (feedback == Feedback::Silent && delta.config().diff(bundle.prints.get_edited_preset().config).empty())
+        return;
+
     Tab *tab = wxGetApp().get_tab(Preset::TYPE_PRINT);
     if (tab == nullptr)
         return;
@@ -537,6 +590,12 @@ void apply_auto_quality(bool silent)
                                                       model_label(model) + " " + size_str);
     tab->save_preset(name);
 
+    if (feedback == Feedback::Quick) {
+        plater->get_notification_manager()->push_notification(NotificationType::CustomNotification,
+                                                              NotificationManager::NotificationLevel::RegularNotificationLevel,
+                                                              _u8L("Done! Your print is set up. Now click Get ready."));
+        return;
+    }
     if (silent) {
         const std::string summary = _u8L("Easy Print updated the settings for the new size and saved them as") + " \"" + name + "\".";
         plater->get_notification_manager()->push_notification(NotificationType::CustomNotification,
@@ -547,15 +606,16 @@ void apply_auto_quality(bool silent)
     wxString message = _L("All set. Here is what I did for you:") + "\n";
     for (const wxString &line : done)
         message += "\n•  " + line;
-    message += "\n\n" + wxString::Format(_L("Saved as \"%s\" in your process list. Now click Slice."), wxString::FromUTF8(name));
+    message += "\n\n" + wxString::Format(_L("Saved as \"%s\". Now click Get ready."), wxString::FromUTF8(name));
     MessageDialog(plater, message, _L("Easy Print"), wxOK | wxICON_INFORMATION).ShowModal();
 }
+} // namespace
 
 void show_easy_print_dialog(wxWindow *parent)
 {
     Plater *plater = wxGetApp().plater();
     if (plater->model().objects.empty()) {
-        MessageDialog(plater, _L("Add a model to the plate first, then click Easy Print."), _L("Easy Print"), wxOK | wxICON_INFORMATION).ShowModal();
+        MessageDialog(plater, _L("Put a model on the plate first, then click Easy Print."), _L("Easy Print"), wxOK | wxICON_INFORMATION).ShowModal();
         return;
     }
     EasyPrintDialog dlg(parent ? wxGetTopLevelParent(parent) : static_cast<wxWindow *>(wxGetApp().mainframe), analyze_shape(plater->model()));

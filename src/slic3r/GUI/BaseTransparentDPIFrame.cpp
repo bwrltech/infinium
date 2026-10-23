@@ -34,7 +34,7 @@ BaseTransparentDPIFrame::BaseTransparentDPIFrame(
     // INFINIUM add border
     Bind(wxEVT_PAINT, [this](wxPaintEvent& evt) {
         wxPaintDC dc(this);
-        dc.SetPen(wxPen(StateColor::darkModeColorFor(wxColour("#0D6E63")), FromDIP(2)));
+        dc.SetPen(wxPen(StateColor::darkModeColorFor(wxColour("#386CA1")), FromDIP(2)));
         dc.SetBrush(*wxTRANSPARENT_BRUSH);
         dc.DrawRoundedRectangle(0, 0, GetSize().x, GetSize().y, 0);
     });

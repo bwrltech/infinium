@@ -37,6 +37,7 @@ class StaticBox;
 
 namespace Slic3r {
 namespace GUI {
+class HyperLink;
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -114,6 +115,7 @@ class ParamsPanel : public wxPanel
 
         ScalableButton*		m_setting_btn { nullptr };
         ScalableButton*		m_auto_quality_btn { nullptr };
+        HyperLink*			m_simple_view_link { nullptr }; // INFINIUM
         ScalableButton*		m_search_btn { nullptr };
         ScalableButton*		m_compare_btn { nullptr };
 

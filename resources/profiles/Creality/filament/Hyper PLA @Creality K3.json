@@ -1,0 +1,12 @@
+{
+    "type": "filament",
+    "name": "Hyper PLA @Creality K3",
+    "inherits": "Hyper PLA @K2 SE-all",
+    "from": "system",
+    "setting_id": "JTVBh0womd8vuAnR",
+    "instantiation": "true",
+    "filament_id": "01001",
+    "compatible_printers": [
+        "Creality K3 0.4 nozzle"
+    ]
+}

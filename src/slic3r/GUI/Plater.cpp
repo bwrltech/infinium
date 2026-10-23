@@ -91,6 +91,8 @@
 #include "wxExtensions.hpp"
 #include "../Utils/PrintHost.hpp"
 #include "MainFrame.hpp"
+#include "AutoQuality.hpp" // INFINIUM
+#include "SimpleView.hpp" // INFINIUM
 #include "format.hpp"
 #include "3DScene.hpp"
 #include "GLCanvas3D.hpp"
@@ -930,7 +932,7 @@ void Sidebar::priv::flush_printer_sync(bool restart)
         *counter_sync_printer = 6;
         timer_sync_printer->Start(500);
     }
-    //btn_sync_printer->SetBackgroundColorNormal((*counter_sync_printer & 1) ? "#F8F8F8" :"#0D6E63");
+    //btn_sync_printer->SetBackgroundColorNormal((*counter_sync_printer & 1) ? "#F8F8F8" :"#386CA1");
     m_printer_bbl_sync->SetBitmap_((*counter_sync_printer & 1) ? "printer_sync_not" : "printer_sync_ok");
     if (--*counter_sync_printer <= 0)
         timer_sync_printer->Stop();
@@ -2161,7 +2163,7 @@ bool Sidebar::priv::sync_extruder_list(bool &only_external_material, bool is_man
 
 void Sidebar::priv::update_sync_status(const MachineObject *obj)
 {
-    StateColor not_synced_colour(std::pair<wxColour, int>(wxColour("#0D6E63"), StateColor::Normal));
+    StateColor not_synced_colour(std::pair<wxColour, int>(wxColour("#386CA1"), StateColor::Normal));
     auto clear_all_sync_status = [this]() {
         panel_printer_preset->ShowBadge(false);
         panel_printer_bed->ShowBadge(false);
@@ -2446,7 +2448,7 @@ Sidebar::Sidebar(Plater *parent)
     auto* scrolled_sizer = m_scrolled_sizer = new wxBoxSizer(wxVERTICAL);
     p->scrolled->SetSizer(scrolled_sizer);
 
-    wxColour title_bg = wxColour(248, 248, 248);
+    wxColour title_bg = wxColour("#EBF0F6"); // INFINIUM: soft blue section headers
     wxColour inactive_text = wxColour(86, 86, 86);
     wxColour active_text = wxColour(0, 0, 0);
     wxColour static_line_col = wxColour(166, 169, 170);
@@ -2461,10 +2463,12 @@ Sidebar::Sidebar(Plater *parent)
         // 1.1 create title bar resources
         p->m_panel_printer_title = new StaticBox(p->scrolled, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL | wxBORDER_NONE);
         p->m_panel_printer_title->SetBackgroundColor(title_bg);
-        p->m_panel_printer_title->SetBackgroundColor2(0xF1F1F1);
+        p->m_panel_printer_title->SetBackgroundColor2(0xEBF0F6);
 
         p->m_printer_icon = new ScalableButton(p->m_panel_printer_title, wxID_ANY, "printer");
         p->m_text_printer_settings = new Label(p->m_panel_printer_title, _L("Printer"), LB_PROPAGATE_MOUSE_EVENT | wxST_ELLIPSIZE_END);
+        p->m_text_printer_settings->SetForegroundColour(StateColor::darkModeColorFor(wxColour("#2B5785"))); // INFINIUM
+        p->m_text_printer_settings->SetFont(Label::Head_14); // INFINIUM: section titles read as headings
 
         p->m_printer_icon->Bind(wxEVT_BUTTON, [](wxCommandEvent& e) {
             //auto wizard_t = new ConfigWizard(wxGetApp().mainframe);
@@ -2535,10 +2539,10 @@ Sidebar::Sidebar(Plater *parent)
 
         struct PanelColors {
             wxColour bg_normal = "#FFFFFF";
-            wxColour bg_focus  = "#E5F0EE";
+            wxColour bg_focus  = "#EBF0F6";
             wxColour bd_normal = "#DBDBDB";
-            wxColour bd_hover  = "#0D6E63";
-            wxColour bd_focus  = "#0D6E63";
+            wxColour bd_hover  = "#386CA1";
+            wxColour bd_focus  = "#386CA1";
         };
         PanelColors panel_color;
 
@@ -2818,8 +2822,8 @@ Sidebar::Sidebar(Plater *parent)
                 std::pair<wxColour, int>(wxColour("#F8F8F8"), StateColor::Hovered),
                 std::pair<wxColour, int>(wxColour("#F8F8F8"), StateColor::Normal));
         StateColor btn_sync_bd_col(
-                std::pair<wxColour, int>(wxColour("#0D6E63"), StateColor::Pressed),
-                std::pair<wxColour, int>(wxColour("#0D6E63"), StateColor::Hovered),
+                std::pair<wxColour, int>(wxColour("#386CA1"), StateColor::Pressed),
+                std::pair<wxColour, int>(wxColour("#386CA1"), StateColor::Hovered),
                 std::pair<wxColour, int>(wxColour("#EEEEEE"), StateColor::Normal));
         btn_sync->SetBackgroundColor(btn_sync_bg_col);
         btn_sync->SetBorderColor(btn_sync_bd_col);
@@ -2889,7 +2893,7 @@ Sidebar::Sidebar(Plater *parent)
     // add filament title
     p->m_panel_filament_title = new StaticBox(p->scrolled, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL | wxBORDER_NONE);
     p->m_panel_filament_title->SetBackgroundColor(title_bg);
-    p->m_panel_filament_title->SetBackgroundColor2(0xF1F1F1);
+    p->m_panel_filament_title->SetBackgroundColor2(0xEBF0F6);
     p->m_panel_filament_title->Bind(wxEVT_LEFT_UP, [this](wxMouseEvent &e) {
         if (!p || !p->m_filament_area_wrapper || !m_scrolled_sizer || !p->m_bpButton_set_filament || !p->m_purge_mode_btn || !p->m_flushing_volume_btn || !p->m_bpButton_add_filament || !ams_btn)
             return;
@@ -2914,6 +2918,8 @@ Sidebar::Sidebar(Plater *parent)
     bSizer39 = new wxBoxSizer( wxHORIZONTAL );
     p->m_filament_icon = new ScalableButton(p->m_panel_filament_title, wxID_ANY, "filament");
     p->m_staticText_filament_settings = new Label(p->m_panel_filament_title, _L("Project Filaments"), LB_PROPAGATE_MOUSE_EVENT);
+    p->m_staticText_filament_settings->SetForegroundColour(StateColor::darkModeColorFor(wxColour("#2B5785"))); // INFINIUM
+    p->m_staticText_filament_settings->SetFont(Label::Head_14); // INFINIUM: section titles read as headings
     bSizer39->Add(p->m_filament_icon, 0, wxALIGN_CENTER | wxLEFT, FromDIP(SidebarProps::TitlebarMargin()));
     bSizer39->Add(p->m_staticText_filament_settings, 0, wxALIGN_CENTER | wxLEFT | wxRIGHT, FromDIP(SidebarProps::ElementSpacing()));
     bSizer39->SetMinSize(-1, FromDIP(30));
@@ -3190,6 +3196,9 @@ Sidebar::Sidebar(Plater *parent)
         scrolled_sizer->Add(spliter_2, 0, wxEXPAND);
     }
 
+    // INFINIUM: big step guide and Easy Print cards; replaces the settings below while the simple view is on
+    scrolled_sizer->Add(new SimpleViewPanel(p->scrolled), 0, wxEXPAND);
+
     //add project content
     p->sizer_params = new wxBoxSizer(wxVERTICAL);
 
@@ -3212,7 +3221,7 @@ Sidebar::Sidebar(Plater *parent)
             e.Skip();
             return;
         }
-        p->m_search_bar->SetBorderColor(wxColour("#0D6E63"));
+        p->m_search_bar->SetBorderColor(wxColour("#386CA1"));
         wxPoint pos = this->p->m_search_bar->ClientToScreen(wxPoint(0, 0));
 #ifndef __WXGTK__
         pos.y += this->p->m_search_bar->GetRect().height;
@@ -3267,6 +3276,7 @@ Sidebar::Sidebar(Plater *parent)
     auto *sizer = new wxBoxSizer(wxVERTICAL);
     sizer->Add(p->scrolled, 1, wxEXPAND);
     SetSizer(sizer);
+    CallAfter([] { apply_simple_view(); });
 }
 
 Sidebar::~Sidebar() {}
@@ -3724,21 +3734,25 @@ void Sidebar::update_presets(Preset::Type preset_type)
             // INFINIUM update nozzle type
             const auto& full_config = wxGetApp().preset_bundle->full_config();
             wxString nozzle_type = "-";
+            wxString nozzle_type_full;
             const ConfigOptionEnumsGenericNullable* cfg_nozzle_type = full_config.option<ConfigOptionEnumsGenericNullable>("nozzle_type");
             if(cfg_nozzle_type != nullptr){
                 std::vector<NozzleType> nozzle_types(cfg_nozzle_type->size());
                 for (size_t idx = 0; idx < cfg_nozzle_type->size(); ++idx)
                     nozzle_types[idx] = NozzleType(cfg_nozzle_type->values[idx]);
-                nozzle_type = _L( // NEEDFIX this part can be replaced with shorter names
-                    nozzle_types[0] == ntHardenedSteel   ? "Hardened Steel" :
-                    nozzle_types[0] == ntStainlessSteel  ? "Stainless Steel" :
-                    nozzle_types[0] == ntTungstenCarbide ? "Tungsten Carbide" :
-                    nozzle_types[0] == ntBrass           ? "Brass"
-                                                         : "-" // Undefined
-                );
+                // Infinium: a short name fits the small box ("Hardene…" before); the full one is the tooltip.
+                const NozzleType type = nozzle_types.empty() ? ntUndefine : nozzle_types[0];
+                nozzle_type_full = type == ntHardenedSteel   ? _L("Hardened Steel") :
+                                   type == ntStainlessSteel  ? _L("Stainless Steel") :
+                                   type == ntTungstenCarbide ? _L("Tungsten Carbide") :
+                                   type == ntBrass           ? _L("Brass") : wxString();
+                nozzle_type = type == ntHardenedSteel   ? _L("Hardened") :
+                              type == ntStainlessSteel  ? _L("Stainless") :
+                              type == ntTungstenCarbide ? _L("Carbide") :
+                              type == ntBrass           ? _L("Brass") : wxString("-");
             }
             p->label_nozzle_type->SetLabel(nozzle_type);
-            p->label_nozzle_type->SetToolTip(nozzle_type == "-" ? "" : nozzle_type);
+            p->label_nozzle_type->SetToolTip(nozzle_type_full);
 
             p->image_printer_bed->SetBitmap(create_scaled_bitmap(image_path, this, PRINTER_THUMBNAIL_SIZE.GetHeight()));
         }
@@ -6749,6 +6763,8 @@ struct Plater::priv
     bool auto_reslice_pending {false};
     bool auto_reslice_after_cancel {false};
     bool m_is_publishing {false};
+    // INFINIUM auto-centre: ids of the model instances the user moved by hand (see Plater::auto_center_plates).
+    std::set<size_t> m_hand_placed_instances;
     int m_is_RightClickInLeftUI{-1};
     int m_cur_slice_plate;
     //BBS: m_slice_all in .gcode.3mf file case, set true when slice all
@@ -7462,6 +7478,10 @@ Plater::priv::priv(Plater *q, MainFrame *main_frame)
                                    .CloseButton(false)
                                    .TopDockable(false)
                                    .BottomDockable(false)
+                                   // Infinium: no empty drag bar above "Printer" (it only wasted a row)
+                                   .CaptionVisible(false)
+                                   .Floatable(false)
+                                   .PaneBorder(false)
                                    .BestSize(wxSize(39 * wxGetApp().em_unit(), 90 * wxGetApp().em_unit())));
 
     auto* panel_sizer = new wxBoxSizer(wxHORIZONTAL);
@@ -7495,6 +7515,10 @@ Plater::priv::priv(Plater *q, MainFrame *main_frame)
 
             sidebar_layout.is_collapsed = !sidebar.IsShown();
         }
+        // Infinium: a layout saved by an older version still has the drag bar (and maybe a floating panel).
+        sidebar.CaptionVisible(false).Floatable(false).PaneBorder(false);
+        if (sidebar.IsFloating())
+            sidebar.Dock().Left();
 
         // Keep tracking the current sidebar size, by storing it using `best_size`, which will be stored
         // in the config and re-applied when the app is opened again.
@@ -8282,6 +8306,7 @@ std::vector<size_t> Plater::priv::load_files(const std::vector<fs::path>& input_
     bool dlg_cont = true;
     bool is_user_cancel = false;
     bool translate_old = false;
+    bool any_project_file = false; // INFINIUM: for auto-centre, which leaves projects as they were saved
     int current_width = 0, current_depth = 0, project_filament_count = 1;
     double current_height = 0;
 
@@ -9449,6 +9474,7 @@ std::vector<size_t> Plater::priv::load_files(const std::vector<fs::path>& input_
             }
 
             BOOST_LOG_TRIVIAL(info) << __FUNCTION__ << ":" << __LINE__ << boost::format(", before load_model_objects, count %1%")%model.objects.size();
+            any_project_file |= is_project_file;
             auto loaded_idxs = load_model_objects(model.objects, is_project_file);
             obj_idxs.insert(obj_idxs.end(), loaded_idxs.begin(), loaded_idxs.end());
 
@@ -9623,7 +9649,9 @@ std::vector<size_t> Plater::priv::load_files(const std::vector<fs::path>& input_
     }
 
     if (load_model) {
-        if (!q->m_exported_file && view3D != nullptr) {
+        // INFINIUM: only when the canvas postponed the reload done by load_model_objects(); otherwise
+        // the scene is already up to date and this would just redo the plate checks and raycasters.
+        if (!q->m_exported_file && view3D != nullptr && view3D->get_canvas3d()->is_reload_delayed()) {
             // Force a 3D scene refresh after view/plate selection to avoid losing the first load
             // on platforms where the GL canvas mapping lags behind model loading.
             view3D->reload_scene(true);
@@ -9675,6 +9703,21 @@ std::vector<size_t> Plater::priv::load_files(const std::vector<fs::path>& input_
             if (msg.ShowModal() == wxID_YES) {}
         }
     }
+    // INFINIUM auto-centre: a single model added to a plate is centred together with what is already
+    // there, unless something on that plate was placed by hand. The import's own undo snapshot covers it.
+    // A project keeps the layout it was saved with: its models count as placed by hand.
+    if (any_project_file && !obj_idxs.empty()) {
+        std::set<std::pair<int, int>> loaded;
+        for (size_t idx : obj_idxs)
+            if (idx < model.objects.size())
+                for (size_t i = 0; i < model.objects[idx]->instances.size(); ++i)
+                    loaded.emplace(int(idx), int(i));
+        q->mark_placed_by_hand(loaded);
+    } else if (obj_idxs.size() == 1 && load_model && !q->m_exported_file) {
+        const int plate_idx = partplate_list.find_instance(int(obj_idxs.front()), 0);
+        q->auto_center_plates({}, plate_idx >= 0 ? plate_idx : partplate_list.get_curr_plate_index());
+    }
+
     q->schedule_background_process(true);
     q->mark_plate_toolbar_image_dirty();
     return obj_idxs;
@@ -9762,16 +9805,19 @@ std::vector<size_t> Plater::priv::load_model_objects(const ModelObjectPtrs& mode
             object->ensure_on_bed(allow_negative_z);
         }
 
-        if (!split_object) {
-            //BBS initial assemble transformation
-            for (ModelObject* model_object : model.objects) {
-                //BBS initialize assemble transformation
-                for (int i = 0; i < model_object->instances.size(); i++) {
-                    if (!model_object->instances[i]->is_assemble_initialized()) {
-                        model_object->instances[i]->set_assemble_transformation(model_object->instances[i]->get_transformation());
-                    }
+    }
+
+    // INFINIUM: once after the loop instead of once per loaded object (it walks every object on the
+    // plate). Same result: it only fills in assemble transformations that are not set yet.
+    if (!split_object) {
+        //BBS initial assemble transformation
+        for (ModelObject* model_object : model.objects) {
+            //BBS initialize assemble transformation
+            for (int i = 0; i < model_object->instances.size(); i++) {
+                if (!model_object->instances[i]->is_assemble_initialized()) {
+                    model_object->instances[i]->set_assemble_transformation(model_object->instances[i]->get_transformation());
                 }
-            }            
+            }
         }
     }
 
@@ -12648,6 +12694,17 @@ void Plater::priv::on_process_completed(SlicingProcessCompletedEvent &evt)
     if (!this->background_process.empty())
         this->background_process.get_current_plate()->update_slice_result_valid_state(evt.success());
 
+    // INFINIUM: Easy Print starts without supports; if the slicer's support check found parts that would
+    // hang in the air, let Easy Print turn them on and slice again.
+    if (evt.success() && this->printer_technology == ptFFF && is_finished) {
+        bool needs_support = false;
+        for (const PrintObject *object : this->background_process.m_fff_print->objects())
+            for (const auto &warning : object->step_state_with_warnings(posSupportMaterial).warnings)
+                needs_support |= warning.message_id == PrintStateBase::SlicingNeedSupportOn;
+        if (needs_support)
+            wxGetApp().CallAfter([] { easy_print_add_needed_support(); });
+    }
+
     //BBS: update the action button according to the current plate's status
     bool ready_to_slice = !this->partplate_list.get_curr_plate()->is_slice_result_valid();
 
@@ -13243,11 +13300,11 @@ void Plater::priv::apply_color_mode()
     const bool is_dark         = wxGetApp().dark_mode();
     wxColour   infinium_color      = wxColour(59, 68, 70);//wxColour(ColorRGBA::INFINIUM().r_uchar(), ColorRGBA::INFINIUM().g_uchar(), ColorRGBA::INFINIUM().b_uchar());
     infinium_color                 = is_dark ? StateColor::darkModeColorFor(infinium_color) : StateColor::lightModeColorFor(infinium_color);
-    wxColour sash_color = is_dark ? wxColour(38, 46, 48) : wxColour(206, 206, 206);
+    wxColour sash_color = is_dark ? wxColour(38, 46, 48) : wxColour("#DCE5EF"); // INFINIUM
     m_aui_mgr.GetArtProvider()->SetColour(wxAUI_DOCKART_INACTIVE_CAPTION_COLOUR, sash_color);
     m_aui_mgr.GetArtProvider()->SetColour(wxAUI_DOCKART_INACTIVE_CAPTION_TEXT_COLOUR, *wxWHITE);
     m_aui_mgr.GetArtProvider()->SetColour(wxAUI_DOCKART_SASH_COLOUR, sash_color);
-    m_aui_mgr.GetArtProvider()->SetColour(wxAUI_DOCKART_BORDER_COLOUR, is_dark ? *wxBLACK : wxColour(165, 165, 165));
+    m_aui_mgr.GetArtProvider()->SetColour(wxAUI_DOCKART_BORDER_COLOUR, is_dark ? *wxBLACK : wxColour("#CDDAE8"));
 }
 
 static void get_position(wxWindowBase* child, wxWindowBase* until_parent, int& x, int& y) {
@@ -19251,6 +19308,10 @@ void Plater::reslice()
         return;
     }
 
+    // INFINIUM auto-centre: centre the plate about to be sliced, unless it was placed by hand (does
+    // nothing when it already is centred). Slice-all comes through here once per plate.
+    auto_center_plates(_u8L("Auto-centre"), p->partplate_list.get_curr_plate_index());
+
     // Infinium: regenerate CalibPressureAdvancePattern custom G-code to apply changes
     if (model().calib_pa_pattern) {
         _calib_pa_pattern_gen_gcode();
@@ -20151,6 +20212,12 @@ void Plater::on_config_change(const DynamicPrintConfig &config)
     if (update_scheduled)
         update();
 
+    // INFINIUM auto-centre: a new printer (bed) gets the models in its middle, also the ones placed by hand
+    // (their marks are dropped). After update(), so the prime tower check sees the new printer's tower.
+    // Not while a project is being opened: it keeps its saved layout.
+    if (bed_shape_changed && !m_loading_project && p->main_frame->is_loaded())
+        auto_center_plates(_u8L("Auto-centre"), -1, true);
+
     if (p->main_frame->is_loaded()) {
         this->p->schedule_background_process();
         update_title_dirty_status();
@@ -20591,6 +20658,156 @@ void Plater::arrange()
         p->take_snapshot(_u8L("Arrange"));
         replace_job(w, std::make_unique<ArrangeJob>());
     }
+}
+
+bool Plater::auto_center_enabled() { return wxGetApp().app_config->get_bool("auto_center"); }
+
+void Plater::set_auto_center_enabled(bool on)
+{
+    if (auto_center_enabled() == on)
+        return;
+    wxGetApp().app_config->set_bool("auto_center", on);
+    wxGetApp().app_config->save();
+    if (on && wxGetApp().plater() != nullptr)
+        wxGetApp().plater()->auto_center_plates(_u8L("Auto-centre"));
+}
+
+// INFINIUM auto-centre: where plate `plate_idx` prints its prime/wipe tower (world XY), from the same two
+// sources Arrange keeps clear of: the tower shown in the 3D view, and the plate's own estimate (which also
+// covers a view not refreshed yet, e.g. right after a printer change). Empty when the plate prints none.
+static std::vector<BoundingBoxf> wipe_tower_areas(GLCanvas3D *canvas, const DynamicPrintConfig &config, PartPlate &plate, int plate_idx,
+                                                  std::optional<DynamicPrintConfig> &full_config)
+{
+    std::vector<BoundingBoxf> areas;
+    if (canvas != nullptr)
+        for (const GLVolume *vol : canvas->get_volumes().volumes)
+            if (vol->is_wipe_tower && vol->object_idx() - 1000 == plate_idx) {
+                const BoundingBoxf3 &bb = vol->transformed_convex_hull_bounding_box(); // includes the tower brim
+                areas.emplace_back(to_2d(bb.min), to_2d(bb.max));
+                break;
+            }
+
+    // As the 3D view decides it (GLCanvas3D::reload_scene): prime tower on, not a by-object plate with
+    // several models, and the estimate says there is something to purge.
+    const ConfigOption *enable_prime_tower = config.option("enable_prime_tower");
+    if (enable_prime_tower == nullptr || !enable_prime_tower->getBool() ||
+        (plate.get_real_print_seq() == PrintSequence::ByObject && plate.printable_instance_size() != 1))
+        return areas;
+    if (!full_config)
+        full_config = wxGetApp().preset_bundle->full_config();
+    Vec3d wt_pos, wt_size;
+    const arrangement::ArrangePolygon tower = plate.estimate_wipe_tower_polygon(*full_config, plate_idx, wt_pos, wt_size);
+    if (wt_size.y() > 0.) {
+        const BoundingBox ext    = get_extents(tower.poly.contour); // plate coordinates, brim included
+        const Vec2d       origin = to_2d(plate.get_origin());
+        areas.emplace_back(origin + Vec2d(unscale<double>(ext.min.x()), unscale<double>(ext.min.y())),
+                           origin + Vec2d(unscale<double>(ext.max.x()), unscale<double>(ext.max.y())));
+    }
+    return areas;
+}
+
+bool Plater::auto_center_plates(const std::string &snapshot_name, int plate_idx, bool forget_hand_placed)
+{
+    if (!auto_center_enabled() || p->model.objects.empty() || !p->m_worker.is_idle())
+        return false;
+    if (forget_hand_placed)
+        clear_placed_by_hand(plate_idx);
+
+    // Room kept around a prime/wipe tower: Arrange's spacing (at least 5 mm) plus the models' brim.
+    GLCanvas3D *canvas       = p->view3D != nullptr ? p->view3D->get_canvas3d() : nullptr;
+    double      tower_margin = std::max(5., canvas != nullptr ? double(canvas->get_arrange_settings().distance) : 0.);
+    if (const ConfigOption *brim_type = p->config->option("brim_type"); brim_type != nullptr && brim_type->getInt() != int(btNoBrim))
+        if (const ConfigOption *brim_width = p->config->option("brim_width"); brim_width != nullptr)
+            tower_margin += std::max(0., brim_width->getFloat());
+    std::optional<DynamicPrintConfig> full_config; // built only if a tower has to be estimated
+
+    // Work out every plate's shift first, so nothing is snapshotted or redrawn when all are centred.
+    std::vector<std::pair<PartPlate *, Vec3d>> shifts;
+    for (int i = 0; i < p->partplate_list.get_plate_count(); ++i) {
+        if (plate_idx >= 0 && i != plate_idx)
+            continue;
+        PartPlate *plate = p->partplate_list.get_plate(i);
+        if (plate == nullptr || plate->is_locked() || plate->empty() || is_plate_placed_by_hand(i))
+            continue;
+        const Vec3d shift = plate->get_auto_center_shift();
+        if (shift.cwiseAbs().maxCoeff() <= 0.01) // mm; already centred
+            continue;
+        // Never push models onto the prime/wipe tower (a crash risk in multi-colour prints, which slicing
+        // only warns about): if any model would land on it, leave this plate exactly as it is.
+        const std::vector<BoundingBoxf> towers = wipe_tower_areas(canvas, *p->config, *plate, i, full_config);
+        bool hits_tower = false;
+        for (const auto &[obj_idx, instance_idx] : plate->get_obj_and_inst_set()) {
+            if (towers.empty() || hits_tower)
+                break;
+            if (obj_idx < 0 || obj_idx >= int(p->model.objects.size()) || instance_idx < 0 ||
+                instance_idx >= int(p->model.objects[obj_idx]->instances.size()))
+                continue;
+            const BoundingBoxf3 bb = p->model.objects[obj_idx]->instance_convex_hull_bounding_box(instance_idx);
+            const BoundingBoxf  moved(to_2d(bb.min + shift), to_2d(bb.max + shift));
+            for (const BoundingBoxf &tower : towers)
+                if (moved.overlap(tower.inflated(tower_margin))) {
+                    hits_tower = true;
+                    break;
+                }
+        }
+        if (hits_tower) {
+            BOOST_LOG_TRIVIAL(info) << "auto-centre: plate " << i + 1 << " left as it is, centring would put a model on the prime tower";
+            continue;
+        }
+        shifts.emplace_back(plate, shift);
+    }
+    if (shifts.empty())
+        return false;
+
+    if (!snapshot_name.empty())
+        take_snapshot(snapshot_name);
+    std::vector<std::pair<int, int>> moved;
+    for (auto &[plate, shift] : shifts) {
+        const auto &instances = plate->get_obj_and_inst_set();
+        moved.insert(moved.end(), instances.begin(), instances.end());
+        plate->translate_all_instance(shift);
+    }
+    // Let the plates re-check what is on them (drops their slice results and thumbnails).
+    for (const auto &[obj_idx, instance_idx] : moved)
+        p->partplate_list.notify_instance_update(obj_idx, instance_idx);
+    p->update();
+    return true;
+}
+
+void Plater::mark_placed_by_hand(const std::set<std::pair<int, int>> &obj_and_instances)
+{
+    for (const auto &[obj_idx, instance_idx] : obj_and_instances)
+        if (0 <= obj_idx && obj_idx < int(p->model.objects.size()) && 0 <= instance_idx &&
+            instance_idx < int(p->model.objects[obj_idx]->instances.size()))
+            p->m_hand_placed_instances.insert(p->model.objects[obj_idx]->instances[instance_idx]->id().id);
+}
+
+bool Plater::is_plate_placed_by_hand(int plate_idx) const
+{
+    if (p->m_hand_placed_instances.empty())
+        return false;
+    PartPlate *plate = p->partplate_list.get_plate(plate_idx);
+    if (plate == nullptr)
+        return false;
+    for (const auto &[obj_idx, instance_idx] : plate->get_obj_and_inst_set())
+        if (0 <= obj_idx && obj_idx < int(p->model.objects.size()) && 0 <= instance_idx &&
+            instance_idx < int(p->model.objects[obj_idx]->instances.size()) &&
+            p->m_hand_placed_instances.count(p->model.objects[obj_idx]->instances[instance_idx]->id().id) > 0)
+            return true;
+    return false;
+}
+
+void Plater::clear_placed_by_hand(int plate_idx)
+{
+    PartPlate *plate = plate_idx < 0 ? nullptr : p->partplate_list.get_plate(plate_idx);
+    if (plate == nullptr) {
+        p->m_hand_placed_instances.clear();
+        return;
+    }
+    for (const auto &[obj_idx, instance_idx] : plate->get_obj_and_inst_set())
+        if (0 <= obj_idx && obj_idx < int(p->model.objects.size()) && 0 <= instance_idx &&
+            instance_idx < int(p->model.objects[obj_idx]->instances.size()))
+            p->m_hand_placed_instances.erase(p->model.objects[obj_idx]->instances[instance_idx]->id().id);
 }
 
 void Plater::set_current_canvas_as_dirty()

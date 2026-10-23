@@ -1,6 +1,6 @@
 {
 	"name": "Creality",
-	"version": "02.03.02.78",
+	"version": "02.03.02.81",
 	"force_update": "0",
 	"description": "Creality configurations",
 	"machine_model_list": [
@@ -159,6 +159,10 @@
 		{
 			"name": "Creality K2 SE",
 			"sub_path": "machine/Creality K2 SE.json"
+		},
+		{
+			"name": "Creality K3",
+			"sub_path": "machine/Creality K3.json"
 		},
 		{
 			"name": "Creality SPARKX i7",
@@ -563,6 +567,10 @@
 			"sub_path": "process/0.16mm Standard @Creality K2 SE 0.4 nozzle.json"
 		},
 		{
+			"name": "0.16mm Standard @Creality K3 0.4 nozzle",
+			"sub_path": "process/0.16mm Standard @Creality K3 0.4 nozzle.json"
+		},
+		{
 			"name": "0.18mm Detail @Creality K2 Plus 0.6 nozzle",
 			"sub_path": "process/0.18mm Detail @Creality K2 Plus 0.6 nozzle.json"
 		},
@@ -767,6 +775,10 @@
 			"sub_path": "process/0.20mm Standard @Creality K2 SE 0.4 nozzle.json"
 		},
 		{
+			"name": "0.20mm Standard @Creality K3 0.4 nozzle",
+			"sub_path": "process/0.20mm Standard @Creality K3 0.4 nozzle.json"
+		},
+		{
 			"name": "0.20mm Standard @Creality SPARKX i7 0.4 nozzle",
 			"sub_path": "process/0.20mm Standard @Creality SPARKX i7 0.4 nozzle.json"
 		},
@@ -937,6 +949,10 @@
 		{
 			"name": "0.24mm Standard @Creality K2 SE 0.4 nozzle",
 			"sub_path": "process/0.24mm Standard @Creality K2 SE 0.4 nozzle.json"
+		},
+		{
+			"name": "0.24mm Standard @Creality K3 0.4 nozzle",
+			"sub_path": "process/0.24mm Standard @Creality K3 0.4 nozzle.json"
 		},
 		{
 			"name": "0.28mm Draft @Creality Ender3 0.2",
@@ -1941,6 +1957,10 @@
 			"sub_path": "filament/Generic PETG @K2 SE-all.json"
 		},
 		{
+			"name": "Generic PETG @Creality K3",
+			"sub_path": "filament/Generic PETG @Creality K3.json"
+		},
+		{
 			"name": "Generic PETG @K2-all",
 			"sub_path": "filament/Generic PETG @K2-all.json"
 		},
@@ -2265,6 +2285,10 @@
 			"sub_path": "filament/Generic ABS @K2 SE-all.json"
 		},
 		{
+			"name": "Generic ABS @Creality K3",
+			"sub_path": "filament/Generic ABS @Creality K3.json"
+		},
+		{
 			"name": "Generic ABS @K2-all",
 			"sub_path": "filament/Generic ABS @K2-all.json"
 		},
@@ -2359,6 +2383,10 @@
 		{
 			"name": "Generic ASA @K2 SE-all",
 			"sub_path": "filament/Generic ASA @K2 SE-all.json"
+		},
+		{
+			"name": "Generic ASA @Creality K3",
+			"sub_path": "filament/Generic ASA @Creality K3.json"
 		},
 		{
 			"name": "Generic ASA @K2-all",
@@ -2733,6 +2761,10 @@
 			"sub_path": "filament/CR-PLA @K2 SE-all.json"
 		},
 		{
+			"name": "CR-PLA @Creality K3",
+			"sub_path": "filament/CR-PLA @Creality K3.json"
+		},
+		{
 			"name": "CR-PLA @K2-all",
 			"sub_path": "filament/CR-PLA @K2-all.json"
 		},
@@ -3041,6 +3073,10 @@
 			"sub_path": "filament/Generic PLA @K2 SE-all.json"
 		},
 		{
+			"name": "Generic PLA @Creality K3",
+			"sub_path": "filament/Generic PLA @Creality K3.json"
+		},
+		{
 			"name": "Generic PLA @K2-all",
 			"sub_path": "filament/Generic PLA @K2-all.json"
 		},
@@ -3097,6 +3133,10 @@
 			"sub_path": "filament/Generic PLA-CF @K2 SE-all.json"
 		},
 		{
+			"name": "Generic PLA-CF @Creality K3",
+			"sub_path": "filament/Generic PLA-CF @Creality K3.json"
+		},
+		{
 			"name": "Generic PLA-CF @K2-all",
 			"sub_path": "filament/Generic PLA-CF @K2-all.json"
 		},
@@ -3147,6 +3187,10 @@
 		{
 			"name": "Generic PLA-Silk @K2 SE-all",
 			"sub_path": "filament/Generic PLA-Silk @K2 SE-all.json"
+		},
+		{
+			"name": "Generic PLA-Silk @Creality K3",
+			"sub_path": "filament/Generic PLA-Silk @Creality K3.json"
 		},
 		{
 			"name": "Generic PLA-Silk @K2-all",
@@ -3331,6 +3375,10 @@
 		{
 			"name": "Hyper PLA @K2 SE-all",
 			"sub_path": "filament/Hyper PLA @K2 SE-all.json"
+		},
+		{
+			"name": "Hyper PLA @Creality K3",
+			"sub_path": "filament/Hyper PLA @Creality K3.json"
 		},
 		{
 			"name": "Hyper PLA @K2-all",
@@ -3603,6 +3651,10 @@
 		{
 			"name": "Generic TPU @K2 SE-all",
 			"sub_path": "filament/Generic TPU @K2 SE-all.json"
+		},
+		{
+			"name": "Generic TPU @Creality K3",
+			"sub_path": "filament/Generic TPU @Creality K3.json"
 		},
 		{
 			"name": "Generic TPU @K2-all",
@@ -4225,6 +4277,10 @@
 		{
 			"name": "Creality K2 SE 0.4 nozzle",
 			"sub_path": "machine/Creality K2 SE 0.4 nozzle.json"
+		},
+		{
+			"name": "Creality K3 0.4 nozzle",
+			"sub_path": "machine/Creality K3 0.4 nozzle.json"
 		},
 		{
 			"name": "Creality SPARKX i7 0.2 nozzle",

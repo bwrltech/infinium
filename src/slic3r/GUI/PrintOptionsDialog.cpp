@@ -19,9 +19,9 @@ static const wxColour STATIC_TEXT_EXPLAIN_COL = wxColour(100, 100, 100);
 namespace Slic3r { namespace GUI {
 
 static StateColor btn_bg_green(std::pair<wxColour, int>(wxColour(206, 206, 206), StateColor::Disabled),
-                               std::pair<wxColour, int>(wxColour(12, 100, 90), StateColor::Pressed),
-                               std::pair<wxColour, int>(wxColour(38, 166, 154), StateColor::Hovered),
-                               std::pair<wxColour, int>(wxColour(13, 110, 99), StateColor::Normal));
+                               std::pair<wxColour, int>(wxColour(46, 90, 136), StateColor::Pressed),
+                               std::pair<wxColour, int>(wxColour(74, 128, 184), StateColor::Hovered),
+                               std::pair<wxColour, int>(wxColour(56, 108, 161), StateColor::Normal));
 
 PrintOptionsDialog::PrintOptionsDialog(wxWindow* parent)
     : DPIDialog(parent, wxID_ANY, _L("Print Options"), wxDefaultPosition, wxDefaultSize, wxCAPTION | wxCLOSE_BOX)

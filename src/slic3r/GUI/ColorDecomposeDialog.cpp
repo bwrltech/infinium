@@ -26,7 +26,7 @@
 namespace Slic3r {
 namespace GUI {
 
-static const wxColour COLOR_BRAND("#0D6E63");
+static const wxColour COLOR_BRAND("#386CA1");
 static const wxColour COLOR_BORDER_NORMAL("#EEEEEE");
 static const wxColour COLOR_BG_CARD("#F8F8F8");
 static const wxColour COLOR_LABEL_GREY("#ACACAC");

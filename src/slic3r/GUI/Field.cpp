@@ -9,6 +9,8 @@
 #include "format.hpp"
 
 #include "libslic3r/PrintConfig.hpp"
+#include "libslic3r/Flow.hpp"
+#include "libslic3r/PresetBundle.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -400,8 +402,47 @@ bool Field::is_matched(const std::string& string, const std::string& pattern)
 	return std::regex_match(string, regex_pattern);
 }
 
+// Infinium: a line width of 0 means "worked out from the nozzle". Show that as an empty box with an
+// "Auto (0.45 mm)" hint (the width the slicer will really use), not as "0"; typing "auto" or emptying the
+// box sets it back to 0.
+static bool zero_means_auto(const std::string &opt_id)
+{
+    const std::string key = opt_id.substr(0, opt_id.find('#'));
+    return key == "line_width" || boost::ends_with(key, "_line_width");
+}
+
+static bool is_zero_text(wxString text)
+{
+    text.Trim(true).Trim(false);
+    double v = 0.;
+    if (text.EndsWith("%"))
+        text.RemoveLast();
+    return !text.IsEmpty() && text.ToCDouble(&v) && v == 0.;
+}
+
+static wxString auto_width_hint(const std::string &opt_id)
+{
+    wxString hint = _L("Auto");
+    try {
+        const std::string key = opt_id.substr(0, opt_id.find('#'));
+        const DynamicPrintConfig config = wxGetApp().preset_bundle->full_config();
+        const double width = Flow::extrusion_width(key, config, 0);
+        if (width > 0.)
+            hint += wxString::Format(" (%s %s)", double_to_string(width, 2), _L("mm"));
+    } catch (const std::exception &) {
+        // Not every config has every key (object settings): plain "Auto" then.
+    }
+    return hint;
+}
+
 void Field::get_value_by_opt_type(wxString& str, const bool check_value/* = true*/)
 {
+    if (m_opt.type == coFloatOrPercent && zero_means_auto(m_opt_id)) {
+        wxString t = str;
+        t.Trim(true).Trim(false);
+        if (t.IsEmpty() || t.Lower() == "auto" || t.Lower() == _L("Auto").Lower())
+            str = "0";
+    }
 	switch (m_opt.type) {
     case coInts:
     case coInt: {
@@ -963,6 +1004,10 @@ void TextCtrl::BUILD() {
         : builder2.build(m_parent, "", "", "", wxDefaultPosition, size, wxTE_PROCESS_ENTER);
     temp->SetLabel(_L(m_opt.sidetext));
 	auto text_ctrl = m_opt.multiline ? (wxTextCtrl *)temp : ((TextInput *) temp)->GetTextCtrl();
+    if (m_opt.type == coFloatOrPercent && zero_means_auto(m_opt_id) && is_zero_text(text_value)) {
+        text_value.clear();
+        text_ctrl->SetHint(auto_width_hint(m_opt_id));
+    }
     text_ctrl->SetValue(text_value);
     temp->SetSize(size);
     m_combine_side_text = !m_opt.multiline;
@@ -1106,7 +1151,13 @@ void TextCtrl::set_value(const boost::any& value, bool change_event/* = false*/)
             m_last_meaningful_value = value;
     }
 
-    text_ctrl()->SetValue(value.empty() ? wxString() : boost::any_cast<wxString>(value));
+    wxString text = value.empty() ? wxString() : boost::any_cast<wxString>(value);
+    if (m_opt.type == coFloatOrPercent && zero_means_auto(m_opt_id)) {
+        if (is_zero_text(text))
+            text.clear();
+        text_ctrl()->SetHint(text.IsEmpty() ? auto_width_hint(m_opt_id) : wxString());
+    }
+    text_ctrl()->SetValue(text);
     m_disable_change_event = false;
 
     if (!change_event) {
@@ -2665,7 +2716,7 @@ void ColourPicker::draw_bmp_btn(wxColourPickerCtrl* field, wxColour color)
         if (!dc.IsOk()) return bmp;
         wxGCDC dc2(dc); // just use wxGCDC since bitmap button only used for windows
 
-        dc2.SetPen(focus ? wxPen(wxColour(StateColor::darkModeColorFor(wxColour("#0D6E63"))), 1) : *wxTRANSPARENT_PEN);
+        dc2.SetPen(focus ? wxPen(wxColour(StateColor::darkModeColorFor(wxColour("#386CA1"))), 1) : *wxTRANSPARENT_PEN);
         dc2.SetBrush(wxBrush(StateColor::darkModeColorFor(bg_color)));
         dc2.DrawRoundedRectangle(btn->GetRect(), btn->FromDIP(4));
 

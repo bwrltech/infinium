@@ -20,7 +20,7 @@ body
 
 #Title div
 {
-	color: #0D6E63;
+	color: #386CA1;
 }
 
 /*-------Text------*/
@@ -50,7 +50,7 @@ body
 
 .RegionSelected:hover
 {
-	background-color:#0D6E63;
+	background-color:#386CA1;
 	color: #fff;	
 }
 

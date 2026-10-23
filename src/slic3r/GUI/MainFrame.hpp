@@ -50,6 +50,7 @@
 #define TAB_ID_MULTI_DEVICE  "multi_device"
 #define TAB_ID_PROJECT       "project"
 #define TAB_ID_CALIBRATION   "calibration"
+#define TAB_ID_MARKETPLACE   "marketplace" // INFINIUM: makers' apps, free models, help
 
 #define ENABEL_PRINT_ALL 0
 
@@ -67,6 +68,7 @@ class PrintHostQueueDialog;
 class Plater;
 class MainFrame;
 class WebViewPanel;
+class MarketplacePanel;
 class ParamsDialog;
 #ifdef __WXGTK__
 class ResizeEdgePanel;
@@ -392,6 +394,7 @@ public:
     ProjectPanel*         m_project{ nullptr };
 
     CalibrationPanel*     m_calibration{ nullptr };
+    MarketplacePanel*     m_marketplace{ nullptr }; // INFINIUM: the Marketplace tab
     WebViewPanel*         m_webview { nullptr };
     PrinterWebView*       m_printer_view{nullptr};
     PluginPages           m_plugin_pages;

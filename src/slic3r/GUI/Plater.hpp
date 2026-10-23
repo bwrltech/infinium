@@ -661,6 +661,23 @@ public:
     wxWindow* get_select_machine_dialog();
 
     void arrange();
+    // INFINIUM auto-centre: moves all models of a plate together so the middle of the group is the
+    // middle of that plate. The gaps between models stay the same (no re-packing). It never undoes a
+    // move made by hand: a plate holding a model the user moved (mouse drag, arrow keys, typed X/Y) is
+    // "placed by hand" and left alone, until Arrange runs or the printer changes. Runs when a single
+    // model is added, right before slicing and when the printer (bed) changes. Does nothing when the
+    // "auto_center" app setting is off.
+    static bool auto_center_enabled();
+    static void set_auto_center_enabled(bool on);
+    // Centres plate `plate_idx` (all plates when -1) unless it was placed by hand. With
+    // `forget_hand_placed` (printer change) the "placed by hand" marks of those plates are dropped first.
+    // Takes an undo snapshot named `snapshot_name` when something is going to move (empty: the caller's
+    // own snapshot already covers it). Returns true when something moved.
+    bool auto_center_plates(const std::string &snapshot_name, int plate_idx = -1, bool forget_hand_placed = false);
+    // "Placed by hand" marks, kept per model instance (so they go away with the models).
+    void mark_placed_by_hand(const std::set<std::pair<int, int>> &obj_and_instances);
+    bool is_plate_placed_by_hand(int plate_idx) const;
+    void clear_placed_by_hand(int plate_idx = -1);
     void orient();
     void find_new_position(const ModelInstancePtrs  &instances);
     //BBS: add job state related functions

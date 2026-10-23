@@ -103,6 +103,7 @@ void GLGizmoMove3D::on_start_dragging()
 void GLGizmoMove3D::on_stop_dragging()
 {
     m_parent.do_move(L("Gizmo-Move"));
+    m_parent.mark_selection_placed_by_hand(); // INFINIUM auto-centre
     m_displacement = Vec3d::Zero();
 }
 

@@ -58,7 +58,8 @@ public:
     void OnScriptResponseMessage(wxCommandEvent &evt);
     void RunScript(const wxString &javascript);
 
-    bool m_networkOk;
+    bool m_networkOk{false};
+    bool m_error_page_shown{false}; // INFINIUM
     bool ShowErrorPage();
 
     bool run();

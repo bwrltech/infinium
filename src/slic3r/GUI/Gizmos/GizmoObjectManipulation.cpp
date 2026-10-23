@@ -334,6 +334,8 @@ void GizmoObjectManipulation::change_position_value(int axis, double value)
     selection.translate(position - m_cache.position, trafo_type);
     wxGetApp().plater()->take_snapshot("Set Position", UndoRedo::SnapshotType::GizmoAction);
     m_glcanvas.do_move("");
+    if (axis != Z)
+        m_glcanvas.mark_selection_placed_by_hand(); // INFINIUM auto-centre: typed X/Y
 
     m_cache.position = position;
 	m_cache.position_rounded(axis) = DBL_MAX;
@@ -366,6 +368,25 @@ void GizmoObjectManipulation::change_rotation_value(int axis, double value)
 
     m_cache.rotation = rotation;
 	m_cache.rotation_rounded(axis) = DBL_MAX;
+    this->UpdateAndShow(true);
+}
+
+// INFINIUM: the 90° buttons in the rotate window: always around the plate's own lines, added to whatever turn it has.
+void GizmoObjectManipulation::quick_turn(int axis, double degrees)
+{
+    Selection &selection = m_glcanvas.get_selection();
+    if (selection.is_empty())
+        return;
+    TransformationType transformation_type;
+    transformation_type.set_relative();
+    if (selection.is_single_full_instance())
+        transformation_type.set_independent();
+    Vec3d turn = Vec3d::Zero();
+    turn(axis) = degrees;
+    selection.setup_cache();
+    selection.rotate((M_PI / 180.0) * turn, transformation_type);
+    wxGetApp().plater()->take_snapshot(_u8L("Set orientation"), UndoRedo::SnapshotType::GizmoAction);
+    m_glcanvas.do_rotate("");
     this->UpdateAndShow(true);
 }
 
@@ -1090,6 +1111,22 @@ void GizmoObjectManipulation::do_render_rotate_window(ImGuiWrapper *imgui_wrappe
     }
     if (!focued_on_text  && !absolute_focued_on_text)
         m_glcanvas.handle_sidebar_focus_event("", false);
+
+    // INFINIUM: one click turns, 90° at a time (type other amounts in "Relative" above and press Enter)
+    ImGui::AlignTextToFramePadding();
+    imgui_wrapper->text(_L("Quick turn"));
+    ImGui::SameLine(caption_max + space_size);
+    int quick_axis = -1;
+    double quick_degrees = 0.;
+    if (imgui_wrapper->button(_L("Spin") + wxString::FromUTF8(" -90°##qt_z_minus"), _L("Spin it on the plate, 90° the other way (around Z)"))) { quick_axis = 2; quick_degrees = -90.; }
+    ImGui::SameLine();
+    if (imgui_wrapper->button(_L("Spin") + wxString::FromUTF8(" +90°##qt_z_plus"), _L("Spin it on the plate by 90° (around Z)"))) { quick_axis = 2; quick_degrees = 90.; }
+    ImGui::SameLine();
+    if (imgui_wrapper->button(wxString::FromUTF8("X 90°##qt_x"), _L("Tip it forward by 90° (around X)"))) { quick_axis = 0; quick_degrees = 90.; }
+    ImGui::SameLine();
+    if (imgui_wrapper->button(wxString::FromUTF8("Y 90°##qt_y"), _L("Tip it sideways by 90° (around Y)"))) { quick_axis = 1; quick_degrees = 90.; }
+    if (quick_axis >= 0)
+        quick_turn(quick_axis, quick_degrees);
 
     ImGui::Spacing(); // needed after Text
     ImGui::Separator();

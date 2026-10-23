@@ -4,6 +4,7 @@
 #include "slic3r/GUI/3DScene.hpp"
 #include "slic3r/GUI/Camera.hpp"
 #include "slic3r/GUI/GUI_App.hpp"
+#include "slic3r/GUI/SimpleView.hpp" // INFINIUM
 #include "slic3r/GUI/GUI_ObjectList.hpp"
 #include "slic3r/GUI/Plater.hpp"
 #include "slic3r/Utils/UndoRedo.hpp"
@@ -71,8 +72,13 @@ std::vector<size_t> GLGizmosManager::get_selectable_idxs() const
                 out.push_back(i);
     }
     else {
+        // INFINIUM: the simple view keeps the tools a beginner needs: move, turn, resize, lay flat, text and paint.
+        const bool simple = simple_view();
+        auto beginner_tool = [](unsigned int id) {
+            return id == Move || id == Rotate || id == Scale || id == Flatten || id == Emboss || id == MmSegmentation;
+        };
         for (size_t i = 0; i < m_gizmos.size(); ++i)
-            if (m_gizmos[i]->is_selectable())
+            if (m_gizmos[i]->is_selectable() && (!simple || beginner_tool(m_gizmos[i]->get_sprite_id())))
                 out.push_back(i);
     }
     return out;

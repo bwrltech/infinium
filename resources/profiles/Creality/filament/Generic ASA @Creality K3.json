@@ -1,0 +1,24 @@
+{
+    "type": "filament",
+    "name": "Generic ASA @Creality K3",
+    "inherits": "Generic ASA @K2 SE-all",
+    "from": "system",
+    "setting_id": "oO0vr1B4HBUkhOil",
+    "instantiation": "true",
+    "filament_id": "00007",
+    "compatible_printers": [
+        "Creality K3 0.4 nozzle"
+    ],
+    "nozzle_temperature": [
+        "260"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "260"
+    ],
+    "filament_max_volumetric_speed": [
+        "12"
+    ],
+    "filament_flow_ratio": [
+        "0.95"
+    ]
+}

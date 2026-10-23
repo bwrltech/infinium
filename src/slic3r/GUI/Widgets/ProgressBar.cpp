@@ -44,8 +44,8 @@ void ProgressBar::create(wxWindow *parent, wxWindowID id, const wxPoint &pos,  w
 
      auto m_progress_bk = new StaticBox(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
      m_progress_bk->SetBackgroundColour(wxColour(238, 130, 238));
-     StateColor btn_bg_green(std::pair<wxColour, int>(wxColour(12, 100, 90), StateColor::Pressed), std::pair<wxColour, int>(wxColour(38, 166, 154), StateColor::Hovered),
-                             std::pair<wxColour, int>(wxColour(13, 110, 99), StateColor::Normal));
+     StateColor btn_bg_green(std::pair<wxColour, int>(wxColour(46, 90, 136), StateColor::Pressed), std::pair<wxColour, int>(wxColour(74, 128, 184), StateColor::Hovered),
+                             std::pair<wxColour, int>(wxColour(56, 108, 161), StateColor::Normal));
 
      wxBoxSizer *m_sizer_progress= new wxBoxSizer(wxHORIZONTAL);
 

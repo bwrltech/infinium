@@ -107,35 +107,78 @@
 
 <div id="RightBoard">
 <div id="ContentBoard" class="ZScrol" board="recent">
-    <div style="height: 14px;"></div>	
+	<!-- INFINIUM: friendly start screen. Big tiles a child can read and hit; every tile does one thing. -->
+	<div id="HeroArea">
+		<div id="HeroTitle" class="TextS1"><span class="trans" tid="kid1">Hi there!</span> <span class="HeroWave" aria-hidden="true">👋</span></div>
+		<div id="HeroSub" class="trans" tid="kid2">What do you want to make today?</div>
+	</div>
+
 	<div id="MenuArea">
-<!--		<div class="MenuItem" onClick="OnClickModelDepot()">
-			<div class="MenuIcon"><img src="img/i6.png"></div>
-			<div>
-				<div class="trans TextS1" tid="t90">3D Model</div>
-				<div class="MenuDesc trans"  tid="t91">Download 3D Models</div>
-			</div>
-		</div>	-->	
-		<div class="MenuItem" onClick="OnClickNewProject()">
-			<div class="MenuIcon"><img src="img/i4.png"></div>
-			<div>
-				<div class="trans TextS1" tid="t31">new project</div>
-				<div class="MenuDesc trans"  tid="t32">create new project</div>
+		<div class="MenuItem BigTile TileModel" tabindex="0" role="button" onClick="OnClickImportModel()">
+			<div class="TileEmoji" aria-hidden="true">📥</div>
+			<div class="TileText">
+				<div class="TileTitle trans TextS1" tid="kid3">Add a model</div>
+				<div class="MenuDesc trans" tid="kid4">Pick a 3D file from this computer</div>
 			</div>
 		</div>
-		<div class="MenuItem" onClick="OnClickOpenProject()">
-			<div class="MenuIcon"><img src="img/i5.png"></div>
-			<div>
-				<div class="trans TextS1" tid="t33">open project</div>
-				<div class="MenuDesc">3mf</div>
+		<div class="MenuItem BigTile TileNew" tabindex="0" role="button" onClick="OnClickNewProject()">
+			<div class="TileEmoji" aria-hidden="true">✨</div>
+			<div class="TileText">
+				<div class="TileTitle trans TextS1" tid="kid5">Start new</div>
+				<div class="MenuDesc trans" tid="kid6">An empty plate, ready to fill</div>
 			</div>
-		</div>		
+		</div>
+		<div class="MenuItem BigTile TileOpen" tabindex="0" role="button" onClick="OnClickOpenProject()">
+			<div class="TileEmoji" aria-hidden="true">📂</div>
+			<div class="TileText">
+				<div class="TileTitle trans TextS1" tid="kid7">Open my project</div>
+				<div class="MenuDesc trans" tid="kid8">Keep going on something you saved</div>
+			</div>
+		</div>
+		<!-- INFINIUM: the Marketplace tab (printer makers' apps, free model sites, help and firmware) -->
+		<div id="MarketTile" class="MenuItem BigTile TileMarket" tabindex="0" role="button" onClick="OnClickMarketplace()">
+			<div class="TileEmoji" aria-hidden="true">🧭</div>
+			<div class="TileText">
+				<div class="TileTitle TextS1">Marketplace</div>
+				<div class="MenuDesc">Apps, free models and help for your printer</div>
+			</div>
+		</div>
 	</div>
-	
-	<div id="DebugText"></div>	
+
+	<div id="FunArea">
+		<div class="Content-Title SectionTitle trans TextS1" tid="kid9">Fun models to try</div>
+		<div id="FunList">
+			<div class="FunItem FunCat" tabindex="0" role="button" onClick="OpenGallery('cat')">
+				<div class="FunEmoji" aria-hidden="true">🐱</div>
+				<div class="FunName trans TextS1" tid="kid10">Cat</div>
+			</div>
+			<div class="FunItem FunBoat" tabindex="0" role="button" onClick="OpenGallery('boat')">
+				<div class="FunEmoji" aria-hidden="true">⛵</div>
+				<div class="FunName trans TextS1" tid="kid11">Boat</div>
+			</div>
+			<div class="FunItem FunBunny" tabindex="0" role="button" onClick="OpenGallery('bunny')">
+				<div class="FunEmoji" aria-hidden="true">🐰</div>
+				<div class="FunName trans TextS1" tid="kid12">Bunny</div>
+			</div>
+			<div class="FunItem FunCube" tabindex="0" role="button" onClick="OpenGallery('cube')">
+				<div class="FunEmoji" aria-hidden="true">🧊</div>
+				<div class="FunName trans TextS1" tid="kid13">Cube</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="FindArea">
+		<div class="Content-Title SectionTitle trans TextS1" tid="kid15">Find something else</div>
+		<form class="GallerySearch" onsubmit="OnHomeSearch(event)">
+			<input id="HomeSearchInput" type="text" maxlength="60" autocomplete="off" placeholder="Dinosaur, car, rocket..." />
+			<button type="submit" class="trans" tid="kid16">Search</button>
+		</form>
+	</div>
+
+	<div id="DebugText"></div>
 	<div id="RecentFileArea">
 		<div id="RecentTitleBlock">
-		    <div id="RecentTitle" class="Content-Title trans TextS1" tid="t35">recent open</div>
+		    <div id="RecentTitle" class="Content-Title SectionTitle trans TextS1" tid="kid14">Things you made before</div>
 			<div id="RecentClearAllBtn" class="ButtonStyleRegular ButtonTypeWindow trans" tid="t12" onClick="OnDeleteAllRecentFiles()">Clear all</div>
 		</div>
 		<div id="FileList">
@@ -230,12 +273,32 @@
 	
 </div>
 
+<!-- INFINIUM: model gallery. Results come from Printables.com through the app (homepage_gallery_search). -->
+<div id="GalleryBoard" class="ZScrol" board="gallery" style="display:none">
+	<div id="GalleryTop">
+		<div id="GalleryBack" tabindex="0" role="button" onClick="CloseGallery()">&#8592; <span class="trans" tid="kid17">Back</span></div>
+		<form class="GallerySearch" onsubmit="OnGallerySearch(event)">
+			<input id="GallerySearchInput" type="text" maxlength="60" autocomplete="off" />
+			<button type="submit" class="trans" tid="kid16">Search</button>
+		</form>
+	</div>
+	<div id="GalleryTitle" class="TextS1"></div>
+	<div id="GallerySub"></div>
+	<div id="GalleryList"></div>
+	<div id="GalleryStatus"></div>
+	<div id="GalleryMore" tabindex="0" role="button" onClick="GalleryLoadMore()"><span class="trans" tid="kid18">Show more</span></div>
+	<div id="GalleryCredit"><span class="trans" tid="kid19">Models come from Printables.com. Each one belongs to the person who made it.</span></div>
+</div>
+
 </div>	
 </body>
 <script type="text/javascript">
 	//HandleStudio(TestData);
     document.onkeydown = function (event) {
 		var e = event || window.event || arguments.callee.caller.arguments[0];
+		// INFINIUM: let the search boxes take typing
+		if (e.target && (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA"))
+			return true;
 
 		if (e.ctrlKey && e.metaKey)
 			OutputKey(e.keyCode, true, false, true);

@@ -621,7 +621,7 @@ void wgtDeviceNozzleRackHotendUpdate::UpdateInfo(const DevNozzle& nozzle)
         m_used_time->Show(true);
         m_status_label->Show(true);
         m_status_bitmap->Show(true);
-        m_status_label->SetForegroundColour(wxColour("#0D6E63")); // Infinium: accent green
+        m_status_label->SetForegroundColour(wxColour("#386CA1")); // Infinium: accent green
         m_status_label->SetLabel(_L("Refresh"));
         m_status_bitmap->SetBitmap(m_refresh_icon->bmp());
         m_status_bitmap->Refresh();

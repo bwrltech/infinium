@@ -13,6 +13,11 @@ function OnInit()
 	SendMsg_GetStaffPick();
 
 	Set_AccountMenu_Event();
+
+	// INFINIUM: the start tiles work from the keyboard too
+	$(document).on("keydown", ".BigTile, .FunItem, .GalleryItem, #GalleryBack, #GalleryMore", function(e) {
+		if (e.key === "Enter" || e.key === " ") $(this).click();
+	});
 }
 
 //------最佳打开文件的右键菜单功能----------
@@ -89,6 +94,10 @@ function HandleStudio( pVal )
 	
 	if (strCmd == "get_recent_projects") {
     ShowRecentFileList(pVal["response"]);
+  } else if (strCmd == "gallery_results") {
+    OnGalleryResults(pVal);
+  } else if (strCmd == "gallery_loaded") {
+    OnGalleryLoaded(pVal);
   } else if (strCmd == "infinium_userlogin") {
     SetOrcaLoginInfo(pVal["data"]["avatar"], pVal["data"]["name"], pVal["data"]["account"]);
   } else if (strCmd == "infinium_useroffline") {
@@ -391,6 +400,28 @@ function OnClickModelDepot()
 	SendWXMessage( JSON.stringify(tSend) );		
 }
 
+// INFINIUM: start-screen tiles
+// INFINIUM: open the Marketplace tab (printer makers' apps, free model sites, help and firmware).
+function OnClickMarketplace()
+{
+	SendSimpleCommand("homepage_open_marketplace");
+}
+
+function OnClickImportModel()
+{
+	SendSimpleCommand("homepage_import_model");
+}
+
+function OnClickFunModel(strModel)
+{
+	var tSend={};
+	tSend['sequence_id']=Math.round(new Date() / 1000);
+	tSend['command']="homepage_fun_model";
+	tSend['data']={'model': strModel};
+
+	SendWXMessage( JSON.stringify(tSend) );
+}
+
 function OnClickNewProject()
 {
 	var tSend={};
@@ -613,3 +644,152 @@ function OpenOneStaffPickModel( ModelID )
 //---------------Global-----------------
 window.postMessage = HandleStudio;
 
+
+
+/*------INFINIUM: model gallery------*/
+// The fun tiles open a gallery: our own model first (works without internet), then many more from
+// Printables.com. The app does the searching and downloading; names are only ever set as text.
+var GalleryTopics = {
+  cat:   { title: "Pick your cat!",   query: "cat",         builtin: "cat",   emoji: "🐱", name: "Our cat" },
+  boat:  { title: "Pick your boat!",  query: "boat toy",    builtin: "boat",  emoji: "⛵", name: "Our boat" },
+  bunny: { title: "Pick your bunny!", query: "bunny",       builtin: "bunny", emoji: "🐰", name: "Our bunny" },
+  cube:  { title: "Pick your cube!",  query: "fidget cube", builtin: "cube",  emoji: "🧊", name: "Our cube" }
+};
+
+var m_Gallery = { query: "", offset: 0, topic: null, busy: false, loading: null };
+
+function ShowBoard(strBoard)
+{
+	$("div[board]").hide();
+	$("div[board='" + strBoard + "']").show();
+}
+
+function OpenGallery(strTopic)
+{
+	let topic = GalleryTopics[strTopic] || null;
+	StartGallery(topic ? topic.query : strTopic, topic);
+}
+
+function StartGallery(strQuery, topic)
+{
+	m_Gallery = { query: strQuery, offset: 0, topic: topic, busy: false, loading: null };
+
+	$("#GalleryTitle").text(topic ? topic.title : ("“" + strQuery + "”"));
+	$("#GallerySub").text("Tap one to put it on your plate.");
+	$("#GallerySearchInput").val(topic ? "" : strQuery).attr("placeholder", "Find something else...");
+	$("#GalleryList").empty();
+	$("#GalleryMore").hide();
+
+	if (topic) {
+		let card = $("<div class='GalleryItem GalleryBuiltin' tabindex='0' role='button'></div>");
+		card.append($("<div class='GalleryImg GalleryEmoji'></div>").text(topic.emoji));
+		card.append($("<div class='GalleryName TextS1'></div>").text(topic.name));
+		card.append($("<div class='GalleryMaker'></div>").text("Ready now, no internet needed"));
+		card.on("click", function() { OnClickFunModel(topic.builtin); });
+		$("#GalleryList").append(card);
+	}
+
+	ShowBoard("gallery");
+	$("#GalleryBoard").scrollTop(0);
+	RequestGalleryPage();
+}
+
+function RequestGalleryPage()
+{
+	if (m_Gallery.busy) return;
+	m_Gallery.busy = true;
+	$("#GalleryMore").hide();
+	$("#GalleryStatus").removeClass("GalleryError").html("<span class='Spinner'></span>").append($("<span></span>").text(" Looking for models..."));
+
+	var tSend = {};
+	tSend['sequence_id'] = Math.round(new Date() / 1000);
+	tSend['command'] = "homepage_gallery_search";
+	tSend['data'] = { 'query': m_Gallery.query, 'offset': m_Gallery.offset };
+	SendWXMessage(JSON.stringify(tSend));
+}
+
+function GalleryLoadMore()
+{
+	RequestGalleryPage();
+}
+
+function OnGalleryResults(pVal)
+{
+	if (pVal["ok"] === false) {
+		m_Gallery.busy = false;
+		$("#GalleryStatus").addClass("GalleryError").text("We can't reach the internet right now. " +
+			(m_Gallery.topic ? "You can still use our model!" : "Try again later."));
+		return;
+	}
+	if (pVal["query"] !== m_Gallery.query || pVal["offset"] !== m_Gallery.offset) return;  // an old search
+	m_Gallery.busy = false;
+
+	let items = pVal["items"] || [];
+	for (let n = 0; n < items.length; n++) {
+		let it = items[n];
+		let card = $("<div class='GalleryItem' tabindex='0' role='button'></div>").attr("data-id", it.id);
+		let img = $("<img class='GalleryImg' loading='lazy' alt='' />").attr("src", it.image);
+		img.on("error", function() {
+			if (this.src !== it.image_full) this.src = it.image_full; else $(this).addClass("GalleryImgMissing");
+		});
+		card.append(img);
+		card.append($("<div class='GalleryName TextS1'></div>").text(it.name).attr("title", it.name));
+		card.append($("<div class='GalleryMaker'></div>").text(it.maker ? ("by " + it.maker) : ""));
+		card.attr("title", it.license ? (it.name + "\nby " + it.maker + "\n" + it.license) : it.name);
+		card.on("click", function() { OnGalleryPick(it.id, card); });
+		$("#GalleryList").append(card);
+	}
+
+	m_Gallery.offset += 24;
+	let shown = $("#GalleryList .GalleryItem").not(".GalleryBuiltin").length;
+	if (shown === 0 && !pVal["more"])
+		$("#GalleryStatus").text("Nothing found. Try another word!");
+	else
+		$("#GalleryStatus").empty();
+	if (pVal["more"]) $("#GalleryMore").show();
+}
+
+function OnGalleryPick(strId, card)
+{
+	if (m_Gallery.loading) return;  // one at a time
+	m_Gallery.loading = strId;
+	$(".GalleryItem").removeClass("GalleryPicked");
+	card.addClass("GalleryPicked GalleryLoading");
+	card.append($("<div class='GalleryOverlay'><span class='Spinner'></span><span>Getting it...</span></div>"));
+
+	var tSend = {};
+	tSend['sequence_id'] = Math.round(new Date() / 1000);
+	tSend['command'] = "homepage_gallery_load";
+	tSend['data'] = { 'id': strId };
+	SendWXMessage(JSON.stringify(tSend));
+}
+
+function OnGalleryLoaded(pVal)
+{
+	let card = $(".GalleryItem[data-id='" + m_Gallery.loading + "']");
+	card.removeClass("GalleryLoading").find(".GalleryOverlay").remove();
+	m_Gallery.loading = null;
+	if (pVal["ok"] === false) {
+		card.append($("<div class='GalleryOverlay GalleryOverlayError'></div>").text("Sorry, this one won't load. Pick another!"));
+		setTimeout(function() { card.find(".GalleryOverlay").fadeOut(400, function() { $(this).remove(); }); }, 2500);
+	}
+}
+
+function CloseGallery()
+{
+	ShowBoard("recent");
+}
+
+function OnGallerySearch(e)
+{
+	e.preventDefault();
+	let q = $.trim($("#GallerySearchInput").val());
+	if (q.length > 0) StartGallery(q, null);
+}
+
+function OnHomeSearch(e)
+{
+	e.preventDefault();
+	let q = $.trim($("#HomeSearchInput").val());
+	if (q.length > 0) StartGallery(q, null);
+}

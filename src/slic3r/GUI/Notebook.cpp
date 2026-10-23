@@ -14,6 +14,22 @@
 
 wxDEFINE_EVENT(wxCUSTOMEVT_NOTEBOOK_SEL_CHANGED, wxCommandEvent);
 
+// INFINIUM: blue tab bar, the selected tab is white with blue text and icon
+static const wxColour TAB_BAR_BG("#386CA1");
+static const wxColour TAB_BAR_HOVER("#4A80B8");
+static const wxColour TAB_TEXT("#FEFEFE");
+static const wxColour TAB_SEL_BG("#FFFFFF");
+static const wxColour TAB_SEL_TEXT("#386CA1");
+
+static void style_tab(Button *btn, bool selected, const std::string &icon)
+{
+    btn->SetBackgroundColor(selected ? StateColor(std::pair{TAB_SEL_BG, (int) StateColor::Normal}) :
+                                       StateColor(std::pair{TAB_BAR_HOVER, (int) StateColor::Hovered}, std::pair{TAB_BAR_BG, (int) StateColor::Normal}));
+    btn->SetTextColor(StateColor(std::pair{selected ? TAB_SEL_TEXT : TAB_TEXT, (int) StateColor::Normal}));
+    if (!icon.empty())
+        btn->SetIcon(selected ? icon + "_sel" : icon);
+}
+
 ButtonsListCtrl::ButtonsListCtrl(wxWindow *parent, wxBoxSizer* side_tools) :
     wxControl(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE | wxTAB_TRAVERSAL)
 {
@@ -21,15 +37,7 @@ ButtonsListCtrl::ButtonsListCtrl(wxWindow *parent, wxBoxSizer* side_tools) :
     SetDoubleBuffered(true);
 #endif //__WINDOWS__
 
-    wxColour default_btn_bg;
-#ifdef __APPLE__
-    default_btn_bg = wxColour("#3B4446"); // Gradient #414B4E
-#else
-    default_btn_bg = wxColour("#2D2D30"); // Gradient #414B4E
-#endif
-
-   
-    SetBackgroundColour(default_btn_bg);
+    SetBackgroundColour(TAB_BAR_BG); // INFINIUM
 
     int em = em_unit(this);// Slic3r::GUI::wxGetApp().em_unit();
     // BBS: no gap
@@ -122,18 +130,8 @@ void ButtonsListCtrl::SetSelection(int sel)
 {
     if (m_selection == sel && sel >= 0 && sel < static_cast<int>(m_pageButtons.size()))
         return;
-    // BBS: change button color
-    wxColour selected_btn_bg("#0D6E63");    // Gradient #0D6E63
-    if (m_selection >= 0 && m_selection < static_cast<int>(m_pageButtons.size())) {
-        StateColor bg_color = StateColor(
-        std::pair{wxColour(107, 107, 107), (int) StateColor::Hovered},
-        std::pair{wxColour(59, 68, 70), (int) StateColor::Normal});
-        m_pageButtons[m_selection]->SetBackgroundColor(bg_color);
-        StateColor text_color = StateColor(
-        std::pair{wxColour(254,254, 254), (int) StateColor::Normal}
-        );
-        m_pageButtons[m_selection]->SetTextColor(text_color);
-    }
+    if (m_selection >= 0 && m_selection < static_cast<int>(m_pageButtons.size()))
+        style_tab(m_pageButtons[m_selection], false, m_pageIcons[m_selection]);
 
     if (sel < 0 || sel >= static_cast<int>(m_pageButtons.size())) {
         m_selection = -1;
@@ -142,17 +140,7 @@ void ButtonsListCtrl::SetSelection(int sel)
     }
 
     m_selection = sel;
-
-    StateColor bg_color = StateColor(
-        std::pair{wxColour(13, 110, 99), (int) StateColor::Hovered},
-        std::pair{wxColour(13, 110, 99), (int) StateColor::Normal});
-    m_pageButtons[m_selection]->SetBackgroundColor(bg_color);
-
-    StateColor text_color = StateColor(
-        std::pair{wxColour(254, 254, 254), (int) StateColor::Normal}
-        );
-    m_pageButtons[m_selection]->SetTextColor(text_color);
-    
+    style_tab(m_pageButtons[m_selection], true, m_pageIcons[m_selection]);
     Refresh();
 }
 
@@ -168,14 +156,7 @@ bool ButtonsListCtrl::InsertPage(size_t n, const wxString &text, bool bSelect /*
     //BBS set size for button
     btn->SetMinSize({(text.empty() ? 40 : 136) * em / 10, 36 * em / 10});
 
-    StateColor bg_color = StateColor(
-        std::pair{wxColour(107, 107, 107), (int) StateColor::Hovered},
-        std::pair{wxColour(59, 68, 70), (int) StateColor::Normal});
-
-    btn->SetBackgroundColor(bg_color);
-    StateColor text_color = StateColor(
-        std::pair{wxColour(254,254, 254), (int) StateColor::Normal});
-    btn->SetTextColor(text_color);
+    style_tab(btn, false, ""); // INFINIUM
     btn->Bind(wxEVT_BUTTON, [this, btn](wxCommandEvent& event) {
         if (auto it = std::find(m_pageButtons.begin(), m_pageButtons.end(), btn); it != m_pageButtons.end()) {
             auto sel = it - m_pageButtons.begin();
@@ -190,6 +171,7 @@ bool ButtonsListCtrl::InsertPage(size_t n, const wxString &text, bool bSelect /*
     Slic3r::GUI::wxGetApp().UpdateDarkUI(btn);
     m_pageButtons.insert(m_pageButtons.begin() + n, btn);
     m_pageLabels.insert(m_pageLabels.begin() + n, text); // INFINIUM
+    m_pageIcons.insert(m_pageIcons.begin() + n, bmp_name); // INFINIUM
     m_buttons_sizer->Insert(n, new wxSizerItem(btn));
     m_buttons_sizer->SetCols(m_buttons_sizer->GetCols() + 1);
     m_sizer->Layout();
@@ -209,6 +191,7 @@ void ButtonsListCtrl::RemovePage(size_t n)
     Button* btn = m_pageButtons[n];
     m_pageButtons.erase(m_pageButtons.begin() + n);
     m_pageLabels.erase(m_pageLabels.begin() + n); // INFINIUM
+    m_pageIcons.erase(m_pageIcons.begin() + n); // INFINIUM
     m_buttons_sizer->Remove(n);
 #if __WXOSX__
     RemoveChild(btn);

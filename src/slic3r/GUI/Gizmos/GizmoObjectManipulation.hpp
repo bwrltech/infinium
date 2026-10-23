@@ -164,6 +164,8 @@ private:
     void do_scale(int axis, const Vec3d &scale) const;
     void reset_position_value();
     void reset_rotation_value(bool reset_relative);
+    // INFINIUM: turn the selection by some degrees around the plate's X, Y or Z line (the 90° buttons)
+    void quick_turn(int axis, double degrees);
     void reset_scale_value();
 
     GLCanvas3D& m_glcanvas;

@@ -1066,6 +1066,9 @@ public:
 
     // the following methods add a snapshot to the undo/redo stack, unless the given string is empty
     void do_move(const std::string& snapshot_type);
+    // INFINIUM auto-centre: remembers that the selected objects were just moved by hand (mouse drag,
+    // arrow keys, typed X/Y), so their plate is not re-centred later (see Plater::auto_center_plates).
+    void mark_selection_placed_by_hand();
     void do_rotate(const std::string& snapshot_type);
     void do_scale(const std::string& snapshot_type);
     void do_center();

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marketplace</title>
+<!-- INFINIUM: the Marketplace tab. Official links to each printer maker's apps, free model sites and help pages.
+     The links come from marketplace.json (the same file the web slicer uses). In the app, links open in the
+     system browser (MarketplacePanel.cpp); in a normal browser they open in a new tab. -->
+<link rel="stylesheet" href="marketplace.css">
+<script src="marketplace.js"></script>
+</head>
+<body>
+<main class="mk-page">
+	<header class="mk-head">
+		<div>
+			<h1>Marketplace</h1>
+			<p>Apps, free models and help from each printer maker. Every link goes straight to the maker's own page.</p>
+		</div>
+		<label class="mk-search">
+			<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+			<input id="mkSearch" type="search" placeholder="Search: Bambu, app, firmware, models…" aria-label="Search the Marketplace" autocomplete="off">
+			<button id="mkClear" class="mk-clear" type="button" aria-label="Clear search" hidden>×</button>
+		</label>
+	</header>
+	<div id="mkContent" aria-live="polite"><p class="mk-loading">Loading…</p></div>
+	<p id="mkFoot" class="mk-foot"></p>
+</main>
+</body>
+</html>

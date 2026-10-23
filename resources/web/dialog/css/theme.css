@@ -38,8 +38,8 @@
   --plugin-status-warn-bg: rgba(199, 122, 22, 0.12);
   --plugin-status-inactive-bg: #edf1f5;
   --plugin-status-inactive-text: #44505c;
-  --plugin-source-mine-bg: rgba(12, 100, 90, 0.12);
-  --plugin-source-mine-text: #0c645a;
+  --plugin-source-mine-bg: rgba(46, 90, 136, 0.12);
+  --plugin-source-mine-text: #2e5a88;
   --plugin-source-neutral-bg: #edf1f5;
   --plugin-source-neutral-text: #44505c;
   --plugin-source-subscribed-bg: rgba(37, 99, 170, 0.12);
@@ -78,7 +78,7 @@
   --plugin-status-warn-bg: rgba(240, 180, 90, 0.18);
   --plugin-status-inactive-bg: #36363b;
   --plugin-status-inactive-text: #c7ccd2;
-  --plugin-source-mine-bg: rgba(13, 110, 99, 0.18);
+  --plugin-source-mine-bg: rgba(56, 108, 161, 0.18);
   --plugin-source-mine-text: #8de5d6;
   --plugin-source-neutral-bg: #36363b;
   --plugin-source-neutral-text: #c7ccd2;

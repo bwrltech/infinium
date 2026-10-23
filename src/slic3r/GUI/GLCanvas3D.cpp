@@ -26,6 +26,7 @@
 #include "MainFrame.hpp"
 #include "WipeTowerDialog.hpp"
 #include "GUI_App.hpp"
+#include "SimpleView.hpp" // INFINIUM
 #include "GUI_ObjectList.hpp"
 #include "GUI_Colors.hpp"
 #include "Mouse3DController.hpp"
@@ -90,7 +91,8 @@ extern wxPopupWindow* wxCurrentPopupWindow;
 
 static constexpr const float TRACKBALLSIZE = 0.8f;
 
-static Slic3r::ColorRGBA DEFAULT_BG_LIGHT_COLOR      = { 0.906f, 0.906f, 0.906f, 1.0f };
+static Slic3r::ColorRGBA DEFAULT_BG_LIGHT_COLOR      = { 0.894f, 0.925f, 0.961f, 1.0f }; // INFINIUM: #E4ECF5, light blue
+static const Slic3r::ColorRGBA BG_LIGHT_TOP_COLOR    = { 0.976f, 0.984f, 0.996f, 1.0f }; // INFINIUM: #F9FBFE, fades to near white at the top
 static Slic3r::ColorRGBA DEFAULT_BG_LIGHT_COLOR_DARK = { 0.329f, 0.329f, 0.353f, 1.0f };
 static Slic3r::ColorRGBA ERROR_BG_LIGHT_COLOR        = { 0.753f, 0.192f, 0.039f, 1.0f };
 static Slic3r::ColorRGBA ERROR_BG_LIGHT_COLOR_DARK   = { 0.753f, 0.192f, 0.039f, 1.0f };
@@ -304,7 +306,7 @@ void GLCanvas3D::LayersEditing::render_variable_layer_height_dialog(GLCanvas3D& 
     ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, ImVec4(238 / 255.0f, 238 / 255.0f, 238 / 255.0f, 0.00f));
     ImGui::PushStyleColor(ImGuiCol_FrameBgActive, ImVec4(238 / 255.0f, 238 / 255.0f, 238 / 255.0f, 0.00f));
     ImGui::PushStyleColor(ImGuiCol_SliderGrab, ImVec4(0.81f, 0.81f, 0.81f, 1.0f));
-    ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, ImVec4(0.00f, 0.59f, 0.53f, 1.00f));
+    ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, ImVec4(0.22f, 0.42f, 0.63f, 1.00f));
     if(ImGui::BBLSliderScalar("##radius_slider", ImGuiDataType_S32, &radius, &v_min, &v_max)){
         radius = std::clamp(radius, 1, 10);
         m_smooth_params.radius = (unsigned int)radius;
@@ -315,9 +317,9 @@ void GLCanvas3D::LayersEditing::render_variable_layer_height_dialog(GLCanvas3D& 
     input_align = std::max(input_align, ImGui::GetCursorPosX());
     ImGui::SetCursorPosX(input_align);
     ImGui::PushItemWidth(input_box_width);
-    ImGui::PushStyleColor(ImGuiCol_BorderActive, ImVec4(0.00f, 0.59f, 0.53f, 1.00f));
-    ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, ImVec4(0.00f, 0.59f, 0.53f, 0.00f));
-    ImGui::PushStyleColor(ImGuiCol_FrameBgActive, ImVec4(0.00f, 0.59f, 0.53f, 0.00f));
+    ImGui::PushStyleColor(ImGuiCol_BorderActive, ImVec4(0.22f, 0.42f, 0.63f, 1.00f));
+    ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, ImVec4(0.22f, 0.42f, 0.63f, 0.00f));
+    ImGui::PushStyleColor(ImGuiCol_FrameBgActive, ImVec4(0.22f, 0.42f, 0.63f, 0.00f));
     ImGui::BBLDragScalar("##radius_input", ImGuiDataType_S32, &radius, 1, &v_min, &v_max);
     ImGui::PopStyleColor(3);
 
@@ -3655,6 +3657,7 @@ void GLCanvas3D::on_key(wxKeyEvent& evt)
         translationProcessor = TranslationProcessor(
         [this]() {
             do_move(L("Tool move"));
+            mark_selection_placed_by_hand(); // INFINIUM auto-centre: arrow-key nudge
             m_gizmos.update_data();
 
             // BBS
@@ -4713,6 +4716,7 @@ void GLCanvas3D::on_mouse(wxMouseEvent& evt)
         }
         else if (m_mouse.drag.move_volume_idx != -1 && m_mouse.dragging) {
             do_move(L("Move object"));
+            mark_selection_placed_by_hand(); // INFINIUM auto-centre
             // BBS
             //wxGetApp().obj_manipul()->set_dirty();
             // Let the plater know that the dragging finished, so a delayed refresh
@@ -5098,6 +5102,19 @@ void GLCanvas3D::do_move(const std::string& snapshot_type)
     reset_sequential_print_clearance();
 
     m_dirty = true;
+}
+
+void GLCanvas3D::mark_selection_placed_by_hand()
+{
+    if (m_canvas_type != ECanvasType::CanvasView3D || m_model == nullptr)
+        return;
+    std::set<std::pair<int, int>> instances;
+    for (unsigned int idx : m_selection.get_volume_idxs()) {
+        const GLVolume *v = m_volumes.volumes[idx];
+        if (0 <= v->object_idx() && v->object_idx() < int(m_model->objects.size()))
+            instances.emplace(v->object_idx(), v->instance_idx());
+    }
+    wxGetApp().plater()->mark_placed_by_hand(instances);
 }
 
 void GLCanvas3D::do_rotate(const std::string& snapshot_type)
@@ -6028,6 +6045,12 @@ void GLCanvas3D::_render_arrange_menu(float left, float right, float bottom, flo
         if (settings_out.enable_rotation == true) { imgui->disabled_end(); }
     }
 
+    // INFINIUM: Auto-centre on/off (same setting as in Preferences and the simple view).
+    ImGui::Separator();
+    bool auto_center = Plater::auto_center_enabled();
+    if (imgui->bbl_checkbox(_L("Auto-centre: keep models in the middle of the plate"), auto_center))
+        Plater::set_auto_center_enabled(auto_center);
+
     ImGui::Separator();
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(15.0f, 10.0f));
     if (imgui->button(_L("Arrange"))) {
@@ -6900,7 +6923,7 @@ bool GLCanvas3D::_init_main_toolbar()
     item.sprite_id++;
     item.left.render_callback = nullptr;
     item.left.action_callback = [this]() { if (m_canvas != nullptr) wxPostEvent(m_canvas, SimpleEvent(EVT_GLTOOLBAR_SPLIT_OBJECTS)); };
-    item.visibility_callback = GLToolbarItem::Default_Visibility_Callback;
+    item.visibility_callback = []() { return !simple_view(); }; // INFINIUM: not a beginner tool
     item.left.toggable = false;
     item.enabling_callback = []()->bool { return wxGetApp().plater()->can_split_to_objects(); };
     if (!m_main_toolbar.add_item(item))
@@ -6911,7 +6934,7 @@ bool GLCanvas3D::_init_main_toolbar()
     item.tooltip = _utf8(L("Split to parts"));
     item.sprite_id++;
     item.left.action_callback = [this]() { if (m_canvas != nullptr) wxPostEvent(m_canvas, SimpleEvent(EVT_GLTOOLBAR_SPLIT_VOLUMES)); };
-    item.visibility_callback = GLToolbarItem::Default_Visibility_Callback;
+    item.visibility_callback = []() { return !simple_view(); }; // INFINIUM: not a beginner tool
     item.enabling_callback = []()->bool { return wxGetApp().plater()->can_split_to_volumes(); };
     if (!m_main_toolbar.add_item(item))
         return false;
@@ -6923,7 +6946,7 @@ bool GLCanvas3D::_init_main_toolbar()
     item.left.toggable = true; // INFINIUM Closes popup if other toolbar icon clicked and it allows closing popup when clicked its button
     item.left.action_callback = [this]() { if (m_canvas != nullptr) wxPostEvent(m_canvas, SimpleEvent(EVT_GLTOOLBAR_LAYERSEDITING)); };
     item.visibility_callback = [this]()->bool {
-        bool res = current_printer_technology() == ptFFF;
+        bool res = current_printer_technology() == ptFFF && !simple_view(); // INFINIUM: not a beginner tool
         // turns off if changing printer technology
         if (!res && m_main_toolbar.is_item_visible("layersediting") && m_main_toolbar.is_item_pressed("layersediting"))
             force_main_toolbar_left_action(get_main_toolbar_item_id("layersediting"));
@@ -7896,7 +7919,8 @@ void GLCanvas3D::_render_background()
     GLShaderProgram* shader = wxGetApp().get_shader("background");
     if (shader != nullptr) {
         shader->start_using();
-        shader->set_uniform("top_color", bottom_color);
+        // INFINIUM: soft white-to-blue gradient in light mode; flat for dark mode and the error colour
+        shader->set_uniform("top_color", (use_error_color || m_is_dark) ? bottom_color : BG_LIGHT_TOP_COLOR);
         shader->set_uniform("bottom_color", bottom_color);
         m_background.render();
         shader->stop_using();
@@ -9105,7 +9129,7 @@ void GLCanvas3D::_render_imgui_select_plate_toolbar()
             text_bottom = std::to_string(sliced_plates_cnt) + " / " + std::to_string(total_plates_cnt);
             ImVec2 bar_fg_end = ImVec2(bar_bg_bgn.x + bar_total_perc_pos + bar_current_perc_pos, bar_bg_end.y);
             ImGui::GetWindowDrawList()->AddRectFilled(bar_bg_bgn, bar_bg_end, IM_COL32(128, 128, 128, 255), bar_size.y); // BAR BACKGROUND
-            ImGui::GetWindowDrawList()->AddRectFilled(bar_bg_bgn, bar_fg_end, IM_COL32(13, 110, 99, 255),   bar_size.y); // BAR PROGRESS
+            ImGui::GetWindowDrawList()->AddRectFilled(bar_bg_bgn, bar_fg_end, IM_COL32(56, 108, 161, 255),   bar_size.y); // BAR PROGRESS
         }
         else if (all_plates_stats_item->slice_state == IMToolbarItem::SliceState::SLICE_FAILED) {
             text_top    = _u8L("Failed");

@@ -47,7 +47,7 @@ CenteredTitle::CenteredTitle(wxWindow* parent)
     Create(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE);
     Bind(wxEVT_PAINT, [this](wxPaintEvent&) {
         wxBufferedPaintDC dc(this);
-        dc.SetBackground(wxBrush(wxColour(38, 46, 48)));
+        dc.SetBackground(wxBrush(wxColour(56, 108, 161)));
         dc.Clear();
 
         dc.SetTextForeground(*wxWHITE);
@@ -103,7 +103,7 @@ public:
 
 void BBLTopbarArt::DrawBackground(wxDC& dc, wxWindow* wnd, const wxRect& rect)
 {
-    dc.SetBrush(wxBrush(wxColour(38, 46, 48)));
+    dc.SetBrush(wxBrush(wxColour(56, 108, 161)));
     wxRect clipRect = rect;
     clipRect.y -= 8;
     clipRect.height += 8;
@@ -165,19 +165,19 @@ void BBLTopbarArt::DrawButton(wxDC& dc, wxWindow* wnd, const wxAuiToolBarItem& i
     {
         if (item.GetState() & wxAUI_BUTTON_STATE_PRESSED)
         {
-            dc.SetPen(wxPen(StateColor::darkModeColorFor("#0D6E63"))); // INFINIUM
-            dc.SetBrush(wxBrush(StateColor::darkModeColorFor("#0D6E63"))); // INFINIUM
+            dc.SetPen(wxPen(StateColor::darkModeColorFor("#4A80B8"))); // INFINIUM: lighter blue on the blue title bar
+            dc.SetBrush(wxBrush(StateColor::darkModeColorFor("#4A80B8"))); // INFINIUM: lighter blue on the blue title bar
             dc.DrawRectangle(rect);
         }
         else if ((item.GetState() & wxAUI_BUTTON_STATE_HOVER) || item.IsSticky())
         {
-            dc.SetPen(wxPen(StateColor::darkModeColorFor("#0D6E63"))); // INFINIUM
-            dc.SetBrush(wxBrush(StateColor::darkModeColorFor("#0D6E63"))); // INFINIUM
+            dc.SetPen(wxPen(StateColor::darkModeColorFor("#4A80B8"))); // INFINIUM: lighter blue on the blue title bar
+            dc.SetBrush(wxBrush(StateColor::darkModeColorFor("#4A80B8"))); // INFINIUM: lighter blue on the blue title bar
 
             // draw an even lighter background for checked item hovers (since
             // the hover background is the same color as the check background)
             if (item.GetState() & wxAUI_BUTTON_STATE_CHECKED)
-                dc.SetBrush(wxBrush(StateColor::darkModeColorFor("#0D6E63"))); // INFINIUM
+                dc.SetBrush(wxBrush(StateColor::darkModeColorFor("#4A80B8"))); // INFINIUM: lighter blue on the blue title bar
 
             dc.DrawRectangle(rect);
         }
@@ -185,8 +185,8 @@ void BBLTopbarArt::DrawButton(wxDC& dc, wxWindow* wnd, const wxAuiToolBarItem& i
         {
             // it's important to put this code in an else statement after the
             // hover, otherwise hovers won't draw properly for checked items
-            dc.SetPen(wxPen(StateColor::darkModeColorFor("#0D6E63"))); // INFINIUM
-            dc.SetBrush(wxBrush(StateColor::darkModeColorFor("#0D6E63"))); // INFINIUM
+            dc.SetPen(wxPen(StateColor::darkModeColorFor("#4A80B8"))); // INFINIUM: lighter blue on the blue title bar
+            dc.SetBrush(wxBrush(StateColor::darkModeColorFor("#4A80B8"))); // INFINIUM: lighter blue on the blue title bar
             dc.DrawRectangle(rect);
         }
     }

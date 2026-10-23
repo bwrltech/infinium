@@ -2977,13 +2977,25 @@ void PartPlate::translate_all_instance(Vec3d position)
             ModelObject* object = m_model->objects[obj_id];
             if ((instance_id >= 0) && (instance_id < object->instances.size()))
             {
-                ModelInstance* instance = object->instances[instance_id];
-                const Vec3d& offset =  instance->get_offset();
-                instance->set_offset(offset + position);
+                // INFINIUM: translate_instance() also drops the object's cached bounding box.
+                object->translate_instance(instance_id, position);
             }
         }
     }
     return;
+}
+
+Vec3d PartPlate::get_auto_center_shift()
+{
+    BoundingBoxf3 group;
+    for (const auto& [obj_id, instance_id] : obj_to_instance_set)
+        if (valid_instance(obj_id, instance_id))
+            group.merge(m_model->objects[obj_id]->instance_convex_hull_bounding_box(instance_id));
+    if (!group.defined)
+        return Vec3d::Zero();
+    const Vec3d plate_center = get_center_origin();
+    const Vec3d group_center = group.center();
+    return Vec3d(plate_center.x() - group_center.x(), plate_center.y() - group_center.y(), 0.);
 }
 
 void PartPlate::duplicate_all_instance(unsigned int dup_count, bool need_skip, std::map<int, bool>& skip_objects)

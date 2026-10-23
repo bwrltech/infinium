@@ -16,6 +16,7 @@ constexpr ModelEntry kCfsCapableModels[] = {
     {"F008", "K2 Plus"},
     {"F012", "K2 Pro"},
     {"F021", "K2"},
+    {"F039", "K3"},
 };
 
 bool is_cfs_capable(const std::string& code)

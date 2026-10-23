@@ -61,8 +61,8 @@ body
 /*-----Right Top MenuBtn-----*/
 .MenuItem:hover
 {
-	border-color: #094c44;
-	background-color: #223C3C;
+	border-color: #30608f;
+	background-color: #22303F;
 }
 
 .FileImg
@@ -80,7 +80,7 @@ body
 
 .CT_Item:hover
 {
-	background-color:#094c44; /*INFINIUM color*/
+	background-color:#30608f; /*INFINIUM color*/
 }
 
 /*----User Manual------*/
@@ -132,7 +132,7 @@ body
 /*--- Account rows and account menu ---*/
 :root
 {
-	--row-hover            : #223C3C;
+	--row-hover            : #22303F;
 	--warn-color           : #F07E4A;
 	--account-avatar-bg    : #3A3A40;
 	--account-avatar-glyph : #7E8785;
@@ -141,7 +141,7 @@ body
 	--account-meta         : #949494;
 	--account-border       : #4A4A51;
 	--account-divider      : #3A3A42;
-	--account-action       : #26A69A;
+	--account-action       : #4A80B8;
 	--account-danger       : #FF6A6A;
 	--account-danger-bg    : rgba(225, 71, 71, 0.16);
 	--account-warn-bg      : rgba(240, 126, 74, 0.16);  /*----var(--warn-color) at 16%----*/
@@ -149,3 +149,31 @@ body
 	--account-dot-on       : #4CAF50;
 	--account-menu-shadow  : 0 10px 28px rgba(0, 0, 0, 0.45);
 }
+
+/*--- INFINIUM: friendly start screen ---*/
+:root
+{
+	--kid-shadow       : 0 2px 8px rgba(0, 0, 0, 0.35);
+	--kid-shadow-hover : 0 10px 24px rgba(0, 0, 0, 0.5);
+	--kid-title        : #EFEFF0;
+	--kid-sub          : #A9B0B8;
+	--tile-model       : #23344A;
+	--tile-new         : #3D3422;
+	--tile-open        : #213A2C;
+	--tile-market      : #2C2645;
+	--fun-cat          : #45292B;
+	--fun-boat         : #22364C;
+	--fun-bunny        : #33294A;
+	--fun-cube         : #1F3E3A;
+}
+
+.TileEmoji { background-color: rgba(255, 255, 255, 0.10); }
+.FileItem:hover { background-color: #2F3742; }
+.MenuItem.BigTile:hover, .FunItem:hover { border-color: #4A80B8; }
+
+/*--- INFINIUM: model gallery ---*/
+.GalleryItem { background-color: #2D2D31; }
+.GallerySearch input { background-color: #2D2D31; color: #EFEFF0; border-color: #4A4A51; }
+#GalleryBack { background-color: #36363B; color: #EFEFF0; }
+.GalleryOverlay { background-color: rgba(36, 36, 40, 0.88); color: #EFEFF0; }
+.GalleryBuiltin { border-color: #6B3A3D; }

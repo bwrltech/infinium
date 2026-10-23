@@ -332,7 +332,7 @@ AboutDialog::AboutDialog()
               (boost::format(
               "<html>"
               "<body bgcolor= \"" + bgr_clr_str + "\" >"
-              "<p style=\"text-align:left\"><a style=\"color:#009789\" href=\"https://www.infinium.com\">https://www.infinium.com</ a></p>"
+              "<p style=\"text-align:left\"><a style=\"color:#386CA1\" href=\"https://www.infinium.com\">https://www.infinium.com</ a></p>"
               "</body>"
               "</html>")
             ).str());

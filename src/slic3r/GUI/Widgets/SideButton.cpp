@@ -26,24 +26,25 @@ SideButton::SideButton(wxWindow* parent, wxString text, wxString icon, long stly
     icon_offset = 0;
     text_orientation = HO_Left;
 
-    border_color.append(0x6B6B6B, StateColor::Disabled);
-    border_color.append(wxColour(12, 100, 90), StateColor::Pressed);
-    border_color.append(wxColour(38, 166, 154), StateColor::Hovered);
-    border_color.append(0x0D6E63, StateColor::Normal);
+    // INFINIUM: white buttons with blue text, sitting on the blue tab bar
+    border_color.append(0x5D88B5, StateColor::Disabled);
+    border_color.append(0xCDDAE8, StateColor::Pressed);
+    border_color.append(0xEBF0F6, StateColor::Hovered);
+    border_color.append(0xFFFFFF, StateColor::Normal);
     border_color.setTakeFocusedAsHovered(false);
 
-    text_color.append(0xACACAC, StateColor::Disabled);
-    text_color.append(0xFEFEFE, StateColor::Pressed);
-    text_color.append(0xFEFEFE, StateColor::Hovered);
-    text_color.append(0xFEFEFE, StateColor::Normal);
+    text_color.append(0xA9C1DA, StateColor::Disabled);
+    text_color.append(0x2E5A88, StateColor::Pressed);
+    text_color.append(0x386CA1, StateColor::Hovered);
+    text_color.append(0x386CA1, StateColor::Normal);
 
-    background_color.append(0x6B6B6B, StateColor::Disabled);
-    background_color.append(wxColour(12, 100, 90), StateColor::Pressed);
-    background_color.append(wxColour(38, 166, 154), StateColor::Hovered);
-    background_color.append(0x0D6E63, StateColor::Normal);
+    background_color.append(0x5D88B5, StateColor::Disabled);
+    background_color.append(0xCDDAE8, StateColor::Pressed);
+    background_color.append(0xEBF0F6, StateColor::Hovered);
+    background_color.append(0xFFFFFF, StateColor::Normal);
     background_color.setTakeFocusedAsHovered(false);
 
-    SetBottomColour(wxColour("#3B4446"));
+    SetBottomColour(wxColour("#386CA1"));
 
     state_handler.attach({ &border_color, &text_color, &background_color });
     state_handler.update_binds();
@@ -197,7 +198,7 @@ void SideButton::dorender(wxDC& dc, wxDC& text_dc)
 
     // draw background
     dc.SetPen(wxNullPen);
-    dc.SetBrush(StateColor::darkModeColorFor(bottom_color));
+    dc.SetBrush(bottom_color); // INFINIUM: the tab bar is blue in dark mode too
     dc.DrawRectangle(0, 0, size.x, size.y);
 
     int states = state_handler.states();

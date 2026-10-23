@@ -324,7 +324,7 @@ wxBitmap* BitmapCache::load_svg(const std::string &bitmap_name, unsigned target_
 
     // map of color replaces
     std::map<std::string, std::string> replaces;
-    replaces["\"#0x00AE42\""] = "\"#0D6E63\"";
+    replaces["\"#0x00AE42\""] = "\"#386CA1\"";
     replaces["\"#00FF00\""] = "\"#52c7b8\"";
     if (dark_mode) {
         replaces["\"#262E30\""] = "\"#EFEFF0\"";
@@ -335,7 +335,7 @@ wxBitmap* BitmapCache::load_svg(const std::string &bitmap_name, unsigned target_
         replaces["\"#6B6B6B\""] = "\"#818182\"";
         replaces["\"#909090\""] = "\"#FFFFFF\"";
         replaces["\"#00FF00\""] = "\"#FF0000\"";
-        replaces["\"#0D6E63\""] = "\"#094c44\"";
+        replaces["\"#386CA1\""] = "\"#30608f\"";
         replaces["\"#F1F1F1\""] = "\"#36363B\"";
         replaces["#DBDBDB"] = "#4A4A51"; // INFINIUM border color
         replaces["#F0F0F1"] = "#333337"; // INFINIUM disabled background color
@@ -345,10 +345,10 @@ wxBitmap* BitmapCache::load_svg(const std::string &bitmap_name, unsigned target_
     }
 
     if (strstr(bitmap_name.c_str(), "toggle_on") != NULL && dark_mode) // INFINIUM only replace color of toggle button
-        replaces["#0D6E63"] = "#094c44";
+        replaces["#386CA1"] = "#30608f";
 
     if (!new_color.empty())
-        replaces["\"#0D6E63\""] = "\"" + new_color + "\"";
+        replaces["\"#386CA1\""] = "\"" + new_color + "\"";
 
      NSVGimage *image = nullptr;
     if (strstr(bitmap_name.c_str(), "printer_thumbnail") == NULL) {
@@ -567,7 +567,7 @@ bool BitmapCache::load_from_svg_file_change_color(const std::string &filename, u
     temp_color[7]             = '\0';
     unsigned int change_color = nsvg__parseColorHex(temp_color);
     change_color |= (unsigned int) (1.0f * 255) << 24; // opacity
-    unsigned int green_color = 0xFF889600; // #0D6E63
+    unsigned int green_color = 0xFF889600; // #386CA1
     for (NSVGshape* shape = image->shapes; shape != nullptr; shape = shape->next) {
         // find green color
         if (shape->fill.color == green_color) {

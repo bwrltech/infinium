@@ -38,6 +38,7 @@
 #include "GLCanvas3D.hpp"
 #include "Plater.hpp"
 #include "WebViewDialog.hpp"
+#include "MarketplacePanel.hpp" // INFINIUM
 #include "../Utils/Process.hpp"
 // BBS
 #include "PartPlate.hpp"
@@ -348,7 +349,7 @@ DPIFrame(NULL, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, BORDERLESS_FRAME_
     m_topbar         = new BBLTopbar(this);
 #else
     auto panel_topbar = new wxPanel(this, wxID_ANY);
-    panel_topbar->SetBackgroundColour(wxColour(38, 46, 48));
+    panel_topbar->SetBackgroundColour(wxColour(56, 108, 161)); // INFINIUM: blue title bar, same as the tab bar
     auto sizer_tobar = new wxBoxSizer(wxVERTICAL);
     panel_topbar->SetSizer(sizer_tobar);
     panel_topbar->Layout();
@@ -1280,6 +1281,9 @@ void MainFrame::init_tabpanel() {
         else if (panel == m_monitor) {
             //monitor
         }
+        else if (m_marketplace && panel == m_marketplace) {
+            m_marketplace->refresh_brands(); // printers may have been added since it was last shown
+        }
 #ifndef __APPLE__
         if (m_last_selected_tab == TAB_ID_PREPARE) {
             m_topbar->EnableUndoRedoItems();
@@ -1340,6 +1344,13 @@ void MainFrame::init_tabpanel() {
     m_calibration = new CalibrationPanel(m_tabpanel, wxID_ANY, wxDefaultPosition, wxDefaultSize);
     m_calibration->SetBackgroundColour(*wxWHITE);
     m_tabpanel->AddPage(TAB_ID_CALIBRATION, m_calibration, _L("Calibration"), "tab_calibration_active");
+
+    // INFINIUM: Marketplace, the last built-in tab: each printer maker's apps, free model sites and help pages.
+    // Device-tab relayouts only move pages before it (Calibration goes back after Project), so it stays last.
+    if (wxGetApp().is_editor()) {
+        m_marketplace = new MarketplacePanel(m_tabpanel);
+        m_tabpanel->AddPage(TAB_ID_MARKETPLACE, m_marketplace, _L("Marketplace"), "tab_marketplace_active");
+    }
 
     // Plugin pages are appended after the built-in tabs; their ids are namespaced
     // (plugin.<plugin_key>.<name>) so they can't collide with the built-in TAB_ID_* constants.
@@ -1931,8 +1942,8 @@ wxBoxSizer* MainFrame::create_side_tools()
 
     auto slice_panel = new wxPanel(this,wxID_ANY,wxDefaultPosition,wxDefaultSize);
     auto print_panel = new wxPanel(this,wxID_ANY,wxDefaultPosition,wxDefaultSize);
-    slice_panel->SetBackgroundColour(StateColor::darkModeColorFor(wxColour("#3B4446")));
-    print_panel->SetBackgroundColour(StateColor::darkModeColorFor(wxColour("#3B4446")));
+    slice_panel->SetBackgroundColour(wxColour("#386CA1")); // INFINIUM: same blue as the tab bar
+    print_panel->SetBackgroundColour(wxColour("#386CA1"));
 
     m_slice_btn = new SideButton(slice_panel, _L("Slice plate"), "");
     m_slice_option_btn = new SideButton(slice_panel, "", "sidebutton_dropdown", 0, 14);
@@ -2458,9 +2469,9 @@ void MainFrame::update_side_button_style()
     m_slice_btn->SetExtraSize(wxSize(FromDIP(38), FromDIP(10)));
     m_slice_btn->SetBottomColour(wxColour(0x3B4446));*/
     StateColor m_btn_bg_enable = StateColor(
-        std::pair<wxColour, int>(wxColour(12, 100, 90), StateColor::Pressed),
+        std::pair<wxColour, int>(wxColour(46, 90, 136), StateColor::Pressed),
         std::pair<wxColour, int>(wxColour(48, 221, 112), StateColor::Hovered),
-        std::pair<wxColour, int>(wxColour(13, 110, 99), StateColor::Normal)
+        std::pair<wxColour, int>(wxColour(56, 108, 161), StateColor::Normal)
     );
 
     // m_publish_btn->SetMinSize(wxSize(FromDIP(125), FromDIP(24)));
@@ -2492,8 +2503,8 @@ void MainFrame::update_side_button_style()
     m_print_option_btn->SetIconOffset(FromDIP(2));
     m_print_option_btn->SetMinSize(wxSize(FromDIP(24), FromDIP(24)));
 
-    // Keep panel backgrounds in sync with SideButton's darkModeColorFor(#3B4446) bottom strip
-    auto bg = StateColor::darkModeColorFor(wxColour("#3B4446"));
+    // Keep panel backgrounds in sync with SideButton's bottom strip (the blue tab bar)
+    auto bg = wxColour("#386CA1");
     m_slice_btn->GetParent()->SetBackgroundColour(bg);
     m_print_btn->GetParent()->SetBackgroundColour(bg);
 }
@@ -2683,6 +2694,10 @@ static wxMenu* generate_help_menu()
         [](wxCommandEvent&) { Slic3r::GUI::desktop_open_datadir_folder(); });
 
     helpMenu->AppendSeparator();
+
+    // INFINIUM: Marketplace tab (printer makers' apps, free model sites, help and firmware)
+    append_menu_item(helpMenu, wxID_ANY, _L("Marketplace: apps, free models and help"), _L("Open the Marketplace tab"),
+        [](wxCommandEvent&) { if (wxGetApp().mainframe) wxGetApp().mainframe->select_tab(wxString(TAB_ID_MARKETPLACE)); });
 
     // Troubleshoot center
     append_menu_item(helpMenu, wxID_ANY, _L("Troubleshoot Center"), "",

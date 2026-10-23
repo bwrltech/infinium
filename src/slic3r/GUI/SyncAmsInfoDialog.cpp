@@ -915,7 +915,7 @@ SyncAmsInfoDialog::SyncAmsInfoDialog(wxWindow *parent, SyncInfo &info) :
         wxBoxSizer *tip_sizer = new wxBoxSizer(wxHORIZONTAL);
         m_attention_text      = new wxStaticText(m_scrolledWindow, wxID_ANY, _L("Tip") + ": ");
         m_attention_text->SetFont(::Label::Head_14);
-        m_attention_text->SetForegroundColour(StateColor::darkModeColorFor(wxColour("#0D6E63"))); // INFINIUM match label colors
+        m_attention_text->SetForegroundColour(StateColor::darkModeColorFor(wxColour("#386CA1"))); // INFINIUM match label colors
         tip_sizer->Add(m_attention_text, 0, wxALIGN_LEFT | wxTOP, FromDIP(2));
         m_tip_attention_color_map = _L("Only synchronize filament type and color, not including AMS slot information.");
         m_tip_attention_override  = _L("Replace the project filaments list sequentially based on printer filaments. And unused printer filaments will be automatically added to the end of the list.");
@@ -1960,7 +1960,7 @@ void SyncAmsInfoDialog::Enable_Auto_Refill(bool enable)
 {
     if (!m_ams_backup_tip) { return; }
     if (enable) {
-        m_ams_backup_tip->SetForegroundColour(wxColour("#0D6E63"));
+        m_ams_backup_tip->SetForegroundColour(wxColour("#386CA1"));
     } else {
         m_ams_backup_tip->SetForegroundColour(wxColour(0x90, 0x90, 0x90));
     }

@@ -8,13 +8,13 @@
 namespace Slic3r { namespace GUI {
 
 static const wxColour BgNormalColor  = wxColour("#FFFFFF");
-static const wxColour BgSelectColor  = wxColour("#E5F0EE"); // INFINIUM
+static const wxColour BgSelectColor  = wxColour("#EBF0F6"); // INFINIUM
 
 static const wxColour TextNormalColor = wxColour("#262E30");
 static const wxColour TextSelectColor = wxColour("#262E30"); // INFINIUM use same color on selected to improve readability
 
 static const wxColour BorderNormalColor   = wxColour("#CECECE");
-static const wxColour BorderSelectColor = wxColour("#0D6E63");
+static const wxColour BorderSelectColor = wxColour("#386CA1");
 
 CapsuleButton::CapsuleButton(wxWindow *parent, wxWindowID id, const wxString &label, bool selected) : wxPanel(parent, id)
 {

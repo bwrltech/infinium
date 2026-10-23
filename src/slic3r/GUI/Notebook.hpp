@@ -47,6 +47,7 @@ private:
     int                             m_btn_margin;
     int                             m_line_margin;
     std::vector<wxString>           m_pageLabels; // INFINIUM
+    std::vector<std::string>        m_pageIcons;  // INFINIUM: the selected tab shows "<icon>_sel" (blue on white)
     wxWindow*                       m_overflow_button{nullptr}; // INFINIUM
 };
 

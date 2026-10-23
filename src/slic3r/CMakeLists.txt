@@ -349,6 +349,8 @@ set(SLIC3R_GUI_SOURCES
     GUI/MediaPlayCtrl.h
     GUI/MeshUtils.cpp
     GUI/MeshUtils.hpp
+    GUI/MarketplacePanel.cpp
+    GUI/MarketplacePanel.hpp
     GUI/ModelMall.cpp
     GUI/ModelMall.hpp
     GUI/MonitorBasePanel.cpp
@@ -411,6 +413,10 @@ set(SLIC3R_GUI_SOURCES
     GUI/ParamsDialog.hpp
     GUI/AutoQuality.cpp
     GUI/AutoQuality.hpp
+    GUI/ModelGallery.cpp
+    GUI/ModelGallery.hpp
+    GUI/SimpleView.cpp
+    GUI/SimpleView.hpp
     GUI/ParamsPanel.cpp
     GUI/ParamsPanel.hpp
     GUI/PartPlate.cpp

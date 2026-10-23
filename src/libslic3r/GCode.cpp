@@ -7068,6 +7068,15 @@ void GCode::append_full_config(const Print &print, std::string &str)
     // built from still carries the registered default. Copy the real values so the header line is
     // diagnostic (nothing parses it back).
     cfg.option<ConfigOptionInts>("filament_map_2", true)->values = print.config().filament_map_2.values;
+    // Creality tool changers (K3) read default_filament_colour at START_PRINT to match filaments to nozzles;
+    // with several filaments all empty (";;;") the firmware finds none and shuts Klipper down
+    // (BOX_FIRST_NOZZLE_HEATING). Filament presets leave it empty, so write the project's colours instead.
+    // A single filament keeps its line unchanged.
+    if (auto *dfc = cfg.option<ConfigOptionStrings>("default_filament_colour"); dfc && dfc->values.size() > 1 &&
+        std::all_of(dfc->values.begin(), dfc->values.end(), [](const std::string &c) { return c.empty(); })) {
+        if (const auto *fc = cfg.option<ConfigOptionStrings>("filament_colour"); fc && fc->values.size() == dfc->values.size())
+            dfc->values = fc->values;
+    }
     // Sorted list of config keys, which shall not be stored into the G-code. Initializer list.
     static const std::set<std::string_view> banned_keys( {
         // filament_extruder_compatibility is a device-side (blacklist) compatibility hint read from the

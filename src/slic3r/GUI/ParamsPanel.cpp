@@ -18,6 +18,8 @@
 #include "Widgets/Button.hpp"
 #include "GUI_Factories.hpp"
 #include "AutoQuality.hpp"
+#include "SimpleView.hpp"
+#include "Widgets/HyperLink.hpp"
 
 
 namespace Slic3r {
@@ -254,12 +256,14 @@ ParamsPanel::ParamsPanel( wxWindow* parent, wxWindowID id, const wxPoint& pos, c
     if (dynamic_cast<Notebook*>(parent)) {
         // BBS: new layout
         m_top_panel = new StaticBox(this, wxID_ANY, wxDefaultPosition);
-        m_top_panel->SetBackgroundColor(0xF8F8F8);
-        m_top_panel->SetBackgroundColor2(0xF1F1F1);
+        m_top_panel->SetBackgroundColor(0xEBF0F6); // INFINIUM: soft blue section header
+        m_top_panel->SetBackgroundColor2(0xEBF0F6);
 
         m_process_icon = new ScalableButton(m_top_panel, wxID_ANY, "process");
 
         m_title_label = new Label(m_top_panel, _L("Process"));
+        m_title_label->SetForegroundColour(StateColor::darkModeColorFor(wxColour("#2B5785"))); // INFINIUM
+        m_title_label->SetFont(Label::Head_14); // INFINIUM: section titles read as headings
 
         //int width, height;
         // BBS: new layout
@@ -293,10 +297,18 @@ ParamsPanel::ParamsPanel( wxWindow* parent, wxWindowID id, const wxPoint& pos, c
         m_compare_btn->SetToolTip(_L("Compare presets"));
         m_compare_btn->Bind(wxEVT_BUTTON, ([](wxCommandEvent e) { wxGetApp().mainframe->diff_dialog.show(); }));
 
-        m_auto_quality_btn = new ScalableButton(m_top_panel, wxID_ANY, "auto_quality", wxEmptyString, wxDefaultSize, wxDefaultPosition, wxBU_EXACTFIT | wxNO_BORDER, true);
-        m_auto_quality_btn->SetToolTip(_L("Easy Print: choose what you want (smooth, strong or fast) and Infinium sets everything up for your object"));
+        // Labelled, not icon-only, so first-time users can find it
+        m_auto_quality_btn = new ScalableButton(m_top_panel, wxID_ANY, "auto_quality", _L("Easy Print"), wxDefaultSize, wxDefaultPosition, wxBU_EXACTFIT | wxNO_BORDER, true);
+        m_auto_quality_btn->SetToolTip(_L("Easy Print: pick smooth, strong or fast, and Infinium sets up everything for you"));
+        m_auto_quality_btn->SetForegroundColour(wxColour("#386CA1"));
         m_auto_quality_btn->Bind(wxEVT_BUTTON, [this](wxCommandEvent &) { show_easy_print_dialog(m_auto_quality_btn); });
         start_auto_quality_watcher(this);
+
+        // INFINIUM: the way back from "Show all settings"
+        m_simple_view_link = new HyperLink(m_top_panel, _L("Simple view"));
+        m_simple_view_link->SetFont(Label::Body_12);
+        m_simple_view_link->SetToolTip(_L("Go back to the big, easy buttons"));
+        m_simple_view_link->Bind(wxEVT_LEFT_DOWN, [](wxMouseEvent &) { wxGetApp().CallAfter([] { set_simple_view(true); }); });
 
         m_setting_btn = new ScalableButton(m_top_panel, wxID_ANY, "table", wxEmptyString, wxDefaultSize, wxDefaultPosition, wxBU_EXACTFIT | wxNO_BORDER, true);
         m_setting_btn->SetToolTip(_L("View all object's settings"));
@@ -427,6 +439,7 @@ void ParamsPanel::create_layout()
         m_mode_sizer->Add(m_mode_icon   , 0, wxALIGN_CENTER | wxRIGHT, FromDIP(SidebarProps::ElementSpacing()));
         m_mode_sizer->Add(m_mode_view   , 0, wxALIGN_CENTER | wxRIGHT, FromDIP(SidebarProps::WideSpacing()));
         m_mode_sizer->Add(m_auto_quality_btn, 0, wxALIGN_CENTER | wxRIGHT, FromDIP(SidebarProps::WideSpacing()));
+        m_mode_sizer->Add(m_simple_view_link, 0, wxALIGN_CENTER | wxRIGHT, FromDIP(SidebarProps::WideSpacing()));
         m_mode_sizer->Add(m_setting_btn , 0, wxALIGN_CENTER | wxRIGHT, FromDIP(SidebarProps::WideSpacing()));
         m_mode_sizer->Add(m_compare_btn , 0, wxALIGN_CENTER | wxRIGHT, FromDIP(SidebarProps::TitlebarMargin()));
         //m_mode_sizer->Add( m_search_btn, 0, wxALIGN_CENTER );
@@ -596,7 +609,7 @@ void ParamsPanel::set_active_tab(wxPanel* tab)
         } else if (m_tab_print_plate && ((TabPrintPlate*)m_tab_print_plate)->has_model_config()) {
             cur_tab = (Tab*)m_tab_print_plate;
         }
-        Show(cur_tab != nullptr);
+        Show(cur_tab != nullptr && !simple_view()); // INFINIUM: the simple view replaces the settings list
         wxGetApp().sidebar().show_object_list(m_mode_region->GetValue());
         if (m_current_tab == cur_tab)
             return;

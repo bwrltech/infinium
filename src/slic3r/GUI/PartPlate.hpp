@@ -393,6 +393,10 @@ public:
 
     //translate instance on the plate
     void translate_all_instance(Vec3d position);
+    // INFINIUM auto-centre: the XY shift that puts the middle of the group of instances on this plate
+    // at the middle of the plate (zero when the plate is empty). Uses the cached convex hulls.
+    Vec3d get_auto_center_shift();
+    const std::set<std::pair<int, int>>& get_obj_and_inst_set() const { return obj_to_instance_set; }
 
     //duplicate all instance for count
     void duplicate_all_instance(unsigned int dup_count, bool need_skip, std::map<int, bool>& skip_objects);

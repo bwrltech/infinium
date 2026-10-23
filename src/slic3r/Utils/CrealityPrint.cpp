@@ -263,7 +263,8 @@ bool CrealityPrint::supports_multi_color_print() const
     return m_model == "F008"    // K2 Plus
         || m_model == "F012"    // K2 Pro
         || m_model == "F021"    // K2
-        || m_model == "F022";   // SPARKX i7
+        || m_model == "F022"    // SPARKX i7
+        || m_model == "F039";   // K3
 }
 
 std::string CrealityPrint::model_name() const
@@ -273,6 +274,7 @@ std::string CrealityPrint::model_name() const
         {"F012", "K2 Pro"},
         {"F021", "K2"},
         {"F022", "SPARKX i7"},
+        {"F039", "K3"},
     };
     query_model();
     if (m_model.empty())
@@ -301,7 +303,9 @@ std::string CrealityPrint::query_boxes_info() const
 bool CrealityPrint::start_print(wxString &msg, const std::string &filename, const std::map<std::string, std::string>& extended_info) const
 {
     try {
-        const std::string gcode_path = "/mnt/UDISK/printer_data/gcodes/" + filename;
+        // The K3 keeps its files on the SD card; the K2 family in internal storage.
+        const std::string gcode_dir  = m_model == "F039" ? "/mnt/SDCARD/cxsw/printer_data/gcodes/" : "/mnt/UDISK/printer_data/gcodes/";
+        const std::string gcode_path = gcode_dir + filename;
 
         net::io_context ioc;
         websocket::stream<beast::tcp_stream> ws{ioc};

@@ -436,6 +436,10 @@ void AppConfig::set_defaults()
         set_bool("auto_arrange", true);
     }
 
+    // INFINIUM: Auto-centre keeps the models of each plate in the middle of the plate (on by default).
+    if (get("auto_center").empty())
+        set_bool("auto_center", true);
+
     if (get("show_model_mesh").empty()) {
         set_bool("show_model_mesh", false);
     }

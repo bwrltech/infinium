@@ -1,0 +1,24 @@
+{
+    "type": "filament",
+    "name": "Generic TPU @Creality K3",
+    "inherits": "Generic TPU @K2 SE-all",
+    "from": "system",
+    "setting_id": "3Jjvk8cbO49sC8Ce",
+    "instantiation": "true",
+    "filament_id": "00039",
+    "compatible_printers": [
+        "Creality K3 0.4 nozzle"
+    ],
+    "nozzle_temperature": [
+        "230"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "230"
+    ],
+    "filament_max_volumetric_speed": [
+        "8"
+    ],
+    "filament_flow_ratio": [
+        "1.05"
+    ]
+}

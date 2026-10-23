@@ -1,0 +1,24 @@
+{
+    "type": "filament",
+    "name": "Generic PETG @Creality K3",
+    "inherits": "Generic PETG @K2 SE-all",
+    "from": "system",
+    "setting_id": "2lpKqHpfPK1NzlDa",
+    "instantiation": "true",
+    "filament_id": "00003",
+    "compatible_printers": [
+        "Creality K3 0.4 nozzle"
+    ],
+    "nozzle_temperature": [
+        "250"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "250"
+    ],
+    "filament_max_volumetric_speed": [
+        "14"
+    ],
+    "filament_flow_ratio": [
+        "0.95"
+    ]
+}

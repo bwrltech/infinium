@@ -97,6 +97,7 @@
 #include "3DScene.hpp"
 #include "MainFrame.hpp"
 #include "Plater.hpp"
+#include "ModelGallery.hpp" // INFINIUM
 #include "GLCanvas3D.hpp"
 #include "EncodedFilament.hpp"
 #include "GeneratedConfig.hpp"
@@ -339,7 +340,7 @@ public:
         m_bg_color = StateColor::darkModeColorFor(wxColour("#FFFFFF"));
         m_fg_color = StateColor::darkModeColorFor(wxColour("#6B6A6A"));
         m_progress_bg_color = StateColor::darkModeColorFor(wxColour("#DFDFDF"));
-        m_progress_fg_color = StateColor::darkModeColorFor(wxColour("#0D6E63"));
+        m_progress_fg_color = StateColor::darkModeColorFor(wxColour("#386CA1"));
         m_progress_h = FromDIP(6);
         bool dark_mode = m_fg_color != wxColour("#6B6A6A");
         wxSize sz  = m_window->GetClientSize();
@@ -3450,7 +3451,7 @@ bool GUI_App::on_init_inner()
 //#if BBL_HAS_FIRST_PAGE
     //BBS: set tp3DEditor firstly
     /*plater_->canvas3D()->enable_render(false);
-    mainframe->select_tab(size_t(MainFrame::tp3DEditor));
+    mainframe->select_tab(TAB_ID_PREPARE);
     scrn->SetText(_L("Loading Opengl resourses..."));
     plater_->select_view_3D("3D");
     //BBS init the opengl resource here
@@ -4293,7 +4294,7 @@ void GUI_App::UpdateDarkUI(wxWindow* window, bool highlited/* = false*/, bool ju
         auto orig_col = window->GetBackgroundColour();
         auto bg_col = StateColor::darkModeColorFor(orig_col);
         // there are cases where the background color of an item is bright, specifically:
-        // * the background color of a button: #0D6E63  -- 73
+        // * the background color of a button: #386CA1  -- 73
         if (bg_col != orig_col) {
             window->SetBackgroundColour(bg_col);
         }
@@ -5198,6 +5199,46 @@ std::string GUI_App::handle_web_request(std::string cmd)
             }
             else if (command_str.compare("homepage_openproject") == 0) {
                 this->request_open_project({});
+            }
+            // INFINIUM: start-screen tiles. Both go to the plate first so the model is seen landing on it.
+            else if (command_str.compare("homepage_import_model") == 0) {
+                CallAfter([this] {
+                    mainframe->select_tab(TAB_ID_PREPARE);
+                    plater()->add_file();
+                });
+            }
+            // INFINIUM: the start screen's "Marketplace" button opens the Marketplace tab.
+            else if (command_str.compare("homepage_open_marketplace") == 0) {
+                CallAfter([this] {
+                    if (mainframe)
+                        mainframe->select_tab(wxString(TAB_ID_MARKETPLACE));
+                });
+            }
+            // INFINIUM: the start screen's model gallery (Printables.com)
+            else if (command_str.compare("homepage_gallery_search") == 0) {
+                const auto data = root.get_child_optional("data");
+                if (data)
+                    gallery_search(data->get<std::string>("query", ""), data->get<int>("offset", 0));
+            }
+            else if (command_str.compare("homepage_gallery_load") == 0) {
+                const auto data = root.get_child_optional("data");
+                if (data)
+                    gallery_load(data->get<std::string>("id", ""));
+            }
+            else if (command_str.compare("homepage_fun_model") == 0) {
+                // Only names from this table are accepted, the page never sends a path.
+                static const std::map<std::string, std::string> fun_models = {
+                    {"cat", "calicat.drc"}, {"boat", "3DBenchy.drc"}, {"bunny", "Stanford_Bunny.drc"}, {"cube", "InfiniumCube_v2.drc"}};
+                const auto data  = root.get_child_optional("data");
+                const auto model = data ? data->get_optional<std::string>("model") : boost::none;
+                const auto it    = model ? fun_models.find(*model) : fun_models.end();
+                if (it != fun_models.end()) {
+                    const std::string file = it->second;
+                    CallAfter([this, file] {
+                        mainframe->select_tab(TAB_ID_PREPARE);
+                        plater()->load_files({boost::filesystem::path(resources_dir()) / "handy_models" / file}, LoadStrategy::LoadModel);
+                    });
+                }
             }
             else if (command_str.compare("get_recent_projects") == 0) {
                 if (mainframe) {

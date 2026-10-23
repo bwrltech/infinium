@@ -183,7 +183,7 @@ private:
         dc.SetBackground(wxBrush(GetParent() ? GetParent()->GetBackgroundColour() : *wxWHITE));
         dc.Clear();
  
-        wxColour textCol = StateColor::darkModeColorFor(m_hovered ? "#26A69A" : "#363636");
+        wxColour textCol = StateColor::darkModeColorFor(m_hovered ? "#4A80B8" : "#363636");
  
         dc.SetTextForeground(textCol);
         dc.SetFont(m_font);
@@ -1768,6 +1768,14 @@ void PreferencesDialog::create_items()
 
     auto item_auto_arrange     = create_item_checkbox(_L("Auto arrange plate after cloning"), "", "auto_arrange");
     g_sizer->Add(item_auto_arrange);
+
+    // INFINIUM
+    auto item_auto_center = create_item_checkbox(_L("Auto-centre"),
+        _L("Keep the models in the middle of the plate. They move together, so the gaps between them stay the same. "
+           "Happens when you add a model, before slicing and when you change the printer. "
+           "If you moved a model yourself, that plate stays the way you put it (until you use Arrange or change the printer)."),
+        "auto_center");
+    g_sizer->Add(item_auto_center);
 
     //// CONTROL > Slicing
     g_sizer->Add(create_item_title(_L("Slicing")), 1, wxEXPAND);

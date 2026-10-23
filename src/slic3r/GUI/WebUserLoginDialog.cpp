@@ -567,13 +567,12 @@ void ZUserLogin::OnError(wxWebViewEvent &evt)
         WX_ERROR_CASE(wxWEBVIEW_NAV_ERR_OTHER);
     }
 
-    if( evt.GetInt()==wxWEBVIEW_NAV_ERR_CONNECTION )
-    {
-        if(m_timer!=NULL)
+    // INFINIUM: any failure to reach the login page (offline, unknown host, server down) shows the friendly
+    // page instead of the browser's raw error text. CallAfter, so it replaces the engine's own error page.
+    if (evt.GetInt() != wxWEBVIEW_NAV_ERR_USER_CANCELLED && !m_networkOk && !m_error_page_shown) {
+        if (m_timer != NULL)
             m_timer->Stop();
-
-        if (m_networkOk==false)
-            ShowErrorPage();
+        CallAfter([this] { ShowErrorPage(); });
     }
 
     // wxLogMessage("%s", "Error; url='" + evt.GetURL() + "', error='" +
@@ -599,8 +598,25 @@ void ZUserLogin::OnScriptResponseMessage(wxCommandEvent &WXUNUSED(evt))
 
 bool  ZUserLogin::ShowErrorPage()
 {
-    wxString ErrortUrl = from_u8((boost::filesystem::path(resources_dir()) / "web\\login\\error.html").make_preferred().string());
-    load_url(ErrortUrl);
+    // INFINIUM: built in, so it can't go missing, and worded for a child: nothing is broken, and
+    // signing in is not needed to print.
+    m_error_page_shown = true;
+    const bool dark = wxGetApp().dark_mode();
+    const wxString html = wxString::Format(
+        "<!doctype html><html><head><meta charset='utf-8'><style>"
+        "body{margin:0;height:100vh;display:flex;align-items:center;justify-content:center;"
+        "font-family:system-ui,'Segoe UI',Roboto,Ubuntu,sans-serif;background:%s;color:%s;text-align:center}"
+        ".box{max-width:420px;padding:32px}.pic{font-size:72px;line-height:90px}"
+        "h1{font-size:24px;margin:12px 0 8px}p{font-size:16px;line-height:24px;color:%s;margin:8px 0}"
+        "</style></head><body><div class='box'><div class='pic'>&#128564;</div>"
+        "<h1>%s</h1><p>%s</p><p>%s</p></div></body></html>",
+        dark ? "#2D2D31" : "#FFFFFF", dark ? "#EFEFF0" : "#1F3A5A", dark ? "#A9B0B8" : "#5B6B7C",
+        _L("We can't reach the cloud right now"),
+        _L("Check that the internet is on, then try again later."),
+        _L("You don't need to sign in to make and print things. Close this window and keep going!"));
+    m_browser->SetPage(html, "");
+    m_browser->Show();
+    Layout();
 
     return true;
 }

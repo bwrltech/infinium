@@ -382,7 +382,7 @@ msgid "Nozzle information needs to be read"
 msgstr ""
 
 msgid "Support Painting"
-msgstr ""
+msgstr "Paint where supports go"
 
 msgid "Apply"
 msgstr ""
@@ -485,14 +485,14 @@ msgid "Gizmo-Place on Face"
 msgstr ""
 
 msgid "Lay on Face"
-msgstr ""
+msgstr "Put a flat side down"
 
 #, boost-format
 msgid "Filament count exceeds the maximum number that painting tool supports. Only the first %1% filaments will be available in painting tool."
 msgstr ""
 
 msgid "Color Painting"
-msgstr ""
+msgstr "Paint colors"
 
 msgid "Brush shape"
 msgstr ""
@@ -569,7 +569,7 @@ msgid "Color painting editing"
 msgstr ""
 
 msgid "Paint-on fuzzy skin"
-msgstr ""
+msgstr "Paint fuzzy outside"
 
 msgid "Add fuzzy skin"
 msgstr ""
@@ -599,13 +599,13 @@ msgid "Move"
 msgstr ""
 
 msgid "Please select at least one object."
-msgstr ""
+msgstr "Click on an object first."
 
 msgid "Gizmo-Move"
 msgstr ""
 
 msgid "Rotate"
-msgstr ""
+msgstr "Turn"
 
 msgid "Gizmo-Rotate"
 msgstr ""
@@ -658,7 +658,7 @@ msgid "Object operations"
 msgstr ""
 
 msgid "Scale"
-msgstr ""
+msgstr "Resize"
 
 msgid "Volume operations"
 msgstr ""
@@ -1008,7 +1008,7 @@ msgid "Simplify model"
 msgstr ""
 
 msgid "Simplify"
-msgstr ""
+msgstr "Make simpler"
 
 msgid "Simplification is currently only allowed when a single part is selected"
 msgstr ""
@@ -1054,7 +1054,7 @@ msgid "Block seam"
 msgstr ""
 
 msgid "Seam painting"
-msgstr ""
+msgstr "Paint where the seam goes"
 
 msgid "Remove selection"
 msgstr ""
@@ -1104,7 +1104,7 @@ msgid "Rotate text"
 msgstr ""
 
 msgid "Text shape"
-msgstr ""
+msgstr "Add text"
 
 #. TRN - Title in Undo/Redo stack after rotate with text around emboss axe
 msgid "Text rotate"
@@ -1886,10 +1886,10 @@ msgid "Some values have been replaced. Please check them:"
 msgstr ""
 
 msgid "Process"
-msgstr ""
+msgstr "How to print"
 
 msgid "Filament"
-msgstr ""
+msgstr "Plastic"
 
 msgid "Machine"
 msgstr ""
@@ -2109,7 +2109,7 @@ msgid "new or open project file is not allowed during the slicing process!"
 msgstr ""
 
 msgid "Open Project"
-msgstr ""
+msgstr "Open a project"
 
 msgid "The version of Infinium Slicer is too low and needs to be updated to the latest version before it can be used normally."
 msgstr ""
@@ -2328,13 +2328,13 @@ msgid "Fatal error, exception: %1%"
 msgstr ""
 
 msgid "Quality"
-msgstr ""
+msgstr "Looks"
 
 msgid "Shell"
 msgstr ""
 
 msgid "Infill"
-msgstr ""
+msgstr "Inside fill"
 
 msgid "Support"
 msgstr ""
@@ -2346,7 +2346,7 @@ msgid "Speed"
 msgstr ""
 
 msgid "Strength"
-msgstr ""
+msgstr "Strong"
 
 msgid "Top solid layers"
 msgstr ""
@@ -2367,10 +2367,10 @@ msgid "Bottom Surface Density"
 msgstr ""
 
 msgid "Ironing"
-msgstr ""
+msgstr "Ironing (smooth top)"
 
 msgid "Fuzzy skin"
-msgstr ""
+msgstr "Fuzzy outside"
 
 msgid "Extruders"
 msgstr ""
@@ -2540,7 +2540,7 @@ msgid "Automatically drops the selected object to the build plate."
 msgstr ""
 
 msgid "Fix Model"
-msgstr ""
+msgstr "Fix the model"
 
 msgid "Export as one STL"
 msgstr ""
@@ -2555,7 +2555,7 @@ msgid "Export as DRCs"
 msgstr ""
 
 msgid "Reload from disk"
-msgstr ""
+msgstr "Load the file again"
 
 msgid "Reload the selected parts from disk"
 msgstr ""
@@ -2589,7 +2589,7 @@ msgid "current"
 msgstr ""
 
 msgid "Scale to build volume"
-msgstr ""
+msgstr "Make as big as the printer allows"
 
 msgid "Scale an object to fit the build volume"
 msgstr ""
@@ -2631,7 +2631,7 @@ msgid "Assemble the selected objects into an object with single part"
 msgstr ""
 
 msgid "Mesh boolean"
-msgstr ""
+msgstr "Join or cut out shapes"
 
 msgid "Mesh boolean operations including union and subtraction"
 msgstr ""
@@ -2679,31 +2679,31 @@ msgid "Add Handy models"
 msgstr ""
 
 msgid "Add Models"
-msgstr ""
+msgstr "Add models"
 
 msgid "Show Labels"
 msgstr ""
 
 msgid "To Objects"
-msgstr ""
+msgstr "Into objects"
 
 msgid "Split the selected object into multiple objects"
 msgstr ""
 
 msgid "To Parts"
-msgstr ""
+msgstr "Into parts"
 
 msgid "Split the selected object into multiple parts"
 msgstr ""
 
 msgid "Split"
-msgstr ""
+msgstr "Break apart"
 
 msgid "Split the selected object"
 msgstr ""
 
 msgid "Auto orientation"
-msgstr ""
+msgstr "Best side down"
 
 msgid "Auto orient the object to improve print quality"
 msgstr ""
@@ -2739,7 +2739,7 @@ msgid "Delete all objects on the current plate"
 msgstr ""
 
 msgid "Arrange"
-msgstr ""
+msgstr "Tidy up"
 
 msgid "Arrange current plate"
 msgstr ""
@@ -2763,34 +2763,34 @@ msgid "Remove the selected plate"
 msgstr ""
 
 msgid "Add instance"
-msgstr ""
+msgstr "Add a copy"
 
 msgid "Add one more instance of the selected object"
 msgstr ""
 
 msgid "Remove instance"
-msgstr ""
+msgstr "Remove a copy"
 
 msgid "Remove one instance of the selected object"
 msgstr ""
 
 msgid "Set number of instances"
-msgstr ""
+msgstr "How many copies"
 
 msgid "Change the number of instances of the selected object"
 msgstr ""
 
 msgid "Fill bed with instances"
-msgstr ""
+msgstr "Fill the bed with copies"
 
 msgid "Fill the remaining area of bed with instances of the selected object"
 msgstr ""
 
 msgid "Clone"
-msgstr ""
+msgstr "Make copies"
 
 msgid "Simplify Model"
-msgstr ""
+msgstr "Make the model simpler"
 
 msgid "Subdivision mesh"
 msgstr ""
@@ -2802,7 +2802,7 @@ msgid "Center"
 msgstr ""
 
 msgid "Drop"
-msgstr ""
+msgstr "Drop onto the bed"
 
 msgid "Edit Process Settings"
 msgstr ""
@@ -2986,7 +2986,7 @@ msgid "The target object contains only one part and can not be split."
 msgstr ""
 
 msgid "Split to parts"
-msgstr ""
+msgstr "Break into parts"
 
 msgid "Assembly"
 msgstr ""
@@ -3112,10 +3112,10 @@ msgid "Outside"
 msgstr ""
 
 msgid "Layer height"
-msgstr ""
+msgstr "Layer thickness"
 
 msgid "Wall loops"
-msgstr ""
+msgstr "Number of walls"
 
 msgid "Infill density(%)"
 msgstr ""
@@ -3148,7 +3148,7 @@ msgid "Plate"
 msgstr ""
 
 msgid "Brim"
-msgstr ""
+msgstr "Brim (holds it down)"
 
 msgid "Object/Part Settings"
 msgstr ""
@@ -3160,7 +3160,7 @@ msgid "Multicolor Print"
 msgstr ""
 
 msgid "Line Type"
-msgstr ""
+msgstr "Part of the print"
 
 #, c-format, boost-format
 msgid "1x1 Grid: %d mm"
@@ -3958,7 +3958,7 @@ msgid "℃"
 msgstr ""
 
 msgid "Bed temperature"
-msgstr ""
+msgstr "Bed heat"
 
 msgid "mm³"
 msgstr ""
@@ -4198,7 +4198,7 @@ msgid "File"
 msgstr ""
 
 msgid "Calibration"
-msgstr ""
+msgstr "Tune-up"
 
 msgid "Failed to download the plug-in. Please check your firewall settings and VPN software and retry."
 msgstr ""
@@ -4238,7 +4238,7 @@ msgid "Processing G-Code from previous file…"
 msgstr ""
 
 msgid "Slicing complete"
-msgstr ""
+msgstr "Ready to print!"
 
 msgid "Access violation"
 msgstr ""
@@ -4509,7 +4509,7 @@ msgid "Brim ear radius"
 msgstr ""
 
 msgid "Brim width"
-msgstr ""
+msgstr "Brim size"
 
 msgid "Spiral mode only works when wall loops is 1, support is disabled, clumping detection by probing is disabled, top shell layers is 0, sparse infill density is 0 and timelapse type is traditional."
 msgstr ""
@@ -5001,10 +5001,10 @@ msgid "Summary"
 msgstr ""
 
 msgid "Layer Height"
-msgstr ""
+msgstr "Layer thickness"
 
 msgid "Line Width"
-msgstr ""
+msgstr "Line thickness"
 
 msgid "Actual Speed"
 msgstr ""
@@ -5040,10 +5040,10 @@ msgid "Noop"
 msgstr ""
 
 msgid "Retract"
-msgstr ""
+msgstr "Pull plastic back"
 
 msgid "Unretract"
-msgstr ""
+msgstr "Push plastic forward"
 
 msgid "Seam"
 msgstr ""
@@ -5058,7 +5058,7 @@ msgid "Pause Print"
 msgstr ""
 
 msgid "Travel"
-msgstr ""
+msgstr "Moves (no plastic)"
 
 msgid "Wipe"
 msgstr ""
@@ -5067,40 +5067,40 @@ msgid "Extrude"
 msgstr ""
 
 msgid "Inner wall"
-msgstr ""
+msgstr "Inside wall"
 
 msgid "Outer wall"
-msgstr ""
+msgstr "Outside wall"
 
 msgid "Overhang wall"
-msgstr ""
+msgstr "Wall that hangs out"
 
 msgid "Sparse infill"
-msgstr ""
+msgstr "Inside fill"
 
 msgid "Internal solid infill"
-msgstr ""
+msgstr "Solid inside"
 
 msgid "Top surface"
-msgstr ""
+msgstr "Top"
 
 msgid "Bridge"
 msgstr ""
 
 msgid "Gap infill"
-msgstr ""
+msgstr "Gap fill"
 
 msgid "Skirt"
-msgstr ""
+msgstr "Skirt (test line)"
 
 msgid "Support interface"
-msgstr ""
+msgstr "Top of support"
 
 msgid "Prime tower"
-msgstr ""
+msgstr "Cleaning tower"
 
 msgid "Bottom surface"
-msgstr ""
+msgstr "Bottom"
 
 msgid "Internal bridge"
 msgstr ""
@@ -5277,13 +5277,13 @@ msgid "Temperature (℃)"
 msgstr ""
 
 msgid "Volumetric flow rate (mm³/s)"
-msgstr ""
+msgstr "Plastic flow (mm³/s)"
 
 msgid "Actual volumetric flow rate (mm³/s)"
 msgstr ""
 
 msgid "Seams"
-msgstr ""
+msgstr "Seams (where layers start)"
 
 msgid "Filament changes"
 msgstr ""
@@ -5317,7 +5317,7 @@ msgid "Normal mode"
 msgstr ""
 
 msgid "Total Filament"
-msgstr ""
+msgstr "Total plastic"
 
 msgid "Model Filament"
 msgstr ""
@@ -5345,7 +5345,7 @@ msgid ""
 msgstr ""
 
 msgid "Variable layer height"
-msgstr ""
+msgstr "Change layer thickness by height"
 
 msgid "Adaptive"
 msgstr ""
@@ -5391,10 +5391,10 @@ msgid "Number keys can quickly change the color of objects"
 msgstr ""
 
 msgid "Following objects are laid over the boundary of plate or exceeds the height limit:\n"
-msgstr ""
+msgstr "These objects are off the plate or too tall:\n"
 
 msgid "Please solve the problem by moving it totally on or off the plate, and confirming that the height is within the build volume.\n"
-msgstr ""
+msgstr "Move it fully onto the plate (or fully off it), and make sure it is not too tall for the printer.\n"
 
 #, c-format, boost-format
 msgid "The position or size of some models exceeds the %s's printable range."
@@ -5484,34 +5484,34 @@ msgid "Add"
 msgstr ""
 
 msgid "Add plate"
-msgstr ""
+msgstr "Add a new plate"
 
 msgid "Auto orient all/selected objects"
-msgstr ""
+msgstr "Turn objects to their best side"
 
 msgid "Auto orient all objects on current plate"
-msgstr ""
+msgstr "Turn everything on this plate to its best side"
 
 msgid "Arrange all objects"
-msgstr ""
+msgstr "Tidy up: place everything neatly"
 
 msgid "Arrange objects on selected plates"
-msgstr ""
+msgstr "Tidy up the chosen plates"
 
 msgid "Split to objects"
-msgstr ""
+msgstr "Break into separate objects"
 
 msgid "Assembly View"
-msgstr ""
+msgstr "Put-together view"
 
 msgid "Select Plate"
 msgstr ""
 
 msgid "Slicing"
-msgstr ""
+msgstr "Getting ready"
 
 msgid "Slice all"
-msgstr ""
+msgstr "Get all ready"
 
 msgid "Failed"
 msgstr ""
@@ -5523,7 +5523,7 @@ msgid "Stats"
 msgstr ""
 
 msgid "Slice"
-msgstr ""
+msgstr "Get ready"
 
 msgid "Review"
 msgstr ""
@@ -5602,13 +5602,13 @@ msgid "Conflicts of G-code paths have been found at layer %d, Z = %.2lfmm. Pleas
 msgstr ""
 
 msgid "An object is laid over the plate boundaries."
-msgstr ""
+msgstr "Part of an object is off the plate. Move it fully onto the plate."
 
 msgid "A G-code path goes beyond the max print height."
 msgstr ""
 
 msgid "A G-code path goes beyond plate boundaries."
-msgstr ""
+msgstr "Some of the printing goes off the plate."
 
 msgid "Not support printing 2 or more TPU filaments."
 msgstr ""
@@ -5758,16 +5758,16 @@ msgid "Logging"
 msgstr ""
 
 msgid "Prepare"
-msgstr ""
+msgstr "Set up"
 
 msgid "Preview"
-msgstr ""
+msgstr "Check G-code"
 
 msgid "Device"
-msgstr ""
+msgstr "Printer"
 
 msgid "Multi-device"
-msgstr ""
+msgstr "All printers"
 
 msgid "Project"
 msgstr ""
@@ -5785,26 +5785,26 @@ msgid "will be closed before creating a new model. Do you want to continue?"
 msgstr ""
 
 msgid "Slice plate"
-msgstr ""
+msgstr "Get ready"
 
 msgid "Print plate"
-msgstr ""
+msgstr "Print it"
 
 msgid "Export G-code file"
-msgstr ""
+msgstr "Save print file"
 
 msgctxt "Verb"
 msgid "Print"
 msgstr ""
 
 msgid "Export plate sliced file"
-msgstr ""
+msgstr "Save print file"
 
 msgid "Send"
 msgstr ""
 
 msgid "Export all sliced file"
-msgstr ""
+msgstr "Save all print files"
 
 msgid "Print all"
 msgstr ""
@@ -7309,10 +7309,10 @@ msgid "Stops heating automatically after 5 mins of idle to ensure safety."
 msgstr ""
 
 msgid "Global"
-msgstr ""
+msgstr "All"
 
 msgid "Objects"
-msgstr ""
+msgstr "Each"
 
 msgid "Cycle settings visibility"
 msgstr ""
@@ -8248,7 +8248,7 @@ msgid "North America"
 msgstr ""
 
 msgid "Others"
-msgstr ""
+msgstr "More"
 
 msgid "Changing the region will log you out of your account.\n"
 msgstr ""
@@ -9031,13 +9031,13 @@ msgid "Same as Global Plate Type"
 msgstr ""
 
 msgid "Bed type"
-msgstr ""
+msgstr "Bed sheet"
 
 msgid "Same as Global Print Sequence"
 msgstr ""
 
 msgid "Print sequence"
-msgstr ""
+msgstr "Print order"
 
 msgid "Same as Global"
 msgstr ""
@@ -9046,7 +9046,7 @@ msgid "Disable"
 msgstr ""
 
 msgid "Spiral vase"
-msgstr ""
+msgstr "Vase mode (one wall, no top)"
 
 msgid "First layer filament sequence"
 msgstr ""
@@ -9933,10 +9933,10 @@ msgid "symbolic profile name"
 msgstr ""
 
 msgid "Line width"
-msgstr ""
+msgstr "Line thickness"
 
 msgid "Precision"
-msgstr ""
+msgstr "Fine-tuning"
 
 msgid "Z contouring"
 msgstr ""
@@ -9954,16 +9954,16 @@ msgid "Walls"
 msgstr ""
 
 msgid "Top/bottom shells"
-msgstr ""
+msgstr "Top and bottom layers"
 
 msgid "First layer speed"
 msgstr ""
 
 msgid "Other layers speed"
-msgstr ""
+msgstr "Speed for other layers"
 
 msgid "Overhang speed"
-msgstr ""
+msgstr "Speed for parts that hang out"
 
 msgid "This is the speed for various overhang degrees. Overhang degrees are expressed as a percentage of line width. 0 speed means no slowing down for the overhang degree range and wall speed is used"
 msgstr ""
@@ -9972,7 +9972,7 @@ msgid "Set speed for external and internal bridges"
 msgstr ""
 
 msgid "Travel speed"
-msgstr ""
+msgstr "Moving speed (not printing)"
 
 msgid "Junction Deviation"
 msgstr ""
@@ -9981,7 +9981,7 @@ msgid "Jerk(XY)"
 msgstr ""
 
 msgid "Raft"
-msgstr ""
+msgstr "Raft (base under it)"
 
 msgid "Filament for Supports"
 msgstr ""
@@ -9993,7 +9993,7 @@ msgid "Tree supports"
 msgstr ""
 
 msgid "Multimaterial"
-msgstr ""
+msgstr "Many colors"
 
 msgid "Filament for Features"
 msgstr ""
@@ -10002,7 +10002,7 @@ msgid "Ooze prevention"
 msgstr ""
 
 msgid "Special mode"
-msgstr ""
+msgstr "Special ways to print"
 
 msgid "G-code output"
 msgstr ""
@@ -10045,7 +10045,7 @@ msgid "Retraction when switching material"
 msgstr ""
 
 msgid "Basic information"
-msgstr ""
+msgstr "Basics"
 
 msgid "Recommended nozzle temperature"
 msgstr ""
@@ -10072,7 +10072,7 @@ msgid "Minimal"
 msgstr ""
 
 msgid "Print temperature"
-msgstr ""
+msgstr "Nozzle heat"
 
 msgid "Nozzle temperature when printing"
 msgstr ""
@@ -10111,7 +10111,7 @@ msgid "Cooling for specific layer"
 msgstr ""
 
 msgid "Part cooling fan"
-msgstr ""
+msgstr "Fan that cools the print"
 
 msgid "Min fan speed threshold"
 msgstr ""
@@ -10159,7 +10159,7 @@ msgid "Tool change parameters with multi extruder MM printers"
 msgstr ""
 
 msgid "Dependencies"
-msgstr ""
+msgstr "Works with"
 
 msgid "Compatible printers"
 msgstr ""
@@ -10168,7 +10168,7 @@ msgid "Compatible process profiles"
 msgstr ""
 
 msgid "Printable space"
-msgstr ""
+msgstr "Printing area"
 
 msgid "Printer Agent"
 msgstr ""
@@ -11415,7 +11415,7 @@ msgid "Group error in manual mode. Please check nozzle count or regroup."
 msgstr ""
 
 msgid "Internal Bridge"
-msgstr ""
+msgstr "Inside bridge"
 
 msgid "undefined error"
 msgstr ""
@@ -11980,13 +11980,13 @@ msgid "This G-code is inserted at every layer change before the Z lift."
 msgstr ""
 
 msgid "Bottom shell layers"
-msgstr ""
+msgstr "Bottom layers"
 
 msgid "This is the number of solid layers of bottom shell, including the bottom surface layer. When the thickness calculated by this value is thinner than bottom shell thickness, the bottom shell layers will be increased."
 msgstr ""
 
 msgid "Bottom shell thickness"
-msgstr ""
+msgstr "Bottom thickness"
 
 msgid "The number of bottom solid layers is increased when slicing if the thickness calculated by bottom shell layers is thinner than this value. This can avoid having too thin a shell when layer height is small. 0 means that this setting is disabled and the thickness of the bottom shell is determined simply by the number of bottom shell layers."
 msgstr ""
@@ -12372,7 +12372,7 @@ msgid "This is the distance from the model to the outermost brim line."
 msgstr ""
 
 msgid "Brim type"
-msgstr ""
+msgstr "Brim"
 
 msgid "This controls the generation of the brim at outer and/or inner side of models. Auto means the brim width is analyzed and calculated automatically."
 msgstr ""
@@ -12660,7 +12660,7 @@ msgid "Moderate"
 msgstr ""
 
 msgid "Top surface pattern"
-msgstr ""
+msgstr "Top pattern"
 
 msgid "This is the line pattern for top surface infill."
 msgstr ""
@@ -12732,7 +12732,7 @@ msgid "Outward"
 msgstr ""
 
 msgid "Bottom surface pattern"
-msgstr ""
+msgstr "Bottom pattern"
 
 msgid "This is the line pattern of bottom surface infill, not including bridge infill."
 msgstr ""
@@ -13398,7 +13398,7 @@ msgid ""
 msgstr ""
 
 msgid "Sparse infill density"
-msgstr ""
+msgstr "How full inside"
 
 #, no-c-format, no-boost-format
 msgid "Density of internal sparse infill, 100% turns all sparse infill into solid infill and internal solid infill pattern will be used."
@@ -13432,7 +13432,7 @@ msgid "Tightens the gyroid wave along the Z (vertical) axis at low infill densit
 msgstr ""
 
 msgid "Sparse infill pattern"
-msgstr ""
+msgstr "Inside pattern"
 
 msgid "This is the line pattern for internal sparse infill."
 msgstr ""
@@ -13564,7 +13564,7 @@ msgid "Line width of the first layer. If expressed as a %, it will be computed o
 msgstr ""
 
 msgid "First layer height"
-msgstr ""
+msgstr "First layer thickness"
 
 msgid "Height of the first layer. Making the first layer height thicker can improve build plate adhesion."
 msgstr ""
@@ -14255,7 +14255,7 @@ msgid "The distance from the outside of a model where interlocking structures wi
 msgstr ""
 
 msgid "Ironing type"
-msgstr ""
+msgstr "Ironing (smooth top)"
 
 msgid "Ironing uses a small flow to print at the same height of a surface to make flat surfaces smoother. This setting controls which layers are being ironed."
 msgstr ""
@@ -15084,7 +15084,7 @@ msgid "Disable generating of the M73: Set remaining print time in the final G-co
 msgstr ""
 
 msgid "Seam position"
-msgstr ""
+msgstr "Where the seam goes"
 
 msgid "This is the starting position for each part of the outer wall."
 msgstr ""
@@ -15263,7 +15263,7 @@ msgid "Per object"
 msgstr ""
 
 msgid "Skirt loops"
-msgstr ""
+msgstr "Skirt rings"
 
 msgid "This is the number of loops for the skirt. 0 means the skirt is disabled."
 msgstr ""
@@ -15493,7 +15493,7 @@ msgid "This value will be added (or subtracted) from all the Z coordinates in th
 msgstr ""
 
 msgid "Enable support"
-msgstr ""
+msgstr "Add supports"
 
 msgid "This enables support generation."
 msgstr ""
@@ -15532,7 +15532,7 @@ msgid "Use this setting to rotate the support pattern on the horizontal plane."
 msgstr ""
 
 msgid "On build plate only"
-msgstr ""
+msgstr "Only from the bed"
 
 msgid "This setting only generates supports that begin on the build plate."
 msgstr ""
@@ -15695,7 +15695,7 @@ msgid "Support layer uses layer height independent with object layer. This is to
 msgstr ""
 
 msgid "Threshold angle"
-msgstr ""
+msgstr "Add supports when steeper than"
 
 msgid ""
 "Support will be generated for overhangs whose slope angle is below the threshold. The smaller this value is, the steeper the overhang that can be printed without support.\n"
@@ -15854,13 +15854,13 @@ msgid "This is the speed for solid top surface infill."
 msgstr ""
 
 msgid "Top shell layers"
-msgstr ""
+msgstr "Top layers"
 
 msgid "This is the number of solid layers of top shell, including the top surface layer. When the thickness calculated by this value is thinner than the top shell thickness, the top shell layers will be increased"
 msgstr ""
 
 msgid "Top shell thickness"
-msgstr ""
+msgstr "Top thickness"
 
 msgid "The number of top solid layers is increased when slicing if the thickness calculated by top shell layers is thinner than this value. This can avoid having too thin a shell when layer height is small. 0 means that this setting is disabled and thickness of top shell is determined simply by the number of top shell layers."
 msgstr ""
@@ -16740,7 +16740,7 @@ msgid "Total filament volume extruded on the wipe tower."
 msgstr ""
 
 msgid "Used filament"
-msgstr ""
+msgstr "Plastic used"
 
 msgid "Total length of filament used in the print."
 msgstr ""
@@ -17873,7 +17873,7 @@ msgid "Unable to perform boolean operation on selected parts"
 msgstr ""
 
 msgid "Mesh Boolean"
-msgstr ""
+msgstr "Join or cut out shapes"
 
 msgid "Union"
 msgstr ""
@@ -19275,7 +19275,7 @@ msgid "invalid brim ears"
 msgstr ""
 
 msgid "Brim Ears"
-msgstr ""
+msgstr "Brim ears (small pads that hold corners)"
 
 msgid "Please select single object."
 msgstr ""

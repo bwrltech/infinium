@@ -286,11 +286,11 @@ bool GLTexture::load_from_svg_files_as_sprites_array(const std::vector<std::stri
     const unsigned char pressed_color[3] = {255, 255, 255};
     const unsigned char hover_color[3] = {255, 255, 255};
     const unsigned char normal_color[3] = {43, 52, 54};
-    const unsigned char disable_color[3] = {200, 200, 200};
+    const unsigned char disable_color[3] = {150, 150, 150}; // Infinium: was 200 — hard to see on the light toolbar
     const unsigned char pressed_color_dark[3] = {60, 60, 65};
     const unsigned char hover_color_dark[3] = {60, 60, 65};
     const unsigned char normal_color_dark[3] = {182, 182, 182};
-    const unsigned char disable_color_dark[3] = {76, 76, 85};
+    const unsigned char disable_color_dark[3] = {105, 105, 115}; // Infinium: was 76,76,85
 
     NSVGrasterizer* rast = nsvgCreateRasterizer();
     if (rast == nullptr) {
