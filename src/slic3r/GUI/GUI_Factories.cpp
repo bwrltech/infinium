@@ -2001,16 +2001,16 @@ void MenuFactory::append_menu_items_instance_manipulation(wxMenu* menu)
 {
     MenuType type = menu == &m_object_menu ? mtObjectFFF : mtObjectSLA;
 
-    items_increase[type]                = append_menu_item(menu, wxID_ANY, _L("Add instance") + "\t+", _L("Add one more instance of the selected object"),
+    items_increase[type]                = append_menu_item(menu, wxID_ANY, _L("Add Clone") + "\t+", _L("Add one more clone (linked copy) of the selected object"),
         [](wxCommandEvent&) { plater()->increase_instances();      }, "", nullptr, 
         []() { return plater()->can_increase_instances(); }, m_parent);
-    items_decrease[type]                = append_menu_item(menu, wxID_ANY, _L("Remove instance") + "\t-", _L("Remove one instance of the selected object"),
+    items_decrease[type]                = append_menu_item(menu, wxID_ANY, _L("Remove Clone") + "\t-", _L("Remove one clone of the selected object"),
         [](wxCommandEvent&) { plater()->decrease_instances();      }, "", nullptr, 
         []() { return plater()->can_decrease_instances(); }, m_parent);
-    items_set_number_of_copies[type]    = append_menu_item(menu, wxID_ANY, _L("Set number of instances") + dots, _L("Change the number of instances of the selected object"),
+    items_set_number_of_copies[type]    = append_menu_item(menu, wxID_ANY, _L("Set number of clones") + dots, _L("Change the number of clones of the selected object"),
         [](wxCommandEvent&) { plater()->set_number_of_copies();    }, "", nullptr,
         []() { return plater()->can_increase_instances(); }, m_parent);
-    append_menu_item(menu, wxID_ANY, _L("Fill bed with instances") + dots, _L("Fill the remaining area of bed with instances of the selected object"),
+    append_menu_item(menu, wxID_ANY, _L("Fill bed with clones") + dots, _L("Fill the remaining area of bed with clones of the selected object"),
         [](wxCommandEvent&) { plater()->fill_bed_with_instances();    }, "", nullptr, 
         []() { return plater()->can_increase_instances(); }, m_parent);
 }

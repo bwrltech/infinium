@@ -6895,7 +6895,7 @@ bool GLCanvas3D::_init_main_toolbar()
 
     item.name = "more";
     item.icon_filename = m_is_dark ? "instance_add_dark.svg" : "instance_add.svg";
-    item.tooltip = _utf8(L("Add instance")) + " [+]";
+    item.tooltip = _utf8(L("Add Clone")) + " [+]";
     item.sprite_id++;
     item.left.render_callback = nullptr;
     item.left.action_callback = [this]() { if (m_canvas != nullptr) wxPostEvent(m_canvas, SimpleEvent(EVT_GLTOOLBAR_MORE)); };
@@ -6907,7 +6907,7 @@ bool GLCanvas3D::_init_main_toolbar()
 
     item.name = "fewer";
     item.icon_filename = m_is_dark ? "instance_remove_dark.svg" : "instance_remove.svg";
-    item.tooltip = _utf8(L("Remove instance")) + " [-]";
+    item.tooltip = _utf8(L("Remove Clone")) + " [-]";
     item.sprite_id++;
     item.left.render_callback = nullptr;
     item.left.action_callback = [this]() { if (m_canvas != nullptr) wxPostEvent(m_canvas, SimpleEvent(EVT_GLTOOLBAR_FEWER)); };
