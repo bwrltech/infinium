@@ -26,7 +26,7 @@ using json = nlohmann::json;
 
 constexpr const char *API_URL   = "https://api.printables.com/graphql/";
 constexpr const char *MEDIA_URL = "https://media.printables.com/";
-constexpr int         PAGE_SIZE = 24;
+constexpr int         RESULTS_PER_PAGE = 24; // not PAGE_SIZE: a macro in the macOS SDK
 constexpr size_t      MAX_FILE  = 60 * 1024 * 1024; // bigger models are not for a first print
 
 // The site's NSFW flag catches most things; this catches names it misses. Lower-case, matched as
@@ -155,7 +155,7 @@ void gallery_search(const std::string &query, int offset)
     }
     const char *gql = "query Search($q: String!, $limit: Int, $offset: Int) { searchPrints2(query: $q, limit: $limit, offset: $offset) {"
                       " items { id name nsfw user { publicUsername } license { name } image { filePath } } } }";
-    graphql("gallery_results", id, gql, {{"q", query}, {"limit", PAGE_SIZE}, {"offset", std::max(0, offset)}},
+    graphql("gallery_results", id, gql, {{"q", query}, {"limit", RESULTS_PER_PAGE}, {"offset", std::max(0, offset)}},
             [query, offset](const json &data) {
                 json items = json::array();
                 const json &found = field(field(data, "searchPrints2"), "items");
@@ -175,7 +175,7 @@ void gallery_search(const std::string &query, int offset)
                     }
                 // A short page that is not the first means the end of the list.
                 post_to_home({{"command", "gallery_results"}, {"ok", true}, {"query", query}, {"offset", offset},
-                              {"more", found.is_array() && found.size() == size_t(PAGE_SIZE)}, {"items", items}});
+                              {"more", found.is_array() && found.size() == size_t(RESULTS_PER_PAGE)}, {"items", items}});
             });
 }
 
