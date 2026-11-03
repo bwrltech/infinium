@@ -1,0 +1,39 @@
+name: Build macOS
+
+# macOS build: one universal app (Apple chip and Intel) as an unsigned DMG, a downloadable artifact of the run.
+# Not signed or notarized (that needs an Apple Developer certificate): on the Mac, right-click Infinium > Open
+# the first time.
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build_macos_arch:
+    name: Build macOS ${{ matrix.arch }}
+    strategy:
+      fail-fast: false
+      matrix:
+        arch:
+          - arm64
+          - x86_64
+    uses: ./.github/workflows/build_check_cache.yml
+    with:
+      os: macos-14
+      arch: ${{ matrix.arch }}
+    secrets: inherit
+
+  build_macos_universal:
+    name: Build macOS universal DMG
+    needs: build_macos_arch
+    uses: ./.github/workflows/build_infinium.yml
+    with:
+      os: macos-14
+      arch: universal
+      macos-combine-only: true
+    secrets: inherit

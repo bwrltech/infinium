@@ -353,7 +353,8 @@ jobs:
           fi
 
       - name: Create DMG without notary
-        if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/belt-printer' && runner.os == 'macOS' && inputs.macos-combine-only
+        # INFINIUM: whenever the signing step above did not run (it needs the upstream repo's Apple certificate)
+        if: runner.os == 'macOS' && inputs.macos-combine-only && !(github.repository == 'Infinium/Infinium' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/belt-printer' || startsWith(github.ref, 'refs/heads/release/')))
         working-directory: ${{ github.workspace }}
         run: |
           # Load the `retry` helper (retries flaky commands such as `hdiutil create`).
