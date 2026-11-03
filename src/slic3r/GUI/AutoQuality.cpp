@@ -79,7 +79,7 @@ void save_goal(PrintGoal goal)
 
 const char *goal_name(PrintGoal goal)
 {
-    return goal == PrintGoal::Strong ? "Strong" : goal == PrintGoal::Fast ? "Fast" : goal == PrintGoal::SmoothFast ? "Smooth-Fast" : "Smooth";
+    return goal == PrintGoal::Strong ? "Strong" : goal == PrintGoal::Fast ? "Quick" : goal == PrintGoal::SmoothFast ? "Standard" : "Pretty";
 }
 
 // What the object looks like, from its meshes as placed on the plate.
@@ -218,14 +218,14 @@ public:
         v_sizer->Add(hint, 0, wxLEFT | wxRIGHT | wxTOP, FromDIP(20) / 2);
 
         auto *cards = new wxBoxSizer(wxHORIZONTAL);
-        add_card(cards, PrintGoal::Smooth, _L("Smooth & beautiful"),
+        add_card(cards, PrintGoal::Smooth, _L("Pretty"),
                  _L("Very smooth sides and top. Great for toys, figures and gifts."), _L("Takes a long time"));
-        add_card(cards, PrintGoal::SmoothFast, _L("Smooth & fast"),
+        add_card(cards, PrintGoal::SmoothFast, _L("Standard"),
                  _L("Smooth on the outside, quick on the inside. Great for things you look at, not for things you push or pull."),
                  _L("Takes a normal time"));
-        add_card(cards, PrintGoal::Strong, _L("Strong part"),
+        add_card(cards, PrintGoal::Strong, _L("Strong"),
                  _L("Thick walls and a strong inside, so it does not break. Great for hooks, holders and parts you push or pull."), _L("Takes a normal time"));
-        add_card(cards, PrintGoal::Fast, _L("Fast print"),
+        add_card(cards, PrintGoal::Fast, _L("Quick"),
                  _L("Finishes quickly, but you will see lines on the sides. Great for tests and quick tries."), _L("Quick"));
         v_sizer->Add(cards, 0, wxEXPAND | wxLEFT | wxRIGHT | wxTOP, FromDIP(20));
 
@@ -510,7 +510,7 @@ void apply_goal(Feedback feedback)
         delta.set("staggered_inner_seams", "1");
         delta.set("ironing_type", "no ironing");
 
-        done.push_back(wxString::Format(_L("The outside uses the same layers as \"Smooth & beautiful\" (%s mm), so the sides look just as smooth."),
+        done.push_back(wxString::Format(_L("The outside uses the same layers as \"Pretty\" (%s mm), so the sides look just as smooth."),
                                         mm(layer_height, 2)));
         if (infill_layers > 1)
             done.push_back(wxString::Format(_L("The inside is printed in thick layers (%s mm, %d at a time) with a light, quick pattern (10%%), to save time. Good for looks, not for parts that take force."),

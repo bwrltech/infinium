@@ -58,10 +58,11 @@ void click(SideButton *btn)
 int goal_of_selected_preset()
 {
     const std::string &name = wxGetApp().preset_bundle->prints.get_edited_preset().name;
-    if (boost::starts_with(name, "Easy Smooth-Fast")) return int(PrintGoal::SmoothFast);
-    if (boost::starts_with(name, "Easy Smooth"))      return int(PrintGoal::Smooth);
-    if (boost::starts_with(name, "Easy Strong"))      return int(PrintGoal::Strong);
-    if (boost::starts_with(name, "Easy Fast"))        return int(PrintGoal::Fast);
+    // the second name of each is the one used before Pretty / Standard / Quick (presets saved then keep it)
+    if (boost::starts_with(name, "Easy Standard") || boost::starts_with(name, "Easy Smooth-Fast")) return int(PrintGoal::SmoothFast);
+    if (boost::starts_with(name, "Easy Pretty")   || boost::starts_with(name, "Easy Smooth"))      return int(PrintGoal::Smooth);
+    if (boost::starts_with(name, "Easy Strong"))                                                    return int(PrintGoal::Strong);
+    if (boost::starts_with(name, "Easy Quick")    || boost::starts_with(name, "Easy Fast"))        return int(PrintGoal::Fast);
     return -1;
 }
 
@@ -192,10 +193,10 @@ SimpleViewPanel::SimpleViewPanel(wxWindow *parent) : wxPanel(parent, wxID_ANY)
     v_sizer->Add(m_cards_title, 0, wxLEFT | wxRIGHT | wxTOP, FromDIP(16));
 
     auto *grid = new wxGridSizer(2, FromDIP(10), FromDIP(10));
-    add_card(this, grid, PrintGoal::Smooth, wxColour("#FFE4E1"), _L("Smooth & beautiful"), _L("Looks the best. Takes the longest."));
-    add_card(this, grid, PrintGoal::SmoothFast, wxColour("#EFE6FF"), _L("Smooth & fast"), _L("Looks nice. Less waiting."));
-    add_card(this, grid, PrintGoal::Strong, wxColour("#FFF1D6"), _L("Strong part"), _L("Hard to break."));
-    add_card(this, grid, PrintGoal::Fast, wxColour("#DDF6F3"), _L("Fast print"), _L("Done quickly. You will see lines."));
+    add_card(this, grid, PrintGoal::Smooth, wxColour("#FFE4E1"), _L("Pretty"), _L("Looks the best. Takes the longest."));
+    add_card(this, grid, PrintGoal::SmoothFast, wxColour("#EFE6FF"), _L("Standard"), _L("Looks nice. Less waiting."));
+    add_card(this, grid, PrintGoal::Strong, wxColour("#FFF1D6"), _L("Strong"), _L("Hard to break."));
+    add_card(this, grid, PrintGoal::Fast, wxColour("#DDF6F3"), _L("Quick"), _L("Done quickly. You will see lines."));
     v_sizer->Add(grid, 0, wxEXPAND | wxLEFT | wxRIGHT | wxTOP, gap);
 
     // ---- Auto-centre (same setting as the Arrange menu and Preferences) ----
