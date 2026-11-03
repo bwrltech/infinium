@@ -16,7 +16,7 @@
             ProcessorArchitecture="@MSIX_ARCH@" />
 
   <Properties>
-    <DisplayName>Infinium</DisplayName>
+    <DisplayName>Infinium Slicer by 3idea</DisplayName>
     <PublisherDisplayName>@MSIX_PUBLISHER_DISPLAY_NAME@</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
     <!-- Keep config in the real %APPDATA%\Infinium so it survives uninstall and
@@ -42,7 +42,7 @@
   <Applications>
     <Application Id="Infinium" Executable="infinium-slicer.exe" EntryPoint="Windows.FullTrustApplication">
       <uap:VisualElements
-        DisplayName="Infinium"
+        DisplayName="Infinium Slicer by 3idea"
         Description="Open-source slicer for FDM 3D printers"
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"

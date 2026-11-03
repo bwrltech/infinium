@@ -582,7 +582,7 @@ jobs:
             -Architecture "${{ inputs.arch }}" `
             -IdentityName "${{ vars.INFINIUM_MSIX_IDENTITY_NAME || 'Infinium.Infinium' }}" `
             -Publisher "${{ vars.INFINIUM_MSIX_PUBLISHER || 'CN=38F7EA55-C73B-4072-B3B2-C8E0EA15BB82' }}" `
-            -PublisherDisplayName "${{ vars.INFINIUM_MSIX_PUBLISHER_DISPLAY_NAME || 'Infinium' }}"
+            -PublisherDisplayName "${{ vars.INFINIUM_MSIX_PUBLISHER_DISPLAY_NAME || '3idea' }}"
 
       - name: Upload artifacts Win MSIX
         if: runner.os == 'Windows' && !vars.SELF_HOSTED
