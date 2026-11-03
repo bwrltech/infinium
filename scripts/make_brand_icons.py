@@ -62,6 +62,7 @@ def main() -> None:
                        ("Infinium_192px", 192)]:
         t.resize((size, size), Image.LANCZOS).save(IMAGES / f"{name}.png", optimize=True)
     fit(m, 192, 0.04).save(IMAGES / "Infinium_192px_transparent.png", optimize=True)
+    fit(m, 192, 0.04).save(ROOT / "resources" / "web" / "homepage" / "img" / "brand.png", optimize=True)  # home page header
     gray = t.resize((192, 192), Image.LANCZOS)
     g = ImageOps.grayscale(gray.convert("RGB")).convert("RGBA")
     g.putalpha(gray.getchannel("A"))

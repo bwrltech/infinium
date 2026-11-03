@@ -150,33 +150,32 @@ body
 	--account-menu-shadow  : 0 10px 28px rgba(0, 0, 0, 0.45);
 }
 
-/*--- INFINIUM: friendly start screen ---*/
+/*--- INFINIUM: start screen (Clean studio, the web slicer's dark tokens) ---*/
 :root
 {
-	--kid-shadow       : 0 2px 8px rgba(0, 0, 0, 0.35);
-	--kid-shadow-hover : 0 10px 24px rgba(0, 0, 0, 0.5);
-	--kid-title        : #EFEFF0;
-	--kid-sub          : #A9B0B8;
-	--tile-model       : #23344A;
-	--tile-new         : #3D3422;
-	--tile-open        : #213A2C;
-	--tile-market      : #2C2645;
-	--tile-forge       : #452630;
-	--tile-photo3d     : #1F3B3B;
-	--tile-printers    : #34391F;
-	--fun-cat          : #45292B;
-	--fun-boat         : #22364C;
-	--fun-bunny        : #33294A;
-	--fun-cube         : #1F3E3A;
+	--accent           : #5089C4;
+	--accent-grad      : linear-gradient(180deg, #5A92CB 0%, #457DB6 100%);
+	--accent-tint      : #18222F;
+	--accent-tint-2    : #243549;
+	--studio-bg        : #0B0D11;
+	--studio-surface   : #13161B;
+	--studio-text      : #ECEFF3;
+	--studio-text-2    : #9BA6B3;
+	--studio-text-3    : #687482;
+	--hairline         : rgba(255, 255, 255, 0.07);
+	--shadow-1         : 0 0 0 1px var(--hairline), 0 1px 2px rgba(0, 0, 0, 0.3);
+	--shadow-2         : 0 0 0 1px var(--hairline), 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 14px -4px rgba(0, 0, 0, 0.45);
+	--shadow-3         : 0 0 0 1px var(--hairline), 0 2px 4px rgba(0, 0, 0, 0.3), 0 12px 32px -8px rgba(0, 0, 0, 0.6);
 }
 
-.TileEmoji { background-color: rgba(255, 255, 255, 0.10); }
-.FileItem:hover { background-color: #2F3742; }
-.MenuItem.BigTile:hover, .FunItem:hover { border-color: #4A80B8; }
+.FileItem:hover { background-color: #1F242B; }
 
 /*--- INFINIUM: model gallery ---*/
 .GalleryItem { background-color: #2D2D31; }
-.GallerySearch input { background-color: #2D2D31; color: #EFEFF0; border-color: #4A4A51; }
+.GallerySearch input { background-color: var(--studio-surface); color: var(--studio-text); }
 #GalleryBack { background-color: #36363B; color: #EFEFF0; }
 .GalleryOverlay { background-color: rgba(36, 36, 40, 0.88); color: #EFEFF0; }
 .GalleryBuiltin { border-color: #6B3A3D; }
+
+/* INFINIUM: .TextS1 above would make the small section headings white */
+.SectionTitle.TextS1 { color: var(--studio-text-3); }

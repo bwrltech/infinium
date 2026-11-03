@@ -497,6 +497,7 @@ function UpdateRecentClearBtnDisplay()
 		$("#RecentClearAllBtn").show();
 	else
 		$("#RecentClearAllBtn").hide();
+	$("#RecentFileArea").toggle(nFile>0); // INFINIUM: no heading over an empty list
 }
 
 

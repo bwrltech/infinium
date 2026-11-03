@@ -3,7 +3,7 @@
 	padding:0px;
 	border: 0px;
 	margin: 0px;
-    font-family: "system-ui", "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-sans;
+    font-family: "Inter", "Segoe UI Variable", "Segoe UI", system-ui, Roboto, Ubuntu, sans-serif; /* INFINIUM: Inter, bundled in fonts/ */
 	border-color: #D7D7D7;
 	user-select: none;
 }
@@ -1120,213 +1120,222 @@ body
 }
 
 /*////////////////////////////////////////////////////////////*/
-/*  INFINIUM: friendly start screen                           */
-/*  Big, round, colourful targets with one short line each,   */
-/*  so a child can find "add a model" without reading much.   */
+/*  INFINIUM: start screen, Clean studio (the web slicer's     */
+/*  look): white surfaces, one blue, hairline rings, Inter.    */
+/*  Short words stay, so a child can still find "Add a model". */
 /*////////////////////////////////////////////////////////////*/
+@font-face
+{
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+	src: url("../fonts/inter-latin-wght-normal.woff2") format("woff2-variations");
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face
+{
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+	src: url("../fonts/inter-latin-ext-wght-normal.woff2") format("woff2-variations");
+	unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
 :root
 {
-	--kid-radius       : 20px;
-	--kid-shadow       : 0 2px 8px rgba(30, 60, 100, 0.08);
-	--kid-shadow-hover : 0 10px 24px rgba(30, 60, 100, 0.16);
-	--kid-title        : #1F3A5A;
-	--kid-sub          : #5B6B7C;
-	--tile-model       : #E3EEFA;
-	--tile-new         : #FFF1D6;
-	--tile-open        : #E2F5E9;
-	--tile-market      : #EEE7FF; /* INFINIUM: Marketplace tile */
-	--tile-forge       : #FFE8EC; /* INFINIUM: Photo Forge, Photo to 3D, My printers */
-	--tile-photo3d     : #E6F7F7;
-	--tile-printers    : #F1F4E2;
-	--fun-cat          : #FFE4E1;
-	--fun-boat         : #DDEFFF;
-	--fun-bunny        : #EFE6FF;
-	--fun-cube         : #DDF6F3;
+	/* the web slicer's tokens (infinium-web web/src/index.css) */
+	--accent           : #386CA1;
+	--accent-grad      : linear-gradient(180deg, #4479AE 0%, #35679A 100%);
+	--accent-tint      : #EEF3F9;
+	--accent-tint-2    : #D3E0EE;
+	--studio-bg        : #F6F7F9;
+	--studio-surface   : #FFFFFF;
+	--studio-text      : #0F1729;
+	--studio-text-2    : #586577;
+	--studio-text-3    : #8D97A5;
+	--hairline         : rgba(15, 23, 42, 0.07);
+	--shadow-1         : 0 0 0 1px var(--hairline), 0 1px 2px rgba(15, 23, 42, 0.04);
+	--shadow-2         : 0 0 0 1px var(--hairline), 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 14px -4px rgba(15, 23, 42, 0.08);
+	--shadow-3         : 0 0 0 1px var(--hairline), 0 2px 4px rgba(15, 23, 42, 0.03), 0 12px 32px -8px rgba(15, 23, 42, 0.14);
+	/* older names, still used by the recent files and the gallery below */
+	--kid-radius       : 12px;
+	--kid-shadow       : var(--shadow-1);
+	--kid-shadow-hover : var(--shadow-3);
+	--kid-title        : var(--studio-text);
+	--kid-sub          : var(--studio-text-2);
+	--fun-cat          : var(--accent-tint);
+}
+
+body,
+input,
+button
+{
+	font-family: "Inter", "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+	font-feature-settings: "cv11", "ss03";
+	-webkit-font-smoothing: antialiased;
+}
+
+#RightBoard { background-color: var(--studio-bg); }
+
+#ContentBoard
+{
+	box-sizing: border-box;
+	max-width: 1180px;
+	padding: 0 32px 32px 32px;
 }
 
 #HeroArea
 {
-	padding: 28px 0 6px 8px;
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	padding: 36px 0 8px 0;
 	flex: 0 0 auto;
+}
+
+#HeroMark
+{
+	width: 56px;
+	height: 56px;
+	flex: 0 0 auto;
+	padding: 6px;
+	box-sizing: border-box;
+	border-radius: 14px;
+	background-color: #FFFFFF;
+	box-shadow: var(--shadow-2);
 }
 
 #HeroTitle
 {
-	font-size: 30px;
-	line-height: 38px;
-	font-weight: 800;
-	color: var(--kid-title);
+	font-size: 26px;
+	line-height: 32px;
+	font-weight: 650;
+	letter-spacing: -0.02em;
+	color: var(--studio-text);
 }
 
-.HeroWave
+#HeroBy
 {
-	display: inline-block;
-	transform-origin: 70% 70%;
-	animation: HeroWave 2.4s ease-in-out 0.6s 2;
-}
-
-@keyframes HeroWave
-{
-	0%, 60%, 100% { transform: rotate(0deg); }
-	10%, 30%      { transform: rotate(14deg); }
-	20%, 40%      { transform: rotate(-8deg); }
+	font-weight: 500;
+	color: var(--studio-text-3);
 }
 
 #HeroSub
 {
-	margin-top: 4px;
-	font-size: 18px;
-	line-height: 26px;
-	color: var(--kid-sub);
+	margin-top: 2px;
+	font-size: 15px;
+	line-height: 22px;
+	color: var(--studio-text-2);
 }
 
+/* four columns; "Add a model" is the big one, so both rows are full */
 #MenuArea
 {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 12px;
 	height: auto;
 	flex: 0 0 auto;
-	flex-wrap: wrap;
-	gap: 16px;
-	padding: 18px 8px 8px 8px;
+	padding: 20px 0 8px 0;
 }
+
+@media (max-width: 900px) { #MenuArea { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 .MenuItem.BigTile
 {
-	width: 290px;
-	height: 112px;
+	display: flex;
+	align-items: center;
+	width: auto;
+	min-width: 0;
+	height: 96px;
 	margin: 0;
-	padding: 0 20px;
+	padding: 0 18px;
 	box-sizing: border-box;
-	border: 2px solid transparent;
-	border-radius: var(--kid-radius);
-	box-shadow: var(--kid-shadow);
-	transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+	border: 0;
+	border-radius: 12px;
+	background-color: var(--studio-surface);
+	box-shadow: var(--shadow-1);
+	transition: box-shadow 0.15s ease, transform 0.15s ease;
 }
 
 .MenuItem.BigTile:hover,
 .MenuItem.BigTile:focus-visible
 {
-	transform: translateY(-3px);
-	box-shadow: var(--kid-shadow-hover);
-	border-color: #386CA1;
+	background-color: var(--studio-surface);
+	box-shadow: var(--shadow-3);
+	transform: translateY(-1px);
 	outline: none;
 }
 
-.MenuItem.BigTile:active { transform: translateY(0); }
+.MenuItem.BigTile:focus-visible { box-shadow: 0 0 0 2px var(--accent), var(--shadow-3); }
+.MenuItem.BigTile:active { transform: translateY(0); box-shadow: var(--shadow-1); }
 
-.TileModel { background-color: var(--tile-model); }
-.TileNew   { background-color: var(--tile-new); }
-.TileOpen  { background-color: var(--tile-open); }
-.TileMarket { background-color: var(--tile-market); }
-.TileForge, .MenuItem.BigTile:hover.TileForge { background-color: var(--tile-forge); }
-.TilePhoto3D, .MenuItem.BigTile:hover.TilePhoto3D { background-color: var(--tile-photo3d); }
-.TilePrinters, .MenuItem.BigTile:hover.TilePrinters { background-color: var(--tile-printers); }
-
-.MenuItem.BigTile:hover.TileModel { background-color: var(--tile-model); }
-.MenuItem.BigTile:hover.TileNew   { background-color: var(--tile-new); }
-.MenuItem.BigTile:hover.TileOpen  { background-color: var(--tile-open); }
-.MenuItem.BigTile:hover.TileMarket { background-color: var(--tile-market); }
-
-.TileEmoji
+.TileIcon
 {
 	flex: 0 0 auto;
-	width: 60px;
-	height: 60px;
-	margin-right: 16px;
-	border-radius: 50%;
-	background-color: rgba(255, 255, 255, 0.75);
-	font-size: 32px;
-	line-height: 60px;
-	text-align: center;
+	width: 40px;
+	height: 40px;
+	margin-right: 14px;
+	border-radius: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--accent);
+	background-color: var(--accent-tint);
 }
+
+.TileIcon svg { width: 20px; height: 20px; }
+
+.TileText { min-width: 0; }
 
 .TileTitle
 {
-	font-size: 19px;
-	line-height: 26px;
-	font-weight: 700;
-	color: var(--kid-title);
+	font-size: 15px;
+	line-height: 20px;
+	font-weight: 600;
+	letter-spacing: -0.01em;
+	color: var(--studio-text);
 }
 
 .BigTile .MenuDesc
 {
 	margin-top: 2px;
-	font-size: 14px;
-	line-height: 19px;
-	color: var(--kid-sub);
+	font-size: 13px;
+	line-height: 18px;
+	color: var(--studio-text-2);
 }
+
+/* the main way in: blue, twice as wide */
+.MenuItem.BigTile.TileModel,
+.MenuItem.BigTile.TileModel:hover
+{
+	grid-column: span 2;
+	background: var(--accent-grad);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 1px 2px rgba(15, 23, 42, 0.12), 0 6px 18px -6px rgba(56, 108, 161, 0.55);
+}
+
+.MenuItem.BigTile.TileModel:hover { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 2px 4px rgba(15, 23, 42, 0.12), 0 12px 28px -8px rgba(56, 108, 161, 0.6); }
+.TileModel .TileIcon { color: #FFFFFF; background-color: rgba(255, 255, 255, 0.16); }
+.TileModel .TileTitle { color: #FFFFFF; font-size: 17px; }
+.TileModel .MenuDesc { color: rgba(255, 255, 255, 0.82); }
 
 .SectionTitle
 {
-	font-size: 19px;
-	line-height: 30px;
-	font-weight: 800;
-	color: var(--kid-title);
-}
-
-#FunArea
-{
-	flex: 0 0 auto;
-	padding: 18px 8px 0 8px;
-}
-
-#FunList
-{
-	display: flex;
-	flex-wrap: wrap;
-	gap: 16px;
-	padding-top: 10px;
-}
-
-.FunItem
-{
-	width: 132px;
-	height: 132px;
-	box-sizing: border-box;
-	border: 2px solid transparent;
-	border-radius: var(--kid-radius);
-	box-shadow: var(--kid-shadow);
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	cursor: pointer;
-	transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
-}
-
-.FunItem:hover,
-.FunItem:focus-visible
-{
-	transform: translateY(-3px) rotate(-1.5deg);
-	box-shadow: var(--kid-shadow-hover);
-	border-color: #386CA1;
-	outline: none;
-}
-
-.FunItem:active { transform: translateY(0); }
-
-.FunCat   { background-color: var(--fun-cat); }
-.FunBoat  { background-color: var(--fun-boat); }
-.FunBunny { background-color: var(--fun-bunny); }
-.FunCube  { background-color: var(--fun-cube); }
-
-.FunEmoji
-{
-	font-size: 52px;
-	line-height: 64px;
-}
-
-.FunName
-{
-	margin-top: 6px;
-	font-size: 17px;
-	font-weight: 700;
-	color: var(--kid-title);
+	font-size: 12px;
+	line-height: 20px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--studio-text-3);
 }
 
 #RecentFileArea
 {
-	margin-top: 18px;
-	padding: 0 8px;
+	margin-top: 24px;
+	padding: 0;
 }
 
 #DebugText { height: 0; }
@@ -1361,56 +1370,59 @@ body
 
 @media (prefers-reduced-motion: reduce)
 {
-	.HeroWave { animation: none; }
-	.MenuItem.BigTile, .FunItem { transition: none; }
-	.MenuItem.BigTile:hover, .FunItem:hover { transform: none; }
+	.MenuItem.BigTile { transition: none; }
+	.MenuItem.BigTile:hover { transform: none; }
 }
 
 /*----INFINIUM: search box and model gallery----*/
 #FindArea
 {
 	flex: 0 0 auto;
-	padding: 18px 8px 0 8px;
+	padding: 24px 0 0 0;
 }
 
 .GallerySearch
 {
 	display: flex;
-	gap: 10px;
-	padding-top: 10px;
+	gap: 8px;
+	padding-top: 8px;
 	max-width: 560px;
 }
 
 .GallerySearch input
 {
 	flex: 1;
-	height: 46px;
-	padding: 0 18px;
+	height: 40px;
+	padding: 0 14px;
 	box-sizing: border-box;
-	border: 2px solid var(--border-color);
-	border-radius: 23px;
-	font-size: 17px;
-	color: var(--kid-title);
-	background-color: var(--bg-color);
+	border: 0;
+	border-radius: 9px;
+	font-size: 14px;
+	color: var(--studio-text);
+	background-color: var(--studio-surface);
+	box-shadow: var(--shadow-1);
 	user-select: text;
 	outline: none;
+	transition: box-shadow 0.15s ease;
 }
 
-.GallerySearch input:focus { border-color: #386CA1; }
+.GallerySearch input::placeholder { color: var(--studio-text-3); }
+.GallerySearch input:focus { box-shadow: 0 0 0 1px var(--accent), 0 0 0 4px var(--accent-tint-2); }
 
 .GallerySearch button
 {
-	height: 46px;
-	padding: 0 24px;
-	border-radius: 23px;
-	font-size: 17px;
-	font-weight: 700;
+	height: 40px;
+	padding: 0 18px;
+	border-radius: 9px;
+	font-size: 14px;
+	font-weight: 600;
 	color: #FFFFFF;
-	background-color: #386CA1;
+	background: var(--accent-grad);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 1px 2px rgba(15, 23, 42, 0.12);
 	cursor: pointer;
 }
 
-.GallerySearch button:hover { background-color: #4A80B8; }
+.GallerySearch button:hover { filter: brightness(1.06); }
 
 #GalleryBoard
 {
