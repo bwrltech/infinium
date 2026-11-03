@@ -346,7 +346,12 @@ public:
         bool dark_mode = m_fg_color != wxColour("#6B6A6A");
         wxSize sz  = m_window->GetClientSize();
         BitmapCache bmp_cache;
-        m_logo_bmp = *bmp_cache.load_svg(dark_mode ? "splash_logo_dark" : "splash_logo", sz.GetWidth(), sz.GetHeight());
+        const std::string logo_name = dark_mode ? "splash_logo_dark" : "splash_logo";
+        wxBitmap* logo = bmp_cache.load_svg(logo_name, sz.GetWidth(), sz.GetHeight());
+        if (logo == nullptr) // INFINIUM: the 3idea logo is a picture (PNG), not an SVG
+            logo = bmp_cache.load_png(logo_name, sz.GetWidth(), sz.GetHeight());
+        if (logo != nullptr)
+            m_logo_bmp = *logo;
 
         m_window->Bind(wxEVT_PAINT, &SplashScreen::OnPaint, this);
         m_window->Refresh();

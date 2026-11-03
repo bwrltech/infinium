@@ -73,6 +73,19 @@ def main() -> None:
         t.resize((256, 256), Image.LANCZOS).save(IMAGES / name, sizes=sizes)
     t.save(IMAGES / "Infinium.icns")
 
+    # pictures the app draws by name (no SVG of that name, so the PNG is used): message boxes ("Infinium"),
+    # About, the troubleshoot header and the splash screen. Dark ones sit on the white square.
+    for name, img in [("Infinium_about", fit(m, 512, 0.02)), ("Infinium_about_dark", t.resize((512, 512), Image.LANCZOS)),
+                      ("Infinium_horizontal_light", fit(m, 512, 0.02)),
+                      ("Infinium_horizontal_dark", t.resize((512, 512), Image.LANCZOS))]:
+        img.save(IMAGES / f"{name}.png", optimize=True)
+    # splash: the logo in the top part; the app writes the version and "Loading…" under it
+    for name, img in [("splash_logo", m), ("splash_logo_dark", t)]:
+        splash = Image.new("RGBA", (512, 512))
+        logo = ImageOps.contain(img, (270, 270), Image.LANCZOS)
+        splash.alpha_composite(logo, ((512 - logo.width) // 2, 48 + (270 - logo.height) // 2))  # ends at 62%: the version is written at 72%
+        splash.save(IMAGES / f"{name}.png", optimize=True)
+
     png = io.BytesIO()
     fit(m, 512, 0.02).save(png, "PNG", optimize=True)
     (IMAGES / "studio_logo.svg").write_text(

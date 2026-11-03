@@ -2,7 +2,7 @@
 #define _libslic3r_h_
 
 #include "libslic3r_version.h"
-#define SLIC3R_APP_FULL_NAME "Infinium"
+#define SLIC3R_APP_FULL_NAME "Infinium Slicer by 3idea"
 #define GCODEVIEWER_APP_NAME "Infinium G-code Viewer"
 #define GCODEVIEWER_APP_KEY  "InfiniumGcodeViewer"
 #define GCODEVIEWER_BUILD_ID std::string("Infinium G-code Viewer-") + std::string(SLIC3R_VERSION) + std::string("-RC")
