@@ -231,6 +231,15 @@ void ButtonsListCtrl::SetCompact(size_t n, bool compact)
     btn->SetLabel(compact ? "" : (" " +  m_pageLabels[n]));
 }
 
+// INFINIUM
+void ButtonsListCtrl::SetShown(size_t n, bool shown)
+{
+    if (n >= m_pageButtons.size())
+        return;
+    m_pageButtons[n]->Show(shown);
+    m_sizer->Layout();
+}
+
 wxString ButtonsListCtrl::GetPageText(size_t n) const
 {
     Button* btn = m_pageButtons[n];

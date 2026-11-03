@@ -3,6 +3,7 @@
 
 //#ifdef _WIN32
 
+#include <algorithm>
 #include <initializer_list>
 #include <string>
 #include <vector>
@@ -32,6 +33,7 @@ public:
     bool SetPageImage(size_t n, const std::string& bmp_name) const;
     void SetPageText(size_t n, const wxString& strText);
     void SetCompact(size_t n, bool compact); // INFINIUM
+    void SetShown(size_t n, bool shown);     // INFINIUM: a page whose tab button is not on the bar
     wxString GetPageText(size_t n) const;
     wxFlexGridSizer* GetBtnsSizer(){return m_buttons_sizer;}; // INFINIUM
     // INFINIUM: a companion widget shown right after the tab buttons (before any side_tools), e.g.
@@ -147,6 +149,9 @@ public:
     // Page management. Every insertion funnels through the InsertPage() below; `id` is the
     // stable page name FindPageByName() resolves. Built-in tabs name a resource bitmap,
     // plugin pages hand over a ready wxBitmap; wx's own imageId overloads carry neither.
+    // INFINIUM: pages with these ids get no tab button (the page itself is still there for code that uses it).
+    void SetHiddenPageNames(std::vector<wxString> ids) { m_hiddenNames = std::move(ids); }
+
     bool AddPage(const wxString& id,
                  wxWindow* page,
                  const wxString& text,
@@ -176,6 +181,8 @@ public:
 
         m_pageNames.insert(m_pageNames.begin() + n, id);
         GetBtnsListCtrl()->InsertPage(n, text, bSelect, bmp_name, bmp);
+        if (std::find(m_hiddenNames.begin(), m_hiddenNames.end(), id) != m_hiddenNames.end()) // INFINIUM
+            GetBtnsListCtrl()->SetShown(n, false);
 
         // wxBookCtrlBase::InsertPage() only inserts into the page list and sizes the new
         // page to the current page's rect — it never touches visibility, and a freshly
@@ -467,6 +474,7 @@ private:
     void Init();
 
     std::vector<wxString> m_pageNames; // index-parallel to wxBookCtrlBase::m_pages
+    std::vector<wxString> m_hiddenNames; // INFINIUM
 
     wxShowEffect m_showEffect,
                  m_hideEffect;

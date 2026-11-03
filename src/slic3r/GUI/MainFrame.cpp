@@ -281,6 +281,14 @@ static wxIcon main_frame_icon(GUI_App::EAppMode app_mode)
 
 wxDEFINE_EVENT(EVT_SYNC_CLOUD_PRESET,     SimpleEvent);
 
+// INFINIUM: the Device tabs have no button (My printers does their job), so asking for one shows My printers.
+static wxString shown_tab(const Notebook* tabs, const wxString& id)
+{
+    if ((id == TAB_ID_MONITOR || id == TAB_ID_MONITOR_WEB) && tabs->FindPageByName(TAB_ID_FARM) != wxNOT_FOUND)
+        return TAB_ID_FARM;
+    return id;
+}
+
 #ifdef __APPLE__
 static const wxString ctrl = ("Ctrl+");
 // FIXME: maybe should be using GUI::shortkey_ctrl_prefix() or equivalent?
@@ -494,7 +502,7 @@ DPIFrame(NULL, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, BORDERLESS_FRAME_
 
     //BBS
     Bind(EVT_SELECT_TAB, [this](wxCommandEvent& evt) {
-        m_tabpanel->SelectPageByName(evt.GetString());
+        m_tabpanel->SelectPageByName(shown_tab(m_tabpanel, evt.GetString()));
     });
 
     Bind(EVT_SYNC_CLOUD_PRESET, &MainFrame::on_select_default_preset, this);
@@ -1248,6 +1256,7 @@ void MainFrame::init_tabpanel() {
     m_tabpanel = new Notebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, side_tools,
                               wxNB_TOP | wxTAB_TRAVERSAL | wxNB_NOPAGETHEME);
     m_tabpanel->SetBackgroundColour(*wxWHITE);
+    m_tabpanel->SetHiddenPageNames({TAB_ID_MONITOR, TAB_ID_MONITOR_WEB}); // INFINIUM: see shown_tab()
 
 #ifndef __WXOSX__ // Don't call SetFont under OSX to avoid name cutting in ObjectList
     m_tabpanel->SetFont(Slic3r::GUI::wxGetApp().normal_font());
@@ -4008,7 +4017,7 @@ void MainFrame::jump_to_monitor(std::string dev_id)
 {
     if(!m_monitor)
         return;
-    m_tabpanel->SelectPageByName(TAB_ID_MONITOR);
+    m_tabpanel->SelectPageByName(shown_tab(m_tabpanel, TAB_ID_MONITOR));
     if (!dev_id.empty()) {
         ((MonitorPanel*)m_monitor)->select_machine(dev_id);
     }
@@ -4034,7 +4043,7 @@ void MainFrame::select_tab(const wxString& id/* = wxString()*/)
         // when id is empty, it means we should show the last selected tab
         //BBS GUI refactor: remove unused layout new/dlg
         //size_t new_selection = tab == (size_t)(-1) ? m_last_selected_tab : (m_layout == ESettingsLayout::Dlg && tab != 0) ? tab - 1 : tab;
-        wxString new_selection = id.empty() ? m_last_selected_tab : id;
+        wxString new_selection = shown_tab(m_tabpanel, id.empty() ? m_last_selected_tab : id);
 
         if (m_tabpanel->GetSelectedPageName() != new_selection)
             m_tabpanel->SelectPageByName(new_selection);

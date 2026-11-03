@@ -21020,7 +21020,7 @@ void Plater::pop_warning_and_go_to_device_page(wxString printer_name, PrinterWar
     } else if (type == PrinterWarningType::EMPTY_FILAMENT) {
         content = _L("The filaments on the printer are all unknown types. Please go to the printer screen or software device page to set the filament type.");
     }
-    MessageDialog dlg(this, content, title, wxOK | wxFORWARD | wxICON_WARNING, _L("Device Page"));
+    MessageDialog dlg(this, content, title, wxOK | wxFORWARD | wxICON_WARNING, _L("My printers"));
     auto          result = dlg.ShowModal();
     if (result == wxFORWARD) {
         wxGetApp().mainframe->select_tab(TAB_ID_MONITOR);
