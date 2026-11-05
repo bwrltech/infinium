@@ -18,6 +18,7 @@
 #include "libslic3r/Utils.hpp"
 #include "FarmPanel.hpp"
 #include "GLCanvas3D.hpp"
+#include "GLToolbar.hpp"
 #include "GUI_App.hpp"
 #include "GUI_ObjectList.hpp"
 #include "I18N.hpp"
@@ -46,6 +47,34 @@ std::vector<std::string> nozzle_colours()
     if (colours.empty())
         colours.push_back("#FFFFFF");
     return colours;
+}
+
+// The printer chosen in the app: its name, printing area and height (the AI Maker designs to fit it).
+json printer_info()
+{
+    const DynamicPrintConfig &config = wxGetApp().preset_bundle->printers.get_edited_preset().config;
+    double x0 = 0, y0 = 0, x1 = 220, y1 = 220;
+    if (const auto *area = config.option<ConfigOptionPoints>("printable_area"); area != nullptr && !area->values.empty()) {
+        x0 = y0 = 1e9;
+        x1 = y1 = -1e9;
+        for (const Vec2d &p : area->values) {
+            x0 = std::min(x0, p.x()); y0 = std::min(y0, p.y());
+            x1 = std::max(x1, p.x()); y1 = std::max(y1, p.y());
+        }
+    }
+    const auto *height = config.option<ConfigOptionFloat>("printable_height");
+    return {{"name", wxGetApp().preset_bundle->printers.get_edited_preset().name},
+            {"bed", {x1 - x0, y1 - y0}},
+            {"height", height != nullptr ? height->value : 250.0}};
+}
+
+wxString tool_title(PhotoForgeDialog::Tool tool)
+{
+    switch (tool) {
+    case PhotoForgeDialog::Tool::PhotoForge: return _L("Photo Forge");
+    case PhotoForgeDialog::Tool::PhotoTo3D: return _L("Photo to 3D");
+    default: return _L("AI Maker");
+    }
 }
 
 std::string base64_decode(const std::string &text)
@@ -82,13 +111,13 @@ void PhotoForgeDialog::show(Tool tool)
 }
 
 PhotoForgeDialog::PhotoForgeDialog(wxWindow *parent, Tool tool)
-    : wxDialog(parent, wxID_ANY, tool == Tool::PhotoForge ? _L("Photo Forge") : _L("Photo to 3D"), wxDefaultPosition, wxDefaultSize,
+    : wxDialog(parent, wxID_ANY, tool_title(tool), wxDefaultPosition, wxDefaultSize,
                wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 {
     SetBackgroundColour(*wxWHITE);
     m_page_path = PAGE_PATH;
     const wxString url = wxString::Format("file://%s%s%s", from_u8(resources_dir()), PAGE_PATH,
-                                          tool == Tool::PhotoForge ? "#forge" : "#photo3d");
+                                          tool == Tool::PhotoForge ? "#forge" : tool == Tool::PhotoTo3D ? "#photo3d" : "#aimaker");
 
     auto *sizer = new wxBoxSizer(wxVERTICAL);
     m_browser   = WebView::CreateWebView(this, url);
@@ -121,7 +150,7 @@ void PhotoForgeDialog::send_init()
 {
     if (m_browser == nullptr)
         return;
-    const json init = {{"nozzles", nozzle_colours()}, {"server", FarmPanel::server_url()}};
+    const json init = {{"nozzles", nozzle_colours()}, {"server", FarmPanel::server_url()}, {"printer", printer_info()}};
     WebView::RunScript(m_browser, from_u8("window.ForgeInit && window.ForgeInit(" + init.dump(-1, ' ', true) + ");"));
 }
 
@@ -150,9 +179,21 @@ void PhotoForgeDialog::on_script_message(wxWebViewEvent &evt)
     else if (command == "forge_add") {
         CallAfter([this, msg = std::move(msg)] {
             wxString error;
-            if (add_to_plate(msg, error))
+            if (add_to_plate(msg, error)) {
                 EndModal(wxID_OK);
-            else
+                // AI Maker: slice straight away, so the print's layers show (like Ctrl+R).
+                if (msg.value("slice", false)) {
+                    wxGetApp().CallAfter([] {
+                        Plater    *plater = wxGetApp().plater();
+                        MainFrame *frame  = wxGetApp().mainframe;
+                        if (plater == nullptr || frame == nullptr)
+                            return;
+                        plater->update(true, true);
+                        wxPostEvent(plater, SimpleEvent(EVT_GLTOOLBAR_SLICE_PLATE));
+                        frame->select_tab(wxString(TAB_ID_PREVIEW));
+                    });
+                }
+            } else
                 send_error(error);
         });
     }

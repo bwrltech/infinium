@@ -10,19 +10,22 @@
 namespace Slic3r { namespace GUI {
 
 // INFINIUM: "Photo Forge" (a picture becomes a model: light picture, raised picture, shape, colour picture, colour
-// layers) and "Photo to 3D" (the AI on the Infinium server makes a whole model from one photo). Both are the web
+// layers), "Photo to 3D" (the AI on the Infinium server makes a whole model from one photo) and "AI Maker" (say
+// what you want to print, the AI on the Infinium server designs it). All are the web
 // slicer's own tools, built for the desktop into resources/web/forge (infinium-web: `npm run build:desktop`), so the
 // two apps make the same models. The page makes the model; this dialog puts it on the plate.
 // Page contract (resources/web/forge/forge.js):
-//   page → app {"command":"forge_ready"}; app → page window.ForgeInit({nozzles:["#rrggbb",…], server:"http://…"})
+//   page → app {"command":"forge_ready"}; app → page window.ForgeInit({nozzles:["#rrggbb",…], server:"http://…",
+//               printer:{name, bed:[x,y], height}})
 //   page → app {"command":"forge_add", name, message, parts:[{name, color, nozzle (1-based), stl (base64 binary STL)}],
 //               layers?: {layer_height, first_layer, infill, changes?: [{z, nozzle}], swaps?: [{z, color, note}]}}
+//               slice?: true (AI Maker: slice the plate once the model is on it)
 //               → one object with a part per entry; on success the dialog closes, else window.ForgeError(text)
 //   page → app {"command":"forge_close"}, {"command":"forge_server", url} (the Infinium server address, kept in app config)
 class PhotoForgeDialog : public wxDialog
 {
 public:
-    enum class Tool { PhotoForge, PhotoTo3D };
+    enum class Tool { PhotoForge, PhotoTo3D, AiMaker };
 
     // Opens the tool (modal). Does nothing while the plater can't take models.
     static void show(Tool tool);

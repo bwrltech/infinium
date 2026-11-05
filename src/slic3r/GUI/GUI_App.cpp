@@ -5236,6 +5236,9 @@ std::string GUI_App::handle_web_request(std::string cmd)
                 const bool forge = command_str.compare("homepage_photo_forge") == 0;
                 CallAfter([forge] { PhotoForgeDialog::show(forge ? PhotoForgeDialog::Tool::PhotoForge : PhotoForgeDialog::Tool::PhotoTo3D); });
             }
+            else if (command_str.compare("homepage_ai_maker") == 0) {
+                CallAfter([] { PhotoForgeDialog::show(PhotoForgeDialog::Tool::AiMaker); });
+            }
             else if (command_str.compare("homepage_open_printers") == 0) {
                 CallAfter([this] {
                     if (mainframe)

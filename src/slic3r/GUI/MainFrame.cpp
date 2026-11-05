@@ -2928,6 +2928,9 @@ void MainFrame::init_menubar_as_editor()
         append_menu_item(import_menu, wxID_ANY, _L("Photo to 3D (AI)") + dots, _L("The AI on your Infinium server makes a whole 3D model from one photo"),
             [](wxCommandEvent&) { PhotoForgeDialog::show(PhotoForgeDialog::Tool::PhotoTo3D); }, "menu_import", nullptr,
             [this]() { return can_add_models(); }, this);
+        append_menu_item(import_menu, wxID_ANY, _L("AI Maker: say what you want to print") + dots, _L("Tell the AI what you want: it designs it, you check it, it goes on the plate"),
+            [](wxCommandEvent&) { PhotoForgeDialog::show(PhotoForgeDialog::Tool::AiMaker); }, "menu_import", nullptr,
+            [this]() { return can_add_models(); }, this);
 
         append_submenu(fileMenu, import_menu, wxID_ANY, _L("Import"), "");
 
