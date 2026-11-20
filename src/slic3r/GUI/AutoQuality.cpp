@@ -551,6 +551,15 @@ void apply_goal(Feedback feedback)
     // Supports start off. Downward faces alone can't tell a bridge or a gentle slope (fine without
     // support, like most of a Benchy) from a part that really hangs in the air, so the slicer decides:
     // its support check runs on "Get ready" and easy_print_add_needed_support() turns them on only then.
+    // Round tops (heads, domes, the back of a figure): where the side becomes nearly flat, each layer steps in
+    // by less than a line, and those thin strips were left to the walls alone, so the inner walls showed as
+    // rings with gaps. A threshold of 0 makes every such strip a top surface with one clean wall; Arachne
+    // walls follow the curve. Measured on a figure: uncovered inner wall 183 mm -> 0 (Fast), 49 -> 0 (Smooth),
+    // no slower. Same in the web's easyprint.py.
+    delta.set("min_width_top_surface", "0");
+    delta.set("wall_generator", "arachne");
+    done.push_back(_L("Round tops (like a head or a back) are closed with a clean top layer, so no rings or gaps show."));
+
     delta.set("enable_support", "0");
     done.push_back(_L("Supports are off. When you click Get ready, Infinium checks your model and adds supports only if a part would hang in the air."));
 
