@@ -61,6 +61,7 @@ using namespace nlohmann;
 #include "libslic3r/ModelArrange.hpp"
 #include "libslic3r/Platform.hpp"
 #include "libslic3r/Print.hpp"
+#include "libslic3r/Slicing.hpp"
 #include "libslic3r/SLAPrint.hpp"
 #include "libslic3r/TriangleMesh.hpp"
 #include "libslic3r/Format/AMF.hpp"
@@ -6688,6 +6689,36 @@ int CLI::run(int argc, char **argv)
                             //set default nozzle_volume_type
                             ConfigOptionEnumsGeneric* final_nozzle_volume_type_opt = new_print_config.option<ConfigOptionEnumsGeneric>("nozzle_volume_type", true);
                             final_nozzle_volume_type_opt->values.resize(new_extruder_count, nvtStandard);
+                        }
+                        // Infinium --adaptive-layers: thinner layers only where the shape needs them (the top of a dome,
+                        // a pointed ear), between the printer's minimum and the chosen layer height, so straight sides
+                        // keep exactly the chosen height. Objects that already have a profile (from a 3MF) keep it.
+                        if (const ConfigOption *aq = m_config.option("adaptive_layers"); aq != nullptr && aq->getFloat() > 0.) {
+                            const float quality = float(std::min(1., aq->getFloat()));
+                            DynamicPrintConfig capped = new_print_config;
+                            const double lh = capped.opt_float("layer_height");
+                            if (auto *mx = capped.option<ConfigOptionFloats>("max_layer_height"); mx != nullptr && lh > 0.)
+                                for (double &v : mx->values)
+                                    v = v > 0. ? std::min(v, lh) : lh;
+                            // Organic tree supports can't print variable layers (Print::validate refuses them):
+                            // keep the plain layer height there rather than failing the whole slice.
+                            const bool organic = capped.opt_bool("enable_support") &&
+                                is_tree(capped.opt_enum<SupportType>("support_type")) &&
+                                (capped.opt_enum<SupportMaterialStyle>("support_style") == smsTreeOrganic ||
+                                 capped.opt_enum<SupportMaterialStyle>("support_style") == smsDefault);
+                            for (ModelObject *o : model.objects) {
+                                if (!o->layer_height_profile.empty() || organic) {
+                                    if (organic)
+                                        BOOST_LOG_TRIVIAL(info) << "adaptive_layers: skipped for " << o->name << " (organic supports)";
+                                    continue;
+                                }
+                                const SlicingParameters sp = PrintObject::slicing_parameters(capped, *o, float(o->max_z()), Vec3d::Ones());
+                                std::vector<double> profile = layer_height_profile_adaptive(sp, *o, quality);
+                                profile = smooth_height_profile(profile, sp, HeightProfileSmoothingParams(5, true));
+                                if (profile.size() >= 4)
+                                    o->layer_height_profile.set(profile);
+                                BOOST_LOG_TRIVIAL(info) << "adaptive_layers: " << o->name << " " << profile.size() / 2 << " points";
+                            }
                         }
                         print->apply(model, new_print_config);
                         BOOST_LOG_TRIVIAL(info) << boost::format("set no_check to %1%:")%no_check;

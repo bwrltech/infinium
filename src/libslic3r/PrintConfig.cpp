@@ -12258,6 +12258,16 @@ CLIMiscConfigDef::CLIMiscConfigDef()
     def->min = 0;*/
 #endif /* _MSC_VER */
 
+    // Infinium: variable layer height from the command line (the desktop's "Adaptive" layer height button).
+    def = this->add("adaptive_layers", coFloat);
+    def->label = L("Adaptive layer height");
+    def->tooltip = L("Give every object a variable layer height before slicing: thinner layers where the surface "
+                     "is nearly flat or pointed (domes, tips), never thicker than the layer height. "
+                     "0 = off, 0.01..1: lower = thinner layers on curves (slower), higher = fewer thin layers. "
+                     "Skipped for objects with organic tree supports, which can't print variable layers.");
+    def->cli_params = "quality";
+    def->set_default_value(new ConfigOptionFloat(0));
+
     def = this->add("load_custom_gcodes", coString);
     def->label = L("Load custom G-code");
     def->tooltip = L("Load custom G-code from json.");
